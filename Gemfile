@@ -37,6 +37,9 @@ gem 'omniauth-google-oauth2'
 
 group :test, :development do
   gem 'debugger'
+  gem 'rspec-rails', '~> 2.0'
+  gem 'spork-rails'
+  gem 'fuubar'
 end
 
 # Use ActiveModel has_secure_password

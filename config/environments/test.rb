@@ -33,4 +33,6 @@ Lorious::Application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
+  config.google_app_id = "676252516488.apps.googleusercontent.com"
+  config.google_secret = "LToBuUhKdSpW9axKJ8_3Aadx"
 end
