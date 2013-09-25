@@ -11,11 +11,4 @@ describe User do
       user2.mailbox.inbox.first.messages.first.body.should == "Body"
     end
   end
-
-  context "expert" do
-    let(:expert) { Expert.create email: "sample@sample.com", password: "password123" }
-    it "should be of type Expert" do
-      expert.type.should == "Expert"
-    end
-  end
 end

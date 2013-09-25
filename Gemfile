@@ -34,6 +34,7 @@ end
 
 gem 'devise'
 gem 'omniauth-google-oauth2'
+gem 'acts-as-taggable-on'
 
 gem 'mailboxer', git: 'git://github.com/ging/mailboxer.git'
 
