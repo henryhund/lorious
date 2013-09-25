@@ -35,6 +35,8 @@ end
 gem 'devise'
 gem 'omniauth-google-oauth2'
 
+gem 'mailboxer'
+
 group :test, :development do
   gem 'debugger'
   gem 'rspec-rails', '~> 2.0'
