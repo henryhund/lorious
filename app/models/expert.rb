@@ -1,0 +1,3 @@
+class Expert < User
+  
+end
