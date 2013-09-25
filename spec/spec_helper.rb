@@ -45,6 +45,7 @@ Spork.prefork do
     #     --seed 1234
     config.order = "random"
   end
+  FactoryGirl.find_definitions
 end
 
 Spork.each_run do

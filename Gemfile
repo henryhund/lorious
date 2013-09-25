@@ -35,13 +35,14 @@ end
 gem 'devise'
 gem 'omniauth-google-oauth2'
 
-gem 'mailboxer'
+gem 'mailboxer', git: 'git://github.com/ging/mailboxer.git'
 
 group :test, :development do
   gem 'debugger'
   gem 'rspec-rails', '~> 2.0'
   gem 'spork-rails'
   gem 'fuubar'
+  gem 'factory_girl'
 end
 
 # Use ActiveModel has_secure_password
