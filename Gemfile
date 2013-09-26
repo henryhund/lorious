@@ -45,6 +45,7 @@ group :test, :development do
   gem 'spork-rails'
   gem 'fuubar'
   gem 'factory_girl'
+  gem 'shoulda-matchers'
 end
 
 # Use ActiveModel has_secure_password
