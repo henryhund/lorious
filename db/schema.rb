@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130926121725) do
+ActiveRecord::Schema.define(version: 20130927122049) do
+
+  create_table "appointments", force: true do |t|
+    t.datetime "time"
+    t.integer  "duration"
+    t.string   "place"
+    t.boolean  "confirmed",  default: false
+    t.integer  "expert_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "availabilities", force: true do |t|
     t.integer  "expert_id"

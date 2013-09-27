@@ -1,6 +1,7 @@
 describe Expert do
   context "associations" do
     it { should have_one :availability }
+    it { should have_many :appointments }
   end
 
   context "expert" do

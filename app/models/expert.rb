@@ -3,6 +3,7 @@ class Expert < User
   acts_as_taggable_on :skills
 
   has_one :availability
+  has_many :appointments, foreign_key: "expert_id"
 
   def set_availability(availability, timezone_in_minutes, availability_unit_in_minutes=30)
     availability_object = self.build_availability

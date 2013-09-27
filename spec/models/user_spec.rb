@@ -1,6 +1,12 @@
 require "spec_helper"
 
 describe User do
+  context "associations" do
+    it { should have_many :reviews_made }
+    it { should have_many :reviews_received }
+    it { should have_many :appointments }
+  end
+
   context "mailboxer" do
     let(:user1) { FactoryGirl.create :user }
     let(:user2) { FactoryGirl.create :user }
