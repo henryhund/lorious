@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130926081819) do
+ActiveRecord::Schema.define(version: 20130926121725) do
 
   create_table "availabilities", force: true do |t|
     t.integer  "expert_id"
@@ -63,6 +63,15 @@ ActiveRecord::Schema.define(version: 20130926081819) do
   end
 
   add_index "receipts", ["notification_id"], name: "index_receipts_on_notification_id", using: :btree
+
+  create_table "reviews", force: true do |t|
+    t.integer  "reviewer_id"
+    t.integer  "reviewed_id"
+    t.float    "rating"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"

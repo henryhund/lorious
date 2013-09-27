@@ -1,7 +1,7 @@
 FactoryGirl.define do
   
   factory :user do
-    sequence(:email) { |n| "sample#{n}@gmail.com" }
+    sequence(:email) { |n| "user#{n}@email.com" }
     name "name"
     password "password123"
     tag_line "TagLine"
@@ -11,7 +11,7 @@ FactoryGirl.define do
   end
 
   factory :expert do
-    sequence(:email) { |n| "sample#{n}@gmail.com" }
+    sequence(:email) { |n| "expert#{n}@email.com" }
     name "name"
     password "password123"
     type "Expert"

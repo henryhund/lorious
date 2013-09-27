@@ -8,7 +8,8 @@ class User < ActiveRecord::Base
 
   acts_as_messageable
 
-  has_many :spam_comments, -> { where spam: true }, class_name: 'Comment'
+  has_many :reviews_made, class_name: "Review", foreign_key: "reviewer_id"
+  has_many :reviews_received, class_name: "Review", foreign_key: "reviewed_id"
 
   def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
     data = access_token.info
