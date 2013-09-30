@@ -43,6 +43,7 @@
               =image_tag("https://s3.amazonaws.com/lorious/layout/elements/placeholders/image_placeholder.jpg", width: "25px", class: "img-rounded")
             %b.caret
           %ul.dropdown-menu
+            %li= link_to "Account Setting", account_url
             %li.divider= ""
             %li= link_to "Sign out", destroy_user_session_path, method: :delete
       -else
