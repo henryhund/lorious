@@ -70,4 +70,4 @@
               = "#{current_user.credit_balance}"
       -else
         %li
-          = link_to "Sign in", "/users/auth/google"
+          = link_to "Sign in", user_omniauth_authorize_path(:google_oauth2)

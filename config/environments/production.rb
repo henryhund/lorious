@@ -77,4 +77,7 @@ Lorious::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  config.google_app_id = ENV['GOOGLE_OAUTH2_CLIENT_ID']
+  config.google_secret = ENV['GOOGLE_OAUTH2_CLIENT_SECRET']
 end
