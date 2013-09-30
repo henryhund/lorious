@@ -218,6 +218,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts-as-taggable-on
+  carrierwave
   coffee-rails (~> 4.0.0)
   debugger
   devise
