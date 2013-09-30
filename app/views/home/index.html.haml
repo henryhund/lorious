@@ -1,0 +1,105 @@
+= stylesheet_link_tag "home/manifest"
+= javascript_include_tag "home"
+
+#home.row
+  .left-picture.col-lg-6.col-sm-6
+    =image_tag("https://s3.amazonaws.com/lorious/layout/elements/landing_page/hero-laptop.png", class:"img-responsive laptop-image")
+  .right-signup.col-lg-6.col-sm-6
+    .title= t("landing_page.home.title")
+    .subtitle= t("landing_page.home.subtitle")
+    =form_tag("/waitinglist", id: "signup") do
+      =text_field_tag 'fname', nil, placeholder: "NAME", class: "text"
+      =text_field_tag 'email', nil, placeholder: "EMAIL", class: "text"
+      =submit_tag "Request an Invite", class: "submit"
+      #errorContainer1
+        %ul.list-unstyled
+#home-border
+#about.row
+  .container
+    .col-lg-6.col-sm-6.left-column
+      %h1.title= t("landing_page.about.left.title")
+      %h4.subtitle= t("landing_page.about.left.subtitle")
+      %hr
+      %ul.list-unstyled
+        %li
+          %i.icon-rocket.icon-large
+          %h3= t("landing_page.about.left.icon_1.title")
+          %p.detail= t("landing_page.about.left.icon_1.subtitle")
+        %li.li-large-fast-forward
+          %i.icon-fast-forward.icon-large.icon-large-fast-forward
+          %h3= t("landing_page.about.left.icon_2.title")
+          %p.detail= t("landing_page.about.left.icon_2.subtitle")
+        %li
+          %i.icon-user-md.icon-large
+          %h3= t("landing_page.about.left.icon_3.title")
+          %p.detail= t("landing_page.about.left.icon_3.subtitle")
+    .col-lg-6.col-sm-6.right
+      %h1.title= t("landing_page.about.right.title")
+      %h4.subtitle= t("landing_page.about.right.subtitle")
+      %hr
+      %ul.list-unstyled
+        %li
+          %i.icon-key.icon-large
+          %h3= t("landing_page.about.right.icon_1.title")
+          %p.detail= t("landing_page.about.right.icon_1.subtitle")
+        %li
+          %i.icon-lightbulb.icon-large
+          %h3= t("landing_page.about.right.icon_2.title")
+          %p.detail= t("landing_page.about.right.icon_2.subtitle")
+        %li
+          %i.icon-road.icon-large
+          %h3= t("landing_page.about.right.icon_3.title")
+          %p.detail= t("landing_page.about.right.icon_3.subtitle")
+#satisfaction.row
+  .container
+    .col-lg-12.col-sm-12
+      Testimonials
+
+#how-it-works.row
+  .container
+    .col-lg-4.col-sm-4
+      %h1= t("landing_page.how-it-works.title")
+      %p= t("landing_page.how-it-works.subtitle")
+
+    .col-lg-8.col-sm-8
+      %ul.list-unstyled
+        %li
+          =image_tag "https://s3.amazonaws.com/lorious/layout/elements/landing_page/1.svg", class: "list-number"
+          %h3= t("landing_page.how-it-works.step_1.title")
+          %p= t("landing_page.how-it-works.step_1.subtitle")
+        %hr
+        %li
+          =image_tag "https://s3.amazonaws.com/lorious/layout/elements/landing_page/2.svg", class: "list-number"
+          %h3= t("landing_page.how-it-works.step_2.title")
+          %p= t("landing_page.how-it-works.step_2.subtitle")
+        %hr
+        %li
+          =image_tag "https://s3.amazonaws.com/lorious/layout/elements/landing_page/3.svg", class: "list-number"
+          %h3= t("landing_page.how-it-works.step_3.title")
+          %p= t("landing_page.how-it-works.step_3.subtitle")
+
+
+#satisfaction.row
+  .container
+    .col-lg-12.col-sm-12
+      Satisfaction Seal
+
+#get-started.row
+  .container
+    .col-lg-12.col-sm-12
+      %h1.title= t("landing_page.get-started.title")
+#get-started-form.row
+  .container
+    =form_tag("/waitinglist", id: "signup2") do
+      .col-lg-5.col-lg-offset-1.col-sm-5.col-sm-offset-1
+        =text_field_tag 'fname', nil, placeholder: "NAME", class: "text"
+      .col-lg-5.col-sm-5
+        =text_field_tag 'email', nil, placeholder: "EMAIL", class: "text"
+#get-started-form.row
+  .container
+    .col-lg-12.col-lg-12
+      =submit_tag "Request an Invite", class: "submit"
+      #errorContainer2
+        %ul.list-unstyled
+
+/ = link_to "Sign in with Google", GOOGLE_OAUTH_PATH
