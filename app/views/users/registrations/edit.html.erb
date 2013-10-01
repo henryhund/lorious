@@ -1,29 +1,65 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<%= form_for @user, url: "/users", role: "form", class: "form-horizontal", method: "PUT", validate: true do |f| %>
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
-  <%= devise_error_messages! %>
+  <div class="form-group row">
+    <%= f.label :email, class: "col-xs-2 control-label" %>
+    <div class="col-xs-10">
+      <%= f.email_field :email, class: "form-control", disabled: true %>
+    </div>
+  </div>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, :autofocus => true %></div>
+  <div class="form-group row">
+    <%= f.label :first_name, class: "col-xs-2 control-label" %>
+    <div class="col-xs-10">
+      <%= f.text_field :first_name, class: "form-control", placeholder: "First name" %>
+    </div>
+  </div>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
+  <div class="form-group row">
+    <%= f.label :last_name, class: "col-xs-2 control-label" %>
+    <div class="col-xs-10">
+      <%= f.text_field :last_name, class: "form-control", placeholder: "Last name" %>
+    </div>
+  </div>
 
-  <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-  <%= f.password_field :password, :autocomplete => "off" %></div>
+  <div class="form-group row">
+    <%= f.label :username, class: "col-xs-2 control-label" %>
+    <div class="col-xs-10">
+      <%= f.text_field :username, class: "form-control", placeholder: "Username" %>
+    </div>
+  </div>
 
-  <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
+  <div class="form-group row">
+    <%= f.label :zip_code, class: "col-xs-2 control-label" %>
+    <div class="col-xs-10">
+      <%= f.text_field :zip_code, class: "form-control", placeholder: "Zip code" %>
+    </div>
+  </div>
 
-  <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-  <%= f.password_field :current_password %></div>
+  <div class="form-group row">
+    <%= f.label :website, class: "col-xs-2 control-label" %>
+    <div class="col-xs-10">
+      <%= f.text_field :website, class: "form-control", placeholder: "http://website-name.com" %>
+    </div>
+  </div>
 
-  <div><%= f.submit "Update" %></div>
+  <div class="form-group row">
+    <%= f.label :tag_line, class: "col-xs-2 control-label" %>
+    <div class="col-xs-10">
+      <%= f.text_field :tag_line, class: "form-control", placeholder: "Tag line" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= f.label :bio, class: "col-xs-2 control-label" %>
+    <div class="col-xs-10">
+      <%= f.text_area :bio, class: "form-control", placeholder: "Bio" %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-offset-2 col-lg-10">
+      <%= f.submit "Update Info", class: "btn btn-default" %>
+    </div>
+  </div>
+
 <% end %>
-
-<h3>Cancel my account</h3>
-
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %></p>
-
-<%= link_to "Back", :back %>
