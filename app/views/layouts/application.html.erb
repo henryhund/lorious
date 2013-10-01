@@ -2,14 +2,20 @@
 <html>
 <head>
   <title>Lorious</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag "//cloud.typography.com/7516432/790802/css/fonts.css" %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-  <%= yield %>
+  <div class="wrapper">
+    <%= render "layouts/nav" %>
+    <div class="main">
+      <%= render "layouts/notifications" %>
+      <%= yield %>
+    </div>
 
+    <%= render "layouts/footer_public" %>
+  </div>
 </body>
 </html>

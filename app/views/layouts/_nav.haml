@@ -1,0 +1,50 @@
+= javascript_include_tag "nav"
+
+%nav.navbar.navbar-fixed-top#navbar{role: "navigation"}
+  .navbar-header
+    %button.navbar-toggle{"data-target" => ".navbar-responsive-collapse", "data-toggle" => "collapse", :type => "button"}
+      %span.icon-bar
+      %span.icon-bar
+      %span.icon-bar
+    %a.navbar-brand{:href => "/"}
+      =image_tag "https://s3.amazonaws.com/lorious/layout/lorious_2color_beta.svg", width: "110px"
+
+  .collapse.navbar-collapse.navbar-responsive-collapse
+    %ul.nav.navbar-nav
+      -if current_user
+        %li.visible-lg
+          =link_to "Recent Requests", "#"
+        %li.hidden-lg
+          =link_to "Search", "#"
+        %li.hidden-lg
+          =link_to "Requests", "#"
+      -elsif @action=="homepage"
+        %li
+          %a{:href => "#home"} Home
+        %li
+          %a{:href => "#about"} About
+        %li
+          %a{:href => "#how-it-works"} How it works
+        %li
+          %a{:href => "#get-started"} Get started
+        %li
+      -elsif
+        %li{style: "width:300px;color: white; font-size: 10px; vertical-align: middle"}
+          You are browsing Lorious as a guest. ...
+    %ul.nav.navbar-nav.pull-right
+      - if current_user
+        %li.dropdown
+          %a{"data-toggle" => "dropdown", :href => "#"}
+            ="Welcome #{current_user.first_name}"
+            &nbsp;
+            - if current_user.image_url.present?
+              %img{src: current_user.image_url, width: '25px', class: "img-rounded"}
+            - else
+              =image_tag("https://s3.amazonaws.com/lorious/layout/elements/placeholders/image_placeholder.jpg", width: "25px", class: "img-rounded")
+            %b.caret
+          %ul.dropdown-menu
+            %li.divider= ""
+            %li= link_to "Sign out", destroy_user_session_path, method: :delete
+      -else
+        %li
+          = link_to "Sign in", user_omniauth_authorize_path(:google_oauth2)

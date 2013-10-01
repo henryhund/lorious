@@ -21,3 +21,90 @@
 
 en:
   hello: "Hello world"
+  user:
+    update:
+      success: "successfully updated information"
+      failure: "failed to update information"
+    signin:
+      success: "successfully signed in"
+      failure: "there was an error signing in with the email address %{email_address}"
+    signout:
+      success: "successfully signed out"
+    authentication:
+      success: "successfully linked account"
+    registration:
+      success: "successfully registered for lorious"
+    payment:
+      add_card:
+        success: "successfully added card to account"
+        failure: "failed to add card to account"
+      add_bank_account:
+        success: "successfully linked bank account"
+        failure: "failed to link bank account"
+  credits:
+    purchase:
+      success: "successfully purchased %{amount} credits!"
+    payout:
+      success: "successfully payed out %{amount} credits!"
+  appointment:
+    create:
+      success: "successfully created appointment"
+      failure: "there was an error creating your appointment"
+    confirm:
+      success: "succesffully confirmed appointment"
+      failure: "there was an error confirming your appointment"
+    review:
+      create:
+        success: "successfully added appointment review"
+        failure: "there was an erorr adding the appointment review"
+  message:
+    on_appointment:
+      create:
+        success: "successfully added message to appointment"
+
+
+  landing_page:
+    home:
+      title: Build Amazing Products Faster
+      subtitle: with instant advice from expert developers
+    about:
+      left:
+        title: For Hackers
+        subtitle: Conquer your development challenges
+        icon_1:
+          title: Blast through roadblocks
+          subtitle: Speak to someone who's solved it before
+        icon_2:
+          title: Move forward with confidence
+          subtitle: Confirm your dev plan with experts
+        icon_3:
+          title: Diagnose problems promptly
+          subtitle: Before you've wasted hours of your time
+      right:
+        title: For Everyone Else
+        subtitle: Accelerate your product development
+        icon_1:
+          title: Unlock the product dev process
+          subtitle: Find people who've done it right
+        icon_2:
+          title: Make smarter dev decisions
+          subtitle: Evaluate your dev needs with an expert
+        icon_3:
+          title: Create a product roadmap
+          subtitle: Make timelines, mockups and wireframes
+    how-it-works:
+      title: How it works
+      subtitle: "Browse our list of experts, or tell us about your challenge and we'll find you the right person."
+      step_1:
+        title: Find the right expert at the right price.
+        subtitle: "Browse our list of experts, or tell us about your challenge, and we’ll find you the right person."
+      step_2:
+        title: Get in touch.
+        subtitle: Talk to someone instantly or schedule time for later.
+      step_3:
+        title: Connect.
+        subtitle: Use videochat or meet in person. Talk and code for as long as it takes.
+    get-started:
+      title: Talk to an expert today
+  waitinglist:
+    success: "Thanks for signing up! We will let you know when we're ready for you."

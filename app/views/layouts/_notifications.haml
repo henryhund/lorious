@@ -1,0 +1,4 @@
+- flash.each do |key, message|
+  .alert{class: "alert-#{flash_class(key)} fade in"}
+    =message
+    %a.close{href: "#", "data-dismiss" => "alert", "aria-hidden" => "true"} &times;

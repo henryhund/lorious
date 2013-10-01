@@ -59,7 +59,8 @@ Lorious::Application.configure do
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-  # config.assets.precompile += %w( search.js )
+  config.assets.precompile += %w( application.js home.js )
+  config.assets.precompile += %w( application.css home/manifest.css )
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -77,4 +78,7 @@ Lorious::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  config.google_app_id = ENV['GOOGLE_OAUTH2_CLIENT_ID']
+  config.google_secret = ENV['GOOGLE_OAUTH2_CLIENT_SECRET']
 end
