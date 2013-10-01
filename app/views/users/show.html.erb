@@ -1,0 +1,58 @@
+<%= stylesheet_link_tag "users/show" %>
+
+<div class="container">
+  <div class="row">
+    <div class="panel-group col-xs-4" id="sidebar_accordion">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar_accordion" href="#manage_profile">
+              Manage Profile
+            </a>
+          </h4>
+        </div>
+        <div id="manage_profile" class="panel-collapse collapse in">
+          <div class="panel-body">
+            <ul class="nav nav-pills nav-stacked">
+              <li class="active"><a href="#view_profile" data-toggle="tab">View Profile</a></li>
+              <li><a href="#edit_profile" data-toggle="tab">Edit Profile</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar_accordion" href="#collapseTwo">
+              View Appointments
+            </a>
+          </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse">
+          <div class="panel-body">
+            Menu
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar_accordion" href="#collapseThree">
+              Manage Credits
+            </a>
+          </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse">
+          <div class="panel-body">
+            Menu
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="view_profile">View Profile</div>
+      <div class="tab-pane" id="edit_profile">Edit Profile</div>
+    </div>
+  </div>
+</div>
