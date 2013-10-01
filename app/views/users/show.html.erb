@@ -52,7 +52,9 @@
     </div>
 
     <div class="tab-content col-xs-8">
-      <div class="tab-pane active" id="view_profile">View Profile</div>
+      <div class="tab-pane active" id="view_profile">
+        <%= render "users/info" %>
+      </div>
       <div class="tab-pane" id="edit_profile">
         <%= render "users/form" %>
       </div>

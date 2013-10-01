@@ -386,6 +386,7 @@ input::-moz-focus-inner {
 textarea {
     overflow: auto; /* 1 */
     vertical-align: top; /* 2 */
+    resize: none;
 }
 
 /* ==========================================================================
