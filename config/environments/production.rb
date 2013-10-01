@@ -59,7 +59,7 @@ Lorious::Application.configure do
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-  config.assets.precompile += %w( application.js home.js )
+  config.assets.precompile += %w( application.js home.js users/show.js )
   config.assets.precompile += %w( application.css home/manifest.css users/show.css )
 
   # Ignore bad email addresses and do not raise email delivery errors.
