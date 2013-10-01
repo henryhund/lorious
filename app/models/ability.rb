@@ -4,8 +4,9 @@ class Ability
   def initialize(user)
     user ||= User.new
 
+    can :read, User
     if user.persisted?
-      can :manage, Account
+
     end
 
   end
