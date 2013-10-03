@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   has_many :reviews_made, class_name: "Review", foreign_key: "reviewer_id"
   has_many :reviews_received, class_name: "Review", foreign_key: "reviewed_id"
   has_many :appointments
-  has_many :social_media
+  has_many :social_media, dependent: :destroy
 
   validates :username, uniqueness: true, allow_blank: true
   validates_format_of :username, 
@@ -26,7 +26,6 @@ class User < ActiveRecord::Base
 
     data = access_token.info
     user = User.where(:email => data["email"]).first
-
     unless user
       user = User.create(
            email: data["email"],
