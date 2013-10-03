@@ -2,9 +2,9 @@
 = javascript_include_tag "home"
 
 #home.row
-  .left-picture.col-lg-6.col-sm-6
+  .left-picture.col-lg-6.col-md-6.col-sm-6.col-xs-12
     =image_tag("https://s3.amazonaws.com/lorious/layout/elements/landing_page/hero-laptop.png", class:"img-responsive laptop-image")
-  .right-signup.col-lg-6.col-sm-6
+  .right-signup.col-lg-6.col-md-6.col-sm-6.col-xs-12
     .title= t("landing_page.home.title")
     .subtitle= t("landing_page.home.subtitle")
     =form_tag("/waitinglist", id: "signup") do
@@ -50,10 +50,10 @@
           %i.icon-road.icon-large
           %h3= t("landing_page.about.right.icon_3.title")
           %p.detail= t("landing_page.about.right.icon_3.subtitle")
-#satisfaction.row
-  .container
-    .col-lg-12.col-sm-12
-      Testimonials
+/ #satisfaction.row
+/   .container
+/     .col-lg-12.col-sm-12
+/       Testimonials
 
 #how-it-works.row
   .container
@@ -62,19 +62,22 @@
       %p= t("landing_page.how-it-works.subtitle")
 
     .col-lg-8.col-sm-8
-      %ul.list-unstyled
-        %li
+      %dl.dl-horizontal
+        %dt
           =image_tag "https://s3.amazonaws.com/lorious/layout/elements/landing_page/1.svg", class: "list-number"
+        %dd
           %h3= t("landing_page.how-it-works.step_1.title")
           %p= t("landing_page.how-it-works.step_1.subtitle")
         %hr
-        %li
+        %dt
           =image_tag "https://s3.amazonaws.com/lorious/layout/elements/landing_page/2.svg", class: "list-number"
+        %dd
           %h3= t("landing_page.how-it-works.step_2.title")
           %p= t("landing_page.how-it-works.step_2.subtitle")
         %hr
-        %li
+        %dt
           =image_tag "https://s3.amazonaws.com/lorious/layout/elements/landing_page/3.svg", class: "list-number"
+        %dd
           %h3= t("landing_page.how-it-works.step_3.title")
           %p= t("landing_page.how-it-works.step_3.subtitle")
 
@@ -82,24 +85,28 @@
 #satisfaction.row
   .container
     .col-lg-12.col-sm-12
-      Satisfaction Seal
+      / =image_tag "https://s3.amazonaws.com/lorious/layout/elements/landing_page/satisfactionseal.png", class: "img-circle", style: "width: 200px"
+      .onehundredpct
+        %p Your Satisfaction
+        100%
+        %p Guaranteed
 
 #get-started.row
   .container
     .col-lg-12.col-sm-12
       %h1.title= t("landing_page.get-started.title")
-#get-started-form.row
-  .container
-    =form_tag("/waitinglist", id: "signup2") do
+=form_tag("/waitinglist", id: "signup2") do
+  #get-started-form.row
+    .container
       .col-lg-5.col-lg-offset-1.col-sm-5.col-sm-offset-1
         =text_field_tag 'fname', nil, placeholder: "NAME", class: "text"
       .col-lg-5.col-sm-5
         =text_field_tag 'email', nil, placeholder: "EMAIL", class: "text"
-#get-started-form.row
-  .container
-    .col-lg-12.col-lg-12
-      =submit_tag "Request an Invite", class: "submit"
-      #errorContainer2
-        %ul.list-unstyled
+  #get-started-form.row
+    .container
+      .col-lg-12.col-lg-12
+        =submit_tag "Request an Invite", class: "submit"
+        #errorContainer2
+          %ul.list-unstyled
 
 / = link_to "Sign in with Google", GOOGLE_OAUTH_PATH

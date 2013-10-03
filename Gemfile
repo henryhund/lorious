@@ -43,6 +43,8 @@ gem 'jbuilder', '~> 1.2'
 gem 'figaro'
 
 gem 'carrierwave'
+gem 'cancan'
+gem 'client_side_validations', :github => 'bcardarella/client_side_validations', :branch => '4-0-beta'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -52,6 +54,14 @@ end
 gem 'devise'
 gem 'omniauth-google-oauth2'
 gem 'acts-as-taggable-on'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-linkedin'
+gem 'omniauth-github', :git => 'git://github.com/intridea/omniauth-github.git'
+gem 'omniauth-twitter'
+gem 'omniauth-stackexchange'
+
+gem "fog", "~> 1.3.1"
 
 gem 'mailboxer', git: 'git://github.com/ging/mailboxer.git'
 
@@ -64,6 +74,8 @@ group :test, :development do
   gem 'shoulda-matchers'
   gem 'faker', '1.1.2'
 end
+
+gem 'rails_12factor', group: :production
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

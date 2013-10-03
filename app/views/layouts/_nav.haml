@@ -13,6 +13,8 @@
     %ul.nav.navbar-nav
       -if current_user
         %li.visible-lg
+          =link_to "Search for Experts", "#"
+        %li.visible-lg
           =link_to "Recent Requests", "#"
         %li.hidden-lg
           =link_to "Search", "#"
@@ -29,8 +31,11 @@
           %a{:href => "#get-started"} Get started
         %li
       -elsif
-        %li{style: "width:300px;color: white; font-size: 10px; vertical-align: middle"}
-          You are browsing Lorious as a guest. ...
+        .navbar-text
+          %p{"data-no-turbolink"=>""}
+            Welcome guest. Please click
+            =link_to "here", root_url
+            to learn more about Lorious.
     %ul.nav.navbar-nav.pull-right
       - if current_user
         %li.dropdown
@@ -43,8 +48,30 @@
               =image_tag("https://s3.amazonaws.com/lorious/layout/elements/placeholders/image_placeholder.jpg", width: "25px", class: "img-rounded")
             %b.caret
           %ul.dropdown-menu
+            %li
+              = link_to "Profile", profile_url
+            %li= link_to "Mailbox", "#"
+            %li= link_to "Credits", "#"
+            %li= link_to "Appointments", "#"
+            %li= link_to "Settings", profile_url
             %li.divider= ""
             %li= link_to "Sign out", destroy_user_session_path, method: :delete
-      -else
         %li
-          = link_to "Sign in", user_omniauth_authorize_path(:google_oauth2)
+          =link_to("#", style:"padding-left:0px;padding-right:0px;") do
+            %span.label.label-default
+              %i.icon-envelope.icon-white
+              = "#{0}"
+        %li
+          =link_to("#", style:"padding-left:0px;padding-right:0px;") do
+            %span.label.label-danger
+              %i.icon-calendar
+              = "#{0}"
+        %li
+          =link_to("#", style:"padding-left:0px;padding-right:0px;") do
+            %span.label.label-info
+              %i.icon-asterisk
+              = "#{0}"
+      -else 
+        %li 
+          = link_to "Sign in", user_omniauth_authorize_url(:google_oauth2)
+

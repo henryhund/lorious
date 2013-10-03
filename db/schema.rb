@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130930100913) do
+ActiveRecord::Schema.define(version: 20131003073921) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,6 +87,17 @@ ActiveRecord::Schema.define(version: 20130930100913) do
     t.datetime "updated_at"
   end
 
+  create_table "social_media", force: true do |t|
+    t.string   "name"
+    t.string   "profile"
+    t.text     "data"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "social_media", ["user_id"], name: "index_social_media_on_user_id", using: :btree
+
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
     t.integer  "taggable_id"
@@ -124,7 +135,11 @@ ActiveRecord::Schema.define(version: 20130930100913) do
     t.string   "website"
     t.string   "image"
     t.string   "first_name"
+
     t.string   "last_name"
+    t.string   "username"
+    t.string   "zip_code"
+    t.text     "job"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

@@ -7,4 +7,9 @@ module ApplicationHelper
       else ""
     end
   end
+
+  def placeholder_for_blank(data)
+    return "-" if data.blank?
+    data
+  end
 end

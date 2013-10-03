@@ -1,0 +1,86 @@
+<%= stylesheet_link_tag "users/show" %>
+<%= javascript_include_tag "users/show" %>
+
+<div class="container" id="profile_body">
+  <div class="row">
+    <div class="panel-group col-xs-4" id="sidebar_accordion">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar_accordion" href="#manage_profile">
+              Manage Profile
+            </a>
+          </h4>
+        </div>
+        <div id="manage_profile" class="panel-collapse collapse in">
+          <div class="panel-body">
+            <ul class="nav nav-pills nav-stacked">
+              <li class="active"><a href="#view_profile" data-toggle="tab">View Profile</a></li>
+              <li><a href="#edit_profile" data-toggle="tab">Edit Profile</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar_accordion" href="#collapseTwo">
+              View Appointments
+            </a>
+          </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse">
+          <div class="panel-body">
+            Menu
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar_accordion" href="#collapseThree">
+              Manage Credits
+            </a>
+          </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse">
+          <div class="panel-body">
+            Menu
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar_accordion" href="#collapseFour">
+              Social Media
+            </a>
+          </h4>
+        </div>
+        <div id="collapseFour" class="panel-collapse collapse">
+          <div class="panel-body">
+            <ul class="nav nav-pills nav-stacked">
+              <li class="active">
+                <a href="#social_media_list" data-toggle="tab" class="content-load" data-content-url="/users/social_media" data-content-handler="#social_media_list">View list of social media</a>
+              </li>
+              <li>
+                <a href="#add_social_media" data-toggle="tab" class="content-load" data-content-url="/users/social_media/new" data-content-handler="#add_social_media">Add a social media</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content col-xs-8">
+      <div class="tab-pane active" id="view_profile">
+        <%= render "users/info" %>
+      </div>
+      <div class="tab-pane" id="edit_profile">
+        <%= render "users/form" %>
+      </div>
+      <div class="tab-pane" id="social_media_list"></div>
+      <div class="tab-pane" id="add_social_media"></div>
+    </div>
+  </div>
+</div>

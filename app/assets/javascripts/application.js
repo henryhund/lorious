@@ -16,4 +16,5 @@
 //= require angular-resource
 //= require turbolinks
 //= require search
+//= require rails.validations
 //= require_directory ./common
