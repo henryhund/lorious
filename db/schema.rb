@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131001112227) do
+ActiveRecord::Schema.define(version: 20131003073921) do
 
   create_table "appointments", force: true do |t|
     t.datetime "time"
@@ -83,6 +83,17 @@ ActiveRecord::Schema.define(version: 20131001112227) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "social_media", force: true do |t|
+    t.string   "name"
+    t.string   "profile"
+    t.text     "data"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "social_media", ["user_id"], name: "index_social_media_on_user_id", using: :btree
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"

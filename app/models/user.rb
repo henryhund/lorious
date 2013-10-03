@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_many :reviews_made, class_name: "Review", foreign_key: "reviewer_id"
   has_many :reviews_received, class_name: "Review", foreign_key: "reviewed_id"
   has_many :appointments
+  has_many :social_media
 
   validates :username, uniqueness: true, allow_blank: true
   validates_format_of :username, 

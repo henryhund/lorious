@@ -2,23 +2,25 @@ FactoryGirl.define do
   
   factory :user do
     sequence(:email) { |n| "user#{n}@email.com" }
-    name "name"
+    first_name "first"
+    last_name "last"
     password "password123"
     tag_line "TagLine"
     bio "Bio"
     location "Location"
-    website "Website"
+    website "http://website.com"
   end
 
   factory :expert do
     sequence(:email) { |n| "expert#{n}@email.com" }
-    name "name"
+    first_name "first"
+    last_name "last"
     password "password123"
     type "Expert"
     tag_line "TagLine"
     bio "Bio"
     location "Location"
-    website "Website"
+    website "http://website.com"
   end
 
 end
