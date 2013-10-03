@@ -4,8 +4,12 @@ source 'https://rubygems.org'
 gem 'rails', '4.0.0'
 
 # Use mysql as the database for Active Record
-gem 'mysql2'
-gem 'pg'
+gem 'mysql2', '0.3.12b5'
+gem 'pg', '0.14.1'
+# Thinking sphinx search engine connector
+gem 'thinking-sphinx', '~> 3.0.2'
+#Pagination gem
+gem 'will_paginate', '~> 3.0'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -55,6 +59,7 @@ group :test, :development do
   gem 'fuubar'
   gem 'factory_girl'
   gem 'shoulda-matchers'
+  gem 'faker', '1.1.2'
 end
 
 # Use ActiveModel has_secure_password

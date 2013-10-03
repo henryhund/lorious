@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20130930100913) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "appointments", force: true do |t|
     t.datetime "time"
     t.integer  "duration"
@@ -120,8 +123,8 @@ ActiveRecord::Schema.define(version: 20130930100913) do
     t.string   "location"
     t.string   "website"
     t.string   "image"
-    t.string   "last_name"
     t.string   "first_name"
+    t.string   "last_name"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
