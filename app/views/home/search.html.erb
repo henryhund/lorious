@@ -1,14 +1,21 @@
 
-<%= form_tag search_path, :method => 'get' do %>
-  <p>
-    <%= text_field_tag :search, params[:search] %>
-    <%= submit_tag "Search", :name => nil %>
-  </p>
-<% end %>
 
-<% @users.each do |user| %>
-	<%= user.email %> <br/>
-<% end %>
+<div ng-app='search' class='container' id='main'>
+	<div id="AngularCtrl" ng-controller="SearchCtrl" class='row'>
+		<div class="row">
+			<div class="col-md-4">
+				Search Fields
+				<%= form_tag search_path, :method => 'get' do %>
+				<p>
+					<%= text_field_tag :search, params[:search] %>
+					<%= submit_tag "Search", :name => nil %>
+				</p>
+				<% end %>
+			</div>
+			<div class="col-md-8">
+				<div ng-view></div>
+			</div>
+		</div>
+	</div>
+</div>
 
-
-<%= will_paginate @users %>

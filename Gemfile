@@ -11,6 +11,9 @@ gem 'thinking-sphinx', '~> 3.0.2'
 #Pagination gem
 gem 'will_paginate', '~> 3.0'
 
+# Angular Client Side JS Framework
+gem 'angularjs-rails'
+ 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 gem 'haml-rails'

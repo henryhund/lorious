@@ -12,5 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require angular
+//= require angular-resource
 //= require turbolinks
+//= require search
 //= require_directory ./common
