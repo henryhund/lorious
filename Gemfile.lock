@@ -148,13 +148,12 @@ GEM
     minitest (4.7.5)
     multi_json (1.8.0)
     multipart-post (1.2.0)
-    mysql2 (0.3.13)
+    mysql2 (0.3.12b5)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-ssh (2.6.8)
     nokogiri (1.5.10)
     oauth (0.4.7)
-
     oauth2 (0.8.1)
       faraday (~> 0.8)
       httpauth (~> 0.1)
@@ -284,7 +283,6 @@ PLATFORMS
 
 DEPENDENCIES
   acts-as-taggable-on
-
   angularjs-rails
   cancan
   carrierwave
@@ -303,11 +301,7 @@ DEPENDENCIES
   jquery-rails
   less-rails
   mailboxer!
-
-  omniauth-google-oauth2
-  pg (= 0.14.1)
-
-  mysql2
+  mysql2 (= 0.3.12b5)
   omniauth
   omniauth-facebook
   omniauth-github!
@@ -315,7 +309,7 @@ DEPENDENCIES
   omniauth-linkedin
   omniauth-stackexchange
   omniauth-twitter
-
+  pg (= 0.14.1)
   rails (= 4.0.0)
   rails_12factor
   rspec-rails (~> 2.0)

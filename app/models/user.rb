@@ -47,6 +47,17 @@ class User < ActiveRecord::Base
     #return nil
   end
 
+  def update_social_media_for provider, link, data
+    begin
+      self.social_media.where(name: provider).first_or_create(profile: link, data: data.to_json)
+    rescue Exception => e
+      print e
+      false
+    else
+      true
+    end
+  end
+
   private
 
   def user_params

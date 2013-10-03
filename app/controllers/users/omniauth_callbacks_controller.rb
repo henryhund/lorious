@@ -14,15 +14,18 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def facebook
-    
+    social_media_updated = current_user.update_social_media_for "facebook", request.env["omniauth.auth"].extra.raw_info.link, request.env["omniauth.auth"]
+    redirect_to profile_url, notice: set_notice(social_media_updated, "facebook")
   end
 
   def twitter
-    
+    social_media_updated = current_user.update_social_media_for "twitter", request.env["omniauth.auth"].extra.raw_info.link, request.env["omniauth.auth"]
+    redirect_to profile_url, notice: set_notice(social_media_updated, "twitter")
   end
 
   def linkedin
-    
+    social_media_updated = current_user.update_social_media_for "linkedin", request.env["omniauth.auth"].extra.raw_info.publicProfileUrl, request.env["omniauth.auth"]
+    redirect_to profile_url, notice: set_notice(social_media_updated, "linkedin")
   end
 
   def stackexchange
@@ -31,6 +34,12 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def twitter
     
+  end
+
+  private
+
+  def set_notice saved, provider
+    saved ? "Added #{provider} to your profile" : "Failed to add #{provider} to your profile"
   end
 
 end

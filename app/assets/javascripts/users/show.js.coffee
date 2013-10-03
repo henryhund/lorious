@@ -1,4 +1,21 @@
 $ ->
+  $(".accordion-toggle").click ->
+    element = $(this)
+    collapse_to_show = element.attr("href")
+    $(".profile_tabs").parent().removeClass "active"
+    first_tab_button = $(collapse_to_show).find(".profile_tabs").first()
+    $(first_tab_button).trigger('click')
+
   $('a[href="#edit_profile"]').on 'shown.bs.tab', (e)->
     $(".edit_user").resetClientSideValidations()
     
+  $("body").on "click", ".social_media_remove", (e)->
+    element = $(this)
+    social_medium_id = element.data("id")
+    $.ajax "/users/social_media/" + social_medium_id,
+      type: "post"
+      data: 
+        "_method": "delete"
+      success: (response)->
+        element.closest(".social_medium").fadeOut(300)
+    false
