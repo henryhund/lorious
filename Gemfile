@@ -47,6 +47,7 @@ end
 gem 'devise'
 gem 'omniauth-google-oauth2'
 gem 'acts-as-taggable-on'
+gem 'omniauth'
 
 gem "fog", "~> 1.3.1"
 

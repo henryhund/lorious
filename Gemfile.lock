@@ -265,6 +265,7 @@ DEPENDENCIES
   less-rails
   mailboxer!
   mysql2
+  omniauth
   omniauth-google-oauth2
   pg
   rails (= 4.0.0)
