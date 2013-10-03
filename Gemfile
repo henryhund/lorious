@@ -48,6 +48,11 @@ gem 'devise'
 gem 'omniauth-google-oauth2'
 gem 'acts-as-taggable-on'
 gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-linkedin'
+gem 'omniauth-github', :git => 'git://github.com/intridea/omniauth-github.git'
+gem 'omniauth-twitter'
+gem 'omniauth-stackexchange'
 
 gem "fog", "~> 1.3.1"
 

@@ -1,1 +1,7 @@
-new social media
+<%= form_for @social_media, url: "/users/social_media", role: "form", validate: true do |f| %>
+  <div class="form-group">
+    <%= f.label :name, "Select social media to link to your account" %>
+    <%= f.select :name, options_for_select(@available_media), {}, class: "form-control" %>
+  </div>
+  <p><%= f.submit "Link", class: "btn btn-default" %></p>
+<% end %>

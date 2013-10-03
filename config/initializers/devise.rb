@@ -252,4 +252,6 @@ Devise.setup do |config|
 
   require "omniauth-google-oauth2"
   config.omniauth :google_oauth2, Rails.configuration.google_app_id, Rails.configuration.google_secret, { access_type: "offline", approval_prompt: "", scope: 'userinfo.email,userinfo.profile' }
+  config.omniauth :twitter, ENV['TWITTER_CONSUMER_KEY'], ENV['TWITTER_CONSUMER_SECRET']
+  # config.omniauth :facebook, ENV['']
 end

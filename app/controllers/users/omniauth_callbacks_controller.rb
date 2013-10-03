@@ -13,4 +13,24 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
+  def facebook
+    
+  end
+
+  def twitter
+    
+  end
+
+  def linkedin
+    
+  end
+
+  def stackexchange
+    
+  end
+
+  def twitter
+    
+  end
+
 end
