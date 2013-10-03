@@ -1,5 +1,7 @@
 class Users::SocialMediaController < ApplicationController
 
+  layout false
+
   def index
     
   end
