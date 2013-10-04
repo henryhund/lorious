@@ -30,4 +30,15 @@ Lorious::Application.configure do
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
   config.google_app_id = ENV['GOOGLE_OAUTH2_CLIENT_ID']
   config.google_secret = ENV['GOOGLE_OAUTH2_CLIENT_SECRET']
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :domain               => 'devbrother.com',
+    :user_name            => 'testing@devbrother.com',
+    :password             => 'devbrother',
+    :authentication       => 'plain',
+    :enable_starttls_auto => true  }
+  
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131004100818) do
+ActiveRecord::Schema.define(version: 20131004110537) do
 
   create_table "appointments", force: true do |t|
     t.datetime "time"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20131004100818) do
     t.boolean  "approved",   default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "token"
   end
 
   create_table "notifications", force: true do |t|
@@ -152,8 +153,8 @@ ActiveRecord::Schema.define(version: 20131004100818) do
     t.string   "location"
     t.string   "website"
     t.string   "image"
-    t.string   "last_name"
     t.string   "first_name"
+    t.string   "last_name"
     t.string   "username"
     t.string   "zip_code"
     t.text     "job"

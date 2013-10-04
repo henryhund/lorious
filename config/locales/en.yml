@@ -112,3 +112,7 @@ en:
     create:
       failure: "Failed to create an invite, please try again"
       success: "We have received your invite request, we will contact you with your login details soon"
+  devise:
+    omniauth_callbacks:
+      failure: "Failed to login"
+      

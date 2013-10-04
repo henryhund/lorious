@@ -22,19 +22,18 @@ class User < ActiveRecord::Base
           :with => /\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/ix,
           :message => "not a valid url", allow_blank: true
 
-  def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
-
+  def self.find_for_google_oauth2(access_token, oauth_params, signed_in_resource=nil)
     data = access_token.info
-    user = User.where(:email => data["email"]).first
-    unless user
+    if oauth_params["invite_token"] && invite = Invite.find_by_token(oauth_params["invite_token"])
       user = User.create(
-           email: data["email"],
-           password: Devise.friendly_token[0,20],
-           first_name: data["first_name"],
-           last_name: data["last_name"],
-           remote_image_url: data["image"]
-          )
+         email: data["email"],
+         password: Devise.friendly_token[0,20],
+         first_name: data["first_name"],
+         last_name: data["last_name"],
+         remote_image_url: data["image"]
+      )
     end
+    user = User.where(:email => data["email"]).first || User.new
     user
   end
 
