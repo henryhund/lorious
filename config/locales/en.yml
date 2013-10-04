@@ -110,5 +110,5 @@ en:
     success: "Thanks for signing up! We will let you know when we're ready for you."
   invites:
     create:
-      failure: "Failed to create an invite, please try again later"
+      failure: "Failed to create an invite, please try again"
       success: "We have received your invite request, we will contact you with your login details soon"
