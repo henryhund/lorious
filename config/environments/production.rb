@@ -82,6 +82,7 @@ Lorious::Application.configure do
   config.google_app_id = ENV['GOOGLE_OAUTH2_CLIENT_ID']
   config.google_secret = ENV['GOOGLE_OAUTH2_CLIENT_SECRET']
 
+  config.action_mailer.default_url_options = { :host => 'lorious-dev.herokuapp.com' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     :address              => "smtp.gmail.com",
