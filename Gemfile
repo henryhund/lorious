@@ -45,6 +45,7 @@ gem 'figaro'
 gem 'carrierwave'
 gem 'cancan'
 gem 'client_side_validations', :github => 'bcardarella/client_side_validations', :branch => '4-0-beta'
+gem 'rails_admin'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
