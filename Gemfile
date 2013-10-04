@@ -7,7 +7,8 @@ gem 'rails', '4.0.0'
 gem 'mysql2', '0.3.12b5'
 gem 'pg', '0.14.1'
 # Thinking sphinx search engine connector
-gem 'thinking-sphinx', '~> 3.0.2'
+#gem 'thinking-sphinx'
+gem 'sunspot_rails'
 #Pagination gem
 gem 'will_paginate', '~> 3.0'
 
@@ -76,6 +77,8 @@ group :test, :development do
   gem 'factory_girl'
   gem 'shoulda-matchers'
   gem 'faker', '1.1.2'
+  gem 'sunspot_solr'
+  gem 'populator'
 end
 
 gem 'rails_12factor', group: :production

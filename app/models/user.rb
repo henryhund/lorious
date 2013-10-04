@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   has_many :reviews_made, class_name: "Review", foreign_key: "reviewer_id"
   has_many :reviews_received, class_name: "Review", foreign_key: "reviewed_id"
   has_many :appointments
+
   has_many :social_media, dependent: :destroy
 
   geocoded_by :location

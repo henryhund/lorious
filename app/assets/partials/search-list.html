@@ -2,11 +2,13 @@
 
 <input class='btn' type='hidden' ng-model="experts" />
 
-<div class='row' id='messages-inner' when-scrolled="load_data()" style="height: 250px; overflow-y: scroll;">
+<div class='row' id='messages-inner' when-scrolled="load_data()" style="height: 350px; overflow-y: scroll;">
 	
-	<div class="well" ng:repeat="expert in experts"> <!-- | orderBy:'-first_name':true -->
+	<div class="well" ng:repeat="expert in experts | filter:query"> <!-- | orderBy:'-first_name':true -->
 		<div class="screen-name">
 			{{expert.first_name}} | {{expert.last_name}} | {{expert.email}}
+			<br />
+			{{expert.bio}}
 		</div>
 		<hr/>
 	</div>

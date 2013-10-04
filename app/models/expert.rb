@@ -10,7 +10,12 @@ class Expert < User
   with_options if: :apply_for_expert_step_validation_required do |user|
     user.validates :job, :skills, presence: true
   end
-
+  
+  searchable do
+    text :first_name
+    text :bio
+  end
+  
   def set_availability(availability, timezone_in_minutes, availability_unit_in_minutes=30)
     availability_object = self.build_availability
     availability_object.set_availability_in_gmt(availability, timezone_in_minutes, availability_unit_in_minutes)
