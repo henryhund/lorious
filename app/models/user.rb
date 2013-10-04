@@ -14,6 +14,9 @@ class User < ActiveRecord::Base
   has_many :appointments
   has_many :social_media, dependent: :destroy
 
+  geocoded_by :location
+  after_validation :geocode
+
   validates :username, uniqueness: true, allow_blank: true
   validates_format_of :username, 
           :with => /\A\w+\z/ix,

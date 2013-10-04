@@ -18,4 +18,12 @@ describe User do
       user2.mailbox.inbox.first.messages.first.body.should == "Body"
     end
   end
+
+  context "geocoder" do
+    let(:user) { FactoryGirl.create :user, location: "bangalore" }
+    it "should fetch latitude and longitude for the user" do
+      user.latitude.should_not be_nil
+      user.longitude.should_not be_nil
+    end
+  end
 end

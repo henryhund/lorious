@@ -47,6 +47,8 @@ gem 'cancan'
 gem 'client_side_validations', :github => 'bcardarella/client_side_validations', :branch => '4-0-beta'
 gem 'rails_admin'
 
+gem "geocoder"
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
