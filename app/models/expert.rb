@@ -17,7 +17,7 @@ class Expert < User
   end
   
   def attributes
-    super.merge({'skill_list' => skill_list, 'hourly_rate' => hourly_rate})
+    super.merge({'skill_list' => skill_list, 'hourly_rate' => hourly_rate, 'average_rating' => average_rating})
   end
   
   def set_availability(availability, timezone_in_minutes, availability_unit_in_minutes=30)
@@ -47,4 +47,12 @@ class Expert < User
     end
   end
   
+  def average_rating()
+    get_average_rating()
+  end
+  
+  def get_average_rating()
+    Review.average('rating', :conditions => {:reviewed_id => self.id})
+  end
+
 end

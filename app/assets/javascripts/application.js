@@ -21,6 +21,7 @@
 //= require angular-truncate
 //= require angular-slider
 //= require turbolinks
+//= require search-filters
 //= require search
 //= require search-ui
 //= require rails.validations

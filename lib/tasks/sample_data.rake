@@ -4,7 +4,7 @@ namespace :db do
     require 'populator'
     require 'acts-as-taggable-on'
     
-    [Expert, Availability].each(&:delete_all)
+    [User, Expert, Availability].each(&:delete_all)
     
     Expert.populate(200) do |expert|
       name  = Faker::Name.name
@@ -14,6 +14,7 @@ namespace :db do
       expert.encrypted_password = "password"
       expert.bio = Populator.sentences(5..10)
       expert.location = Faker::Address.city + ',' + Faker::Address.state_abbr
+      expert.image = "http://kalpataruhomeopathy.com/uploads/testimonials/thumbnails/150X150/no_user_thumbnail.png"
     end
     
     Expert.all.each do |expert|
@@ -23,12 +24,21 @@ namespace :db do
       end
       
       expert.set_availability([{"start_time" => 30, "end_time" => 60}, {"start_time" => 180, "end_time" => 210}], 120) 
-      expert.availability.hourly_cost =  rand * (10-5) + 5.0
+      expert.availability.hourly_cost =  rand(1..10)*100 + rand(0..1)*50
       expert.availability.save
-      #expert.location = 'St Pancras Station, London'
       expert.save
     end
     
     #Need to add ratings for Experts and Profile Image URL
-  end
+    User.populate(10) do |user|
+      name  = Faker::Name.name
+      user.first_name = name.split(' ').first
+      user.last_name =  name.split(' ').last
+      user.email = Faker::Internet.email
+      user.encrypted_password = "password"
+      Expert.all.each do |expert|
+        Review.create(:reviewer_id => user.id, :reviewed_id => expert.id, :rating => rand(1..5))
+      end
+    end
+  end 
 end

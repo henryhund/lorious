@@ -1,6 +1,6 @@
 var app;
 
-app = angular.module("search", ["ngResource", "ui.bootstrap","truncate","ui.slider"]).config([
+app = angular.module("search", ["ngResource", "ui.bootstrap","truncate","ui.slider","searchFilters"]).config([
   "$routeProvider", "$httpProvider", function($routeProvider, $httpProvider) {
     return $routeProvider.when("/", {
       templateUrl: '<%= asset_path("search-list.html") %>',
@@ -53,6 +53,7 @@ app.factory("Search", [
 
 this.SearchCtrl = [
   "$scope", "$resource", "$route", "$routeParams", "$location", "Search", function($scope, $resource, $route, $routeParams, $location, Search) {
+    $scope.experts = [];
     $scope.pg_counter = 1;
     $scope.experts = Search.query({id: $scope.pg_counter++});
     $scope.load_data = function() {
@@ -80,7 +81,7 @@ this.SearchCtrl = [
 	  {stateOff: 'icon-off'}
 	];
 	
-	$scope.slider = { slide_value:[-0.52, 0.54]};	
+	$scope.slider = { slide_value:[250, 750]};	
 		    
   }
 ];
