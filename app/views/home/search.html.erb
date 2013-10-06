@@ -5,10 +5,14 @@
 		<div class="row">
 			<div class="col-md-4">
 				<br />
-				Search: <input ng-model="query.$" />
+				<div class="input-group merged col-xs-9">
+				    <span class="input-group-addon"><i class="icon-search"></i></span>
+				    <input type="text" class="form-control" placeholder="Keyword" ng-model="query.$" />
+				</div>
+				
 				<br />
-				<hr />
-				Name: <input ng-model="query.first_name" />
+				
+				<!--input ng-model="query.first_name" /-->
 			</div>
 			<div class="col-md-8">
 				<div ng-view></div>

@@ -14,7 +14,12 @@
 //= require jquery_ujs
 //= require angular
 //= require angular-resource
+//= require angular-bootstrap
+//= require angular-ratings
+//= require angular-ratings-tpls
+//= require angular-truncate
 //= require turbolinks
 //= require search
+//= require search-ui
 //= require rails.validations
 //= require_directory ./common

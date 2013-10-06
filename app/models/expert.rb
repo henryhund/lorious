@@ -16,6 +16,10 @@ class Expert < User
     text :bio
   end
   
+  def attributes
+    super.merge({'skill_list' => skill_list, 'hourly_rate' => hourly_rate})
+  end
+  
   def set_availability(availability, timezone_in_minutes, availability_unit_in_minutes=30)
     availability_object = self.build_availability
     availability_object.set_availability_in_gmt(availability, timezone_in_minutes, availability_unit_in_minutes)
@@ -30,4 +34,17 @@ class Expert < User
   def apply_for_expert_step_validation_required
     validation_required? "apply_for_expert"
   end
+  
+  def hourly_rate()
+    get_hourly_rate()
+  end
+  
+  def get_hourly_rate()
+    if self.availability.present?
+      self.availability.hourly_cost
+    else
+      0.00
+    end
+  end
+  
 end

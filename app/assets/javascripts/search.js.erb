@@ -1,6 +1,6 @@
 var app;
 
-app = angular.module("search", ["ngResource"]).config([
+app = angular.module("search", ["ngResource", "ui.bootstrap","truncate"]).config([
   "$routeProvider", "$httpProvider", function($routeProvider, $httpProvider) {
     return $routeProvider.when("/", {
       templateUrl: '<%= asset_path("search-list.html") %>',
@@ -62,6 +62,25 @@ this.SearchCtrl = [
       });
       
     };
-    
+  
   }
 ];
+
+var RatingCtrl = function ($scope) {
+  $scope.rate = 2.5;
+  $scope.max = 5;
+  $scope.isReadonly = true;
+
+  $scope.hoveringOver = function(value) {
+    $scope.overStar = value;
+    $scope.percent = 100 * (value / $scope.max);
+  };
+
+  $scope.ratingStates = [
+    {stateOn: 'icon-ok-sign', stateOff: 'icon-ok-circle'},
+    {stateOn: 'icon-star', stateOff: 'icon-star-empty'},
+    {stateOn: 'icon-heart', stateOff: 'icon-ban-circle'},
+    {stateOn: 'icon-heart'},
+    {stateOff: 'icon-off'}
+  ];
+};

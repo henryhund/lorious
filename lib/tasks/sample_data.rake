@@ -13,6 +13,7 @@ namespace :db do
       expert.email = Faker::Internet.email
       expert.encrypted_password = "password"
       expert.bio = Populator.sentences(5..10)
+      expert.location = Faker::Address.city + ',' + Faker::Address.state_abbr
     end
     
     Expert.all.each do |expert|
@@ -24,6 +25,7 @@ namespace :db do
       expert.set_availability([{"start_time" => 30, "end_time" => 60}, {"start_time" => 180, "end_time" => 210}], 120) 
       expert.availability.hourly_cost =  rand * (10-5) + 5.0
       expert.availability.save
+      #expert.location = 'St Pancras Station, London'
       expert.save
     end
   end

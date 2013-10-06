@@ -23,7 +23,7 @@ GIT
       omniauth-oauth2 (~> 1.1)
 
 GEM
-  remote: https://rubygems.org/
+  remote: http://rubygems.org/
   specs:
     actionmailer (4.0.0)
       actionpack (= 4.0.0)
@@ -239,6 +239,7 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.5)
+    remotipart (1.2.1)
     rsolr (1.0.9)
       builder (>= 2.1.2)
     rspec (2.14.1)
