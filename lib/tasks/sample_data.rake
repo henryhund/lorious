@@ -17,8 +17,8 @@ namespace :db do
     end
     
     Expert.all.each do |expert|
-      tags = ["Ruby", "C++", "Java", ".NET", "MySql", "PHP", "Phython","Perl","BASIC","Matlab"]
-      3.times do 
+      tags = ["Ruby", "C++", "Java", "PostgreSQL", ".NET", "MySql", "PHP", "Phython","Perl","BASIC","Matlab","C#","Pascal","Rails", "Stripe", "API" ,"Node.js"]
+      5.times do 
         expert.skill_list.add tags[rand(tags.length)]  
       end
       
@@ -28,5 +28,7 @@ namespace :db do
       #expert.location = 'St Pancras Station, London'
       expert.save
     end
+    
+    #Need to add ratings for Experts and Profile Image URL
   end
 end

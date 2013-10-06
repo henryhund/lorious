@@ -1,6 +1,6 @@
 var app;
 
-app = angular.module("search", ["ngResource", "ui.bootstrap","truncate"]).config([
+app = angular.module("search", ["ngResource", "ui.bootstrap","truncate","ui.slider"]).config([
   "$routeProvider", "$httpProvider", function($routeProvider, $httpProvider) {
     return $routeProvider.when("/", {
       templateUrl: '<%= asset_path("search-list.html") %>',
@@ -62,25 +62,26 @@ this.SearchCtrl = [
       });
       
     };
-  
+    //Initializing rating elements
+    $scope.rate = 2.5;
+	$scope.max = 5;
+	$scope.isReadonly = true;
+	
+	$scope.hoveringOver = function(value) {
+	  $scope.overStar = value;
+	  $scope.percent = 100 * (value / $scope.max);
+	};
+	
+	$scope.ratingStates = [
+	  {stateOn: 'icon-ok-sign', stateOff: 'icon-ok-circle'},
+	  {stateOn: 'icon-star', stateOff: 'icon-star-empty'},
+	  {stateOn: 'icon-heart', stateOff: 'icon-ban-circle'},
+	  {stateOn: 'icon-heart'},
+	  {stateOff: 'icon-off'}
+	];
+	
+	$scope.slider = { slide_value:[-0.52, 0.54]};	
+		    
   }
 ];
-
-var RatingCtrl = function ($scope) {
-  $scope.rate = 2.5;
-  $scope.max = 5;
-  $scope.isReadonly = true;
-
-  $scope.hoveringOver = function(value) {
-    $scope.overStar = value;
-    $scope.percent = 100 * (value / $scope.max);
-  };
-
-  $scope.ratingStates = [
-    {stateOn: 'icon-ok-sign', stateOff: 'icon-ok-circle'},
-    {stateOn: 'icon-star', stateOff: 'icon-star-empty'},
-    {stateOn: 'icon-heart', stateOff: 'icon-ban-circle'},
-    {stateOn: 'icon-heart'},
-    {stateOff: 'icon-off'}
-  ];
-};
+	

@@ -11,5 +11,6 @@
  *= require_self
  *= require font-awesome
  *= require home/search.css
+ *= require jquery.ui.all
  *= require_directory ./common
  */

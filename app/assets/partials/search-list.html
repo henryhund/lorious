@@ -2,7 +2,7 @@
 <br /> 
 <input class='btn' type='hidden' ng-model="experts" />
 
-<div when-scrolled="load_data()" style="height: 400px; width:100%; overflow-y: scroll;">
+<div when-scrolled="load_data()" style="height: 600px; width:100%; overflow-y: scroll;">
 	<div class="well" ng:repeat="expert in experts | filter:query"> <!-- | orderBy:'-first_name':true -->
 		<div class="row">
 			<div class="col-md-4">
@@ -10,12 +10,12 @@
 				<a href="#" class="thumbnail">
 			      <img src="http://kalpataruhomeopathy.com/uploads/testimonials/thumbnails/150X150/no_user_thumbnail.png" alt="...">
 			    </a>	
-			    <h4 class="text-center">{{expert.hourly_rate | currency:"$"}}/hr.</h4>
+			    <h4 class="text-center">{{expert.hourly_rate | currency:"Cr."}}/hr.</h4>
 			    
 			</div>
   			<div class="col-md-8">
   				<h2> {{expert.first_name}} {{expert.last_name}}</h2>
-  				<div ng-controller="RatingCtrl">
+  				<div>
 				    <rating value="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
 				    <span class="badge" ng-class="{'badge-warning': percent<30, 'badge-info': percent>=30 && percent<70, 'badge-success': percent>=70}" ng-show="overStar && !isReadonly">{{percent}}%</span>
 				</div>	

@@ -1,18 +1,48 @@
 
 
-<div ng-app='search' class='container' id='main'>
+<div ng-app='search' class='container' id='main' >
 	<div id="AngularCtrl" ng-controller="SearchCtrl" class='row'>
 		<div class="row">
 			<div class="col-md-4">
 				<br />
-				<div class="input-group merged col-xs-9">
+				<h3>Search:</h3>
+				<div class="input-group merged">
 				    <span class="input-group-addon"><i class="icon-search"></i></span>
 				    <input type="text" class="form-control" placeholder="Keyword" ng-model="query.$" />
 				</div>
+				<hr />
+				<h3>TAG:</h3>
+				<div class="input-group merged">
+				    <span class="input-group-addon"><i class="icon-search"></i></span>
+				    <input type="text" class="form-control" placeholder="TAG" ng-model="query.skill_list" />
+				</div>
+				<hr />
+				<h3>Location:</h3>
+				<div class="input-group merged">
+				    <span class="input-group-addon"><i class="icon-search"></i></span>
+				    <input type="text" class="form-control" placeholder="Location" ng-model="query.location" />
+				</div>
+				<hr />
+				<!--slider floor="100" ceiling="1000" precision="2" ng-model="item.cost" translate="currencyFormatting"></slider-->
+				<h3>Price/Hr.</h3>
+				<div ui-slider="{range: true}" style="margin-left:5%; width: 50%;" min="-1.00" max="1.00" step="0.01" use-decimals ng-model="slider.slide_value"></div>		
+				<!--input type="text" ng-model="demoVals.sliderExample9" /-->
+				<h4 class="text-left">Between {{slider.slide_value[0] }} & {{slider.slide_value[1] }} Cr.</h4>
+				<hr />
+				<h3>Rating:</h3>
+				
+				&nbsp;&nbsp;&nbsp;<input type="checkbox"><rating value="5" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating></input><br />
+				&nbsp;&nbsp;&nbsp;<input type="checkbox"><rating value="4" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating></input><br />
+				&nbsp;&nbsp;&nbsp;<input type="checkbox"><rating value="3" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating></input><br />
+				&nbsp;&nbsp;&nbsp;<input type="checkbox"><rating value="2" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating></input><br />
+				&nbsp;&nbsp;&nbsp;<input type="checkbox"><rating value="1" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating></input><br />
+				
 				
 				<br />
-				
-				<!--input ng-model="query.first_name" /-->
+				<br />
+				<br />
+				<br />
+				<br />
 			</div>
 			<div class="col-md-8">
 				<div ng-view></div>

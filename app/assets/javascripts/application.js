@@ -12,12 +12,14 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.ui.all
 //= require angular
 //= require angular-resource
 //= require angular-bootstrap
 //= require angular-ratings
 //= require angular-ratings-tpls
 //= require angular-truncate
+//= require angular-slider
 //= require turbolinks
 //= require search
 //= require search-ui
