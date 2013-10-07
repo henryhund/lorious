@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:google_oauth2, :facebook, :twitter, :github, :stackexchange, :linkedin]
 
+  attr_accessor :current_step
+
   acts_as_messageable
   mount_uploader :image, ImageUploader
 
@@ -17,7 +19,11 @@ class User < ActiveRecord::Base
   geocoded_by :location
   after_validation :geocode
 
-  validates :username, uniqueness: true, allow_blank: true
+  with_options if: :user_info_step_validation_required? do |user|
+    user.validates :username, uniqueness: true
+    user.validates :username, :first_name, :last_name, :tag_line, :location, presence: true
+  end
+
   validates_format_of :username, 
           :with => /\A\w+\z/ix,
           :message => "only letters and digits allowed, no spaces", allow_blank: true
@@ -57,6 +63,22 @@ class User < ActiveRecord::Base
     else
       true
     end
+  end
+
+  def initialize_steps
+    @current_step = steps.first
+  end
+
+  def steps
+    %w[user_info profile_info apply_for_expert]
+  end
+
+  def user_info_step_validation_required?
+    validation_required? "user_info"
+  end
+
+  def validation_required? step=nil
+    current_step.nil? || current_step == step
   end
 
   private
