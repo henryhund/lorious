@@ -12,4 +12,8 @@ module ApplicationHelper
     return "-" if data.blank?
     data
   end
+
+  def comma_seperated_string_to_array(string)
+    string.split(",").map {|e| e.strip}
+  end
 end

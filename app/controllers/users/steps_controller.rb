@@ -38,8 +38,4 @@ class Users::StepsController < ApplicationController
     params.require(:expert).permit(:skills, :job)
   end
 
-  def comma_seperated_string_to_array(string)
-    string.split(",").map {|e| e.strip}
-  end
-
 end

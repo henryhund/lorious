@@ -8,4 +8,8 @@ class UserMailer < ActionMailer::Base
     @url = @@base_url + "/users/auth/google_oauth2?invite_token=" + invite.token
     mail(to: @invite.email, subject: 'Welcome to Lorious')
   end
+
+  def new_expert_request
+    
+  end
 end
