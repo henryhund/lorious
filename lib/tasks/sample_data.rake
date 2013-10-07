@@ -2,6 +2,7 @@ namespace :db do
   desc "Fill database with sample data"
   task populate: :environment do
     require 'populator'
+    #require 'carrierwave'
     require 'acts-as-taggable-on'
     
     [User, Expert, Availability].each(&:delete_all)
@@ -13,8 +14,7 @@ namespace :db do
       expert.email = Faker::Internet.email
       expert.encrypted_password = "password"
       expert.bio = Populator.sentences(5..10)
-      expert.location = Faker::Address.city + ',' + Faker::Address.state_abbr
-      expert.remote_image_url = "http://kalpataruhomeopathy.com/uploads/testimonials/thumbnails/150X150/no_user_thumbnail.png"
+      expert.location = Faker::Address.city + ', ' + Faker::Address.state #state_abbr      
     end
     
     Expert.all.each do |expert|
@@ -22,7 +22,7 @@ namespace :db do
       5.times do 
         expert.skill_list.add tags[rand(tags.length)]  
       end
-      
+      #expert.remote_image_url = "http://kalpataruhomeopathy.com/uploads/testimonials/thumbnails/150X150/no_user_thumbnail.png"
       expert.set_availability([{"start_time" => 30, "end_time" => 60}, {"start_time" => 180, "end_time" => 210}], 120) 
       expert.availability.hourly_cost =  rand(1..10)*100 + rand(0..1)*50
       expert.availability.save

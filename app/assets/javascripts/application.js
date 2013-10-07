@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.ui.all
+//= require jquery.typewatch
 //= require angular
 //= require angular-resource
 //= require angular-bootstrap

@@ -11,9 +11,16 @@ class Expert < User
     user.validates :job, :skills, presence: true
   end
   
-  searchable do
+  searchable :auto_index => true, :auto_remove => true do
     text :first_name
+    text :last_name
     text :bio
+    string :skill_list, :multiple => true, :stored => true do 
+      skill_list.map!{|c| c.downcase.strip}
+    end
+    latlon(:location) { 
+       Sunspot::Util::Coordinates.new(self.latitude, self.longitude)
+     }
   end
   
   def attributes

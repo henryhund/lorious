@@ -1,32 +1,32 @@
 
-
+<!-- ng-controller="SearchCtrl" not required if you have routing enabled-->
 <div ng-app='search' class='container' id='main' >
-	<div id="AngularCtrl" ng-controller="SearchCtrl" class='row'>
+	<div ng-controller="SearchCtrl" class='row'>
 		<div class="row">
 			<div class="col-md-4">
 				<br />
 				<h3>Search:</h3>
 				<div class="input-group merged">
 				    <span class="input-group-addon"><i class="icon-search"></i></span>
-				    <input type="text" class="form-control" placeholder="Keyword" ng-model="query.$" />
+				    <input type="text" class="form-control searchbox" placeholder="Keyword" ng-model="query.$" />
 				</div>
 				<hr />
 				<h3>TAG:</h3>
 				<div class="input-group merged">
 				    <span class="input-group-addon"><i class="icon-search"></i></span>
-				    <input type="text" class="form-control" placeholder="TAG" ng-model="query.skill_list" />
+				    <input type="text" class="form-control searchbox" placeholder="TAG" ng-model="query.skill_list" />
 				</div>
 				<hr />
 				<h3>Location:</h3>
 				<div class="input-group merged">
 				    <span class="input-group-addon"><i class="icon-search"></i></span>
-				    <input type="text" class="form-control" placeholder="Location" ng-model="query.location" />
+				    <input type="text" class="form-control searchbox" placeholder="Location" ng-model="query.location" />
 				</div>
 				<hr />
-				<!--slider floor="100" ceiling="1000" precision="2" ng-model="item.cost" translate="currencyFormatting"></slider-->
+				
 				<h3>Price/Hr.</h3>
-				<div ng-init="slider=[250,750]" ui-slider="{range: true}" style="margin-left:5%; width: 50%;" min="0" max="1000" step="50" use-decimals ng-model="slider"></div>		
-				<!--input type="text" ng-model="demoVals.sliderExample9" /-->
+				<div ng-init="slider=[0,2000]" ui-slider="{range: true}" style="margin-left:5%; width: 50%;" min="0" max="2000" step="50" use-decimals ng-model="slider"></div>		
+				
 				<h4 class="text-left">Between {{slider[0] }} & {{slider[1] }} Cr.</h4>
 				<hr />
 				<h3>Rating:</h3>
@@ -36,7 +36,6 @@
 				&nbsp;&nbsp;&nbsp;<input type="checkbox" ng-model="ratings.three"><rating value="3" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating></input><br />
 				&nbsp;&nbsp;&nbsp;<input type="checkbox" ng-model="ratings.two"><rating value="2" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating></input><br />
 				&nbsp;&nbsp;&nbsp;<input type="checkbox" ng-model="ratings.one"><rating value="1" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating></input><br />
-				
 				
 				<br />
 				<br />
