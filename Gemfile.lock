@@ -85,6 +85,8 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.2.4)
     erubis (2.7.0)
+    exceptional (2.0.33)
+      rack
     excon (0.13.4)
     execjs (2.0.1)
     factory_girl (4.2.0)
@@ -319,6 +321,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   debugger
   devise
+  exceptional
   factory_girl
   faker (= 1.1.2)
   figaro
