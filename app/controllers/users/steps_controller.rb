@@ -2,6 +2,7 @@ class Users::StepsController < ApplicationController
 
   def edit
     @user = current_user
+    @user.current_step = session[:current_step] || @user.steps.first
     @user.initialize_steps if @user.current_step.nil?
   end
 

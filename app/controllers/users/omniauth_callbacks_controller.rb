@@ -6,7 +6,16 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     if @user.persisted?
       flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Google"
-      sign_in_and_redirect @user, :event => :authentication
+      sign_in @user, :event => :authentication
+      if !@user.step_1_complete
+        session[:current_step] = "user_info"
+        redirect_to edit_users_step_url(@user)
+      elsif !@user.step_2_complete
+        session[:current_step] = "profile_info"
+        redirect_to edit_users_step_url(@user)
+      else
+        redirect_to profile_url
+      end
     else
       redirect_to root_url, notice: I18n.t("devise.omniauth_callbacks.failure")
     end
