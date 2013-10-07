@@ -6,6 +6,7 @@ Lorious::Application.routes.draw do
 
   namespace :users do
     resources :social_media
+    resources :steps, only: [:edit, :update]
   end
 
   match "profile" => "users#show", as: :profile, via: [:get]

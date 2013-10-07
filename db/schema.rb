@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131004120514) do
+ActiveRecord::Schema.define(version: 20131007054711) do
 
   create_table "appointments", force: true do |t|
     t.datetime "time"
@@ -153,14 +153,16 @@ ActiveRecord::Schema.define(version: 20131004120514) do
     t.string   "location"
     t.string   "website"
     t.string   "image"
-    t.string   "first_name"
     t.string   "last_name"
+    t.string   "first_name"
     t.string   "username"
     t.string   "zip_code"
     t.text     "job"
     t.boolean  "admin",                  default: false
     t.float    "latitude"
     t.float    "longitude"
+    t.boolean  "step_1_complete",        default: false
+    t.boolean  "step_2_complete",        default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
