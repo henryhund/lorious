@@ -14,7 +14,7 @@ namespace :db do
       expert.encrypted_password = "password"
       expert.bio = Populator.sentences(5..10)
       expert.location = Faker::Address.city + ',' + Faker::Address.state_abbr
-      expert.image = "http://kalpataruhomeopathy.com/uploads/testimonials/thumbnails/150X150/no_user_thumbnail.png"
+      expert.remote_image_url = "http://kalpataruhomeopathy.com/uploads/testimonials/thumbnails/150X150/no_user_thumbnail.png"
     end
     
     Expert.all.each do |expert|
@@ -37,7 +37,7 @@ namespace :db do
       user.email = Faker::Internet.email
       user.encrypted_password = "password"
       Expert.all.each do |expert|
-        Review.create(:reviewer_id => user.id, :reviewed_id => expert.id, :rating => rand(1..5))
+        Review.create(:reviewer_id => user.id, :reviewed_id => expert.id, :rating => rand(0..5))
       end
     end
   end 

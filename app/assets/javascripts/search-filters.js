@@ -30,7 +30,7 @@ angular.module('searchFilters', []).filter('rating_filter', function() {
   				}
   				
   				if(rating_value == -1 || Math.ceil(expert.average_rating) == rating_value) {
-  					result.push(expert);
+					result.push(expert);
   				}
   			}
   		}
@@ -41,4 +41,21 @@ angular.module('searchFilters', []).filter('rating_filter', function() {
   	else
     	return unfiltered_result;
   };
+}).filter('slider_filter', function() {
+  return function(experts, slider) {
+	if(typeof experts =='undefined'){
+	  return experts;
+    }
+    var result = experts.slice();
+    
+    for(var i=0; i < result.length; i++) {
+		expert = result[i];
+		if(expert.hourly_rate < slider[0] || expert.hourly_rate > slider[1]) {
+			result.splice(i--,1);
+		}
+	}	
+	return result;
+  };
 });
+
+

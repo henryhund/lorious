@@ -1,9 +1,15 @@
 <!--Count: {{experts.length}} -->
-<br /> 
-<input class='btn' type='hidden' ng-model="experts" />
+<br />
+<p class="text-right">Sort by:
+	<select ng-model="orderProp">
+	  <option value="">None</option>
+	  <option value="first_name">Alphabetical</option>
+	  <!--option value="age">Newest</option-->
+	</select>	
+</p>
 
 <div when-scrolled="load_data()" style="height: 600px; width:100%; overflow-y: scroll;">
-	<div class="well" ng:repeat="expert in experts | filter:query | rating_filter:ratings"> <!-- | orderBy:'-first_name':true -->
+	<div class="well" ng:repeat="expert in experts | filter:query | rating_filter:ratings | slider_filter:slider | orderBy:orderProp"> <!-- | orderBy:'-first_name':true -->
 		<div class="row">
 			<div class="col-md-4">
 				<br />

@@ -25,9 +25,9 @@
 				<hr />
 				<!--slider floor="100" ceiling="1000" precision="2" ng-model="item.cost" translate="currencyFormatting"></slider-->
 				<h3>Price/Hr.</h3>
-				<div ui-slider="{range: true}" style="margin-left:5%; width: 50%;" min="0" max="1000" step="50" use-decimals ng-model="slider.slide_value"></div>		
+				<div ng-init="slider=[250,750]" ui-slider="{range: true}" style="margin-left:5%; width: 50%;" min="0" max="1000" step="50" use-decimals ng-model="slider"></div>		
 				<!--input type="text" ng-model="demoVals.sliderExample9" /-->
-				<h4 class="text-left">Between {{slider.slide_value[0] }} & {{slider.slide_value[1] }} Cr.</h4>
+				<h4 class="text-left">Between {{slider[0] }} & {{slider[1] }} Cr.</h4>
 				<hr />
 				<h3>Rating:</h3>
 				
