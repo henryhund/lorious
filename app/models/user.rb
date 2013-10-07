@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   geocoded_by :location
   after_validation :geocode
 
-  with_options if: :user_info_step_validation_required? do |user|
+  with_options if: :user_info_step_validation_required do |user|
     user.validates :username, uniqueness: true
     user.validates :username, :first_name, :last_name, :tag_line, :location, presence: true
   end
@@ -73,12 +73,26 @@ class User < ActiveRecord::Base
     %w[user_info profile_info apply_for_expert]
   end
 
-  def user_info_step_validation_required?
+  def user_info_step_validation_required
     validation_required? "user_info"
   end
 
   def validation_required? step=nil
     current_step.nil? || current_step == step
+  end
+
+  def change_to_expert_and_return_user!
+    self.type = "Expert"
+    self.save
+    self.becomes(Expert)
+  end
+
+  def profile_info_page?
+    current_step == "profile_info"
+  end
+
+  def apply_for_expert_page?
+    current_step == "apply_for_expert"
   end
 
   private

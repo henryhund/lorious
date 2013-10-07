@@ -2,6 +2,8 @@ class Expert < User
   acts_as_taggable
   acts_as_taggable_on :skills
 
+  attr_accessor :skills
+
   has_one :availability
   has_many :appointments, foreign_key: "expert_id"
 
