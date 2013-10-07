@@ -32,7 +32,7 @@ class Users::StepsController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :website, :username, :tag_line, :bio, :location, :step_1_complete, :step_2_complete)
+    params.require(:user).permit(:first_name, :last_name, :website, :username, :tag_line, :bio, :location, :step_1_complete, :step_2_complete, :image)
   end
 
   def expert_params
