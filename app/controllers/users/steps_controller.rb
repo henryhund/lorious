@@ -12,7 +12,7 @@ class Users::StepsController < ApplicationController
     @user.current_step ||= @user.steps[current_step_index]
     if @user.apply_for_expert_page?
       @user.update_attributes expert_params
-      @user.skill_list.add comma_seperated_string_to_array(expert_params[:skills])
+      @user.skill_list.add view_context.comma_seperated_string_to_array(params[:expert][:skills]) if params[:expert][:skills]
       @user.save
     else
       @user.update_attributes user_params
@@ -36,7 +36,7 @@ class Users::StepsController < ApplicationController
   end
 
   def expert_params
-    params.require(:expert).permit(:skills, :job)
+    params.require(:expert).permit(:job)
   end
 
 end

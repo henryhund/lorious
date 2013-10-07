@@ -24,6 +24,10 @@ class User < ActiveRecord::Base
     user.validates :username, :first_name, :last_name, :tag_line, :location, presence: true
   end
 
+  with_options if: :profile_info_step_validation_required do |user|
+    user.validates :bio, presence: true
+  end
+
   validates_format_of :username, 
           :with => /\A\w+\z/ix,
           :message => "only letters and digits allowed, no spaces", allow_blank: true
@@ -75,6 +79,10 @@ class User < ActiveRecord::Base
 
   def user_info_step_validation_required
     validation_required? "user_info"
+  end
+
+  def profile_info_step_validation_required
+    validation_required? "profile_info"
   end
 
   def validation_required? step=nil

@@ -2,7 +2,7 @@
   <%= hidden_field_tag :current_step_index, 2 %>
   <%= f.label :job, class: "col-xs-2 control-label" %>
   <div class="col-xs-10">
-    <%= f.text_area :job, class: "form-control", placeholder: "Job Description" %>
+    <%= f.text_area :job, class: "form-control", placeholder: "Job Description", validate: true %>
   </div>
 </div>
 
