@@ -14,7 +14,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         session[:current_step] = "profile_info"
         redirect_to edit_users_step_url(@user)
       else
-        redirect_to profile_url
+        redirect_to users_url
       end
     else
       redirect_to root_url, notice: I18n.t("devise.omniauth_callbacks.failure")
