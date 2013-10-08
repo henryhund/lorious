@@ -23,14 +23,17 @@
   #user-overview.row
     .container
       .col-md-2.col-xs-12
-        =image_tag("https://s3.amazonaws.com/lorious/layout/elements/placeholders/image_placeholder.jpg", class: "img-circle avatar")
+        =image_tag(@user.image.url, class: "img-circle avatar")
       .col-md-8.col-md-offset-1.col-xs-12
-        %h1.name Henry H.
-        %h6.location Philadelphia, PA
+        %h1.name
+          =@user.name.capitalize
+        %h6.location
+          =@user.location.capitalize
         // Maybe a modal or something?
         %a{"data-toggle" => "modal", :href => "#calendarModal"} See My Calendar
         %hr
-        %p.tagline This is the tagline. It can describe who you are, what you know, what you do. I think it should be about 3 sentences.
+        %p.tagline
+          =@user.tag_line
         %br
         %button.message
           %i.icon-envelope
@@ -45,26 +48,47 @@
       .col-md-1.col-xs-12
         %ul.list-unstyled.links
           %li
-            // disabled if not added to profile
-            %i.icon-facebook.disabled
+            -if @social_links[:facebook]
+              =link_to @social_links[:facebook], target: "_blank" do
+                %i.icon-facebook
+            - else
+              %i.icon-facebook.disabled
           %li
-            =link_to "http://www.linkedin.com", target: "_blank" do
-              %i.icon-linkedin
+            -if @social_links[:linkedin]
+              =link_to @social_links[:linkedin], target: "_blank" do
+                %i.icon-linkedin
+            -else
+              %i.icon-linkedin.disabled
           %li
-            =link_to "http://www.twitter.com", target: "_blank" do
-              %i.icon-twitter
+            -if @social_links[:twitter]
+              =link_to @social_links[:twitter], target: "_blank" do
+                %i.icon-twitter
+            -else
+              %i.icon-twitter.disabled
           %li
-            =link_to "http://www.google.com", target: "_blank" do
-              %i.icon-google-plus
+            -if @social_links[:google]
+              =link_to @social_links[:google], target: "_blank" do
+                %i.icon-google-plus
+            -else
+              %i.icon-google-plus.disabled
           %li
-            =link_to "http://www.stackoverflow.com", target: "_blank" do
-              %i.icon-stackexchange
+            -if @social_links[:stackexchange]
+              =link_to @social_links[:stackexchange], target: "_blank" do
+                %i.icon-stackexchange
+            -else
+              %i.icon-stackexchange.disabled
           %li
-            =link_to "http://www.github.com", target: "_blank" do
-              %i.icon-github
+            -if @social_links[:github]
+              =link_to "http://www.github.com", target: "_blank" do
+                %i.icon-github
+            -else
+              %i.icon-github.disabled
           %li
-            =link_to "http://www.henryhund.com", target: "_blank" do
-              %i.icon-link
+            -if @social_links[:personal]
+              =link_to "http://www.henryhund.com", target: "_blank" do
+                %i.icon-link
+            -else
+              %i.icon-link.disabled
   #user-detail.row
     .container
       .col-md-4.left
@@ -82,28 +106,10 @@
       .col-md-12
         %h1 I'm an expert with
         %ul.list-unstyled.tags
-          //link to search with this tag
-          =link_to "#" do
-            %li.highlighted
-              Getting Started
-          =link_to "#" do
-            %li.highlighted
-              Product Architecture
-          =link_to "#" do
-            %li.highlighted
-              Managing Tech Talent
-          =link_to "#" do
-            %li.highlighted
-              Haskell
-          =link_to "#" do
-            %li.highlighted
-              Javascript
-          =link_to "#" do
-            %li.highlighted
-              Backbone.js
-          =link_to "#" do
-            %li.highlighted
-              Ruby on Rails
+          -@user.skill_list.each do |skill|
+            =link_to "#" do
+              %li.highlighted
+                =skill
   #expertise-detail.row
     .container
       .col-md-12

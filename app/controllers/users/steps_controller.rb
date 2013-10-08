@@ -3,6 +3,7 @@ class Users::StepsController < ApplicationController
   def edit
     @user = current_user
     @user.current_step = session[:current_step] || @user.steps.first
+    session[:current_step] = nil
     @user.initialize_steps if @user.current_step.nil?
   end
 
@@ -11,9 +12,9 @@ class Users::StepsController < ApplicationController
     current_step_index = params[:current_step_index].to_i
     @user.current_step ||= @user.steps[current_step_index]
     if @user.apply_for_expert_page?
-      @user.update_attributes expert_params
+      @user.attributes = expert_params
       @user.skill_list.add view_context.comma_seperated_string_to_array(params[:expert][:skills]) if params[:expert][:skills]
-      @user.save
+      @user.save validate: false
     else
       @user.update_attributes user_params
     end

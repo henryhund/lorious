@@ -36,8 +36,8 @@ class User < ActiveRecord::Base
           :with => /\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/ix,
           :message => "not a valid url", allow_blank: true
 
-  def self.find_for_google_oauth2(access_token, oauth_params, signed_in_resource=nil)
-    data = access_token.info
+  def self.find_for_google_oauth2(oauth_data, oauth_params, signed_in_resource=nil)
+    data = oauth_data.info
     if oauth_params["invite_token"] && invite = Invite.approved.find_by_token(oauth_params["invite_token"])
       user = User.new(
          email: data["email"],
@@ -47,6 +47,7 @@ class User < ActiveRecord::Base
          remote_image_url: data["image"]
       )
       user.save validate: false
+      user.social_media.create(name: "google_oauth2", profile: oauth_data.extra.raw_info.link, data: oauth_data.to_json) if oauth_data.extra.raw_info.link
     end
     user = User.where(:email => data["email"]).first || User.new
     user
@@ -103,6 +104,26 @@ class User < ActiveRecord::Base
 
   def apply_for_expert_page?
     current_step == "apply_for_expert"
+  end
+
+  def name
+    "#{first_name} #{last_name}"
+  end
+
+  def social_links
+    {
+      facebook: profile_link_for("facebook"),
+      twitter: profile_link_for("twitter"),
+      linkedin: profile_link_for("linkedin"),
+      stackexchange: profile_link_for("stackexchange"),
+      github: profile_link_for("github"),
+      google: profile_link_for("google_oauth2"),
+      personal: website
+    }
+  end
+
+  def profile_link_for social_medium
+    self.social_media.find_by_name(social_medium).try(:profile)
   end
 
   private
