@@ -1,0 +1,85 @@
+@import "mixins/colors";
+@import "mixins/fonts";
+
+.time-header {
+ vertical-align:center;
+ height: 35px;
+
+}
+
+.TZWrapper {
+  background-color: #EFEFEF;
+  margin: 5px 0 10px 0;
+  padding: 5px 5px 10px 5px;
+  display: block;
+  zoom: 1;
+}
+
+.TZexpertDesc {
+  line-height: 1.4;
+  ol {
+    display: block;
+    list-style-type: decimal;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+  }
+}
+
+.TZgraph {
+  tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: black;
+    background-color: white;
+    font-family: $body-font-family;
+    tr {
+      display: table-row;
+      vertical-align: inherit;
+      border-color: inherit;
+    }
+    th {
+      border: none;
+      font-weight: normal;
+      width: 24px;
+    }
+    th.hrd_am, th.hrd_pm {
+      border-bottom: 1px solid #ccc;
+      font-weight: bold;
+
+    }
+  }
+
+}
+
+.TZavbTool .tbl_hours {
+  font-size: 12px;
+  border-collapse: collapse;
+
+}
+
+ td {
+  width: 24px;
+  height: 24px;
+  background-color: white;
+
+  .leftDiv, .rightDiv {
+    float:left;
+    margin: 0;
+    padding: 0;
+    height: 24px;
+    width: 50%;
+  }
+  .tile {
+    background-color: $lorious-blue-green;
+  }
+}
+
+ td {
+  border: 1px solid #aaa;
+  border-collapse: collapse;
+}
+
+

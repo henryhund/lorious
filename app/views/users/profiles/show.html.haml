@@ -1,0 +1,203 @@
+= stylesheet_link_tag "users/profile"
+= javascript_include_tag "users/manifest"
+
+- content_for :head do
+  :javascript
+    $(function() {
+      $('#star-average').raty({ readOnly: true, score: 4.5 });
+    });
+    $(function() {
+      $('#star-average1').raty({ readOnly: true, score: 3 });
+    });
+    $(function() {
+      $('#star-average2').raty({ readOnly: true, score: 5 });
+    });
+  / Old code for generating each review's rating
+  / -@profile.user.reviews.each do |review|
+  /   :javascript
+  /     $(function() {
+  /       $('#star#{review.id}').raty({ readOnly: true, score: #{review.rating} });
+  /     });
+
+#profile
+  #user-overview.row
+    .container
+      .col-md-2.col-xs-12
+        =image_tag("https://s3.amazonaws.com/lorious/layout/elements/placeholders/image_placeholder.jpg", class: "img-circle avatar")
+      .col-md-8.col-md-offset-1.col-xs-12
+        %h1.name Henry H.
+        %h6.location Philadelphia, PA
+        // Maybe a modal or something?
+        %a{"data-toggle" => "modal", :href => "#calendarModal"} See My Calendar
+        %hr
+        %p.tagline This is the tagline. It can describe who you are, what you know, what you do. I think it should be about 3 sentences.
+        %br
+        %button.message
+          %i.icon-envelope
+          Message me
+        &nbsp;
+        %span.visible-sm
+          %br
+        %button.appointment
+          %i.icon-calendar
+          Make Appointment
+        &nbsp;
+      .col-md-1.col-xs-12
+        %ul.list-unstyled.links
+          %li
+            // disabled if not added to profile
+            %i.icon-facebook.disabled
+          %li
+            =link_to "http://www.linkedin.com", target: "_blank" do
+              %i.icon-linkedin
+          %li
+            =link_to "http://www.twitter.com", target: "_blank" do
+              %i.icon-twitter
+          %li
+            =link_to "http://www.google.com", target: "_blank" do
+              %i.icon-google-plus
+          %li
+            =link_to "http://www.stackoverflow.com", target: "_blank" do
+              %i.icon-stackexchange
+          %li
+            =link_to "http://www.github.com", target: "_blank" do
+              %i.icon-github
+          %li
+            =link_to "http://www.henryhund.com", target: "_blank" do
+              %i.icon-link
+  #user-detail.row
+    .container
+      .col-md-4.left
+        %p.detail-label My rating is
+        .detail-content
+          .star{id: "star-average"}
+      .col-md-4.center
+        %p.detail-label I've had
+        %p.detail-content 15 conversations
+      .col-md-4.right
+        %p.detail-label My hourly rate is
+        %p.detail-content $30 / hour
+  #expertise.row
+    .container
+      .col-md-12
+        %h1 I'm an expert with
+        %ul.list-unstyled.tags
+          //link to search with this tag
+          =link_to "#" do
+            %li.highlighted
+              Getting Started
+          =link_to "#" do
+            %li.highlighted
+              Product Architecture
+          =link_to "#" do
+            %li.highlighted
+              Managing Tech Talent
+          =link_to "#" do
+            %li.highlighted
+              Haskell
+          =link_to "#" do
+            %li.highlighted
+              Javascript
+          =link_to "#" do
+            %li.highlighted
+              Backbone.js
+          =link_to "#" do
+            %li.highlighted
+              Ruby on Rails
+  #expertise-detail.row
+    .container
+      .col-md-12
+        %span.title
+          %h1 I can also help with
+        %hr
+        %h2 Picking a CTO
+        %p.body-container
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Aenean porta eu lectus quis elementum. In ac elit at est posuere varius. Sed turpis purus, ultrices lobortis pulvinar eu, pellentesque blandit libero. Sed dictum rhoncus leo. Fusce quis tempus lorem, et tempus turpis. Sed fermentum, velit non viverra rhoncus, enim nisi tincidunt libero, et porttitor sapien felis in nibh.
+        %hr
+        %h2 Designing Databases
+        %p.body-container
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Aenean porta eu lectus quis elementum. In ac elit at est posuere varius. Sed turpis purus, ultrices lobortis pulvinar eu, pellentesque blandit libero. Sed dictum rhoncus leo. Fusce quis tempus lorem, et tempus turpis. Sed fermentum, velit non viverra rhoncus, enim nisi tincidunt libero, et porttitor sapien felis in nibh.
+        %hr
+        %h2 Front End
+        %p.body-container
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Aenean porta eu lectus quis elementum. In ac elit at est posuere varius. Sed turpis purus, ultrices lobortis pulvinar eu, pellentesque blandit libero. Sed dictum rhoncus leo. Fusce quis tempus lorem, et tempus turpis. Sed fermentum, velit non viverra rhoncus, enim nisi tincidunt libero, et porttitor sapien felis in nibh.
+        %hr
+        %h2 More
+        %p.body-container
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Aenean porta eu lectus quis elementum. In ac elit at est posuere varius. Sed turpis purus, ultrices lobortis pulvinar eu, pellentesque blandit libero. Sed dictum rhoncus leo. Fusce quis tempus lorem, et tempus turpis. Sed fermentum, velit non viverra rhoncus, enim nisi tincidunt libero, et porttitor sapien felis in nibh.
+        %hr
+        %h2 More
+        %p.body-container
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Aenean porta eu lectus quis elementum. In ac elit at est posuere varius. Sed turpis purus, ultrices lobortis pulvinar eu, pellentesque blandit libero. Sed dictum rhoncus leo. Fusce quis tempus lorem, et tempus turpis. Sed fermentum, velit non viverra rhoncus, enim nisi tincidunt libero, et porttitor sapien felis in nibh.
+  #bio.row
+    .container
+      .col-md-12
+        %span.title
+          %h1 About me
+        %hr
+        %span.body-container
+          %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Aenean porta eu lectus quis elementum. In ac elit at est posuere varius. Sed turpis purus, ultrices lobortis pulvinar eu, pellentesque blandit libero. Sed dictum rhoncus leo. Fusce quis tempus lorem, et tempus turpis. Sed fermentum, velit non viverra rhoncus, enim nisi tincidunt libero, et porttitor sapien felis in nibh.
+          %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Aenean porta eu lectus quis elementum. In ac elit at est posuere varius. Sed turpis purus, ultrices lobortis pulvinar eu, pellentesque blandit libero. Sed dictum rhoncus leo. Fusce quis tempus lorem, et tempus turpis. Sed fermentum, velit non viverra rhoncus, enim nisi tincidunt libero, et porttitor sapien felis in nibh.
+          %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Aenean porta eu lectus quis elementum. In ac elit at est posuere varius. Sed turpis purus, ultrices lobortis pulvinar eu, pellentesque blandit libero. Sed dictum rhoncus leo. Fusce quis tempus lorem, et tempus turpis. Sed fermentum, velit non viverra rhoncus, enim nisi tincidunt libero, et porttitor sapien felis in nibh.
+
+
+  #reviews.row
+    .container
+      .col-md-12
+        %span.title
+          %h1 Reviews
+          %hr
+        %ul.list-unstyled
+          %li
+            .review-picture-div
+              =link_to "#", class: "review-name-link" do
+                =image_tag("https://s3.amazonaws.com/lorious/layout/elements/placeholders/image_placeholder.jpg", class: "img-circle review-image")
+                %p.review-name
+                  Jordan L.
+              %p 7/8/13
+              .star{id: "star-average1"}
+            .review-detail-div
+              %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem.
+              %hr
+              %span.strong
+                Topics:&nbsp;&nbsp;
+              =link_to "#" do
+                %span.highlighted Ruby on Rails
+              =link_to "#" do
+                %span.highlighted CSS
+              =link_to "#" do
+                %span.highlighted HTML
+          %hr.divider
+          %li
+            .review-picture-div
+              =link_to "#", class: "review-name-link" do
+                =image_tag("https://s3.amazonaws.com/lorious/layout/elements/placeholders/image_placeholder.jpg", class: "img-circle review-image")
+                %p.review-name
+                  Jordan L.
+              %p 7/8/13
+              .star{id: "star-average2"}
+            .review-detail-div
+              %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem.
+              %hr
+              %span.strong
+                Topics:&nbsp;&nbsp;
+              =link_to "#" do
+                %span.highlighted Ruby on Rails
+              =link_to "#" do
+                %span.highlighted CSS
+              =link_to "#" do
+                %span.highlighted HTML
+
+  #calendarModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "calendarModalLabel", :role => "dialog", :tabindex => "-1"}
+    .modal-dialog
+      .modal-content
+        .modal-header
+          / %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} x
+          %h4.modal-title Henry's Calendar
+        .modal-body
+          =render "calendar"
+        .modal-footer
+          %p Press ESC to Exit
+          / %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+          / %button.btn.btn-primary{:type => "button"} Save changes
+
