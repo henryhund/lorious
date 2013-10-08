@@ -1,0 +1,20 @@
+<div class="form-group row">
+  <%= hidden_field_tag :current_step_index, 2 %>
+  <%= f.label :job, class: "col-xs-2 control-label" %>
+  <div class="col-xs-10">
+    <%= f.text_area :job, class: "form-control", placeholder: "Job Description", validate: true %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :skills, class: "col-xs-2 control-label" %>
+  <div class="col-xs-10">
+    <%= f.text_field :skills, class: "form-control", placeholder: "Skills - Comma seperated list of your skills" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <div class="col-lg-offset-2 col-lg-10">
+    <%= f.submit "Apply for Expert", class: "btn btn-default" %>
+  </div>
+</div>

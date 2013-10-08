@@ -1,0 +1,16 @@
+<div class="form-group row">
+  <%= hidden_field_tag :current_step_index, 1 %>
+  <%= f.hidden_field :step_2_complete, value: true %>
+
+  <%= f.label :bio, class: "col-xs-2 control-label" %>
+  <div class="col-xs-10">
+    <%= f.text_area :bio, class: "form-control", placeholder: "Bio", validate: true %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <div class="col-lg-offset-2 col-lg-10">
+    <%= f.submit "Complete Registration", class: "btn btn-default" %>
+    <%= f.submit "Apply to be an Expert", class: "btn btn-primary", name: "apply_to_be_an_expert" %>
+  </div>
+</div>

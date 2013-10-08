@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
@@ -7,12 +7,13 @@ gem 'rails', '4.0.0'
 gem 'mysql2', '0.3.12b5'
 gem 'pg', '0.14.1'
 # Thinking sphinx search engine connector
-gem 'thinking-sphinx', '~> 3.0.2'
+#gem 'thinking-sphinx'
+gem 'sunspot_rails'
 #Pagination gem
 gem 'will_paginate', '~> 3.0'
 
 # Angular Client Side JS Framework
-gem 'angularjs-rails'
+gem 'angularjs-rails', '1.0.8'
  
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -33,7 +34,7 @@ gem 'font-awesome-rails', '>=3.2.1.3'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-
+gem 'jquery-ui-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 
@@ -45,6 +46,9 @@ gem 'figaro'
 gem 'carrierwave'
 gem 'cancan'
 gem 'client_side_validations', :github => 'bcardarella/client_side_validations', :branch => '4-0-beta'
+gem 'rails_admin'
+
+gem "geocoder"
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -72,10 +76,13 @@ group :test, :development do
   gem 'fuubar'
   gem 'factory_girl'
   gem 'shoulda-matchers'
-  gem 'faker', '1.1.2'
+  gem 'sunspot_solr'
 end
 
+gem 'faker', '1.1.2'
+gem 'populator'
 gem 'rails_12factor', group: :production
+gem 'exceptional'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

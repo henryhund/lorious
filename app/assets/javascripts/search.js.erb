@@ -1,6 +1,6 @@
 var app;
 
-app = angular.module("search", ["ngResource"]).config([
+app = angular.module("search", ["ngResource", "ui.bootstrap","truncate","ui.slider","searchFilters"]).config([
   "$routeProvider", "$httpProvider", function($routeProvider, $httpProvider) {
     return $routeProvider.when("/", {
       templateUrl: '<%= asset_path("search-list.html") %>',
@@ -42,7 +42,7 @@ directive('whenScrolled', function() {
 app.factory("Search", [
   "$resource", function($resource) {
     return $resource("/search/page/:id", {
-      id: "@id"
+      id: "@id" 
     }, {
       update: {
         method: "PUT"
@@ -53,15 +53,86 @@ app.factory("Search", [
 
 this.SearchCtrl = [
   "$scope", "$resource", "$route", "$routeParams", "$location", "Search", function($scope, $resource, $route, $routeParams, $location, Search) {
+    
+    $scope.experts = Search.query({id: 1});
+        
+    //Initializing rating elements
+    $scope.rate = 2.5;
+	$scope.max = 5;
+	$scope.isReadonly = true;
+	
+	$scope.hoveringOver = function(value) {
+	  $scope.overStar = value;
+	  $scope.percent = 100 * (value / $scope.max);
+	};
+	
+	$scope.ratingStates = [
+	  {stateOn: 'icon-ok-sign', stateOff: 'icon-ok-circle'},
+	  {stateOn: 'icon-star', stateOff: 'icon-star-empty'},
+	  {stateOn: 'icon-heart', stateOff: 'icon-ban-circle'},
+	  {stateOn: 'icon-heart'},
+	  {stateOff: 'icon-off'}
+	];
+		    
+  }
+];
+
+this.SearchDetailCtrl = [
+  "$scope", "$resource", "$route", "$routeParams", "$location", "Search", function($scope, $resource, $route, $routeParams, $location, Search) {
+    
     $scope.pg_counter = 1;
-    $scope.experts = Search.query({id: $scope.pg_counter++});
+    
     $scope.load_data = function() {
-	  $scope.new_experts = Search.query({id: $scope.pg_counter++}, function (new_experts) {
+      var keyword = ""	
+	  if( typeof $scope.query.$ !== 'undefined' ) 
+		keyword = $scope.query.$;
+	  	
+	  var skill_list = ""	
+	  if( typeof $scope.query.skill_list !== 'undefined' ) 
+		skill_list = $scope.query.skill_list;
+		
+	  var location = ""	
+	  if( typeof $scope.query.location !== 'undefined' ) 
+		location = $scope.query.location;
+	  
+	  $scope.search_params = {id: $scope.pg_counter++, keyword: keyword, tag: skill_list, location: location};
+	  		
+	  Search.query($scope.search_params, function (new_experts) {
         //new data is available in the callback to insert to the experts ng-model
         $scope.experts.push.apply($scope.experts, new_experts);
       });
-      
     };
     
+    $scope.load_data_with_params = function(params) {
+	  $scope.experts = [];
+	  Search.query(params, function (new_experts) {
+        $scope.experts = new_experts;
+        console.log('length '+$scope.experts.length);
+      });
+    };
+    
+	$scope.getFilteredValues = function() {
+	  
+	  var keyword = ""	
+	  if( typeof $scope.query.$ !== 'undefined' ) 
+		keyword = $scope.query.$;
+	  	
+	  var skill_list = ""	
+	  if( typeof $scope.query.skill_list !== 'undefined' ) 
+		skill_list = $scope.query.skill_list;
+		
+	  var location = ""	
+	  if( typeof $scope.query.location !== 'undefined' ) 
+		location = $scope.query.location;
+	  
+	  $scope.pg_counter = 1;		
+	  $scope.search_params = {id: $scope.pg_counter, keyword: keyword, tag: skill_list, location: location};
+	  $scope.load_data_with_params($scope.search_params);
+	  
+	};
+	
   }
 ];
+
+
+	

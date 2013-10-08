@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131003073921) do
+ActiveRecord::Schema.define(version: 20131007104337) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,15 @@ ActiveRecord::Schema.define(version: 20131003073921) do
     t.datetime "updated_at",              null: false
   end
 
+  create_table "invites", force: true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.boolean  "approved",   default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "token"
+  end
+
   create_table "notifications", force: true do |t|
     t.string   "type"
     t.text     "body"
@@ -63,6 +72,19 @@ ActiveRecord::Schema.define(version: 20131003073921) do
   end
 
   add_index "notifications", ["conversation_id"], name: "index_notifications_on_conversation_id", using: :btree
+
+  create_table "rails_admin_histories", force: true do |t|
+    t.text     "message"
+    t.string   "username"
+    t.integer  "item"
+    t.string   "table"
+    t.integer  "month",      limit: 2
+    t.integer  "year",       limit: 8
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "rails_admin_histories", ["item", "table", "month", "year"], name: "index_rails_admin_histories", using: :btree
 
   create_table "receipts", force: true do |t|
     t.integer  "receiver_id"
@@ -116,8 +138,8 @@ ActiveRecord::Schema.define(version: 20131003073921) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -134,12 +156,17 @@ ActiveRecord::Schema.define(version: 20131003073921) do
     t.string   "location"
     t.string   "website"
     t.string   "image"
-    t.string   "first_name"
-
     t.string   "last_name"
+    t.string   "first_name"
     t.string   "username"
     t.string   "zip_code"
     t.text     "job"
+    t.boolean  "admin",                  default: false
+    t.float    "latitude"
+    t.float    "longitude"
+    t.boolean  "step_1_complete",        default: false
+    t.boolean  "step_2_complete",        default: false
+    t.boolean  "expert_approved",        default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

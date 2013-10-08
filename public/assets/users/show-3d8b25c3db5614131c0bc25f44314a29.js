@@ -1,1 +1,0 @@
-(function(){$(function(){return $('a[href="#edit_profile"]').on("shown.bs.tab",function(){return $(".edit_user").resetClientSideValidations()})})}).call(this);

@@ -59,7 +59,7 @@ Lorious::Application.configure do
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-  config.assets.precompile += %w( application.js home.js users/show.js )
+  config.assets.precompile += %w( application.js home.js users/show.js nav.js )
   config.assets.precompile += %w( application.css home/manifest.css users/show.css )
 
   # Ignore bad email addresses and do not raise email delivery errors.
@@ -81,4 +81,15 @@ Lorious::Application.configure do
 
   config.google_app_id = ENV['GOOGLE_OAUTH2_CLIENT_ID']
   config.google_secret = ENV['GOOGLE_OAUTH2_CLIENT_SECRET']
+
+  config.action_mailer.default_url_options = { :host => 'lorious-dev.herokuapp.com' }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :domain               => 'devbrother.com',
+    :user_name            => 'testing@devbrother.com',
+    :password             => 'devbrother',
+    :authentication       => 'plain',
+    :enable_starttls_auto => true  }
 end

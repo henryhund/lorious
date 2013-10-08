@@ -3,7 +3,7 @@ class Users::SocialMediaController < ApplicationController
   layout false
 
   def index
-    
+    @social_media = current_user.social_media
   end
 
   def new
@@ -14,6 +14,12 @@ class Users::SocialMediaController < ApplicationController
   def create
     oauth_provider = SocialMedium.available_media[params[:social_medium][:name]]
     redirect_to "/users/auth/#{oauth_provider}"
+  end
+
+  def destroy
+    @social_medium = SocialMedium.find params[:id]
+    @social_medium.destroy
+    render text: "done"
   end
 
 end
