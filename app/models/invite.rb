@@ -10,6 +10,8 @@ class Invite < ActiveRecord::Base
 
   include Tokenable
 
+  scope :approved, -> { where(approved: true) }
+
   after_save do
     if approved_changed? && approved
       UserMailer.invite_approved(self).deliver

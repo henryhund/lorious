@@ -22,6 +22,9 @@ class User < ActiveRecord::Base
 
   with_options if: :user_info_step_validation_required do |user|
     user.validates :username, uniqueness: true
+    validates_format_of :username, 
+          :with => /\A\w+\z/ix,
+          :message => "only letters and digits allowed, no spaces"
     user.validates :username, :first_name, :last_name, :tag_line, :location, presence: true
   end
 
@@ -29,9 +32,6 @@ class User < ActiveRecord::Base
     user.validates :bio, presence: true
   end
 
-  validates_format_of :username, 
-          :with => /\A\w+\z/ix,
-          :message => "only letters and digits allowed, no spaces", allow_blank: true
   validates_format_of :website, 
           :with => /\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/ix,
           :message => "not a valid url", allow_blank: true
@@ -39,13 +39,14 @@ class User < ActiveRecord::Base
   def self.find_for_google_oauth2(access_token, oauth_params, signed_in_resource=nil)
     data = access_token.info
     if oauth_params["invite_token"] && invite = Invite.find_by_token(oauth_params["invite_token"])
-      user = User.create(
+      user = User.new(
          email: data["email"],
          password: Devise.friendly_token[0,20],
          first_name: data["first_name"],
          last_name: data["last_name"],
          remote_image_url: data["image"]
       )
+      user.save validate: false
     end
     user = User.where(:email => data["email"]).first || User.new
     user
