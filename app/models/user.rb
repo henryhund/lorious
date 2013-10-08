@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
 
   def self.find_for_google_oauth2(access_token, oauth_params, signed_in_resource=nil)
     data = access_token.info
-    if oauth_params["invite_token"] && invite = Invite.find_by_token(oauth_params["invite_token"])
+    if oauth_params["invite_token"] && invite = Invite.approved.find_by_token(oauth_params["invite_token"])
       user = User.new(
          email: data["email"],
          password: Devise.friendly_token[0,20],
