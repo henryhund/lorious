@@ -83,7 +83,21 @@ this.SearchDetailCtrl = [
     $scope.pg_counter = 1;
     
     $scope.load_data = function() {
-	  Search.query({id: $scope.pg_counter++}, function (new_experts) {
+      var keyword = ""	
+	  if( typeof $scope.query.$ !== 'undefined' ) 
+		keyword = $scope.query.$;
+	  	
+	  var skill_list = ""	
+	  if( typeof $scope.query.skill_list !== 'undefined' ) 
+		skill_list = $scope.query.skill_list;
+		
+	  var location = ""	
+	  if( typeof $scope.query.location !== 'undefined' ) 
+		location = $scope.query.location;
+	  
+	  $scope.search_params = {id: $scope.pg_counter++, keyword: keyword, tag: skill_list, location: location};
+	  		
+	  Search.query($scope.search_params, function (new_experts) {
         //new data is available in the callback to insert to the experts ng-model
         $scope.experts.push.apply($scope.experts, new_experts);
       });
@@ -110,8 +124,9 @@ this.SearchDetailCtrl = [
 	  var location = ""	
 	  if( typeof $scope.query.location !== 'undefined' ) 
 		location = $scope.query.location;
-			
-	  $scope.search_params = {id:1, keyword: keyword, tag: skill_list, location: location};
+	  
+	  $scope.pg_counter = 1;		
+	  $scope.search_params = {id: $scope.pg_counter, keyword: keyword, tag: skill_list, location: location};
 	  $scope.load_data_with_params($scope.search_params);
 	  
 	};

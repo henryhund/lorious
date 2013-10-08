@@ -76,11 +76,11 @@ group :test, :development do
   gem 'fuubar'
   gem 'factory_girl'
   gem 'shoulda-matchers'
-  gem 'faker', '1.1.2'
   gem 'sunspot_solr'
-  gem 'populator'
 end
 
+gem 'faker', '1.1.2'
+gem 'populator'
 gem 'rails_12factor', group: :production
 gem 'exceptional'
 
