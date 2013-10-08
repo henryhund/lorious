@@ -9,12 +9,15 @@ namespace :db do
     
     Expert.populate(200) do |expert|
       name  = Faker::Name.name
+      expert.username = "Expert#{expert.id}"
       expert.first_name = name.split(' ').first
       expert.last_name =  name.split(' ').last
       expert.email = Faker::Internet.email
       expert.encrypted_password = "password"
       expert.bio = Populator.sentences(5..10)
       expert.location = Faker::Address.city + ', ' + Faker::Address.state #state_abbr      
+      expert.job = "Job"
+      expert.tag_line = Faker::Lorem.paragraph.first(30)
     end
     
     Expert.all.each do |expert|
@@ -36,8 +39,14 @@ namespace :db do
       user.last_name =  name.split(' ').last
       user.email = Faker::Internet.email
       user.encrypted_password = "password"
+      content = Faker::Lorem.paragraph
       Expert.all.each do |expert|
-        Review.create(:reviewer_id => user.id, :reviewed_id => expert.id, :rating => rand(0..5))
+        review = Review.create(:reviewer_id => user.id, :reviewed_id => expert.id, :rating => rand(0..5), content: content)
+        tags = ["Ruby", "C++", "Java", "PostgreSQL", ".NET", "MySql", "PHP", "Phython","Perl","BASIC","Matlab","C#","Pascal","Rails", "Stripe", "API" ,"Node.js"]
+        3.times do 
+          review.tag_list.add tags[rand(tags.length)]  
+        end
+        review.save
       end
     end
   end 

@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:google_oauth2, :facebook, :twitter, :github, :stackexchange, :linkedin]
 
-  attr_accessor :current_step
+  attr_accessor :current_step, :skills
 
   acts_as_messageable
   mount_uploader :image, ImageUploader

@@ -2,13 +2,15 @@ class Expert < User
   acts_as_taggable
   acts_as_taggable_on :skills
 
-  attr_accessor :skills
-
   has_one :availability
   has_many :appointments, foreign_key: "expert_id"
 
   with_options if: :apply_for_expert_step_validation_required do |user|
-    user.validates :job, :skills, presence: true
+    user.validates :job, presence: true
+  end
+
+  with_options if: :apply_for_expert_page? do |user|
+    user.validates :skills, presence: true
   end
   
   searchable :auto_index => true, :auto_remove => true do
