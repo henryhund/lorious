@@ -36,11 +36,13 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def stackexchange
-    
+    social_media_updated = current_user.update_social_media_for "stackexchange", request.env["omniauth.auth"].extra.raw_info.url, request.env["omniauth.auth"]
+    redirect_to users_url, notice: set_notice(social_media_updated, "stackexchange")
   end
 
-  def twitter
-    
+  def github
+    social_media_updated = current_user.update_social_media_for "github", request.env["omniauth.auth"].extra.raw_info.html_url, request.env["omniauth.auth"]
+    redirect_to users_url, notice: set_notice(social_media_updated, "github")
   end
 
   private

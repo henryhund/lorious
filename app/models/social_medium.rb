@@ -5,7 +5,6 @@ class SocialMedium < ActiveRecord::Base
 
   def self.available_media
     {
-      "Select Social Medium" => nil,
       "Facebook" => "facebook",
       "Twitter" => "twitter",
       "Linkedin" => "linkedin",

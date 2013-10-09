@@ -255,4 +255,6 @@ Devise.setup do |config|
   config.omniauth :twitter, ENV['TWITTER_CONSUMER_KEY'], ENV['TWITTER_CONSUMER_SECRET']
   config.omniauth :facebook, ENV['FACEBOOK_APP_ID'], ENV['FACEBOOK_SECRET']
   config.omniauth :linkedin, ENV['LINKEDIN_API_KEY'], ENV['LINKEDIN_SECRET_KEY'], :scope => 'r_fullprofile r_emailaddress r_network'
+  config.omniauth :stackexchange, ENV['STACKEXCHANGE_CLIENT_ID'], ENV["STACKEXCHANGE_CLIENT_SECRET"], public_key: ENV["STACKEXCHANGE_KEY"], site: 'stackoverflow'
+  config.omniauth :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET']
 end

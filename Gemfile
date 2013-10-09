@@ -77,6 +77,7 @@ group :test, :development do
   gem 'factory_girl'
   gem 'shoulda-matchers'
   gem 'sunspot_solr'
+  gem 'localtunnel'
 end
 
 gem 'faker', '1.1.2'
