@@ -12,30 +12,62 @@
 				</div>
 				<hr />
 				<h3>TAG:</h3>
-				<div class="input-group merged">
+				<!--div class="input-group merged">
 				    <span class="input-group-addon"><i class="icon-search"></i></span>
 				    <input type="text" class="form-control searchbox" placeholder="TAG" ng-model="query.skill_list" />
-				</div>
-				
+				</div-->
 
 				<div class="input-group merged">
 				    <span class="input-group-addon"><i class="icon-search"></i></span>
 					<select chosen multiple class="form-control" style="width: 100%;"
 			          data-placeholder="TAG"
 			          no-results-text="'Could not find TAG'"
-			          ng-model="sbeer" 
-        			  ng-options="f.tag + ' ('+f.count+')' for f in model.facets">
+			          ng-model="selectedTags" 
+        			  ng-options="f.tag for f in model.facets">
 				 	</select>
 				</div>
 				
-				{{ sbeer}} {{model.facets}}
-				<br />
-				{{model.facets.tag}}
 				<hr />
 				<h3>Location:</h3>
+				
+				<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+			    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+			    <script>
+					var placeSearch, autocomplete;
+					function initialize() {
+					  // Create the autocomplete object, restricting the search
+					  // to geographical location types.
+					  autocomplete = new google.maps.places.Autocomplete(
+					      /** @type {HTMLInputElement} */(document.getElementById('autocomplete')),
+					      { types: ['geocode'] });
+					  // When the user selects an address from the dropdown,
+					  // populate the address fields in the form.
+					  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+					    try{
+						   	angular.element(document.getElementById('AngularCtrl')).scope().$apply(function(scope){
+						   		scope.query.location = autocomplete.getPlace().formatted_address;
+						        scope.getFilteredValues();
+						    });
+						}
+						catch(e){
+							//do nothing
+						}
+					  });
+					}
+					function geolocate() {
+					  if (navigator.geolocation) {
+					    navigator.geolocation.getCurrentPosition(function(position) {
+					      var geolocation = new google.maps.LatLng(
+					          position.coords.latitude, position.coords.longitude);
+					      autocomplete.setBounds(new google.maps.LatLngBounds(geolocation,
+					          geolocation));
+					    });
+					  }
+					}
+				</script>
 				<div class="input-group merged">
 				    <span class="input-group-addon"><i class="icon-search"></i></span>
-				    <input type="text" class="form-control searchbox" placeholder="Location" ng-model="query.location" />
+				    <input id="autocomplete" type="text" onFocus="geolocate()" class="form-control" placeholder="Location" ng-model="query.location" />
 				</div>
 				<hr />
 				

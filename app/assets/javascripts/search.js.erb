@@ -41,22 +41,22 @@ directive('whenScrolled', function() {
 
 app.factory("Search", [
   "$resource", function($resource) {
-    return $resource("/search/page/:id", {
-      id: "@id" 
-    }, {
-      update: {
-        method: "PUT"
-      }
-    });
+    return $resource("/search/page/:id", 
+	    { id: "@id" }, 
+	    { update: { method: "PUT" }}
+    );
   }
 ]);
 
 this.SearchCtrl = [
   "$scope", "$resource", "$route", "$routeParams", "$location", "Search", function($scope, $resource, $route, $routeParams, $location, Search) {
     
-    $scope.experts = Search.query({id: 1});
-    $scope.facetsa = "test";
-    
+    $scope.model = {facets: [] };
+    Search.get({id: 1}, function (new_experts) {
+	  $scope.experts = new_experts.results;
+	  $scope.model.facets = new_experts.facets;
+	});
+	
     //Initializing rating elements
     $scope.rate = 2.5;
 	$scope.max = 5;
@@ -75,7 +75,7 @@ this.SearchCtrl = [
 	  {stateOff: 'icon-off'}
 	];
 		 
-	$scope.model = {facets: [] };
+	
   }
 ];
 
@@ -87,58 +87,69 @@ this.SearchDetailCtrl = [
 	    $scope.model.facets = value;
 	};
 	  
+	$scope.generateSearchParams = function(pageId) {
+	  var keyword = "", tag_list = [], location = ""
+	  tag_list = $scope.getTagsFilterList();		
+      
+      if( typeof $scope.query !== 'undefined' ) {
+      	  if( typeof $scope.query.$ !== 'undefined' ) 
+			keyword = $scope.query.$;
+		  	 	
+		  if( typeof $scope.query.skill_list !== 'undefined' ) 
+			skill_list = $scope.query.skill_list;
+			
+		  if( typeof $scope.query.location !== 'undefined' ) 
+			location = $scope.query.location;
+      }	
+      
+      $scope.params = {};
+      $scope.params.id = pageId;
+      $scope.params.keyword = keyword;
+      $scope.params.tag = tag_list;
+      $scope.params.location = location;
+      return $scope.params;
+      
+	};
+	 
     $scope.load_data = function() {
-      var keyword = ""	
-	  if( typeof $scope.query.$ !== 'undefined' ) 
-		keyword = $scope.query.$;
-	  	
-	  var skill_list = ""	
-	  if( typeof $scope.query.skill_list !== 'undefined' ) 
-		skill_list = $scope.query.skill_list;
-		
-	  var location = ""	
-	  if( typeof $scope.query.location !== 'undefined' ) 
-		location = $scope.query.location;
-	  
-	  $scope.search_params = {id: $scope.pg_counter++, keyword: keyword, tag: skill_list, location: location};
-	  		
-	  Search.get($scope.search_params, function (new_experts) {
+	  Search.get($scope.generateSearchParams($scope.pg_counter++), function (new_experts) {
         //new data is available in the callback to insert to the experts ng-model
         $scope.experts.push.apply($scope.experts, new_experts.results);
-        $scope.facets = new_experts.facets;
-        console.log($scope.facets);
+        //$scope.update(new_experts.facets);
+        //console.log('length '+$scope.experts.length);
       });
     };
     
     $scope.load_data_with_params = function(params) {
-	  $scope.experts = [];
-	  console.log('length '+$scope.experts.length);
+	  $scope.experts = []; //clear old search results
+	  
 	  Search.get(params, function (new_experts) {
         $scope.experts = new_experts.results;
-        console.log('length '+$scope.experts.length);
-        $scope.update(new_experts.facets);
+        //console.log('length '+$scope.experts.length);
+        //$scope.update(new_experts.facets);
       });
     };
     
 	$scope.getFilteredValues = function() {
-	  
-	  var keyword = ""	
-	  if( typeof $scope.query.$ !== 'undefined' ) 
-		keyword = $scope.query.$;
-	  	
-	  var skill_list = ""	
-	  if( typeof $scope.query.skill_list !== 'undefined' ) 
-		skill_list = $scope.query.skill_list;
-		
-	  var location = ""	
-	  if( typeof $scope.query.location !== 'undefined' ) 
-		location = $scope.query.location;
-	  
-	  $scope.pg_counter = 1;		
-	  $scope.search_params = {id: $scope.pg_counter, keyword: keyword, tag: skill_list, location: location};
-	  $scope.load_data_with_params($scope.search_params);
-	  
+	  $scope.pg_counter = 1; //reset page count to 1 as new search is performed		
+	  $scope.load_data_with_params($scope.generateSearchParams($scope.pg_counter));
 	};
+	
+	$scope.getTagsFilterList = function() {
+		var tags = [];
+		angular.forEach($scope.selectedTags, function (selectedTag) {
+			tags.push(selectedTag.tag);
+		}, tags);
+		return tags;
+	};
+	
+	//Create a watch to filter search 
+	$scope.$watch('selectedTags', function() { 
+		if(typeof($scope.selectedTags) != 'undefined') {	
+			//Tags have changed need to get new filtered search result
+			$scope.getFilteredValues();
+		}
+	}, true);
 	
   }
 ];
