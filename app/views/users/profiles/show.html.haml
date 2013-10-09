@@ -41,9 +41,10 @@
         &nbsp;
         %span.visible-sm
           %br
-        %button.appointment
-          %i.icon-calendar
-          Make Appointment
+        -if @user.expert?
+          %button.appointment
+            %i.icon-calendar
+            Make Appointment
         &nbsp;
       .col-md-1.col-xs-12
         %ul.list-unstyled.links
@@ -89,32 +90,59 @@
                 %i.icon-link
             -else
               %i.icon-link.disabled
-  #user-detail.row
-    .container
-      .col-md-4.left
-        %p.detail-label My rating is
-        .detail-content
-          .star{id: "star-average"}
-      .col-md-4.center
-        %p.detail-label I've had
-        %p.detail-content 15 conversations
-      .col-md-4.right
-        %p.detail-label My hourly rate is
-        %p.detail-content $30 / hour
-  #expertise.row
-    .container
-      .col-md-12
-        %h1 I'm an expert with
-        %ul.list-unstyled.tags
-          -@user.skill_list.each do |skill|
-            =link_to "#" do
-              %li.highlighted
-                =skill
-  #expertise-detail.row
+  -if @user.expert?
+    #user-detail.row
+      .container
+        .col-md-4.left
+          %p.detail-label My rating is
+          .detail-content
+            .star{id: "star-average"}
+        .col-md-4.center
+          %p.detail-label I've had
+          %p.detail-content 15 conversations
+        .col-md-4.right
+          %p.detail-label My hourly rate is
+          %p.detail-content $30 / hour
+    #expertise.row
+      .container
+        .col-md-12
+          %h1 I'm an expert with
+          %ul.list-unstyled.tags
+            -@user.skill_list.each do |skill|
+              =link_to "#" do
+                %li.highlighted
+                  =skill
+    #expertise-detail.row
     .container
       .col-md-12
         %span.title
           %h1 I can also help with
+        %hr
+        %h2 Picking a CTO
+        %p.body-container
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Aenean porta eu lectus quis elementum. In ac elit at est posuere varius. Sed turpis purus, ultrices lobortis pulvinar eu, pellentesque blandit libero. Sed dictum rhoncus leo. Fusce quis tempus lorem, et tempus turpis. Sed fermentum, velit non viverra rhoncus, enim nisi tincidunt libero, et porttitor sapien felis in nibh.
+        %hr
+        %h2 Designing Databases
+        %p.body-container
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Aenean porta eu lectus quis elementum. In ac elit at est posuere varius. Sed turpis purus, ultrices lobortis pulvinar eu, pellentesque blandit libero. Sed dictum rhoncus leo. Fusce quis tempus lorem, et tempus turpis. Sed fermentum, velit non viverra rhoncus, enim nisi tincidunt libero, et porttitor sapien felis in nibh.
+        %hr
+        %h2 Front End
+        %p.body-container
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Aenean porta eu lectus quis elementum. In ac elit at est posuere varius. Sed turpis purus, ultrices lobortis pulvinar eu, pellentesque blandit libero. Sed dictum rhoncus leo. Fusce quis tempus lorem, et tempus turpis. Sed fermentum, velit non viverra rhoncus, enim nisi tincidunt libero, et porttitor sapien felis in nibh.
+        %hr
+        %h2 More
+        %p.body-container
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Aenean porta eu lectus quis elementum. In ac elit at est posuere varius. Sed turpis purus, ultrices lobortis pulvinar eu, pellentesque blandit libero. Sed dictum rhoncus leo. Fusce quis tempus lorem, et tempus turpis. Sed fermentum, velit non viverra rhoncus, enim nisi tincidunt libero, et porttitor sapien felis in nibh.
+        %hr
+        %h2 More
+        %p.body-container
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Aenean porta eu lectus quis elementum. In ac elit at est posuere varius. Sed turpis purus, ultrices lobortis pulvinar eu, pellentesque blandit libero. Sed dictum rhoncus leo. Fusce quis tempus lorem, et tempus turpis. Sed fermentum, velit non viverra rhoncus, enim nisi tincidunt libero, et porttitor sapien felis in nibh.
+  -else
+    #expertise-detail.row
+    .container
+      .col-md-12
+        %span.title
+          %h1 I am interested in
         %hr
         %h2 Picking a CTO
         %p.body-container
@@ -145,64 +173,46 @@
           %p
             =@user.bio
 
-
-  #reviews.row
-    .container
-      .col-md-12
-        %span.title
-          %h1 Reviews
-          %hr
-        %ul.list-unstyled
-          %li
-            .review-picture-div
-              =link_to "#", class: "review-name-link" do
-                =image_tag("https://s3.amazonaws.com/lorious/layout/elements/placeholders/image_placeholder.jpg", class: "img-circle review-image")
-                %p.review-name
-                  Jordan L.
-              %p 7/8/13
-              .star{id: "star-average1"}
-            .review-detail-div
-              %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem.
-              %hr
-              %span.strong
-                Topics:&nbsp;&nbsp;
-              =link_to "#" do
-                %span.highlighted Ruby on Rails
-              =link_to "#" do
-                %span.highlighted CSS
-              =link_to "#" do
-                %span.highlighted HTML
-          %hr.divider
-          %li
-            .review-picture-div
-              =link_to "#", class: "review-name-link" do
-                =image_tag("https://s3.amazonaws.com/lorious/layout/elements/placeholders/image_placeholder.jpg", class: "img-circle review-image")
-                %p.review-name
-                  Jordan L.
-              %p 7/8/13
-              .star{id: "star-average2"}
-            .review-detail-div
-              %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem.
-              %hr
-              %span.strong
-                Topics:&nbsp;&nbsp;
-              =link_to "#" do
-                %span.highlighted Ruby on Rails
-              =link_to "#" do
-                %span.highlighted CSS
-              =link_to "#" do
-                %span.highlighted HTML
-
-  #calendarModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "calendarModalLabel", :role => "dialog", :tabindex => "-1"}
-    .modal-dialog
-      .modal-content
-        .modal-header
-          / %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} x
-          %h4.modal-title Henry's Calendar
-        .modal-body
-          =render "calendar"
-        .modal-footer
-          %p Press ESC to Exit
-          / %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
-          / %button.btn.btn-primary{:type => "button"} Save changes
+  -if @user.expert?
+    #reviews.row
+      .container
+        .col-md-12
+          %span.title
+            %h1 Reviews
+            %hr
+          %ul.list-unstyled
+            -@reviews.each do |review|
+              %li
+                -reviewer = review.reviewer
+                .review-picture-div
+                  =link_to "#", class: "review-name-link" do
+                    =image_tag(reviewer.image.url, class: "img-circle review-image")
+                    %p.review-name
+                      =reviewer.name
+                  %p 7/8/13
+                  .star
+                .review-detail-div
+                  %p
+                    =review.content
+                  %hr
+                  %span.strong
+                    Topics:&nbsp;&nbsp;
+                  -review.tags.each do |tag|
+                    =link_to "#" do
+                      %span.highlighted
+                        =tag
+              %hr.divider
+            
+    #calendarModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "calendarModalLabel", :role => "dialog", :tabindex => "-1"}
+      .modal-dialog
+        .modal-content
+          .modal-header
+            / %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} x
+            %h4.modal-title Henry's Calendar
+          .modal-body
+            =render "calendar"
+          .modal-footer
+            %p Press ESC to Exit
+            / %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+            / %button.btn.btn-primary{:type => "button"} Save changes
 

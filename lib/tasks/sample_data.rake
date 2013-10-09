@@ -5,7 +5,7 @@ namespace :db do
     #require 'carrierwave'
     require 'acts-as-taggable-on'
     
-    [User, Expert, Availability].each(&:delete_all)
+    [User, Expert, Availability, Review].each(&:delete_all)
     
     Expert.populate(200) do |expert|
       name  = Faker::Name.name

@@ -126,6 +126,10 @@ class User < ActiveRecord::Base
     self.social_media.find_by_name(social_medium).try(:profile)
   end
 
+  def expert?
+    self.type == "Expert"
+  end
+
   private
 
   def user_params
