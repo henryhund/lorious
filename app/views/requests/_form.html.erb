@@ -1,0 +1,75 @@
+<style>
+	.chosen-container-multi .chosen-choices {
+	  border: 1px solid #cccccc !important;
+	  border-top-left-radius: 4px !important;
+	  border-bottom-left-radius: 4px !important;
+	}
+</style>
+<div class="row" style="margin-bottom: 150px;">
+  <div class="col-xs-6 col-md-2"></div>
+  <div class="col-xs-6 col-md-6 ">
+  	<h1>Create Request</h1>
+  	<%= simple_form_for @request do |f| %>
+	  	<%= f.error_notification %>
+		<div id="content">
+		  <div class="form-inputs">
+		    <%= f.input :company_name, label: 'Company/App Name' %>
+		    <%= f.input :company_name, label: 'Company URL' %>
+		    <%= f.input :company_name, label: 'What does your Company Do?' %>
+		    
+		    <%= f.association :problems, :label_method => :value, label: 'Problem Type', :input_html => { :class => "chzn-select" } %>
+		    
+		    <div id="tbox" style="display: none;">
+		    	<label for="other">Other:</label>
+		    	<%= f.input_field :other_problem_type %>	
+	    	</div>
+		    
+		    <%= f.input :skill_list, label: 'Tags', :input_html => { :class => "auto-tokenize" , :style => "width: 100%; border-radius: 4px;"} %>
+		  </div>
+		  	
+		  <div class="form-actions" style="margin-top: 70px;">
+		    <%= f.button :submit, 'Submit Request' , :class => "btn btn-primary text-right col-lg-offset-10"  %>
+		  </div>
+		</div>
+	<% end %>
+			
+  </div>
+  <div class="col-xs-6 col-md-4"></div>
+</div>
+
+
+<script>
+	$(".chzn-select").chosen().change(function(event){
+	 if(event.target == this){
+	 	
+	 	var list = $(this).val();
+		var found = false;
+		for (var i=0; i<list.length; ++i) {
+		  if (list[i] == '0') {
+		    found = true;
+		    break;
+		  }
+		}
+	 	
+	    if(found) 
+	    	document.getElementById("tbox").style.display = "block";
+	    else
+	    	document.getElementById("tbox").style.display = "none";
+	 }
+	});;
+	
+	$(".chzn-select").append(
+        $('<option>')
+                .html('Other')
+                .attr('value', 0)
+    );
+    
+	$(".chzn-select").trigger("chosen:updated");
+	
+	$("#form_field").chosen().change( console.log() );
+	
+	$(".auto-tokenize").select2({
+                tags: <%= raw ActsAsTaggableOn::Tag.all.map {|c| c.name} %>,
+                tokenSeparators: [",", " "]});
+</script>
+

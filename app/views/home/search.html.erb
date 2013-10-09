@@ -16,6 +16,21 @@
 				    <span class="input-group-addon"><i class="icon-search"></i></span>
 				    <input type="text" class="form-control searchbox" placeholder="TAG" ng-model="query.skill_list" />
 				</div>
+				
+
+				<div class="input-group merged">
+				    <span class="input-group-addon"><i class="icon-search"></i></span>
+					<select chosen multiple class="form-control" style="width: 100%;"
+			          data-placeholder="TAG"
+			          no-results-text="'Could not find TAG'"
+			          ng-model="sbeer" 
+        			  ng-options="f.tag + ' ('+f.count+')' for f in model.facets">
+				 	</select>
+				</div>
+				
+				{{ sbeer}} {{model.facets}}
+				<br />
+				{{model.facets.tag}}
 				<hr />
 				<h3>Location:</h3>
 				<div class="input-group merged">
@@ -40,11 +55,10 @@
 				<br />
 				<br />
 				<br />
-				<br />
-				<br />
+				
 			</div>
 			<div class="col-md-8">
-				<div ng-view></div>
+				<ng:include src="'<%= asset_path("search-list.html") %>'"></ng:include>
 			</div>
 		</div>
 	</div>

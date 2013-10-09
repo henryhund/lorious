@@ -1,6 +1,6 @@
 var app;
 
-app = angular.module("search", ["ngResource", "ui.bootstrap","truncate","ui.slider","searchFilters"]).config([
+app = angular.module("search", ["ngResource", "ui.bootstrap","truncate","ui.slider","localytics.directives","searchFilters"]).config([
   "$routeProvider", "$httpProvider", function($routeProvider, $httpProvider) {
     return $routeProvider.when("/", {
       templateUrl: '<%= asset_path("search-list.html") %>',
@@ -55,7 +55,8 @@ this.SearchCtrl = [
   "$scope", "$resource", "$route", "$routeParams", "$location", "Search", function($scope, $resource, $route, $routeParams, $location, Search) {
     
     $scope.experts = Search.query({id: 1});
-        
+    $scope.facetsa = "test";
+    
     //Initializing rating elements
     $scope.rate = 2.5;
 	$scope.max = 5;
@@ -73,7 +74,8 @@ this.SearchCtrl = [
 	  {stateOn: 'icon-heart'},
 	  {stateOff: 'icon-off'}
 	];
-		    
+		 
+	$scope.model = {facets: [] };
   }
 ];
 
@@ -81,7 +83,10 @@ this.SearchDetailCtrl = [
   "$scope", "$resource", "$route", "$routeParams", "$location", "Search", function($scope, $resource, $route, $routeParams, $location, Search) {
     
     $scope.pg_counter = 1;
-    
+	$scope.update = function(value) {
+	    $scope.model.facets = value;
+	};
+	  
     $scope.load_data = function() {
       var keyword = ""	
 	  if( typeof $scope.query.$ !== 'undefined' ) 
@@ -97,17 +102,21 @@ this.SearchDetailCtrl = [
 	  
 	  $scope.search_params = {id: $scope.pg_counter++, keyword: keyword, tag: skill_list, location: location};
 	  		
-	  Search.query($scope.search_params, function (new_experts) {
+	  Search.get($scope.search_params, function (new_experts) {
         //new data is available in the callback to insert to the experts ng-model
-        $scope.experts.push.apply($scope.experts, new_experts);
+        $scope.experts.push.apply($scope.experts, new_experts.results);
+        $scope.facets = new_experts.facets;
+        console.log($scope.facets);
       });
     };
     
     $scope.load_data_with_params = function(params) {
 	  $scope.experts = [];
-	  Search.query(params, function (new_experts) {
-        $scope.experts = new_experts;
+	  console.log('length '+$scope.experts.length);
+	  Search.get(params, function (new_experts) {
+        $scope.experts = new_experts.results;
         console.log('length '+$scope.experts.length);
+        $scope.update(new_experts.facets);
       });
     };
     

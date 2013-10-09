@@ -7,10 +7,11 @@ class HomeController < ApplicationController
   def search
     
     if(params.has_key?(:keyword))
-      @search = Expert.search do
-        fulltext params[:keyword] do
+        @search = Expert.search do
+          fulltext params[:keyword] do
           boost_fields :first_name => 5.0
         end
+        
         facet :skill_list
         paginate(:per_page => 15, :page => params[:page])
         
@@ -25,7 +26,7 @@ class HomeController < ApplicationController
         with(:location).in_radius(*Geocoder.coordinates(params[:location]), 100) if params[:location].present?
     
       end
-      @experts = @search.results
+      @experts = {results: @search.results, facets: @search.facet(:skill_list).rows.map {  |e| {tag: e.value, count: e.count} } }
     else
       @experts = Expert.all.paginate(:per_page => 15, :page => params[:page])    
     end

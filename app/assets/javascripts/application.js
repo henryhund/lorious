@@ -21,6 +21,7 @@
 //= require angular-ratings-tpls
 //= require angular-truncate
 //= require angular-slider
+//= require angular-chosen
 //= require turbolinks
 //= require search-filters
 //= require search
