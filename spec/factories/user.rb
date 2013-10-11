@@ -9,7 +9,7 @@ FactoryGirl.define do
     bio "Bio"
     location "Location"
     website "http://website.com"
-    username "Expert"
+    sequence(:username) { |n| "User#{n}" }
     job "expert"
   end
 
@@ -23,7 +23,7 @@ FactoryGirl.define do
     bio "Bio"
     location "Location"
     website "http://website.com"
-    username "Expert"
+    sequence(:username) { |n| "Expert#{n}" }
     job "expert"
   end
 
