@@ -3,7 +3,7 @@
 <div class="form-group row">
   <%= f.label :skills, class: "col-xs-2 control-label" %>
   <div class="col-xs-10">
-    <%= f.text_field :skills, value: nil, class: "form-control", placeholder: "Skills - Comma seperated list of your skills", validate: {presence: true} %>
+    <%= f.select :skills, options_for_select(@available_skills), {}, multiple: "multiple", class: "chosen", "data-placeholder" => "Select your skills" %>
   </div>
 </div>
 

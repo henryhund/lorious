@@ -13,7 +13,7 @@ class Users::StepsController < ApplicationController
     @user.current_step ||= @user.steps[current_step_index]
     if @user.apply_for_expert_page?
       # @user.attributes = expert_params
-      @user.skill_list.add view_context.comma_seperated_string_to_array(params[:expert][:skills]) if params[:expert][:skills]
+      @user.skill_list.add params[:expert][:skills] if params[:expert][:skills]
       @user.save validate: false
     else
       @user.update_attributes user_params
@@ -25,6 +25,7 @@ class Users::StepsController < ApplicationController
       if @user.apply_for_expert_page?
         @user = @user.change_to_expert_and_return_user!
         @user.current_step = @user.steps.last
+        @available_skills = AvailableTag.skills.map { |e| [e.name, e.name] }
       end
       render :edit
     end
