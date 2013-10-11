@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20131011093239) do
 
   create_table "credit_transactions", force: true do |t|
     t.integer  "amount"
-    t.boolean  "add_credits"
+    t.boolean  "added"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -183,8 +183,8 @@ ActiveRecord::Schema.define(version: 20131011093239) do
     t.string   "location"
     t.string   "website"
     t.string   "image"
-    t.string   "last_name"
     t.string   "first_name"
+    t.string   "last_name"
     t.string   "username"
     t.string   "zip_code"
     t.text     "job"

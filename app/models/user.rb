@@ -135,6 +135,10 @@ class User < ActiveRecord::Base
     self.type == "Expert"
   end
 
+  def credits
+    self.credit_transactions.inject(0) { |sum, e| sum + e.amount_with_sign }
+  end
+
   private
 
   def user_params

@@ -52,4 +52,14 @@ describe User do
       end
     end
   end
+
+  context "total credits" do
+    let(:user) { FactoryGirl.create :user }
+    let!(:credit_transaction1) { FactoryGirl.create :credit_transaction, amount: 40, added: true, user_id: user.id }
+    let!(:credit_transaction2) { FactoryGirl.create :credit_transaction, amount: 10, added: true, user_id: user.id }
+    let!(:credit_transaction3) { FactoryGirl.create :credit_transaction, amount: 25, added: false, user_id: user.id }
+    it "should return 25" do
+      user.credits.should eq(25)
+    end
+  end
 end
