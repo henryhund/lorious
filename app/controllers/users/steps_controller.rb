@@ -12,7 +12,7 @@ class Users::StepsController < ApplicationController
     current_step_index = params[:current_step_index].to_i
     @user.current_step ||= @user.steps[current_step_index]
     if @user.apply_for_expert_page?
-      @user.attributes = expert_params
+      # @user.attributes = expert_params
       @user.skill_list.add view_context.comma_seperated_string_to_array(params[:expert][:skills]) if params[:expert][:skills]
       @user.save validate: false
     else
@@ -33,11 +33,11 @@ class Users::StepsController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :website, :username, :tag_line, :bio, :location, :step_1_complete, :step_2_complete, :image)
+    params.require(:user).permit(:first_name, :last_name, :website, :username, :tag_line, :bio, :location, :step_1_complete, :step_2_complete, :image, :job)
   end
 
   def expert_params
-    params.require(:expert).permit(:job)
+    params.require(:expert)#.permit(:job)
   end
 
 end

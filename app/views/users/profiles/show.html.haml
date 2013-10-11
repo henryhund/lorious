@@ -27,6 +27,9 @@
       .col-md-8.col-md-offset-1.col-xs-12
         %h1.name
           =@user.name.capitalize
+        %h6.job
+          Designation: 
+          =@user.job.capitalize
         %h6.location
           =@user.location.capitalize
         // Maybe a modal or something?

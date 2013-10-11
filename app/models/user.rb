@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
   end
 
   with_options if: :profile_info_step_validation_required do |user|
-    user.validates :bio, presence: true
+    user.validates :bio, :job, presence: true
   end
 
   validates_format_of :website, 
