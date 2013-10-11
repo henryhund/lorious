@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131011064717) do
+ActiveRecord::Schema.define(version: 20131011093239) do
 
   create_table "appointments", force: true do |t|
     t.datetime "time"
@@ -40,6 +40,16 @@ ActiveRecord::Schema.define(version: 20131011064717) do
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
   end
+
+  create_table "credit_transactions", force: true do |t|
+    t.integer  "amount"
+    t.boolean  "add_credits"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "credit_transactions", ["user_id"], name: "index_credit_transactions_on_user_id", using: :btree
 
   create_table "expertises", force: true do |t|
     t.string   "title"
@@ -173,8 +183,8 @@ ActiveRecord::Schema.define(version: 20131011064717) do
     t.string   "location"
     t.string   "website"
     t.string   "image"
-    t.string   "first_name"
     t.string   "last_name"
+    t.string   "first_name"
     t.string   "username"
     t.string   "zip_code"
     t.text     "job"

@@ -7,6 +7,7 @@ describe User do
     it { should have_many :appointments }
     it { should have_many :social_media }
     it { should have_many :interests }
+    it { should have_many :credit_transactions }
   end
 
   context "mailboxer" do

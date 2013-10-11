@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
+         :recoverable, :rememberable, :trackable,
          :omniauthable, :omniauth_providers => [:google_oauth2, :facebook, :twitter, :github, :stackexchange, :linkedin]
 
   attr_accessor :current_step, :skills
@@ -19,6 +19,8 @@ class User < ActiveRecord::Base
 
   has_many :interests, dependent: :destroy
   accepts_nested_attributes_for :interests
+
+  has_many :credit_transactions
 
   geocoded_by :location
   after_validation :geocode
