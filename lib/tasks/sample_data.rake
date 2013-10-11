@@ -7,7 +7,7 @@ namespace :db do
     
     [User, Expert, Availability, Review].each(&:delete_all)
     
-    Expert.populate(200) do |expert|
+    Expert.populate(50) do |expert|
       name  = Faker::Name.name
       expert.username = "Expert#{expert.id}"
       expert.first_name = name.split(' ').first
