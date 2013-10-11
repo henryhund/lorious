@@ -23,6 +23,7 @@ describe User do
   context "geocoder" do
     let(:user) { FactoryGirl.create :user, location: "bangalore" }
     it "should fetch latitude and longitude for the user" do
+      sleep 5
       user.latitude.should_not be_nil
       user.longitude.should_not be_nil
     end
