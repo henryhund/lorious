@@ -121,25 +121,14 @@
         %span.title
           %h1 I can also help with
         %hr
-        %h2 Picking a CTO
-        %p.body-container
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Aenean porta eu lectus quis elementum. In ac elit at est posuere varius. Sed turpis purus, ultrices lobortis pulvinar eu, pellentesque blandit libero. Sed dictum rhoncus leo. Fusce quis tempus lorem, et tempus turpis. Sed fermentum, velit non viverra rhoncus, enim nisi tincidunt libero, et porttitor sapien felis in nibh.
-        %hr
-        %h2 Designing Databases
-        %p.body-container
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Aenean porta eu lectus quis elementum. In ac elit at est posuere varius. Sed turpis purus, ultrices lobortis pulvinar eu, pellentesque blandit libero. Sed dictum rhoncus leo. Fusce quis tempus lorem, et tempus turpis. Sed fermentum, velit non viverra rhoncus, enim nisi tincidunt libero, et porttitor sapien felis in nibh.
-        %hr
-        %h2 Front End
-        %p.body-container
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Aenean porta eu lectus quis elementum. In ac elit at est posuere varius. Sed turpis purus, ultrices lobortis pulvinar eu, pellentesque blandit libero. Sed dictum rhoncus leo. Fusce quis tempus lorem, et tempus turpis. Sed fermentum, velit non viverra rhoncus, enim nisi tincidunt libero, et porttitor sapien felis in nibh.
-        %hr
-        %h2 More
-        %p.body-container
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Aenean porta eu lectus quis elementum. In ac elit at est posuere varius. Sed turpis purus, ultrices lobortis pulvinar eu, pellentesque blandit libero. Sed dictum rhoncus leo. Fusce quis tempus lorem, et tempus turpis. Sed fermentum, velit non viverra rhoncus, enim nisi tincidunt libero, et porttitor sapien felis in nibh.
-        %hr
-        %h2 More
-        %p.body-container
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod consectetur facilisis. Curabitur quis elementum lorem, eu tempor sem. Aenean porta eu lectus quis elementum. In ac elit at est posuere varius. Sed turpis purus, ultrices lobortis pulvinar eu, pellentesque blandit libero. Sed dictum rhoncus leo. Fusce quis tempus lorem, et tempus turpis. Sed fermentum, velit non viverra rhoncus, enim nisi tincidunt libero, et porttitor sapien felis in nibh.
+        -if @expertise.count == 0
+          ="No expertise added by #{@user.name} yet."
+        -@expertise.each do |expertise|
+          %h2
+            =expertise.title
+          %p.body-container
+            =expertise.description
+
   -else
     #expertise-detail.row
     .container

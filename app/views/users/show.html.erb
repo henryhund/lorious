@@ -20,6 +20,11 @@
               <li>
                 <a href="#add_interests" data-toggle="tab" class="content-load profile_tabs" data-content-url="/users/interests/new" data-content-handler="#add_interests">Add your Interests</a>
               </li>
+              <% if @user.expert? %>
+                <li>
+                  <a href="#add_expertise" data-toggle="tab" class="content-load profile_tabs" data-content-url="/experts/expertise/new" data-content-handler="#add_expertise">Add your Expertise</a>
+                </li>
+              <% end %>
             </ul>
           </div>
         </div>
@@ -85,6 +90,7 @@
       <div class="tab-pane" id="social_media_list"></div>
       <div class="tab-pane" id="add_social_media"></div>
       <div class="tab-pane" id="add_interests"></div>
+      <div class="tab-pane" id="add_expertise"></div>
     </div>
   </div>
 </div>

@@ -11,6 +11,10 @@ Lorious::Application.routes.draw do
     resources :interests, only: [:new, :create]
   end
 
+  namespace :experts do
+    resources :expertise, only: [:new, :create]
+  end
+
   resource :users, only: [:show]
   resources :invites
   

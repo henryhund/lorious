@@ -9,6 +9,8 @@ FactoryGirl.define do
     bio "Bio"
     location "Location"
     website "http://website.com"
+    username "Expert"
+    job "expert"
   end
 
   factory :expert do
@@ -21,6 +23,8 @@ FactoryGirl.define do
     bio "Bio"
     location "Location"
     website "http://website.com"
+    username "Expert"
+    job "expert"
   end
 
 end

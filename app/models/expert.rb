@@ -4,6 +4,7 @@ class Expert < User
 
   has_one :availability
   has_many :appointments, foreign_key: "expert_id"
+  has_many :expertise
 
   with_options if: :apply_for_expert_step_validation_required do |user|
     user.validates :job, presence: true
