@@ -13,6 +13,7 @@ Lorious::Application.routes.draw do
 
   namespace :experts do
     resources :expertise, only: [:new, :create]
+    resources :availabilities, only: [:edit, :update]
   end
 
   resource :users, only: [:show]

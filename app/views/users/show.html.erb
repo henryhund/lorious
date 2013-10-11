@@ -78,6 +78,26 @@
           </div>
         </div>
       </div>
+      <% if @user.expert? %>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar_accordion" href="#collapseFive">
+                Manage Availability
+              </a>
+            </h4>
+          </div>
+          <div id="collapseFive" class="panel-collapse collapse">
+            <div class="panel-body">
+              <ul class="nav nav-pills nav-stacked">
+                <li>
+                  <a href="#edit_availability" data-toggle="tab" class="content-load profile_tabs" data-content-url="/experts/availabilities/<%= @user.availability.id %>/edit" data-content-handler="#edit_availability">Edit Availability</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      <% end %>
     </div>
 
     <div class="tab-content col-xs-8">
@@ -91,6 +111,7 @@
       <div class="tab-pane" id="add_social_media"></div>
       <div class="tab-pane" id="add_interests"></div>
       <div class="tab-pane" id="add_expertise"></div>
+      <div class="tab-pane" id="edit_availability"></div>
     </div>
   </div>
 </div>

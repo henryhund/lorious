@@ -123,3 +123,7 @@ en:
     create:
       success: "Added expertise to your profile"
       failure: "Failed to add expertise to your profile"
+  availability:
+    update:
+      success: "Successfully updated your availability."
+      failure: "Failed to update your availability."
