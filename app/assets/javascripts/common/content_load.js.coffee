@@ -7,3 +7,4 @@ $ ->
     $.ajax rest_link,
       success: (response)->
         content_handler.html response
+        $("form").enableClientSideValidations()

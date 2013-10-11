@@ -115,4 +115,8 @@ en:
   devise:
     omniauth_callbacks:
       failure: "Failed to login"
+  interests:
+    create:
+      success: "Added interest to your profile"
+      failure: "Failed to add interest to your profile"
       

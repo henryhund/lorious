@@ -17,6 +17,9 @@ class User < ActiveRecord::Base
 
   has_many :social_media, dependent: :destroy
 
+  has_many :interests, dependent: :destroy
+  accepts_nested_attributes_for :interests
+
   geocoded_by :location
   after_validation :geocode
 

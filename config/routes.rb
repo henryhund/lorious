@@ -8,6 +8,7 @@ Lorious::Application.routes.draw do
     resources :social_media
     resources :steps, only: [:edit, :update]
     resource :profile, only: [:show]
+    resources :interests, only: [:new, :create]
   end
 
   resource :users, only: [:show]
