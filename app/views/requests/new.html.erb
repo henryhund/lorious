@@ -8,16 +8,36 @@
 <div class="row" style="margin-bottom: 150px;">
   <div class="col-xs-6 col-md-2"></div>
   <div class="col-xs-6 col-md-6 ">
-  	<h1>Create Request</h1>
+  	<h1 class="text-center">Create Request</h1>
   	
-  	<%=  %>
   	<%= simple_form_for @request do |f| %>
 	  	<%= f.error_notification %>
-		<div id="content">
+	  	
+		<div id="content" style="margin-top: 25px;">
 		  <div class="form-inputs">
+		  	<% if user_signed_in? %>
+				
+				<div class="form-group string optional request_company_name">
+					<label class="string optional col-md-5 control-label" for="request_company_name">Name</label>
+					<div class="col-md-7">
+						<input class="form-control" type="text" readonly="true" value="<%= current_user.name %>" />
+					</div>
+				</div>
+				
+				<div class="form-group string optional request_company_name">
+					<label class="string optional col-md-5 control-label" for="request_company_name">Email</label>
+					<div class="col-md-7">
+						<input class="form-control" type="text" readonly="true" value="<%= current_user.email %>" />
+					</div>
+				</div>
+				
+				<%= f.hidden_field :requester_id, :value => current_user.id %>
+			<% end %>
+			
 		    <%= f.input :company_name, label: 'Company/App Name' %>
 		    <%= f.input :company_url, label: 'Company URL'%>
 		    <!-- f.input :company_name, label: 'What does your Company Do?' -->
+		    <%= f.input :company_description, label: 'What does your Company Do?', :as => :text, :input_html => { :cols => 50, :rows => 3 } %>
 		    
 		    <%= f.association :problems, :label_method => :value, label: 'Problem Type', :input_html => { :class => "chzn-select" } %>
 		    
@@ -27,15 +47,31 @@
 		    		<label class="col-md-2 col-md-offset-5 control-label">Other</label>
 		    		<div class="col-md-5">
 		    			<%= f.input_field :other_problem_type, :class => "string optional form-control" %>
-			    		<!--input class="string optional form-control col-lg-offset-10" id="request_other_problem_type" name="request[other_problem_type]" type="text"-->
 			    	</div>	
 		    	</div>	
 		    		
 	    	</div>
 		    
+		    <%= f.input :problem_description, label: 'Problem Description', :as => :text, :input_html => { :cols => 50, :rows => 3 } %>
+		    
 		    <%= f.input :skill_list, label: 'Tags', :input_html => { :class => "auto-tokenize" , :style => "width: 100%; border-radius: 4px;"} %>
+		  
+			<%= f.input :appt_length, label: 'Appt Length (mins)', collection: Request.APPT_LENGTH  %>
+			
+			<div class="well" style="margin-top: 50px; margin-bottom: 20px;">
+				<h3 class="text-center" >I want to talk to someone</h3>
+			
+				<%= f.input :is_local, label: 'Local'%>
+				
+				<%= f.input :local_zip, label: 'ZIP'%>
+				
+				<%= f.input :is_online, label: 'Online'%>	
+				
+			</div>
+			
 		  </div>
 		  	
+		  	 
 		  <div class="form-actions" style="margin-top: 70px;">
 		    <%= f.button :submit, 'Submit Request' , :class => "btn btn-primary text-right col-lg-offset-10"  %>
 		  </div>
@@ -59,7 +95,6 @@
 		    var selText = $this.text();
 		    if(selText.toLowerCase() == "other")
 		    	found = true;
-		    //console.log(selText + '' + selText.toLowerCase());
 		   }
 		});
 		

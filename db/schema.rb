@@ -12,7 +12,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 
-ActiveRecord::Schema.define(version: 20131011093239) do
+ActiveRecord::Schema.define(version: 20131011090143) do
 
 
   # These are extensions that must be enabled in order to support this database
@@ -155,6 +155,9 @@ ActiveRecord::Schema.define(version: 20131011093239) do
     t.string   "request_state"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "company_description"
+    t.text     "problem_description"
+    t.string   "local_zip"
   end
 
   create_table "reviews", force: true do |t|
