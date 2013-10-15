@@ -25,5 +25,7 @@ Lorious::Application.routes.draw do
   get '/search', to: 'home#search'
   get "/search/page/:page", :controller => "home", :action => "search"
 
+  get '/request_latest', to: 'requests#latest'
+  
   match "/:username" => "users/profiles#show", via: [:get], as: :profile
 end

@@ -18,7 +18,33 @@ class Request < ActiveRecord::Base
   
   validates_format_of :company_url, :with => /((?:https?\:\/\/|www\.)(?:[-a-z0-9]+\.)*[-a-z0-9]+.*)/i
   
+  searchable :auto_index => true, :auto_remove => true do
+    
+    string :problems, :multiple => true, :stored => true do
+      problems.map{|c| c.value.downcase.strip}
+    end
+    
+    string :skill_list, :multiple => true, :stored => true do 
+      skill_list.map!{|c| c.downcase.strip}
+    end
+    
+  end
+  
+  def attributes
+    super.merge({'skill_list' => skill_list, 'requester_name' => requester_name})
+  end
+  
   def create_problem_type(problem_type)
     self.problems.create(:value => problem_type)
   end
+  
+  def self.get_unique_problem_types
+    Problem.uniq.pluck(:value)
+  end
+  
+  def get_requester_name()
+    self.requester.try(:name) rescue "Unknown"
+  end
+
+  alias_method :requester_name, :get_requester_name
 end

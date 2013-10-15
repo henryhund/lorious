@@ -31,7 +31,7 @@ class HomeController < ApplicationController
       with(:location).in_radius(*Geocoder.coordinates(params[:location]), 100) if params[:location].present?
   
     end
-      @experts = {results: @search.results, facets: @search.facet(:skill_list).rows.map {  |e| {tag: e.value} } } #count: e.count -> tag frequency
+    @experts = {results: @search.results, facets: @search.facet(:skill_list).rows.map {  |e| {tag: e.value} } } #count: e.count -> tag frequency
     
     respond_to do |format|
       format.html { @experts}
