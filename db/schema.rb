@@ -11,7 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131011093239) do
+
+ActiveRecord::Schema.define(version: 20131015072333) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
 
   create_table "appointments", force: true do |t|
     t.datetime "time"
@@ -100,6 +105,17 @@ ActiveRecord::Schema.define(version: 20131011093239) do
 
   add_index "notifications", ["conversation_id"], name: "index_notifications_on_conversation_id", using: :btree
 
+  create_table "problems", force: true do |t|
+    t.string   "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "problems_requests", id: false, force: true do |t|
+    t.integer "request_id"
+    t.integer "problem_id"
+  end
+
   create_table "rails_admin_histories", force: true do |t|
     t.text     "message"
     t.string   "username"
@@ -126,6 +142,23 @@ ActiveRecord::Schema.define(version: 20131011093239) do
   end
 
   add_index "receipts", ["notification_id"], name: "index_receipts_on_notification_id", using: :btree
+
+  create_table "requests", force: true do |t|
+    t.integer  "requester_id"
+    t.integer  "requested_id"
+    t.string   "company_name"
+    t.string   "company_url"
+    t.integer  "appt_length"
+    t.boolean  "is_local"
+    t.boolean  "is_online"
+    t.string   "request_state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "company_description"
+    t.text     "problem_description"
+    t.string   "local_zip"
+    t.string   "problem_headline"
+  end
 
   create_table "reviews", force: true do |t|
     t.integer  "reviewer_id"

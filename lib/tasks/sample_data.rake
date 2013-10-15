@@ -1,6 +1,6 @@
 namespace :db do
   desc "Fill database with sample data"
-  task populate: :environment do
+  task populate_experts: :environment do
     require 'populator'
     #require 'carrierwave'
     require 'acts-as-taggable-on'
@@ -49,5 +49,40 @@ namespace :db do
         review.save
       end
     end
+  end 
+  
+  desc "Fill database with sample requests"
+  task populate_requests: :environment do
+    require 'populator'
+    #require 'carrierwave'
+    require 'acts-as-taggable-on'
+    
+    [Request, Problem].each(&:delete_all)
+    
+    Problem.create(:value => "Other")
+    
+    Request.populate(15) do |request|
+      request.company_url = Faker::Internet.url
+      request.company_name = Populator.words(3..5)
+      request.company_description = Populator.sentences(5..10)
+      request.problem_headline = Populator.words(3..5)
+      request.problem_description = Populator.sentences(5..10)
+      request.appt_length =  rand(1..5)*10 + + rand(0..1)*5
+    end
+    
+    Request.all.each do |request|
+      request.requester = User.offset(rand(User.count)).first
+      tags = ["Ruby", "C++", "Java", "PostgreSQL", ".NET", "MySql", "PHP", "Phython","Perl","BASIC","Matlab","C#","Pascal","Rails", "Stripe", "API" ,"Node.js"]
+      2.times do 
+        request.skill_list.add tags[rand(tags.length)]  
+      end
+      
+      request.save
+      
+      3.times do 
+        request.problems.create(:value => "Problem " + rand(1..5).to_s)
+      end
+    end
+    
   end 
 end

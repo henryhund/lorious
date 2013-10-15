@@ -1,5 +1,7 @@
 Lorious::Application.routes.draw do
 
+  resource :requests
+  
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks",
                                         :registrations => "users/registrations" }
@@ -23,5 +25,7 @@ Lorious::Application.routes.draw do
   get '/search', to: 'home#search'
   get "/search/page/:page", :controller => "home", :action => "search"
 
+  get '/request_latest', to: 'requests#latest'
+  
   match "/:username" => "users/profiles#show", via: [:get], as: :profile
 end
