@@ -2,6 +2,8 @@ class Expert < User
   acts_as_taggable
   acts_as_taggable_on :skills
 
+  attr_accessor :skills
+  
   has_one :availability
   has_many :appointments, foreign_key: "expert_id"
   has_many :expertise
@@ -45,24 +47,15 @@ class Expert < User
     validation_required? "apply_for_expert"
   end
   
-  def hourly_rate()
-    get_hourly_rate()
-  end
-  
   def get_hourly_rate()
-    if self.availability.present?
-      self.availability.hourly_cost
-    else
-      0.00
-    end
-  end
-  
-  def average_rating()
-    get_average_rating()
+    self.availability.try(:hourly_cost) || 0.00
   end
   
   def get_average_rating()
     Review.average('rating', :conditions => {:reviewed_id => self.id})
   end
 
+  alias_method :average_rating, :get_average_rating
+  alias_method :hourly_rate, :get_hourly_rate
+  
 end
