@@ -13,9 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20131015072333) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "appointments", force: true do |t|
     t.datetime "time"
     t.integer  "duration"
@@ -221,8 +218,8 @@ ActiveRecord::Schema.define(version: 20131015072333) do
     t.string   "location"
     t.string   "website"
     t.string   "image"
-    t.string   "first_name"
     t.string   "last_name"
+    t.string   "first_name"
     t.string   "username"
     t.string   "zip_code"
     t.text     "job"

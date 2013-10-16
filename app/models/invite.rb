@@ -8,13 +8,20 @@ class Invite < ActiveRecord::Base
           :with => /\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\z/ix,
           :message => "invalid email address"
 
-  include Tokenable
+  before_create :generate_token
 
   scope :approved, -> { where(approved: true) }
 
   after_save do
     if approved_changed? && approved
       UserMailer.invite_approved(self).deliver
+    end
+  end
+
+  def generate_token
+    self.token = loop do
+      random_token = SecureRandom.urlsafe_base64(nil, false)
+      break random_token unless self.class.exists?(token: random_token)
     end
   end
 end
