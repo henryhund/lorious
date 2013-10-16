@@ -18,7 +18,6 @@
 //= require angular-bootstrap
 //= require angular-ratings
 //= require angular-ratings-tpls
-//= require turbolinks
 //= require search-filters
 //= require search
 //= require search-ui
