@@ -16,7 +16,7 @@ describe Expert do
     let(:expert) { FactoryGirl.create :expert }
     context "no skills assigned" do
       it "should have empty skills" do
-        expert.skills.should == []
+        expert.skill_list.should == []
       end      
     end
     context "assigned skills should be shown" do
