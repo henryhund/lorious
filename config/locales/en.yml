@@ -127,3 +127,7 @@ en:
     update:
       success: "Successfully updated your availability."
       failure: "Failed to update your availability."
+  appointment:
+    create:
+      success: "Successfully created appointment, pending to be accepted."
+      failure: "Failed to create appointment."

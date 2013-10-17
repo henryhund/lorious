@@ -45,7 +45,7 @@
         %span.visible-sm
           %br
         -if @user.expert?
-          %a.login_check{href: "#"}
+          %a.login_check{href: "/experts/#{@user.id}/appointments/new"}
             %button.appointment
               %i.icon-calendar
               Make Appointment

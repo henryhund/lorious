@@ -18,6 +18,10 @@ Lorious::Application.routes.draw do
     resources :availabilities, only: [:edit, :update]
   end
 
+  resources :experts, only: [] do
+    resources :appointments
+  end
+
   resource :users, only: [:show]
   resources :invites
   

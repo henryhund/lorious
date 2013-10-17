@@ -2,6 +2,8 @@ class Expert < User
   acts_as_taggable
   acts_as_taggable_on :skills
 
+  CASH_TO_CREDIT_RATIO = 1.0
+
   attr_accessor :skills
   
   has_one :availability
@@ -53,6 +55,10 @@ class Expert < User
   
   def get_average_rating()
     Review.average('rating', :conditions => {:reviewed_id => self.id})
+  end
+
+  def hourly_rate_in_credit
+    (hourly_rate / CASH_TO_CREDIT_RATIO).ceil()
   end
 
   alias_method :average_rating, :get_average_rating

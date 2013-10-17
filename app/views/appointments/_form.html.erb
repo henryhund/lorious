@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="row">
+    <%= simple_form_for @appointment, url: expert_appointments_path(@expert), validate: true do |f| %>
+      <%= f.error_notification %>
+
+      <%= f.input :subject %>
+      <%= f.input :description %>
+      <%= f.input :time, as: :string %>
+      <%= f.input :duration, collection: @duration_options, selected: @default_duration %>
+      <div class="col-md-offset-5 col-md-7">
+        <span class="label label-info">
+          <i class="icon-asterisk">
+            <span id="total"><%= (@hourly_rate_in_credit * @default_duration / 60).to_i %><span> credits
+          </i>
+        </span>
+        <div>
+          <%= @expert.hourly_rate_in_credit %> <i>(hourly rate)</i> &times; 
+          <span id="duration_info"><%= @default_duration %> minutes</span>
+        </div>
+      </div>
+      <%= f.input :online, as: :radio_buttons, default: true %>
+      <%= f.input :place %>
+
+      <div class="col-md-offset-5 col-md-7">
+        <%= f.button :submit %>
+      </div>
+
+    <% end %>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('#appointment_time').datetimepicker({
+    format: "MM dd, yyyy - HH:ii p",
+    maxView: 3,
+    minView: 0,
+    startView: 2,
+    minuteStep: 15,
+    viewSelect: 0,
+    weekStart: 1,
+    todayBtn:  0,
+    autoclose: 1,
+    todayHighlight: 1,
+    forceParse: 0,
+    showMeridian: 1,
+    pickerPosition: 'bottom-left'
+  });
+
+  var hourly_rate_in_credit = <%= raw @hourly_rate_in_credit %>;
+
+  $('#appointment_duration').change(function(event){
+    var text = $('#appointment_duration option:selected').text();
+    var value = $(this).val();
+    $("#duration_info").html(text);
+    $('#total').html(Math.ceil(hourly_rate_in_credit / 60 * value));
+  }); 
+</script>
