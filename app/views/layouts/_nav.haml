@@ -40,7 +40,7 @@
       - if current_user
         %li.dropdown
           %a{"data-toggle" => "dropdown", :href => "#"}
-            ="Welcome #{current_user.first_name}"
+            ="Welcome #{current_user.name}"
             &nbsp;
             - if current_user.image_url.present?
               %img{src: current_user.image_url, width: '25px', class: "img-rounded"}

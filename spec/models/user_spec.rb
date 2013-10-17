@@ -62,4 +62,11 @@ describe User do
       user.credits.should eq(25)
     end
   end
+
+  context "name" do
+    let(:user) { FactoryGirl.create :user, first_name: "first", last_name: "last" }
+    it "should return first name capitalized and last name initial with period" do
+      user.name.should eq("First L.")
+    end
+  end
 end
