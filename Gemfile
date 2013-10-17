@@ -39,9 +39,6 @@ gem 'font-awesome-rails', '>=3.2.1.3'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-# gem 'turbolinks'
-
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
@@ -50,6 +47,7 @@ gem 'figaro'
 gem 'carrierwave'
 gem 'cancan'
 gem 'client_side_validations', :github => 'bcardarella/client_side_validations', :branch => '4-0-beta'
+gem 'client_side_validations-simple_form', :github => 'saveritemedical/client_side_validations-simple_form'
 gem 'rails_admin'
 
 gem "geocoder"

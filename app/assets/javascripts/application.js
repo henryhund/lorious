@@ -22,6 +22,7 @@
 //= require search
 //= require search-ui
 //= require rails.validations
+//= require rails.validations.simple_form
 //= require requests
 //= require_directory ./angular
 //= require_directory ./common

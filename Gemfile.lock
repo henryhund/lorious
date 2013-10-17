@@ -22,6 +22,14 @@ GIT
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.1)
 
+GIT
+  remote: git://github.com/saveritemedical/client_side_validations-simple_form.git
+  revision: b97c938be745de1134169026425aa0c990b8b072
+  specs:
+    client_side_validations-simple_form (2.1.0)
+      client_side_validations (~> 3.2.1)
+      simple_form (>= 2.1.0, < 4.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -327,6 +335,7 @@ DEPENDENCIES
   cancan
   carrierwave
   client_side_validations!
+  client_side_validations-simple_form!
   coffee-rails (~> 4.0.0)
   debugger
   devise

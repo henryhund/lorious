@@ -6,86 +6,107 @@
 				<br />
 				<h3>Problem Type:</h3>
 				<div class="input-group merged">
-				    <span class="input-group-addon"><i class="icon-search"></i></span>
+					<span class="input-group-addon"><i class="icon-search"></i></span>
 					<select chosen multiple class="form-control" style="width: 100%;"
-			          data-placeholder="Problem Type"
-			          no-results-text="'Could not find Type'"
-			          ng-model="selectedProblems" 
-        			  ng-options="f for f in problems">
-				 	</select>
+					data-placeholder="Problem Type"
+					no-results-text="'Could not find Type'"
+					ng-model="selectedProblems"
+					ng-options="f for f in problems"></select>
 				</div>
-				
+
 				<hr />
 				<h3>TAG:</h3>
 				<div class="input-group merged">
-				    <span class="input-group-addon"><i class="icon-search"></i></span>
+					<span class="input-group-addon"><i class="icon-search"></i></span>
 					<select chosen multiple class="form-control" style="width: 100%;"
-			          data-placeholder="TAG"
-			          no-results-text="'Could not find TAG'"
-			          ng-model="selectedTags" 
-        			  ng-options="f for f in tags">
-				 	</select>
+					data-placeholder="TAG"
+					no-results-text="'Could not find TAG'"
+					ng-model="selectedTags"
+					ng-options="f for f in tags"></select>
 				</div>
-				
+
 				<hr />
-				
+
 				<h3>Appt. Length (hrs)</h3>
-				<div ng-init="slider=[0,10]" ui-slider="{range: true}" style="margin-left:5%; width: 50%;" min="0" max="10" step="1" use-decimals ng-model="slider"></div>		
-				
+				<div ng-init="slider=[0,10]" ui-slider="{range: true}" style="margin-left:5%; width: 50%;" min="0" max="10" step="1" use-decimals ng-model="slider"></div>
+
 				<h4 class="text-left">Between {{slider[0] }} & {{slider[1] }} Hrs.</h4>
 				<hr />
-				
+
 			</div>
 			<div class="col-md-8">
 				<br />
-				
-				<p class="text-right">Sort by:
+
+				<p class="text-right">
+					Sort by:
 					<select ng-model="orderProp">
-					  <option value="">None</option>
-					  <option value="created_at">Date</option>
-					  <!--option value="age">Newest</option-->
-					</select>	
+						<option value="">None</option>
+						<option value="created_at">Date</option>
+						<!--option value="age">Newest</option-->
+					</select>
 				</p>
-				
+
 				<div when-scrolled="load_data()" style="height: 600px; width:100%; overflow-y: scroll;">
-					<div class="well" ng:repeat="request in requests | orderBy:orderProp"> 
+					<div class="well" ng:repeat="request in requests | orderBy:orderProp">
 						<div class="row">
 							<div class="col-md-4">
 								<br />
-								<a href="#" class="thumbnail">
-							      <img src="http://kalpataruhomeopathy.com/uploads/testimonials/thumbnails/150X150/no_user_thumbnail.png" alt="..." />
-							      <!-- <img ng-src="{{expert.image.url}}" alt="..."> -->
-							    </a>	
-							    <h4 class="text-center">{{request.requester_name}}</h4>
-							    <h4 class="text-center">{{request.company_url}}</h4>
+								<a href="#" class="thumbnail"> <img src="http://kalpataruhomeopathy.com/uploads/testimonials/thumbnails/150X150/no_user_thumbnail.png" alt="..." /> <!-- <img ng-src="{{expert.image.url}}" alt="..."> --> </a>
+								<h4 class="text-center">{{request.requester_name}}</h4>
+								<h4 class="text-center">{{request.company_url}}</h4>
 							</div>
-				  			<div class="col-md-8">
-				  				<div style=" float: right;top: -20px; right: -4px; position: absolute;">
-				  					<ul class="nav nav-pills nav-stacked">
-									  <li class="active">
-									    <a href="#">
-									      <span class="badge pull-right">{{request.appt_length}} mins</span>
-									      <small>Time Requested:</small>
-									    </a>
-									  </li>
-									</ul>				  					
-			  					</div>
-				  				<h2 style="margin-top: 22px;"> {{request.problem_headline }}</h2>
-				  				<span class="label label-primary" style="margin-right:10px;" ng-repeat="skill in request.skill_list" >{{skill}}</span>
-				  				<br />
-				  				<div tooltip="{{expert.bio}}" style="margin-top:10px;">{{request.problem_description | characters:300 :true}}</div>
-				  				
+							<div class="col-md-8">
+								<div style=" float: right;top: -20px; right: -4px; position: absolute;">
+									<ul class="nav nav-pills nav-stacked">
+										<li class="active">
+											<a href="#"> <span class="badge pull-right">{{request.appt_length}} mins</span> <small>Time Requested:</small> </a>
+										</li>
+									</ul>
+								</div>
+								<h2 style="margin-top: 22px;"> {{request.problem_headline }}</h2>
+								<span class="label label-primary" style="margin-right:10px;" ng-repeat="skill in request.skill_list" >{{skill}}</span>
+								<br />
+								<div tooltip="{{expert.bio}}" style="margin-top:10px;">
+									{{request.problem_description | characters:300 :true}}
+								</div>
+								<!--button type="button" data-toggle="modal" href="#messageModal" class="btn btn-default btn-xs pull-right">
+								<a class="disabled" ng-href="/{{expert.username}}">More</a>
+								</button-->
+								<button class="message pull-right" data-toggle="modal" href="#messageModal{{request.id}}">
+									<i class="icon-envelope"></i>
+									Respond to request
+								</button>
 							</div>
 						</div>
+						<!-- Modal Start -->
+						<div aria-hidden="true" class="modal fade modalmessage" id="messageModal{{request.id}}" role="dialog" tabindex="-1">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h4 class="modal-title"> Message {{request.requester_name}} </h4>
+									</div>
+									<div class="modal-body">
+										<%= render 'message' %>
+									</div>
+									<div class="modal-footer">
+										<p>
+											Press ESC to Exit
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Modal End -->
 					</div>
-						
 				</div>
-				
-
-				
 			</div>
 		</div>
+		
+		
+		
+		
 	</div>
 
 </div>
+
 

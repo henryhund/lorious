@@ -31,5 +31,7 @@ Lorious::Application.routes.draw do
 
   get '/request_latest', to: 'requests#latest'
   
+  post '/new_conversation', :controller => "conversation", :action => "create"
+  
   match "/:username" => "users/profiles#show", via: [:get], as: :profile
 end

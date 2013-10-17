@@ -13,9 +13,9 @@
     %ul.nav.navbar-nav
       -if current_user
         %li.visible-lg
-          =link_to "Search for Experts", "#"
+          =link_to "Search for Experts", search_path
         %li.visible-lg
-          =link_to "Recent Requests", "#"
+          =link_to "Recent Requests", request_latest_path
         %li.hidden-lg
           =link_to "Search", "#"
         %li.hidden-lg
