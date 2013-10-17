@@ -250,6 +250,14 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = "/my_engine/users/auth"
 
+  Warden::Manager.after_set_user do |user,auth,opts|
+    auth.cookies[:signed_in] = 1
+  end
+
+  Warden::Manager.before_logout do |user,auth,opts|
+    auth.cookies.delete :signed_in
+  end
+
   require "omniauth-google-oauth2"
   config.omniauth :google_oauth2, Rails.configuration.google_app_id, Rails.configuration.google_secret, { access_type: "offline", approval_prompt: "", scope: 'userinfo.email,userinfo.profile' }
   config.omniauth :twitter, ENV['TWITTER_CONSUMER_KEY'], ENV['TWITTER_CONSUMER_SECRET']

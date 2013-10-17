@@ -45,9 +45,10 @@
         %span.visible-sm
           %br
         -if @user.expert?
-          %button.appointment
-            %i.icon-calendar
-            Make Appointment
+          %a.login_check{href: "#"}
+            %button.appointment
+              %i.icon-calendar
+              Make Appointment
         &nbsp;
       .col-md-1.col-xs-12
         %ul.list-unstyled.links
@@ -197,3 +198,4 @@
             / %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
             / %button.btn.btn-primary{:type => "button"} Save changes
 
+= render "shared/modal"
