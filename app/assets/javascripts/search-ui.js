@@ -20,8 +20,6 @@ $(function() {
 	}
 	
 	$(".searchbox").typeWatch( options );
-	
-	
+
 	
 });
-

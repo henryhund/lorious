@@ -10,7 +10,7 @@
   <div class="col-xs-6 col-md-6 ">
   	<h1 class="text-center">Create Request</h1>
   	
-  	<%= simple_form_for @request do |f| %>
+  	<%= simple_form_for @request, validate: true do |f| %>
 	  	<%= f.error_notification %>
 	  	
 		<div id="content" style="margin-top: 25px;">
@@ -115,4 +115,3 @@
                 tags: <%= raw ActsAsTaggableOn::Tag.all.map {|c| c.name} %>,
                 tokenSeparators: [",", " "]});
 </script>
-

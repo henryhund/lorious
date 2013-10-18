@@ -2,7 +2,6 @@ namespace :db do
   desc "Fill database with sample data"
   task populate_experts: :environment do
     require 'populator'
-    #require 'carrierwave'
     require 'acts-as-taggable-on'
     
     [User, Expert, Availability, Review].each(&:delete_all)
@@ -35,6 +34,7 @@ namespace :db do
     #Need to add ratings for Experts and Profile Image URL
     User.populate(10) do |user|
       name  = Faker::Name.name
+      user.username = "User#{user.id}"
       user.first_name = name.split(' ').first
       user.last_name =  name.split(' ').last
       user.email = Faker::Internet.email

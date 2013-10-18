@@ -2,3 +2,6 @@
   .alert{class: "alert-#{flash_class(key)} fade in"}
     =message
     %a.close{href: "#", "data-dismiss" => "alert", "aria-hidden" => "true"} &times;
+
+.alert#js_notice{class: "alert-success fade"}
+  %a.close{href: "#", "data-dismiss" => "alert", "aria-hidden" => "true"} &times;

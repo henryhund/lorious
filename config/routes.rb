@@ -38,5 +38,21 @@ Lorious::Application.routes.draw do
 
   get '/request_latest', to: 'requests#latest'
   
+  post '/new_conversation', :controller => "conversations", :action => "create"
+  
+  
+  resources :conversations do
+    member do
+      delete 'trash'
+      post 'untrash'
+    end
+    collection do
+      delete 'trash'
+    end
+  end
+  #post 'search' => 'messages#search'
+  
+  post '/messages', :controller => "conversations", :action => "create_message"
+  
   match "/:username" => "users/profiles#show", via: [:get], as: :profile
 end
