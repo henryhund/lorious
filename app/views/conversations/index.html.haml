@@ -1,0 +1,36 @@
+- if @search
+  %h1 Search results for '#{@search}'
+- if @box == 'inbox'
+  %h1.text-left Inbox
+- if @box == 'sent'
+  %h1 Sent
+- if @box == 'trash'
+  %h1 Trash
+
+.row
+  .col-md-3  
+    = render 'messagenav'
+  .col-md-8
+    = form_tag trash_conversations_path, method: :delete do
+      = hidden_field_tag 'current_box', @box
+      %table.table.table-hover.table-condensed
+        %tr
+          - unless @box == 'trash'
+            %th
+          %th Sender
+          %th Subject
+          %th Messages
+          %th
+        - @messages.each do |m|
+          %tr{ class: "#{ 'success' if m.is_unread?(current_user) }" }
+            - unless @box == 'trash'
+              %td= check_box_tag '', m.id, false, class: 'delete_multiple_checkbox', name: "conversations[]"
+            %td= link_to m.last_sender.name, conversation_path(m)
+            %td= link_to m.subject, conversation_path(m)
+            %td= link_to m.count_messages, conversation_path(m)
+            %td= link_to truncate(m.last_message.body), conversation_path(m)
+      - unless @box == 'trash'
+        = submit_tag "Delete checked messages", id: 'delete_multiple_button'
+
+%br
+%br

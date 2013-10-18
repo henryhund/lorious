@@ -1,0 +1,7 @@
+<ul class="nav nav-pills nav-stacked">
+  	<li class="<%= 'active' if @box == 'inbox' %>"><%= link_to "Inbox", conversations_path(:box => "inbox") %></li>
+	<li class="divider"></li>
+	<li class="<%= 'active' if @box == 'sent' %>"><%= link_to "Sent", conversations_path(:box => "sent") %></li>
+	<li class="divider"></li>
+	<li class="<%= 'active' if @box == 'trash' %>"><%= link_to "Trash", conversations_path(:box => "trash") %></li>
+</ul>
