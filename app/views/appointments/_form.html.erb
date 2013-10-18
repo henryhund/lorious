@@ -18,8 +18,8 @@
           <span id="duration_info"><%= @default_duration %> minutes</span>
         </div>
       </div>
-      <%= f.input :online, as: :radio_buttons, default: true %>
-      <%= f.input :place %>
+      <%= f.input :online, as: :radio_buttons, default: true, label: "Talk online" %>
+      <%= f.input :place, label: "Place of meet" %>
 
       <div class="col-md-offset-5 col-md-7">
         <%= f.button :submit %>
@@ -54,4 +54,13 @@
     $("#duration_info").html(text);
     $('#total').html(Math.ceil(hourly_rate_in_credit / 60 * value));
   }); 
+
+  $('input[name="appointment[online]"]').change(function(event){
+    var value = $(this).val();
+    if(value == "true"){
+      $("#appointment_place").attr("disabled", true);
+    } else {
+      $("#appointment_place").attr("disabled", false);
+    }
+  });
 </script>

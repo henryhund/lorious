@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-5"></div>
+    <div class="col-xs-7">
+      <div class="row">
+        <div class="col-xs-4">Subject</div>
+        <div class="col-xs-8"><%= @appointment.subject %></div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">Description</div>
+        <div class="col-xs-8"><%= @appointment.description %></div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">Time</div>
+        <div class="col-xs-8"><%= @appointment.time %></div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">Duration</div>
+        <div class="col-xs-8"><%= @appointment.duration %></div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">Expert Hourly credit cost</div>
+        <div class="col-xs-8"><%= @appointment.expert.hourly_rate_in_credit %></div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">Total credit cost</div>
+        <div class="col-xs-8">
+          <span class="label label-info">
+            <i class="icon-asterisk"><%= @appointment.total_credit_cost %></i>
+          </span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">Meet online</div>
+        <div class="col-xs-8"><%= @appointment.online %></div>
+      </div>
+      <% unless @appointment.online %>
+        <div class="row">
+          <div class="col-xs-4">Place of Meet</div>
+          <div class="col-xs-8"><%= @appointment.place %></div>
+        </div>
+      <% end %>
+      <div class="row">
+        <div class="col-xs-4">Accepted by Expert</div>
+        <div class="col-xs-8"><%= @appointment.confirmed %></div>
+      </div>
+    </div>
+  </div>
+</div>

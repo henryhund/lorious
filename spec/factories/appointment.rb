@@ -4,5 +4,7 @@ FactoryGirl.define do
     duration 30
     place "Place"
     confirmed false
+    subject "Subject"
+    description "Description"
   end
 end

@@ -11,14 +11,18 @@ class AppointmentsController < ApplicationController
 
   def create
     begin
-      appointment = @expert.appointments.build appointment_params
-      appointment.user_id = current_user.id
-      appointment.save
+      @appointment = @expert.appointments.build appointment_params
+      @appointment.user_id = current_user.id
+      @appointment.save
     rescue Exception => e
       redirect_to new_expert_appointment_url, notice: I18n.t("appointment.create.failure")
     else
-      redirect_to root_url, notice: I18n.t("appointment.create.success")
+      redirect_to expert_appointment_url(id: @appointment.id), notice: I18n.t("appointment.create.success")
     end
+  end
+
+  def show
+    @appointment = Appointment.find(params[:id])
   end
 
   private
