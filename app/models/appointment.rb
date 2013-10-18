@@ -6,6 +6,8 @@ class Appointment < ActiveRecord::Base
   validates :place, presence: true, if: :in_person_meet?
 
   scope :pending, -> { where(confirmed: false) }
+  scope :upcoming, -> { where("confirmed = 1 AND time >= ?", Time.now) }
+  scope :history, -> { where("confirmed = 1 AND time < ?", Time.now) }
 
   def total_credit_cost
     (expert.hourly_rate_in_credit * duration / 60.to_f).ceil
