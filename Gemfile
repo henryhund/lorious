@@ -18,6 +18,9 @@ gem 'angularjs-rails', '1.0.8'
 # Simple Form
 gem 'simple_form' , '~> 3.0'
  
+#Sidekiq Gem for backgrounding tasks
+gem 'sidekiq'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 gem 'haml-rails'

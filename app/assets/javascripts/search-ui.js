@@ -20,4 +20,6 @@ $(function() {
 	}
 	
 	$(".searchbox").typeWatch( options );
+
+	
 });

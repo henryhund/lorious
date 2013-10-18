@@ -11,10 +11,12 @@
 <br />
 <br />
 
-<script>
+<!--script>
   $(document).ready(function() {
-      $('#messageModal').on('shown.bs.modal', function() {
-          $('#new_message').enableClientSideValidations();
+      $('.modalmessage').on('shown.bs.modal', function() {
+          //$('#new_message_post').enableClientSideValidations();
+          $(this).find('input:visible:first').focus().end().find('form').enableClientSideValidations();
+          console.log("hello");
       })
   });
-</script>
+</script-->

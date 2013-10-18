@@ -3,14 +3,14 @@
 <div ng-app='search' class='container' id='main' >
 	<div ng-controller="SearchCtrl" class='row'>
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-md-4" >
 				<br />
 				<h3>Search:</h3>
 				<div class="input-group merged">
 				    <span class="input-group-addon"><i class="icon-search"></i></span>
 				    <input type="text" class="form-control searchbox" placeholder="Keyword" ng-model="query.$" />
 				</div>
-				<hr />
+				
 				<h3>TAG:</h3>
 				<!--div class="input-group merged">
 				    <span class="input-group-addon"><i class="icon-search"></i></span>
@@ -27,7 +27,7 @@
 				 	</select>
 				</div>
 				
-				<hr />
+				
 				<h3>Location:</h3>
 				
 				<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
@@ -70,13 +70,12 @@
 				    <span class="input-group-addon"><i class="icon-search"></i></span>
 				    <input id="autocomplete" type="text" onFocus="geolocate()" class="form-control" placeholder="Location" ng-model="query.location" />
 				</div>
-				<hr />
 				
 				<h3>Price/Hr.</h3>
 				<div ng-init="slider=[0,2000]" ui-slider="{range: true}" style="margin-left:5%; width: 50%;" min="0" max="2000" step="50" use-decimals ng-model="slider"></div>		
 				
-				<h4 class="text-left">Between {{slider[0] }} & {{slider[1] }} Cr.</h4>
-				<hr />
+				<h5 class="text-left">Between {{slider[0] }} & {{slider[1] }} Cr.</h5>
+				
 				<h3>Rating:</h3>
 				
 				&nbsp;&nbsp;&nbsp;<input type="checkbox" ng-model="ratings.five"><rating value="5" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating></input><br />
