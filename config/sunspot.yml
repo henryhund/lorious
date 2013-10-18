@@ -1,6 +1,6 @@
 production:
   solr:
-    hostname: ec2-54-200-182-195.us-west-2.compute.amazonaws.com
+    hostname: localhost
     port: 8983
     log_level: WARNING
     # read_timeout: 2

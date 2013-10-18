@@ -1,5 +1,5 @@
 class MessagesWorker
-  include SideKiq::Worker
+  include ::Sidekiq::Worker
   
   def perform
     

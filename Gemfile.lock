@@ -217,6 +217,8 @@ GEM
     rack-pjax (0.7.0)
       nokogiri (~> 1.5)
       rack (~> 1.3)
+    rack-protection (1.5.0)
+      rack
     rack-test (0.6.2)
       rack (>= 1.0)
     rails (4.0.0)
@@ -300,6 +302,13 @@ GEM
     simple_form (3.0.0)
       actionpack (>= 4.0.0, < 4.1)
       activemodel (>= 4.0.0, < 4.1)
+    sinatra (1.4.3)
+      rack (~> 1.4)
+      rack-protection (~> 1.4)
+      tilt (~> 1.3, >= 1.3.4)
+    slim (2.0.1)
+      temple (~> 0.6.6)
+      tilt (>= 1.3.3, < 2.1)
     spork (1.0.0rc4)
     spork-rails (4.0.0)
       rails (>= 3.0.0, < 5)
@@ -320,6 +329,7 @@ GEM
       nokogiri
       sunspot (= 2.0.0)
     sunspot_solr (2.0.0)
+    temple (0.6.6)
     therubyracer (0.11.4)
       libv8 (~> 3.11.8.12)
       ref
@@ -386,6 +396,8 @@ DEPENDENCIES
   shoulda-matchers
   sidekiq
   simple_form (~> 3.0)
+  sinatra
+  slim
   spork-rails
   sunspot_rails
   sunspot_solr
