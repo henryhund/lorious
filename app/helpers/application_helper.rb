@@ -16,4 +16,8 @@ module ApplicationHelper
   def comma_seperated_string_to_array(string)
     string.split(",").map {|e| e.strip}
   end
+
+  def boolean_mapper(value)
+    value ? "Yes" : "No"
+  end
 end

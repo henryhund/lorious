@@ -11,6 +11,13 @@ Lorious::Application.routes.draw do
     resources :steps, only: [:edit, :update]
     resource :profile, only: [:show]
     resources :interests, only: [:new, :create]
+    resources :appointments, only: [:index] do
+      collection do
+        get "pending"
+        get "upcoming"
+        get "history"
+      end
+    end
   end
 
   namespace :experts do

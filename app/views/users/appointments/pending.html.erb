@@ -1,0 +1,24 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Appointment with</th>
+      <th>Regarding</th>
+      <th>Time</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @pending_appointments.each do |appointment| %>
+      <tr>
+        <td><%= appointment.appointment_with_for_user(current_user).name %></td>
+        <td><%= appointment.subject %></td>
+        <td><%= appointment.time %></td>
+        <td><%= link_to "View", expert_appointment_url(appointment.expert.id, appointment.id), target: "_blank" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% if @pending_appointments.empty? %>
+  <div>No pending appointments.</div>
+<% end %>
