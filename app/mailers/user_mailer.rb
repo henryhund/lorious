@@ -22,4 +22,9 @@ class UserMailer < ActionMailer::Base
     @appointment, @to, @edited_by, @expert = appointment, to, edited_by, appointment.expert
     mail(to: @to.email, subject: 'Appointment Updated')
   end
+
+  def appointment_confirmed_notification appointment, to
+    @appointment, @to, @appointment_with = appointment, to, appointment.appointment_with_for_user(to)
+    mail(to: @to.email, subject: 'Appointment Confirmed')
+  end
 end

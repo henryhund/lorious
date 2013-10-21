@@ -20,4 +20,8 @@ class Appointment < ActiveRecord::Base
   def appointment_with_for_user for_user
     for_user.expert? ? user : expert
   end
+
+  def confirmed?
+    user_confirmed && expert_confirmed
+  end
 end

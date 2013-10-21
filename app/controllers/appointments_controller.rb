@@ -54,6 +54,10 @@ class AppointmentsController < ApplicationController
       @appointment.user_confirmed = true
     end
     @appointment.save
+    if @appointment.confirmed?
+      UserMailer.delay.appointment_confirmed_notification(@appointment, @appointment.user)
+      UserMailer.delay.appointment_confirmed_notification(@appointment, @appointment.expert)
+    end
     redirect_to expert_appointment_url(current_user.id, @appointment.id), notice: I18n.t("appointment.confirmed")
   end
 
