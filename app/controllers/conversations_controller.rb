@@ -54,7 +54,7 @@ class ConversationsController < ApplicationController
     end
     flash[:notice] = "Message sent."
 
-    redirect_to conversations_path(receipt.conversation)
+    redirect_to conversation_path(receipt.conversation)
   end
 
   def show

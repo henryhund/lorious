@@ -7,7 +7,7 @@
       - if @conversation.is_trashed?(current_user)
         = link_to "Untrash", untrash_conversation_path(@conversation), class: :button, method: :post
       - else
-        = link_to "Trash", trash_conversations_path(@conversation), class: :button, method: :delete
+        = link_to "Trash", trash_conversation_path(@conversation), class: :button, method: :delete
     %h2.subject= @conversation.subject
     .well
       %ul#conversation

@@ -1,5 +1,6 @@
 Mailboxer.setup do |config|
-
+  
+  config.message_mailer = AsyncMessageMailer
   #Configures if you applications uses or no the email sending for Notifications and Messages
   config.uses_emails = true
 

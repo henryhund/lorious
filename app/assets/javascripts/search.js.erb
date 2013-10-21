@@ -50,11 +50,12 @@ app.factory("Search", [
 
 this.SearchCtrl = [
   "$scope", "$resource", "$route", "$routeParams", "$location", "Search", function($scope, $resource, $route, $routeParams, $location, Search) {
-    
+    $scope.loading = true;
     $scope.model = {facets: [] };
     Search.get({id: 1}, function (new_experts) {
 	  $scope.experts = new_experts.results;
 	  $scope.model.facets = new_experts.facets;
+	  $scope.loading = false;
 	});
 	
     //Initializing rating elements
@@ -83,6 +84,7 @@ this.SearchDetailCtrl = [
   "$scope", "$resource", "$route", "$routeParams", "$location", "Search", function($scope, $resource, $route, $routeParams, $location, Search) {
     
     $scope.pg_counter = 1;
+    $scope.loading = false;
 	$scope.update = function(value) {
 	    $scope.model.facets = value;
 	};
@@ -112,21 +114,24 @@ this.SearchDetailCtrl = [
 	};
 	 
     $scope.load_data = function() {
+	  $scope.loading = true;
 	  Search.get($scope.generateSearchParams($scope.pg_counter++), function (new_experts) {
         //new data is available in the callback to insert to the experts ng-model
         $scope.experts.push.apply($scope.experts, new_experts.results);
         //$scope.update(new_experts.facets);
         //console.log('length '+$scope.experts.length);
+        $scope.loading = false;
       });
     };
     
     $scope.load_data_with_params = function(params) {
 	  $scope.experts = []; //clear old search results
-	  
+	  $scope.loading = true;
 	  Search.get(params, function (new_experts) {
         $scope.experts = new_experts.results;
         //console.log('length '+$scope.experts.length);
         //$scope.update(new_experts.facets);
+        $scope.loading = false;
       });
     };
     
