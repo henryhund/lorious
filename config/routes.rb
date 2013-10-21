@@ -17,9 +17,6 @@ Lorious::Application.routes.draw do
         get "upcoming"
         get "history"
       end
-      member do
-        post "confirm"
-      end
     end
   end
 
@@ -29,7 +26,11 @@ Lorious::Application.routes.draw do
   end
 
   resources :experts, only: [] do
-    resources :appointments
+    resources :appointments do
+      member do
+        post "confirm"
+      end
+    end
   end
 
   resource :users, only: [:show]

@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <%= simple_form_for @appointment, url: expert_appointments_path(@expert), validate: true do |f| %>
+    <%= simple_form_for [@expert, @appointment], validate: true do |f| %>
       <%= f.error_notification %>
 
       <%= f.input :subject %>

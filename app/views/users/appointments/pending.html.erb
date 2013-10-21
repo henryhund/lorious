@@ -20,7 +20,7 @@
         <td><%= link_to "View", expert_appointment_url(appointment.expert.id, appointment.id), target: "_blank" %></td>
         <td><%= link_to "Edit", edit_expert_appointment_url(appointment.expert.id, appointment.id), target: "_blank" %></td>
         <% if current_user.expert? %>
-          <td><%= link_to "Confirm", confirm_users_appointment_path(appointment.id), method: :post %></td>
+          <td><%= link_to "Confirm", confirm_expert_appointment_path(appointment.expert.id, appointment.id), method: :post %></td>
         <% end %>
       </tr>
     <% end %>

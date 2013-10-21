@@ -28,6 +28,35 @@ class AppointmentsController < ApplicationController
     @appointment = Appointment.find(params[:id])
   end
 
+  def update
+    @appointment = Appointment.find(params[:id])
+    begin
+      @appointment.attributes = appointment_params
+      if current_user.expert?
+        @appointment.user_confirmed = false
+      else
+        @appointment.expert_confirmed = false
+      end
+      @appointment.save
+    rescue Exception => e
+      redirect_to expert_appointment_url(@appointment.expert.id, @appointment.id), notice: I18n.t("appointment.update.failure")
+    else
+      UserMailer.delay.appointment_updated_confirm_request(@appointment, @appointment.appointment_with_for_user(current_user), current_user)
+      redirect_to expert_appointment_url(@appointment.expert.id, @appointment.id), notice: I18n.t("appointment.update.success")
+    end
+  end
+
+  def confirm
+    @appointment = Appointment.find(params[:id])
+    if current_user.expert?
+      @appointment.expert_confirmed = true
+    else
+      @appointment.user_confirmed = true
+    end
+    @appointment.save
+    redirect_to expert_appointment_url(current_user.id, @appointment.id), notice: I18n.t("appointment.confirmed")
+  end
+
   private
 
   def get_expert

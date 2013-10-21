@@ -11,16 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131017093640) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20131021090427) do
 
   create_table "appointments", force: true do |t|
     t.datetime "time"
     t.integer  "duration"
     t.string   "place"
-    t.boolean  "confirmed",   default: false
+    t.boolean  "expert_confirmed", default: false
     t.integer  "expert_id"
     t.integer  "user_id"
     t.datetime "created_at"
@@ -28,6 +25,7 @@ ActiveRecord::Schema.define(version: 20131017093640) do
     t.string   "subject"
     t.text     "description"
     t.boolean  "online"
+    t.boolean  "user_confirmed",   default: true
   end
 
   create_table "availabilities", force: true do |t|
@@ -224,8 +222,8 @@ ActiveRecord::Schema.define(version: 20131017093640) do
     t.string   "location"
     t.string   "website"
     t.string   "image"
-    t.string   "first_name"
     t.string   "last_name"
+    t.string   "first_name"
     t.string   "username"
     t.string   "zip_code"
     t.text     "job"
