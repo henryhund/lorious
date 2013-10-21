@@ -15,6 +15,7 @@ class AppointmentsController < ApplicationController
     rescue Exception => e
       redirect_to new_expert_appointment_url, notice: I18n.t("appointment.create.failure")
     else
+      UserMailer.delay.new_appointment_request_to_expert(@appointment)
       redirect_to expert_appointment_url(id: @appointment.id), notice: I18n.t("appointment.create.success")
     end
   end

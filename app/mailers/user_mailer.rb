@@ -12,4 +12,9 @@ class UserMailer < ActionMailer::Base
   def new_expert_request
     
   end
+
+  def new_appointment_request_to_expert appointment
+    @appointment, @expert, @user = appointment, appointment.expert, appointment.user
+    mail(to: @expert.email, subject: 'New Appointment')
+  end
 end

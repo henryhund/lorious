@@ -19,7 +19,7 @@
         </div>
       </div>
       <%= f.input :online, as: :radio_buttons, default: true, label: "Talk online" %>
-      <%= f.input :place, label: "Place of meet" %>
+      <%= f.input :place, label: "Place of meet", validate: true, disabled: @appointment.online %>
 
       <div class="col-md-offset-5 col-md-7">
         <%= f.button :submit %>

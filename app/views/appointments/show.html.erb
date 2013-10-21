@@ -46,4 +46,17 @@
       </div>
     </div>
   </div>
+
+  <% if current_user.expert? %>
+    <div class="row">
+      <div class="col-md-7 col-md-offset-5">
+        <button type="button" class="btn btn-default">
+          <%= link_to "Edit", edit_expert_appointment_url(@appointment.expert.id, @appointment.id), class: "btn" %>
+        </button>
+        <button type="button" class="btn btn-success">
+          <%= link_to "Confirm", confirm_users_appointment_path(@appointment.id), method: :post, class: "btn" %>
+        </button>
+      </div>
+    </div>
+  <% end %>
 </div>
