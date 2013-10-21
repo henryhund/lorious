@@ -23,7 +23,7 @@ describe Expert do
       it "should return assigned skills" do
         expert.skill_list.add "Web"
         expert.save
-        expert.skill_list.should == ["Web"]
+        expert.skill_list.should == ["web"]
         Expert.tagged_with(["Web"], :match_all => true).should == [expert]
       end
     end

@@ -3,7 +3,7 @@ FactoryGirl.define do
     time Time.now - 9.days
     duration 30
     place "Place"
-    confirmed false
+    expert_confirmed false
     subject "Subject"
     description "Description"
   end
