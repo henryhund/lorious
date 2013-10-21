@@ -17,6 +17,9 @@ Lorious::Application.routes.draw do
         get "upcoming"
         get "history"
       end
+      member do
+        post "confirm"
+      end
     end
   end
 

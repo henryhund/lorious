@@ -1,12 +1,10 @@
 class AppointmentsController < ApplicationController
 
   before_filter :get_expert
+  before_filter :form_data, only: [:new, :edit]
 
   def new
     @appointment = @expert.appointments.new
-    @duration_options = (30..360).step(30).map { |d| [ d < 60 ? "#{d.to_s} minutes" : "#{(d/60.round(1)).to_s} #{"hour".pluralize(d/60.round(1))}" , d.to_s ] }
-    @default_duration = 30
-    @hourly_rate_in_credit = @expert.hourly_rate_in_credit
   end
 
   def create
@@ -25,6 +23,10 @@ class AppointmentsController < ApplicationController
     @appointment = Appointment.find(params[:id])
   end
 
+  def edit
+    @appointment = Appointment.find(params[:id])
+  end
+
   private
 
   def get_expert
@@ -33,6 +35,12 @@ class AppointmentsController < ApplicationController
 
   def appointment_params
     params.require(:appointment).permit(:time, :duration, :place, :subject, :description, :online)
+  end
+
+  def form_data
+    @duration_options = (30..360).step(30).map { |d| [ d < 60 ? "#{d.to_s} minutes" : "#{(d/60.round(1)).to_s} #{"hour".pluralize(d/60.round(1))}" , d.to_s ] }
+    @default_duration = 30
+    @hourly_rate_in_credit = @expert.hourly_rate_in_credit
   end
 
 end

@@ -18,4 +18,11 @@ class Users::AppointmentsController < ApplicationController
     @appointments = current_user.appointments.history.includes([:expert, :user])
   end
 
+  def confirm
+    @appointment = Appointment.find(params[:id])
+    @appointment.confirmed = true
+    @appointment.save
+    redirect_to users_url, notice: I18n.t("appointment.confirmed")
+  end
+
 end

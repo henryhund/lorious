@@ -7,8 +7,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       # remove the virtual current_password attribute update_without_password
       # doesn't know how to ignore it
-      params[:user].delete(:current_password)
+      user_params.delete(:current_password)
       @user.update_without_password(user_params)
+      @user.skill_list = params[:expert][:skills]
+      @user.save!
     end
 
     if successfully_updated
@@ -31,6 +33,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :zip_code, :website, :username, :tag_line, :bio)
+    require_params = @user.expert? ? params.require(:expert) : params.require(:user)
+    require_params.permit(:first_name, :last_name, :zip_code, :website, :username, :tag_line, :bio, :location, :job, :image)
   end
 end

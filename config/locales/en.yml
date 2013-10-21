@@ -131,3 +131,4 @@ en:
     create:
       success: "Successfully created appointment, pending to be accepted."
       failure: "Failed to create appointment."
+    confirmed: "The appointment is confirmed"
