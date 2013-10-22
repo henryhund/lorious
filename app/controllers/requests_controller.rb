@@ -2,6 +2,7 @@ class RequestsController < ApplicationController
   before_filter :authenticate_user!, except: [:index]
   
   def new 
+    @length = 30
     @request = Request.new
     respond_to do |format|
       format.html { @request}

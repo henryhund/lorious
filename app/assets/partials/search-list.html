@@ -11,18 +11,6 @@
 </p>
 
 <div when-scrolled="load_data()" id="AngularCtrl" ng-controller="SearchDetailCtrl" style="height: 600px; width:100%; overflow-y: scroll;">
-	<!--div>
-		<div id="circularG">
-			<div id="circularG_1" class="circularG"></div>
-			<div id="circularG_2" class="circularG"></div>
-			<div id="circularG_3" class="circularG"></div>
-			<div id="circularG_4" class="circularG"></div>
-			<div id="circularG_5" class="circularG"></div>
-			<div id="circularG_6" class="circularG"></div>
-			<div id="circularG_7" class="circularG"></div>
-			<div id="circularG_8" class="circularG"></div>
-		</div>
-	</div-->
 	<style>
 	#cropcontainer
 	{
@@ -44,8 +32,7 @@
 			<div class="col-md-4">
 				<br />
 				<a href="#" class="thumbnail">
-			      <img src="http://kalpataruhomeopathy.com/uploads/testimonials/thumbnails/150X150/no_user_thumbnail.png" alt="..." />
-			      <!-- <img ng-src="{{expert.image.url}}" alt="..."> -->
+			      <img ng-src="{{expert.image.url}}" alt="..."> 
 			    </a>	
 			    <h4 class="text-center">{{expert.hourly_rate | currency:"Cr."}}/hr.</h4>
 			    

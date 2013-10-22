@@ -1,7 +1,7 @@
 class Request < ActiveRecord::Base
   
   def self.APPT_LENGTH 
-    [10,15,20,25,30,35,40,45]
+    (30..360).step(30).map { |d| [ d < 60 ? "#{d.to_s} minutes" : "#{(d/60.round(1)).to_s} #{"hour".pluralize(d/60.round(1))}" , d.to_s ] }
   end
 
   belongs_to :requester, class_name: "User"

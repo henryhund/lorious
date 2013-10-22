@@ -58,19 +58,20 @@
 		    
 		    <%= f.input :skill_list, label: 'Tags', :input_html => { :class => "auto-tokenize" , :style => "width: 100%; border-radius: 4px;"} %>
 		  
-			<%= f.input :appt_length, label: 'Appt Length (mins)', collection: Request.APPT_LENGTH  %>
+			<%= f.input :appt_length, label: 'Appt Length', collection: Request.APPT_LENGTH, selected: @length, style: "vertical-align: middle;" %>
 			
-			<div class="well" style="margin-top: 50px; margin-bottom: 20px;">
-				<h3 class="text-center" >I want to talk to someone</h3>
-			
-				<%= f.input :is_local, label: 'Local'%>
+			<% if(false) %>
+				<div class="well" style="margin-top: 50px; margin-bottom: 20px;">
+					<h3 class="text-center" >I want to talk to someone</h3>
 				
-				<%= f.input :local_zip, label: 'ZIP'%>
-				
-				<%= f.input :is_online, label: 'Online'%>	
-				
-			</div>
-			
+					<%= f.input :is_local, label: 'Local'%>
+					
+					<%= f.input :local_zip, label: 'ZIP'%>
+					
+					<%= f.input :is_online, label: 'Online'%>	
+					
+				</div>
+			<% end %>
 		  </div>
 		  	
 		  	 

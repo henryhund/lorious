@@ -35,19 +35,22 @@
 
 			</div>
 			<div class="col-md-8">
-				<br />
-
-				<p class="text-right">
+				
+				<div class="pull-center">
+					<a href="/requests/new" class="btn btn-primary pull-center">Create New Request</a>
+				</div>
+						
+				<div class="pull-right" style="margin-bottom: 10px;">
 					Sort by:
 					<select ng-model="orderProp">
 						<option value="">None</option>
 						<option value="created_at">Date</option>
 						<!--option value="age">Newest</option-->
 					</select>
-				</p>
-
+				</div>
+				
 				<div when-scrolled="load_data()" style="height: 600px; width:100%; overflow-y: scroll;">
-					<div class="well" ng:repeat="request in requests | orderBy:orderProp">
+					<div class="well" ng:repeat="request in requests | orderBy:orderProp:reverse">
 						<div class="row">
 							<div class="col-md-4">
 								<br />
