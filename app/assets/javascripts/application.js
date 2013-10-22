@@ -26,3 +26,4 @@
 //= require requests
 //= require_directory ./angular
 //= require_directory ./common
+//= require availability_calendar

@@ -194,7 +194,7 @@
             %h4.modal-title 
               =@user.name.capitalize + "'s Calendar" rescue "Calendar"
           .modal-body
-            =render "calendar"
+            =render "shared/availability_calendar"
           .modal-footer
             %p Press ESC to Exit
             / %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
