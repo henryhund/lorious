@@ -52,4 +52,7 @@
   .leftDiv {
     border-right: 1px solid #ccc;
   }
+  .leftDiv, .rightDiv {
+    cursor: pointer;
+  }
 }
