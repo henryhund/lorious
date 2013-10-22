@@ -9,7 +9,9 @@ class Experts::AvailabilitiesController < ApplicationController
   def update
     begin
       availability = Availability.find params[:id]
-      availability.update_attributes(availability_params)
+      availability.attributes = availability_params
+      availability.timezone_in_minutes = availability.get_time_zone_difference_in_minutes_from_gmt
+      availability.save
     rescue Exception => e
       redirect_to users_url, notice: I18n.t("availability.update.failure")
     else
@@ -20,7 +22,9 @@ class Experts::AvailabilitiesController < ApplicationController
   private
 
   def availability_params
-    params.require(:availability).permit(:hourly_cost)
+    params.require(:availability).permit(:hourly_cost, :time_zone, :timezone_in_minutes)
   end
+
+
 
 end

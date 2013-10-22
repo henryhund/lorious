@@ -21,6 +21,10 @@ class Availability < ActiveRecord::Base
     matched_timespan.any?
   end
 
+  def get_time_zone_difference_in_minutes_from_gmt
+    ActiveSupport::TimeZone.new(time_zone).utc_offset / 60
+  end
+
   private
 
   def convert_time_to_gmt time, timezone

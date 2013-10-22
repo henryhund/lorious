@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131021090427) do
+ActiveRecord::Schema.define(version: 20131022064656) do
 
   create_table "appointments", force: true do |t|
     t.datetime "time"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20131021090427) do
     t.integer  "timezone_in_minutes"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "time_zone"
   end
 
   add_index "availabilities", ["expert_id"], name: "index_availabilities_on_expert_id", using: :btree
