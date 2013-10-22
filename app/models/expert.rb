@@ -19,9 +19,9 @@ class Expert < User
   end
   
   searchable :auto_index => true, :auto_remove => true do
-    text :first_name
-    text :last_name
-    text :bio
+    text :first_name , :as => :first_name_textp
+    text :last_name , :as => :last_name_textp
+    text :bio , :as => :bio_textp
     string :skill_list, :multiple => true, :stored => true do 
       skill_list.map!{|c| c.downcase.strip}
     end

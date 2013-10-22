@@ -9,7 +9,7 @@ class HomeController < ApplicationController
     @search = Expert.search do
       
       if params[:keyword].present?
-        fulltext params[:keyword] do
+        keywords params[:keyword] do
           boost_fields :first_name => 5.0
         end  
       end
