@@ -13,6 +13,10 @@ class Availability < ActiveRecord::Base
     self.timespans = availability.to_json
   end
 
+  def timespan_in_timezone timezone
+    
+  end
+
   def is_free? availability, timezone_in_minutes
     timespans_hash = JSON.parse timespans
     matched_timespan = timespans_hash.select do |t|

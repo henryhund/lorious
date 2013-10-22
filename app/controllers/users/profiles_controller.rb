@@ -5,7 +5,10 @@ class Users::ProfilesController < ApplicationController
     if @user
       @social_links = @user.social_links
       @interests = @user.interests
-      @expertise = @user.expertise if @user.expert?
+      if @user.expert?
+        @expertise = @user.expertise
+        @availability = @user.availability
+      end
       @reviews = @user.reviews_received.includes(:reviewer, :tags)
       render :show
     else
