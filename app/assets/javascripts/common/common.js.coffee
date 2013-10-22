@@ -1,3 +1,5 @@
+window.lorious = window.lorious || {fn: {}, data: {}}
+
 $ ->
   $(".chosen").chosen()
   

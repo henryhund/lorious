@@ -33,12 +33,18 @@
         %th.verticaltext 9
         %th.verticaltext 10
         %th.verticaltext 11
-      -(0..6).to_a.each do |index|
-        %tr{ :id => "day_#{index}" }
+      -(0..6).to_a.each do |day_index|
+        -day_start_minute = day_index * 24 * 60
+        %tr{ :id => "day_#{day_index}" }
           %th.normalWeight{:align => "left", :style => "padding-right: 10px;"} 
-            =Date::DAYNAMES[index]
+            =Date::DAYNAMES[day_index]
           -(0..23).to_a.each do |hour_index|
+            -hour_start_minute = day_start_minute + hour_index * 60
             %td
-              .leftDiv
-              .rightDiv
-      
+              .leftDiv.availability_time_unit{"data-start"=>"#{hour_start_minute}", "data-end"=>"#{hour_start_minute+30}"}
+              .rightDiv.availability_time_unit{"data-start"=>"#{hour_start_minute+30}", "data-end"=>"#{hour_start_minute+60}"}
+:javascript
+  $(document).ready(function(){
+    var availability_list = #{raw @availability.timespans};
+    lorious.fn.highlight_availability_list(availability_list);
+  })
