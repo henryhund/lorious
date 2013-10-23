@@ -166,7 +166,7 @@
             %h1 Reviews
             %hr
           .text-center
-            %button{"data-toggle" => "modal", :href => "#messageModal"}
+            %button{"data-toggle" => "modal", :href => "#reviewModal"}
               %i.icon-envelope
                 Write a Review
           %hr  
@@ -218,5 +218,16 @@
             =render "message" 
           .modal-footer
             %p Press ESC to Exit
-
+            
+    #reviewModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "calendarModalLabel", :role => "dialog", :tabindex => "-1"}
+      .modal-dialog
+        .modal-content
+          .modal-header
+            / %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} x
+            %h4.modal-title 
+              = "Write a review for " + @user.name.capitalize
+          .modal-body
+            =render "review" 
+          .modal-footer
+            %p Press ESC to Exit
 = render "shared/modal"

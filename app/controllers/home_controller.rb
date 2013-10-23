@@ -39,4 +39,20 @@ class HomeController < ApplicationController
     end
     
   end
+  
+  def new_review
+    @expert = Expert.find(params[:review][:reviewed_id])
+    begin
+      @review = Review.new params.require(:review).permit(:reviewer_id, :reviewed_id, :content, :rating)
+      @review.save
+    rescue Exception => e
+      flash[:alert] = @review.errors rescue "Error saving Review"
+      redirect_to profile_path(username: @expert.username)
+    else
+      @review.tag_list.add params[:review][:tags] if params[:review][:tags]
+      @review.save validate: false
+      flash[:notice] = "Your review has been succesfully added."
+      redirect_to profile_path(username: @expert.username)
+    end
+  end
 end

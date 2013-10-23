@@ -50,7 +50,7 @@ Lorious::Application.routes.draw do
   get '/request_latest', to: 'requests#latest'
   
   post '/new_conversation', :controller => "conversations", :action => "create"
-  
+  post '/new_review', :controller => "home", :action => "new_review"
   
   resources :conversations do
     member do

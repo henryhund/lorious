@@ -10,6 +10,9 @@ class Users::ProfilesController < ApplicationController
         @availability = @user.availability
       end
       @reviews = @user.reviews_received.includes(:reviewer, :tags)
+      
+      @available_skills = AvailableTag.skills.map { |e| [e.name, e.name] }
+      
       render :show
     else
       not_found

@@ -86,4 +86,14 @@ namespace :db do
     end
     
   end 
+  
+  desc "Fill database with tags of various types"
+  task populate_tags: :environment do
+    [AvailableTag].each(&:delete_all)
+    tags = ["Ruby", "C++", "Java", "PostgreSQL", ".NET", "MySql", "PHP", "Phython","Perl","BASIC","Matlab","C#","Pascal","Rails", "Stripe", "API" ,"Node.js"]
+    tags.each do |tag|
+      AvailableTag.create(:name=> tag.to_s, :category => "Skills")
+    end
+  end
+  
 end

@@ -1,0 +1,33 @@
+
+<%= simple_form_for(Review.new, url: new_review_path, method: :post, remote: false, multipart: true, validate: true) do |f| %>
+  <div class="alert alert-danger fade" id="modal_notice" style="margin-bottom: 5px;">
+  </div>
+  
+  <%= f.hidden_field :reviewer_id, value: current_user.id %>
+  <%= f.hidden_field :reviewed_id, value: @user.id %>
+  <%= f.input :content, :input_html => { :cols => 50, :rows => 3 } %>
+  
+  <div class="form-group">
+		<label class="string optional col-md-5 control-label" for="request_company_name">Rating</label>
+		<span id="s1" style="margin-top: 7px; margin-left: 12px;" />
+  </div>
+  <%= f.select :tags, options_for_select(@available_skills), {}, multiple: "multiple", class: "chosen", "data-placeholder" => "Select your skills" %>	
+  
+  <%= f.button :submit, "Submit review", class: "btn btn-default pull-right" %>
+<% end %>
+
+<br />
+<br />
+
+<script>
+  $(document).ready(function() {
+      $('#reviewModal').on('shown.bs.modal', function() {
+          $('#new_review').enableClientSideValidations();
+      });
+      
+      $('#s1').raty({
+		scoreName : 'review[rating]',
+		scoreId : 'review_rating'
+	  });
+  });
+</script>
