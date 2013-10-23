@@ -53,15 +53,41 @@
           </div>
         </div>
       </div>
+      <% unless @user.expert? %>
+	      <div class="panel panel-default">
+	        <div class="panel-heading">
+	          <h4 class="panel-title">
+	            <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar_accordion" href="#collapseThree">
+	              View Requests
+	            </a>
+	          </h4>
+	        </div>
+	        <div id="collapseThree" class="panel-collapse collapse">
+	          <div class="panel-body">
+	            <ul class="nav nav-pills nav-stacked">
+	              <li>
+	                <a href="#new_requests" data-toggle="tab" class="content-load profile_tabs" data-content-url="/users/requests_made/new_request" data-content-handler="#new_requests">New Requests</a>
+	              </li>
+	              <li>
+	                <a href="#withdrawn_requests" data-toggle="tab" class="content-load profile_tabs" data-content-url="/users/requests_made/withdrawn" data-content-handler="#withdrawn_requests">Withdrawn Requests</a>
+	              </li>
+	              <li>
+	                <a href="#completed_requests" data-toggle="tab" class="content-load profile_tabs" data-content-url="/users/requests_made/completed" data-content-handler="#completed_requests">Completed Requests</a>
+	              </li>
+	            </ul>
+	          </div>
+	        </div>
+	      </div>
+      <% end %>
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar_accordion" href="#collapseThree">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar_accordion" href="#collapseFour">
               Manage Credits
             </a>
           </h4>
         </div>
-        <div id="collapseThree" class="panel-collapse collapse">
+        <div id="collapseFour" class="panel-collapse collapse">
           <div class="panel-body">
             Menu
           </div>
@@ -70,12 +96,12 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar_accordion" href="#collapseFour">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar_accordion" href="#collapseFive">
               Social Media
             </a>
           </h4>
         </div>
-        <div id="collapseFour" class="panel-collapse collapse">
+        <div id="collapseFive" class="panel-collapse collapse">
           <div class="panel-body">
             <ul class="nav nav-pills nav-stacked">
               <li>
@@ -92,12 +118,12 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">
-              <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar_accordion" href="#collapseFive">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar_accordion" href="#collapseSix">
                 Manage Availability
               </a>
             </h4>
           </div>
-          <div id="collapseFive" class="panel-collapse collapse">
+          <div id="collapseSix" class="panel-collapse collapse">
             <div class="panel-body">
               <ul class="nav nav-pills nav-stacked">
                 <li>
@@ -125,6 +151,10 @@
       <div class="tab-pane" id="pending_appointments"></div>
       <div class="tab-pane" id="upcoming_appointments"></div>
       <div class="tab-pane" id="history_appointments"></div>
+      <div class="tab-pane" id="new_requests"></div>
+      <div class="tab-pane" id="withdrawn_requests"></div>
+      <div class="tab-pane" id="completed_requests"></div>
+        
     </div>
   </div>
 </div>

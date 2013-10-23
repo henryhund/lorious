@@ -18,6 +18,13 @@ Lorious::Application.routes.draw do
         get "history"
       end
     end
+    resources :requests_made, only: [:index], :controller => 'requests' do
+      collection do
+        get "new_request"
+        get "withdrawn"
+        get "completed"
+      end
+    end
   end
 
   namespace :experts do

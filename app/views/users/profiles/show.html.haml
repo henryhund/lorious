@@ -4,6 +4,7 @@
 - content_for :head do
   :javascript
     $(function() {
+      console.log('raty');
       $('#star-average').raty({ readOnly: true, score: 4.5 });
     });
     $(function() {
@@ -101,7 +102,7 @@
         .col-md-4.left
           %p.detail-label My rating is
           .detail-content
-            .star{id: "star-average"}
+            .star{id: "star-average", "data-score" => @user.get_average_rating}
         .col-md-4.center
           %p.detail-label I've had
           %p.detail-content 15 conversations
@@ -155,14 +156,20 @@
         %span.body-container
           %p
             =@user.bio
-
+  
   -if @user.expert?
     #reviews.row
       .container
         .col-md-12
+        
           %span.title
             %h1 Reviews
             %hr
+          .text-center
+            %button{"data-toggle" => "modal", :href => "#messageModal"}
+              %i.icon-envelope
+                Write a Review
+          %hr  
           %ul.list-unstyled
             -@reviews.each do |review|
               %li
@@ -173,7 +180,7 @@
                     %p.review-name
                       =reviewer.name
                   %p 7/8/13
-                  .star
+                  .star{"data-score" => review.rating }  
                 .review-detail-div
                   %p.more
                     =review.content

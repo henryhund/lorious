@@ -11,8 +11,12 @@ class User < ActiveRecord::Base
   acts_as_messageable
   mount_uploader :image, ImageUploader
 
-  has_many :reviews_made, class_name: "Review", foreign_key: "reviewer_id"
-  has_many :reviews_received, class_name: "Review", foreign_key: "reviewed_id"
+  has_many :reviews_made, class_name: "Review", foreign_key: "reviewer_id", dependent: :destroy
+  has_many :reviews_received, class_name: "Review", foreign_key: "reviewed_id", dependent: :destroy
+  
+  has_many :requests_made, class_name: "Request", foreign_key: "requester_id", dependent: :destroy
+  has_many :requests_received, class_name: "Request", foreign_key: "requested_id", dependent: :destroy
+  
   has_many :appointments
 
   has_many :social_media, dependent: :destroy
