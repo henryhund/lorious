@@ -37,7 +37,6 @@ class Expert < User
   def set_availability(availability, timezone_in_minutes, availability_unit_in_minutes=30)
     availability_object = self.availability || self.build_availability
     availability_object.set_availability_in_gmt(availability, timezone_in_minutes, availability_unit_in_minutes)
-    availability_object.save
     availability_object
   end
 

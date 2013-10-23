@@ -43,8 +43,10 @@
             %td
               .leftDiv.availability_time_unit{"data-start"=>"#{hour_start_minute}", "data-end"=>"#{hour_start_minute+30}"}
               .rightDiv.availability_time_unit{"data-start"=>"#{hour_start_minute+30}", "data-end"=>"#{hour_start_minute+60}"}
-:javascript
-  $(document).ready(function(){
-    var availability_list = #{raw @availability.try(:timespans)};
-    lorious.fn.highlight_availability_list(availability_list);
-  })
+
+-if @availability
+  :javascript
+    $(document).ready(function(){
+      var availability_list = #{raw @availability.timespan_in_timezone(@availability.timezone_in_minutes).to_json};
+      lorious.fn.highlight_availability_list(availability_list);
+    })
