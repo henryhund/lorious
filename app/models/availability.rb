@@ -41,6 +41,8 @@ class Availability < ActiveRecord::Base
     time = time - timezone
     if time < 0
       time = TOTAL_MINUTES_IN_WEEK + time
+    elsif time >= TOTAL_MINUTES_IN_WEEK
+      time = time - TOTAL_MINUTES_IN_WEEK
     end
     time
   end

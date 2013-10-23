@@ -35,7 +35,10 @@ $ ->
 
   get_calendar_time_for_offset = (time, offset)->
     time = time + offset
-    time = lorious.data.total_minutes_in_week + time if time < 0
+    if time < 0
+      time = lorious.data.total_minutes_in_week + time
+    else if time >= lorious.data.total_minutes_in_week
+      time = time - lorious.data.total_minutes_in_week
     time
     
   lorious.fn.reset_calendar_with_new_timezone = (timezone_text)->
