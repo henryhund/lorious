@@ -54,7 +54,7 @@ class Expert < User
   end
   
   def get_average_rating()
-    Review.average('rating', :conditions => {:reviewed_id => self.id}).round
+    Review.average('rating', :conditions => {:reviewed_id => self.id}).round rescue 0
   end
 
   def hourly_rate_in_credit
