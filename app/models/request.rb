@@ -1,5 +1,7 @@
 class Request < ActiveRecord::Base
   
+  default_scope order('created_at DESC')
+  
   def self.APPT_LENGTH 
     (30..360).step(30).map { |d| [ d < 60 ? "#{d.to_s} minutes" : "#{(d/60.round(1)).to_s} #{"hour".pluralize(d/60.round(1))}" , d.to_s ] }
   end
@@ -28,10 +30,11 @@ class Request < ActiveRecord::Base
       skill_list.map!{|c| c.downcase.strip}
     end
     
+    time :created_at
   end
   
   def attributes
-    super.merge({'skill_list' => skill_list, 'requester_name' => requester_name})
+    super.merge({'skill_list' => skill_list, 'requester_name' => requester_name, 'appt_length_in_words' => appt_length_in_words})
   end
   
   def create_problem_type(problem_type)
@@ -45,6 +48,19 @@ class Request < ActiveRecord::Base
   def get_requester_name()
     self.requester.try(:name) rescue "Unknown"
   end
-
+  
+  def appt_length_in_words()
+    self.appt_length < 60 ? "#{self.appt_length.to_s} minutes" : "#{(self.appt_length/60.round(1)).to_s} #{"hour".pluralize(self.appt_length/60.round(1))}"
+  end
   alias_method :requester_name, :get_requester_name
+  
+  after_initialize :set_default_state
+  
+  private 
+    def set_default_state
+      if new_record?
+        self.request_state = "new" if self.request_state.nil?  
+      end
+    end
+
 end

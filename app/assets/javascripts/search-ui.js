@@ -20,6 +20,12 @@ $(function() {
 	}
 	
 	$(".searchbox").typeWatch( options );
-
 	
+	$('.star').raty({
+	  score: function() {
+	    return $(this).attr('data-score');
+	  },
+	  readOnly: true,
+	  width: 110
+	});
 });

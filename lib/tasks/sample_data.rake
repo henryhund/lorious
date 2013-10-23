@@ -68,6 +68,7 @@ namespace :db do
       request.problem_headline = Populator.words(3..5)
       request.problem_description = Populator.sentences(5..10)
       request.appt_length =  rand(1..5)*10 + + rand(0..1)*5
+      request.request_state = "new"
     end
     
     Request.all.each do |request|

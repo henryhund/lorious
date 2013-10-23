@@ -49,7 +49,7 @@ class RequestsController < ApplicationController
           end
         end
       end
-      
+      order_by :created_at, :desc
     end
     
     @requests = {results: @request.results, problems: Request.get_unique_problem_types, tags: @request.facet(:skill_list).rows.map {  |e| e.value }  } 

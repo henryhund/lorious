@@ -50,7 +50,7 @@
 				</div>
 				
 				<div when-scrolled="load_data()" style="height: 600px; width:100%; overflow-y: scroll;">
-					<div class="well" ng:repeat="request in requests | orderBy:orderProp:reverse">
+					<div class="well" ng:repeat="request in requests "| orderBy:orderProp:reverse">
 						<div class="row">
 							<div class="col-md-4">
 								<br />
@@ -62,7 +62,7 @@
 								<div style=" float: right;top: -20px; right: -4px; position: absolute;">
 									<ul class="nav nav-pills nav-stacked">
 										<li class="active">
-											<a href="#"> <span class="badge pull-right">{{request.appt_length}} mins</span> <small>Time Requested:</small> </a>
+											<a href="#"> <span class="badge pull-right">{{request.appt_length_in_words}}</span> <small>Time Requested:</small> </a>
 										</li>
 									</ul>
 								</div>
