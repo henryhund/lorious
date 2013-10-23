@@ -27,3 +27,9 @@
   </div>
 
 <% end %>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    lorious.fn.reset_calendar_with_new_timezone($("#availability_time_zone option:selected").text());
+  })
+</script>

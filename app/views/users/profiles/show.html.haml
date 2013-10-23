@@ -190,15 +190,15 @@
       .modal-dialog
         .modal-content
           .modal-header
-            / %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} x
+            %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} &times;
             %h4.modal-title 
-              =@user.name.capitalize + "'s Calendar" rescue "Calendar"
+              =@user.name + "'s Calendar" rescue "Calendar"
           .modal-body
+            #time_zone_selector
+              =time_zone_select(:availability, :time_zone, nil, default: "UTC")
             =render "shared/availability_calendar"
           .modal-footer
             %p Press ESC to Exit
-            / %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
-            / %button.btn.btn-primary{:type => "button"} Save changes
             
     #messageModal.modal.modalmessage.fade{"aria-hidden" => "true", "aria-labelledby" => "calendarModalLabel", :role => "dialog", :tabindex => "-1"}
       .modal-dialog
@@ -206,7 +206,7 @@
           .modal-header
             / %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} x
             %h4.modal-title 
-              = "Message " + @user.name.capitalize
+              = "Message " + @user.name
           .modal-body
             =render "message" 
           .modal-footer

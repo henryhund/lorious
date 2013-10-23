@@ -1,5 +1,8 @@
 $ ->
+  $("#time_zone_selector select").val("UTC")
+
   lorious.fn.highlight_availability_list = (availability_list)->
+    lorious.data.availability_list = availability_list
     _.each availability_list, (availability)->
       $('.availability_time_unit[data-start="' + availability.start_time + '"]').addClass("available").data("available", true)
 
@@ -16,3 +19,28 @@ $ ->
       start_time: $(element).data("start")
       end_time: $(element).data("end")
     $("#availability_timespans").val JSON.stringify(available_timespans)
+
+  $("#time_zone_selector select").change ->
+    selected_option_text = $(this).find("option:selected").text()
+    lorious.fn.reset_calendar_with_new_timezone(selected_option_text)
+    
+  get_total_minutes_with_sign_from_timezone_text = (timezone_text)->
+    matcher = timezone_text.match(/([\+\-])(\d{2})\:(\d{2})/)
+    sign = matcher[1]
+    hours = parseInt(matcher[2])
+    minutes = parseInt(matcher[3])
+    total_minutes = hours * 60 + minutes
+    total_minutes = -total_minutes if sign == "-"
+    total_minutes
+
+  get_calendar_time_for_offset = (time, offset)->
+    time = time + offset
+    time = lorious.data.total_minutes_in_week + time if time < 0
+    time
+    
+  lorious.fn.reset_calendar_with_new_timezone = (timezone_text)->
+    total_minutes_with_sign = get_total_minutes_with_sign_from_timezone_text(timezone_text)
+    $(".availability_time_unit").removeClass("available")
+    _.each lorious.data.availability_list, (availability)->
+      new_start_time = get_calendar_time_for_offset(availability.start_time, total_minutes_with_sign)
+      $('.availability_time_unit[data-start="' + new_start_time + '"]').addClass("available").data("available", true)

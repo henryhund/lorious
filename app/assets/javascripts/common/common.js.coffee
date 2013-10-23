@@ -1,5 +1,7 @@
 window.lorious = window.lorious || {fn: {}, data: {}}
 
+lorious.data.total_minutes_in_week = 24 * 7 * 60
+
 $ ->
   $(".chosen").chosen()
   

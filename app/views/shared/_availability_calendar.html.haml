@@ -47,6 +47,6 @@
 -if @availability
   :javascript
     $(document).ready(function(){
-      var availability_list = #{raw @availability.timespan_in_timezone(@availability.timezone_in_minutes).to_json};
+      var availability_list = #{raw @availability.timespans};
       lorious.fn.highlight_availability_list(availability_list);
     })
