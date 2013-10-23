@@ -194,7 +194,7 @@
             %h4.modal-title 
               =@user.name + "'s Calendar" rescue "Calendar"
           .modal-body
-            #time_zone_selector
+            #time_zone_selector.mg-20
               =time_zone_select(:availability, :time_zone, nil, default: "UTC")
             =render "shared/availability_calendar"
           .modal-footer

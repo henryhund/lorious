@@ -6,7 +6,7 @@ $ ->
     _.each availability_list, (availability)->
       $('.availability_time_unit[data-start="' + availability.start_time + '"]').addClass("available").data("available", true)
 
-  $("body").on "click", ".availability_time_unit", ()->
+  $("body").on "click", "#edit_calendar .availability_time_unit", ()->
     element = $(this)
     if element.data("available")
       element.removeClass("available").removeData("available")

@@ -57,3 +57,10 @@
     cursor: pointer;
   }
 }
+
+#time_zone_selector {
+  select {
+    width: 83%;
+    margin-left: 16%;
+  }
+}
