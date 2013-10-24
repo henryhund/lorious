@@ -61,7 +61,6 @@ Lorious::Application.routes.draw do
       delete 'trash'
     end
   end
-  #post 'search' => 'messages#search'
   
   post '/messages', :controller => "conversations", :action => "create_message"
   

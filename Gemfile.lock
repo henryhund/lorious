@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/bcardarella/client_side_validations.git
-  revision: 9461cb92e1dfb64895d590c6d435cdf48fcede45
-  branch: 4-0-beta
+  revision: 659846af18ca1dcaf9070aea1053a82b61c39430
+  branch: 4-0-useable
   specs:
-    client_side_validations (3.2.2)
+    client_side_validations (3.2.6)
 
 GIT
   remote: git://github.com/ging/mailboxer.git
