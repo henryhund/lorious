@@ -13,9 +13,9 @@ class UserMailer < ActionMailer::Base
     
   end
 
-  def new_appointment_request_to_expert appointment
-    @appointment, @expert, @user = appointment, appointment.expert, appointment.user
-    mail(to: @expert.email, subject: 'New Appointment')
+  def new_appointment_request appointment, from, to
+    @appointment, @from, @to, @expert = appointment, from, to, appointment.expert
+    mail(to: @to.email, subject: 'New Appointment')
   end
 
   def appointment_updated_confirm_request appointment, to, edited_by

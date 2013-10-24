@@ -25,6 +25,9 @@
         <%= f.button :submit %>
       </div>
 
+      <%= f.hidden_field :user_id, value: @user_id %>
+      <%= f.hidden_field :request_id, value: @request_id %>
+
     <% end %>
   </div>
 </div>

@@ -1,5 +1,5 @@
 <p>New appointment</p>
 
-<p>requested user: <%= @user.name %></p>
+<p>requested user: <%= @from.name %></p>
 <p><%= link_to "Confirm", expert_appointment_url(@expert.id, @appointment.id) %></p>
 <p><%= link_to "Edit", edit_expert_appointment_url(@expert.id, @appointment.id) %></p>

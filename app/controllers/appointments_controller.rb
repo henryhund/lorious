@@ -10,12 +10,14 @@ class AppointmentsController < ApplicationController
   def create
     begin
       @appointment = @expert.appointments.build appointment_params
-      @appointment.user_id = current_user.id
+      @appointment.user_id = get_user.id
+      @appointment.request_id = params[:appointment][:request_id]
+      confirm_appointment_for_current_user
       @appointment.save
     rescue Exception => e
       redirect_to new_expert_appointment_url, notice: I18n.t("appointment.create.failure")
     else
-      UserMailer.delay.new_appointment_request_to_expert(@appointment)
+      UserMailer.delay.new_appointment_request(@appointment, current_user, @appointment.appointment_with_for_user(current_user))
       redirect_to expert_appointment_url(id: @appointment.id), notice: I18n.t("appointment.create.success")
     end
   end
@@ -73,8 +75,26 @@ class AppointmentsController < ApplicationController
 
   def form_data
     @duration_options = (30..360).step(30).map { |d| [ d < 60 ? "#{d.to_s} minutes" : "#{(d/60.round(1)).to_s} #{"hour".pluralize(d/60.round(1))}" , d.to_s ] }
-    @default_duration = 30
+    @default_duration = params[:duration].to_i || 30
     @hourly_rate_in_credit = @expert.hourly_rate_in_credit
+    @user_id = params[:user_id]
+    @request_id = params[:request_id]
+  end
+
+  def get_user
+    if current_user.expert?
+      User.find_by_id(params[:appointment][:user_id])
+    else
+      current_user
+    end
+  end
+
+  def confirm_appointment_for_current_user
+    if current_user.expert?
+      @appointment.expert_confirmed = true
+    else
+      @appointment.user_confirmed = true
+    end
   end
 
 end

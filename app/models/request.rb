@@ -8,6 +8,7 @@ class Request < ActiveRecord::Base
 
   belongs_to :requester, class_name: "User"
   belongs_to :requested, class_name: "User"
+  has_many :appointments
   
   has_and_belongs_to_many :problems
   
