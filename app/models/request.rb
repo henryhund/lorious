@@ -34,7 +34,7 @@ class Request < ActiveRecord::Base
   end
   
   def attributes
-    super.merge({'skill_list' => skill_list, 'requester_name' => requester_name, 'appt_length_in_words' => appt_length_in_words})
+    super.merge({'skill_list' => skill_list, 'requester_name' => requester_name, 'appt_length_in_words' => appt_length_in_words, 'requester_image' => requester_image})
   end
   
   def create_problem_type(problem_type)
@@ -52,8 +52,13 @@ class Request < ActiveRecord::Base
   def appt_length_in_words()
     self.appt_length < 60 ? "#{self.appt_length.to_s} minutes" : "#{(self.appt_length/60.round(1)).to_s} #{"hour".pluralize(self.appt_length/60.round(1))}"
   end
-  alias_method :requester_name, :get_requester_name
   
+  def get_requester_image_url()
+    self.requester.try(:image) rescue ""
+  end
+  
+  alias_method :requester_name, :get_requester_name
+  alias_method :requester_image, :get_requester_image_url
   after_initialize :set_default_state
   
   private 
