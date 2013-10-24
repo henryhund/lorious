@@ -75,10 +75,22 @@
 								<!--button type="button" data-toggle="modal" href="#messageModal" class="btn btn-default btn-xs pull-right">
 								<a class="disabled" ng-href="/{{expert.username}}">More</a>
 								</button-->
-								<button class="message pull-right" data-toggle="modal" href="#messageModal{{request.id}}">
-									<i class="icon-envelope"></i>
-									Respond to request
-								</button>
+								
+								
+								<br />
+								<div>
+									<% if current_user.expert? %>
+										<button class="message" class="btn btn-default btn-xs pull-right">
+											<i class="icon-calendar"></i>
+											<a style="text-decoration: none;" ng-href="/experts/<%= current_user.id %>/appointments/new?request_id={{request.id}}&user_id={{request.requester_id}}&duration={{request.appt_length}}" >Request new appointment</a>
+										</button>
+									<% end %>
+									<button class="message pull-right" data-toggle="modal" href="#messageModal{{request.id}}">
+										<i class="icon-envelope"></i>
+										Respond to request
+									</button>	
+								</div>
+								
 							</div>
 						</div>
 						<!-- Modal Start -->

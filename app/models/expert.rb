@@ -31,7 +31,7 @@ class Expert < User
   end
   
   def attributes
-    super.merge({'skill_list' => skill_list, 'hourly_rate' => hourly_rate, 'average_rating' => average_rating})
+    super.merge({'skill_list' => skill_list, 'hourly_rate' => hourly_rate, 'average_rating' => average_rating , 'name' => name})
   end
   
   def set_availability(availability, timezone_in_minutes, availability_unit_in_minutes=30)
