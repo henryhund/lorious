@@ -13,7 +13,6 @@ class ConversationsController < ApplicationController
     
   end
   
-  
   def inbox
     
     @inbox = current_user.mailbox.inbox
@@ -27,10 +26,10 @@ class ConversationsController < ApplicationController
   
   def index
       @box = params[:box] || 'inbox'
-      @messages = current_user.mailbox.inbox if @box == 'inbox'
-      @messages = current_user.mailbox.sentbox if @box == 'sent'
-      @messages = current_user.mailbox.trash if @box == 'trash'
-    end
+      @messages = current_user.mailbox.inbox.paginate(:page => params[:page], :per_page => 5, :count => {:group => 'conversations.id' }) if @box == 'inbox'
+      @messages = current_user.mailbox.sentbox.paginate(:page => params[:page], :per_page => 5, :count => {:group => 'conversations.id' }) if @box == 'sent'
+      @messages = current_user.mailbox.trash.paginate(:page => params[:page], :per_page => 5, :count => {:group => 'conversations.id' }) if @box == 'trash'
+  end
 
   def new
     @message = Message.new
@@ -63,7 +62,7 @@ class ConversationsController < ApplicationController
       flash[:alert] = "You do not have permission to view that conversation."
       return redirect_to root_path
     end
-    @message = Message.new conversation_id: @conversation.id
+    @message = Message.new #conversation_id: @conversation.id
     current_user.mark_as_read(@conversation)
   end
 

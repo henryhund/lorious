@@ -1,32 +1,42 @@
 
 .row
+  .col-md-1
   .col-md-3  
     = render 'messagenav'
-  .col-md-8
+  .col-md-7
     #actions
       - if @conversation.is_trashed?(current_user)
-        = link_to "Untrash", untrash_conversation_path(@conversation), class: :button, method: :post
+        = link_to "Untrash this conversation", untrash_conversation_path(@conversation), class: "btn btn-success pull-right", method: :post
       - else
-        = link_to "Trash", trash_conversation_path(@conversation), class: :button, method: :delete
-    %h2.subject= @conversation.subject
+        = link_to "Trash this conversation", trash_conversation_path(@conversation), class: "btn btn-danger pull-right", method: :delete
+        
+    %h2.subject= "Subject: " + @conversation.subject
     .well
-      %ul#conversation
+      %ul.list-group
+        %p Message History
         - @conversation.messages.each do |message|
-          %li
-            .head
-              .from= message.sender.name
-              .date #{message.created_at.to_s(:long)} (#{time_ago_in_words(message.created_at)} ago)
-            .body= message.body
-            -# 
-            -#  - if message.attachment.url
-            -#    .attachment
-            -#      = link_to message.attachment_identifier, message.attachment.url
+          %li.list-group-item
+          
+            .panel.panel-default
+              .panel-heading.strong
+                
+                - if message.sender.image_url.present?
+                  %img{src: message.sender.image_url, width: '25px', class: "img-rounded"}
+                - else
+                  =image_tag("https://s3.amazonaws.com/lorious/layout/elements/placeholders/image_placeholder.jpg", width: "25px", class: "img-rounded")
+                #{message.created_at.to_s(:short)} (#{time_ago_in_words(message.created_at)} ago)
+                = message.sender.name
+              .panel-body= message.body
     
     #reply
-      = simple_form_for @message do |f|
+      = simple_form_for @message  do |f|
         = f.input :conversation_id, as: :hidden
         -#= f.label :body, label: 'Reply', required: false
         %h2 Reply
-        = f.input_field :body, as: :text, label: 'Reply'
+        = f.input_field :body, as: :text, label: 'Reply', style: "margin-bottom: 10px;"
         -#= f.input :attachment, as: :file
-        = f.button :submit, 'Reply to conversation' ,:class => "btn btn-primary"
+        = f.button :submit, 'Reply to conversation' ,:class => "btn btn-primary pull-right"
+    
+        
+%br
+%br

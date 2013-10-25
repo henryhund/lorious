@@ -1,19 +1,20 @@
 - if @search
   %h1 Search results for '#{@search}'
 - if @box == 'inbox'
-  %h1.text-left Inbox
+  %h1.text-center Inbox
 - if @box == 'sent'
-  %h1 Sent
+  %h1.text-center Sent
 - if @box == 'trash'
-  %h1 Trash
+  %h1.text-center Trash
 
 .row
+  .col-md-1
   .col-md-3  
     = render 'messagenav'
-  .col-md-8
+  .col-md-7
     = form_tag trash_conversations_path, method: :delete do
       = hidden_field_tag 'current_box', @box
-      %table.table.table-hover.table-condensed
+      %table.table.table-hover.table-condensed.table-bordered
         %tr
           - unless @box == 'trash'
             %th
@@ -30,7 +31,7 @@
             %td= link_to m.count_messages, conversation_path(m)
             %td= link_to truncate(m.last_message.body), conversation_path(m)
       - unless @box == 'trash'
-        = submit_tag "Delete checked messages", id: 'delete_multiple_button'
-
+        = submit_tag "Delete checked messages", id: 'delete_multiple_button', class: 'btn btn-danger'
+    = will_paginate @messages 
 %br
 %br
