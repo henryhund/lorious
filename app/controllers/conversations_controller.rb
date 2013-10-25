@@ -62,7 +62,7 @@ class ConversationsController < ApplicationController
       flash[:alert] = "You do not have permission to view that conversation."
       return redirect_to root_path
     end
-    @message = Message.new #conversation_id: @conversation.id
+    @message = Message.new conversation_id: @conversation.id
     current_user.mark_as_read(@conversation)
   end
 

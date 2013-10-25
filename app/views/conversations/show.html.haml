@@ -31,10 +31,8 @@
     #reply
       = simple_form_for @message  do |f|
         = f.input :conversation_id, as: :hidden
-        -#= f.label :body, label: 'Reply', required: false
         %h2 Reply
         = f.input_field :body, as: :text, label: 'Reply', style: "margin-bottom: 10px;"
-        -#= f.input :attachment, as: :file
         = f.button :submit, 'Reply to conversation' ,:class => "btn btn-primary pull-right"
     
         
