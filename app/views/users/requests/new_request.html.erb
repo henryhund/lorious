@@ -9,6 +9,9 @@
       <% unless current_user.expert? %>
       	<th>Withdraw</th>
       <% end %>	
+      <% unless current_user.expert? %>
+      	<th>Completed</th>
+      <% end %>	
     </tr>
   </thead>
   <tbody>
@@ -20,7 +23,10 @@
         <td><%= link_to "Show", request_path(request), target: "_blank" %> </td>
         <td><%= link_to "Edit", edit_request_path(request), target: "_blank" %> </td>
         <% unless current_user.expert? %>
-          <td><%= link_to "Withdraw", withdraw_request_path(request.id), method: :post %></td>
+          <td><%= link_to "Withdraw", request_path(request.id, :request => {:request_state => "withdraw"}), method: :put %></td>
+        <% end %>
+        <% unless current_user.expert? %>
+          <td><%= link_to "Complete", request_path(request.id, :request => {:request_state => "complete"}), method: :put %></td>
         <% end %>
       </tr>
     <% end %>

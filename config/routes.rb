@@ -52,7 +52,6 @@ Lorious::Application.routes.draw do
   
   post '/new_conversation', :controller => "conversations", :action => "create"
   post '/new_review', :controller => "home", :action => "new_review"
-  post '/withdraw_request/:id', to: 'requests#withdraw_request', as: 'withdraw_request'
   
   resources :conversations do
     member do

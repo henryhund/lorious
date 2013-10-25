@@ -55,7 +55,7 @@ class RequestsController < ApplicationController
     @request = Request.find(params[:id])
     
     respond_to do |format|
-      if @request.update_attributes(params.require(:request).permit(:problem_headline, :is_local, :is_online, :company_description, :problem_description, :local_zip, :appt_length, :other_problem_type, :requester_id, :company_name, :company_url, :skill_list, :problem_ids => []))
+      if @request.update_attributes(params.require(:request).permit(:request_state, :problem_headline, :is_local, :is_online, :company_description, :problem_description, :local_zip, :appt_length, :other_problem_type, :requester_id, :company_name, :company_url, :skill_list, :problem_ids => []))
         format.html { redirect_to @request, notice: 'Request was successfully updated.' }
         format.json { head :no_content }
       else
