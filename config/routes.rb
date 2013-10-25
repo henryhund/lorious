@@ -1,6 +1,7 @@
+require 'sidekiq/web'
 Lorious::Application.routes.draw do
 
-  resource :requests
+  resources :requests
   
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks",
@@ -51,6 +52,7 @@ Lorious::Application.routes.draw do
   
   post '/new_conversation', :controller => "conversations", :action => "create"
   post '/new_review', :controller => "home", :action => "new_review"
+  post '/withdraw_request/:id', to: 'requests#withdraw_request', as: 'withdraw_request'
   
   resources :conversations do
     member do
@@ -62,7 +64,12 @@ Lorious::Application.routes.draw do
     end
   end
   
+  mount Sidekiq::Web, at: "/sidekiq"
+  
   post '/messages', :controller => "conversations", :action => "create_message"
   
   match "/:username" => "users/profiles#show", via: [:get], as: :profile
+  
+  
+  
 end

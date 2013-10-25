@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-5"></div>
+    <div class="col-xs-7">
+      <div class="row">
+        <div class="col-xs-4">Company Name</div>
+        <div class="col-xs-8"><%= @request.company_name %></div>
+      </div>
+      <div class="row mg-20">
+        <div class="col-xs-4">Description</div>
+        <div class="col-xs-8"><%= @request.company_url %></div>
+      </div>
+      <div class="row mg-20">
+        <div class="col-xs-4">Time</div>
+        <div class="col-xs-8"><%= @request.appt_length_in_words %></div>
+      </div>
+      <div class="row mg-20">
+        <div class="col-xs-4">Duration</div>
+        <div class="col-xs-8"><%= @request.company_description %></div>
+      </div>
+      <div class="row mg-20">
+        <div class="col-xs-4">Expert Hourly credit cost</div>
+        <div class="col-xs-8"><%= @request.problem_description %></div>
+      </div>
+      <div class="row mg-20">
+        <div class="col-xs-4">Expert Hourly credit cost</div>
+        <div class="col-xs-8"><%= @request.problem_headline %></div>
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-7 col-md-offset-5">
+      <%= link_to "Edit", edit_request_url(@request), :class => "btn btn-default" %>		
+      
+    </div>
+  </div>
+
+</div>

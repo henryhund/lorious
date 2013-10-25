@@ -2,11 +2,34 @@ class RequestsController < ApplicationController
   before_filter :authenticate_user!, except: [:index]
   
   def new 
-    @length = 30
     @request = Request.new
+    @request.appt_length = 30
+    @header = "Create Request"
     respond_to do |format|
       format.html { @request}
       format.json { render json: @request }
+    end
+  end
+  
+  def show
+    @request = Request.find(params[:id])
+  end
+
+  def edit
+    @header = "Edit Request"
+    @request = Request.find(params[:id])
+  end
+  
+  def withdraw_request
+    @request = Request.find(params[:id])
+    respond_to do |format|
+      if @request.update_attributes(:request_state => "withdraw")
+        format.html { redirect_to @request, notice: 'Request was successfully withdrawn.' }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to root, notice: 'Error withdrawing request!' }
+        format.json { render json: @request.errors, status: :unprocessable_entity }
+      end
     end
   end
   
@@ -26,6 +49,21 @@ class RequestsController < ApplicationController
         format.json { render json: @request.errors, status: :unprocessable_entity }
       end
     end
+  end
+  
+  def update
+    @request = Request.find(params[:id])
+    
+    respond_to do |format|
+      if @request.update_attributes(params.require(:request).permit(:problem_headline, :is_local, :is_online, :company_description, :problem_description, :local_zip, :appt_length, :other_problem_type, :requester_id, :company_name, :company_url, :skill_list, :problem_ids => []))
+        format.html { redirect_to @request, notice: 'Request was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @request.errors, status: :unprocessable_entity }
+      end
+    end
+    
   end
   
   def latest

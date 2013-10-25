@@ -85,6 +85,9 @@ group :test, :development do
   gem 'shoulda-matchers'
   gem 'sunspot_solr'
   gem 'localtunnel'
+  
+  gem 'sinatra', require: false
+  gem 'slim'
 end
 
 gem 'faker', '1.1.2'

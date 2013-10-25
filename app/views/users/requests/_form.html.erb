@@ -5,10 +5,6 @@
       <th>Appointment Length</th>
       <th>Date</th>
       <th>Details</th>
-      <th>Edit</th>
-      <% unless current_user.expert? %>
-      	<th>Withdraw</th>
-      <% end %>	
     </tr>
   </thead>
   <tbody>
@@ -18,15 +14,11 @@
         <td><%= request.appt_length_in_words%></td>
         <td><%= request.created_at.to_formatted_s(:long) %></td>
         <td><%= link_to "Show", request_path(request), target: "_blank" %> </td>
-        <td><%= link_to "Edit", edit_request_path(request), target: "_blank" %> </td>
-        <% unless current_user.expert? %>
-          <td><%= link_to "Withdraw", withdraw_request_path(request.id), method: :post %></td>
-        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <% if @requests.empty? %>
-  <div>No New Request.</div>
+  <div>No Requests.</div>
 <% end %>

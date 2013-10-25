@@ -1,0 +1,118 @@
+<style>
+	.chosen-container-multi .chosen-choices {
+	  border: 1px solid #cccccc !important;
+	  border-top-left-radius: 4px !important;
+	  border-bottom-left-radius: 4px !important;
+	}
+</style>
+<div class="row" style="margin-bottom: 150px;">
+  <div class="col-xs-6 col-md-2"></div>
+  <div class="col-xs-6 col-md-6 ">
+  	<h1 class="text-center"><%= @header %></h1>
+  	
+  	<%= simple_form_for @request, validate: true do |f| %>
+	  	<%= f.error_notification %>
+	  	
+		<div id="content" style="margin-top: 25px;">
+		  <div class="form-inputs">
+		  	<% if user_signed_in? %>
+				
+				<div class="form-group string optional request_company_name">
+					<label class="string optional col-md-5 control-label" for="request_company_name">Name</label>
+					<div class="col-md-7">
+						<input class="form-control" type="text" readonly="true" value="<%= current_user.name %>" />
+					</div>
+				</div>
+				
+				<div class="form-group string optional request_company_name">
+					<label class="string optional col-md-5 control-label" for="request_company_name">Email</label>
+					<div class="col-md-7">
+						<input class="form-control" type="text" readonly="true" value="<%= current_user.email %>" />
+					</div>
+				</div>
+				
+				<%= f.hidden_field :requester_id, :value => current_user.id %>
+			<% end %>
+			
+		    <%= f.input :company_name, label: 'Company/App Name' %>
+		    <%= f.input :company_url, label: 'Company URL'%>
+		    <!-- f.input :company_name, label: 'What does your Company Do?' -->
+		    <%= f.input :company_description, label: 'What does your Company Do?', :as => :text, :input_html => { :cols => 50, :rows => 3 } %>
+		    
+		    <%= f.association :problems, :label_method => :value, label: 'Problem Type', :input_html => { :class => "chzn-select" } %>
+		    
+		    <div id="tbox" style="display: none; margin-bottom: 20px;">
+		    	
+		    	<div class="form-group">
+		    		<label class="col-md-2 col-md-offset-5 control-label">Other</label>
+		    		<div class="col-md-5">
+		    			<%= f.input_field :other_problem_type, :class => "string optional form-control" %>
+			    	</div>	
+		    	</div>	
+		    		
+	    	</div>
+		    
+		    <%= f.input :problem_headline, label: 'Problem Headline', :as => :string %>
+		    
+		    <%= f.input :problem_description, label: 'Problem Description', :as => :text, :input_html => { :cols => 50, :rows => 3 } %>
+		    
+		    <%= f.input :skill_list, label: 'Tags', :input_html => { :class => "auto-tokenize" , :style => "width: 100%; border-radius: 4px;"} %>
+		  
+			<%= f.input :appt_length, label: 'Appt Length', collection: Request.APPT_LENGTH, selected: @request.appt_length, style: "vertical-align: middle;" %>
+			
+			<% if(false) %>
+				<div class="well" style="margin-top: 50px; margin-bottom: 20px;">
+					<h3 class="text-center" >I want to talk to someone</h3>
+				
+					<%= f.input :is_local, label: 'Local'%>
+					
+					<%= f.input :local_zip, label: 'ZIP'%>
+					
+					<%= f.input :is_online, label: 'Online'%>	
+					
+				</div>
+			<% end %>
+		  </div>
+		  	
+		  	 
+		  <div class="form-actions" style="margin-top: 70px;">
+		    <%= f.button :submit, 'Submit Request' , :class => "btn btn-primary text-right col-lg-offset-10"  %>
+		  </div>
+		</div>
+	<% end %>
+			
+  </div>
+  <div class="col-xs-6 col-md-4"></div>
+</div>
+
+
+<script>
+
+	$(".chzn-select").chosen().change(function(event){
+	 if(event.target == this){
+	 	
+	 	var found = false;
+	 	$(".chzn-select option:selected").each(function () {
+		   var $this = $(this);
+		   if ($this.length) {
+		    var selText = $this.text();
+		    if(selText.toLowerCase() == "other")
+		    	found = true;
+		   }
+		});
+		
+	    if(found) 
+	    	document.getElementById("tbox").style.display = "block";
+	    else
+	    	document.getElementById("tbox").style.display = "none";
+	    	
+	    $("#selectBox option[value='option1']").remove();	
+	    
+	    
+	 }
+	});
+	
+	$(".auto-tokenize").select2({
+                tags: <%= raw ActsAsTaggableOn::Tag.all.map {|c| c.name} %>,
+                tokenSeparators: [",", " "]});
+</script>
