@@ -31,7 +31,17 @@
             %td= link_to m.count_messages, conversation_path(m)
             %td= link_to truncate(m.last_message.body), conversation_path(m)
       - unless @box == 'trash'
-        = submit_tag "Delete checked messages", id: 'delete_multiple_button', class: 'btn btn-danger'
+        #delete_btn_div{ style: "display:none;"}
+          = submit_tag "Delete checked messages", id: 'delete_multiple_button', class: 'btn btn-danger'
     = will_paginate @messages 
 %br
 %br
+:javascript
+  $('input.delete_multiple_checkbox:checkbox').change(function(){
+      if($(this).is(":checked")) {
+          console.log("show delete");
+          $('div#delete_btn_div').css({ display: "block" });
+      } else {
+          $('div#delete_btn_div').css({ display: "none" });
+      }
+  });
