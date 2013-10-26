@@ -42,7 +42,7 @@ request_app.factory("Request", [
 
 this.RequestCtrl = [
   "$scope", "$resource", "$route", "$routeParams", "$location", "Request", function($scope, $resource, $route, $routeParams, $location, Request) {
-    
+    $scope.loading = false;
     $scope.pg_counter = 1;
 	Request.get({id: "", page: $scope.pg_counter++}, function (new_requests) {
 	  $scope.requests = new_requests.results;
@@ -51,8 +51,10 @@ this.RequestCtrl = [
 	});	 
 	
 	$scope.load_data = function() {
+		$scope.loading = true;
 	  	Request.get({id: "", page: $scope.pg_counter++}, function (new_requests) {
 		  $scope.requests.push.apply($scope.requests, new_requests.results);
+		  $scope.loading = false;
 		});
     };
     
@@ -82,9 +84,10 @@ this.RequestCtrl = [
 		
 		if( typeof $scope.selectedProblems == 'undefined' ) 
 			$scope.selectedProblems = "";
-			
+		$scope.loading = true;
 	  	Request.get({id: "", page: $scope.pg_counter++, problems: $scope.selectedProblems, tags: $scope.selectedTags}, function (new_requests) {
 		  $scope.requests  = new_requests.results;
+		  $scope.loading = false;
 		});
     };
     

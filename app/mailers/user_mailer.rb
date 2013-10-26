@@ -12,7 +12,12 @@ class UserMailer < ActionMailer::Base
   def new_expert_request
     
   end
-
+  
+  def request_created_suggest_experts request, to
+     @request, @to = request, to
+     mail(to: @to, subject: 'Recommended Request')
+  end
+  
   def new_appointment_request appointment, from, to
     @appointment, @from, @to, @expert = appointment, from, to, appointment.expert
     mail(to: @to.email, subject: 'New Appointment')

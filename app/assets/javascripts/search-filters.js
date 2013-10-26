@@ -56,6 +56,21 @@ angular.module('searchFilters', []).filter('rating_filter', function() {
 	}	
 	return result;
   };
+}).filter('duration_filter', function() {
+  return function(requests, slider) {
+	if(typeof requests =='undefined'){
+	  return requests;
+    }
+    var result = requests.slice();
+    
+    for(var i=0; i < result.length; i++) {
+		request = result[i];
+		if(request.appt_length < parseFloat(slider[0])*60 || request.appt_length > parseFloat(slider[1])*60) {
+			result.splice(i--,1);
+		}
+	}	
+	return result;
+  };
 });
 
 

@@ -58,9 +58,22 @@ class Request < ActiveRecord::Base
     self.requester.try(:image) rescue ""
   end
   
+  def get_recommended_experts_mail()
+    experts = []
+    self.skill_list.each do |tag|
+      Expert.all.each do |expert|
+        if expert.skill_list.include? tag
+          experts.push(expert.email)
+        end
+      end
+    end
+    return experts.join(",")
+  end
+  
   alias_method :requester_name, :get_requester_name
   alias_method :requester_image, :get_requester_image_url
   after_initialize :set_default_state
+  after_create :send_mail_to_recommend_experts
   
   private 
     def set_default_state
@@ -69,4 +82,7 @@ class Request < ActiveRecord::Base
       end
     end
 
+    def send_mail_to_recommend_experts
+      UserMailer.delay.request_created_suggest_experts(self, self.get_recommended_experts_mail())
+    end 
 end

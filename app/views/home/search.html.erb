@@ -12,10 +12,6 @@
 				</div>
 				
 				<h3>TAG:</h3>
-				<!--div class="input-group merged">
-				    <span class="input-group-addon"><i class="icon-search"></i></span>
-				    <input type="text" class="form-control searchbox" placeholder="TAG" ng-model="query.skill_list" />
-				</div-->
 
 				<div class="input-group merged">
 				    <span class="input-group-addon"><i class="icon-search"></i></span>
@@ -27,14 +23,13 @@
 				 	</select>
 				</div>
 				
-				
 				<h3>Location:</h3>
 				
 				<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
 			    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
 			    <script>
 					var placeSearch, autocomplete;
-					function initialize() {
+					window.onload= function initialize() {
 					  // Create the autocomplete object, restricting the search
 					  // to geographical location types.
 					  autocomplete = new google.maps.places.Autocomplete(
@@ -64,11 +59,10 @@
 					    });
 					  }
 					}
-					//window.onload=initialize();
 				</script>
 				<div class="input-group merged">
 				    <span class="input-group-addon"><i class="icon-search"></i></span>
-				    <input id="autocomplete" type="text" onFocus="geolocate()" class="form-control" placeholder="Location" ng-model="query.location" />
+				    <input id="autocomplete" type="text" onFocus="geolocate()" class="form-control locationbox" placeholder="Location" ng-model="query.location" />
 				</div>
 				
 				<h3>Price/Hr.</h3>
