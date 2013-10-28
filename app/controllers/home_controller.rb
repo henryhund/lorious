@@ -55,4 +55,8 @@ class HomeController < ApplicationController
       redirect_to profile_path(username: @expert.username)
     end
   end
+  
+  def subscriptions
+    render :layout => false
+  end
 end

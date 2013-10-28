@@ -70,7 +70,7 @@
           =link_to("#", style:"padding-left:0px;padding-right:0px;") do
             %span.label.label-info
               %i.icon-asterisk
-              = "#{0}"
+              = current_user.credits.to_s rescue "0"
       -else 
         %li 
           = link_to "Sign in", user_omniauth_authorize_url(:google_oauth2)

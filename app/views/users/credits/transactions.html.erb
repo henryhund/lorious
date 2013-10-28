@@ -1,0 +1,59 @@
+<h1>Buy Credits</h1>
+<div class="row">
+	<div class="col-lg-3 well" style="margin-right: 10px;">
+		<h1 class="text-center">50 Cr.</h1>
+		<p class="text-center">
+			<%= link_to "Buy", add_credit_path( :credits => {:transacter_id => current_user.id ,:amount => 50, :added => true}), method: :post, class: "btn btn-default" %>
+		</p>
+		<h1 class="text-center"><span class="label label-primary">$50</span></h1>
+	</div><!-- /.col-lg-4 -->
+	<div class="col-lg-3 well" style="margin-left: 10px; margin-right: 10px;">
+		
+		<h1 class="text-center">100 Cr.</h1>
+		<p class="text-center">
+			<%= link_to "Buy", add_credit_path( :credits => {:transacter_id => current_user.id ,:amount => 100, :added => true}), method: :post, class: "btn btn-default" %>
+		</p>
+		<h1 class="text-center"><span class="label label-primary">$95</span></h1>
+	</div><!-- /.col-lg-4 -->
+	<div class="col-lg-3 well" style="margin-left: 10px;">
+		
+		<h1 class="text-center">150 Cr.</h1>
+		<p class="text-center">
+			<%= link_to "Buy", add_credit_path( :credits => {:transacter_id => current_user.id ,:amount => 150, :added => true}), method: :post, class: "btn btn-default" %>
+		</p>
+		<h1 class="text-center"><span class="label label-primary">$140</span></h1>
+		
+	</div><!-- /.col-lg-4 -->
+</div>
+<hr />
+
+<h1>Current Balance:&nbsp; <span class="label label-primary"><%= number_to_currency(current_user.credits) rescue "Error!"%></span></h1>
+<hr />
+<h1>Transaction History</h1>
+
+<div class="row">
+	
+	<table class="table">
+	  <thead>
+	    <tr>
+	      <th>Amount</th>
+	      <th>Date</th>
+	      <th>Details</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <% @transactions.each do |transaction| %>
+	      <tr>
+	        <td><%= number_to_currency(transaction.amount_with_sign) %></td>
+	        <td><%= transaction.created_at.to_formatted_s(:long) %></td>
+	        <td><%= transaction.description %></td>
+	      </tr>
+	    <% end %>
+	  </tbody>
+	</table>
+	
+	<% if @transactions.empty? %>
+	  <div>No Transactions.</div>
+	<% end %>
+	
+</div>

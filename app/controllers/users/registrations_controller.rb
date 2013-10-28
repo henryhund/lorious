@@ -34,6 +34,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def user_params
     require_params = @user.expert? ? params.require(:expert) : params.require(:user)
-    require_params.permit(:first_name, :last_name, :zip_code, :website, :username, :tag_line, :bio, :location, :job, :image)
+    require_params.permit(:subscription_list, :first_name, :last_name, :zip_code, :website, :username, :tag_line, :bio, :location, :job, :image)
   end
 end

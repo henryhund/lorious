@@ -1,0 +1,22 @@
+<h2>Subscriptions</h2>
+
+<p>
+	You currently receive mail updates about requests containing the following tags:
+</p>
+<div class="text-left">
+	<%= simple_form_for current_user, url: users_path, method: :put do |f| %>
+		<%= f.input_field :subscription_list, label: 'Subscription', :class => "auto-tokenize" , :style => "width: 100%; border-radius: 4px;" %>
+	
+		<div class="form-actions" style="margin-top: 5px;">
+		    <%= f.button :submit, 'Update' , :class => "btn btn-primary text-right col-lg-offset-10"  %>
+		</div>
+	<% end %>
+</div>
+
+<script>
+	$(function() {
+		$(".auto-tokenize").select2({
+	        tags: <%= raw ActsAsTaggableOn::Tag.all.map {|c| c.name} %>,
+	        tokenSeparators: [",", " "]});
+	});
+</script>

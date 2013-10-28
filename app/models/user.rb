@@ -17,6 +17,9 @@ class User < ActiveRecord::Base
   has_many :requests_made, class_name: "Request", foreign_key: "requester_id", dependent: :destroy
   has_many :requests_received, class_name: "Request", foreign_key: "requested_id", dependent: :destroy
   
+  has_many :transactions_made, class_name: "CreditTransaction", foreign_key: "transacter_id", dependent: :destroy
+  has_many :transactions_received, class_name: "CreditTransaction", foreign_key: "transacted_id", dependent: :destroy
+  
   has_many :appointments
 
   has_many :social_media, dependent: :destroy
@@ -140,7 +143,7 @@ class User < ActiveRecord::Base
   end
 
   def credits
-    self.credit_transactions.inject(0) { |sum, e| sum + e.amount_with_sign }
+    self.transactions_made.inject(0) { |sum, e| sum + e.amount_with_sign }
   end
 
   private

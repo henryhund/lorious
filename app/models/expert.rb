@@ -1,6 +1,7 @@
 class Expert < User
   acts_as_taggable
   acts_as_taggable_on :skills
+  acts_as_taggable_on :subscriptions
 
   CASH_TO_CREDIT_RATIO = 1.0
 
@@ -62,5 +63,10 @@ class Expert < User
 
   alias_method :average_rating, :get_average_rating
   alias_method :hourly_rate, :get_hourly_rate
+  before_create :set_default_subscriptions
   
+  private
+    def set_default_subscriptions
+      self.subscription_list ||= self.skill_list
+    end
 end

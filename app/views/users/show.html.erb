@@ -83,13 +83,17 @@
         <div class="panel-heading">
           <h4 class="panel-title">
             <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar_accordion" href="#collapseFour">
-              Manage Credits
+              Credits/Transactions 
             </a>
           </h4>
         </div>
         <div id="collapseFour" class="panel-collapse collapse">
           <div class="panel-body">
-            Menu
+            <ul class="nav nav-pills nav-stacked">
+            	<li>
+            		<a href="#manage_credit" data-toggle="tab" class="content-load profile_tabs" data-content-url="/users/credit_transaction/transactions" data-content-handler="#manage_credit">Manage Credits</a>
+            	</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -115,6 +119,7 @@
         </div>
       </div>
       <% if @user.expert? && @user.expert_approved? %>
+      
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">
@@ -127,7 +132,26 @@
             <div class="panel-body">
               <ul class="nav nav-pills nav-stacked">
                 <li>
-                  <a href="#edit_availability" data-toggle="tab" class="content-load profile_tabs" data-content-url="/experts/availabilities/<%= @user.availability.id %>/edit" data-content-handler="#edit_availability">Edit Availability</a>
+                  <a href="#edit_availability" data-toggle="tab" class="content-load profile_tabs" data-content-url="<%= '/experts/availabilities/' + @user.availability.id + '/edit' rescue "/500.html" %>" data-content-handler="#edit_availability">Edit Availability</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar_accordion" href="#collapseSeven">
+                Manage Subscriptions
+              </a>
+            </h4>
+          </div>
+          <div id="collapseSeven" class="panel-collapse collapse">
+            <div class="panel-body">
+              <ul class="nav nav-pills nav-stacked">
+                <li>
+                  <a href="#edit_subscriptions" data-toggle="tab" class="content-load profile_tabs" data-content-url="/subscriptions" data-content-handler="#edit_subscriptions">Edit Subscriptions</a>
                 </li>
               </ul>
             </div>
@@ -154,7 +178,10 @@
       <div class="tab-pane" id="new_requests"></div>
       <div class="tab-pane" id="withdrawn_requests"></div>
       <div class="tab-pane" id="completed_requests"></div>
-        
+      <div class="tab-pane" id="edit_subscriptions"></div>
+      <div class="tab-pane" id="manage_credit"></div>
+      
     </div>
   </div>
 </div>
+<br />

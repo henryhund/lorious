@@ -54,13 +54,13 @@
 
   <div class="row">
     <div class="col-md-7 col-md-offset-5">
-      <button type="button" class="btn btn-default">
-        <%= link_to "Edit", edit_expert_appointment_url(@appointment.expert.id, @appointment.id) %>
-      </button>
+      
+      <%= link_to "Edit", edit_expert_appointment_url(@appointment.expert.id, @appointment.id), class: "btn btn-default" %>
+      
       <% if (current_user.expert? && !@appointment.expert_confirmed) || (!current_user.expert? && !@appointment.user_confirmed) %>
-        <button type="button" class="btn btn-success">
-          <%= link_to "Confirm", confirm_expert_appointment_path(@appointment.expert.id, @appointment.id), method: :post %>
-        </button>
+        
+      	<%= link_to "Confirm", confirm_expert_appointment_path(@appointment.expert.id, @appointment.id), method: :post, class: "btn btn-success" %>
+        
       <% end %>
     </div>
   </div>

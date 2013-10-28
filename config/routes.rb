@@ -19,6 +19,11 @@ Lorious::Application.routes.draw do
         get "history"
       end
     end
+    resources :credit_transaction, only: [:index], :controller => 'credits' do
+      collection do
+        get "transactions"
+      end
+    end
     resources :requests_made, only: [:index], :controller => 'requests' do
       collection do
         get "new_request"
@@ -43,13 +48,15 @@ Lorious::Application.routes.draw do
 
   resource :users, only: [:show]
   resources :invites
+  resources :credit_transaction, :controller => "credits"
   
   root :to => "home#index"
   get '/search', to: 'home#search'
   get "/search/page/:page", :controller => "home", :action => "search"
-
+  get '/subscriptions', to: 'home#subscriptions'
   get '/request_latest', to: 'requests#latest'
   
+  post '/add_credit', :controller => "credits", :action => "add_credit"
   post '/new_conversation', :controller => "conversations", :action => "create"
   post '/new_review', :controller => "home", :action => "new_review"
   
