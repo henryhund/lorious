@@ -35,9 +35,9 @@
   				<span class="label label-primary" style="margin-right:10px;" ng-repeat="skill in expert.skill_list" >{{skill}}</span>
   				<br />
   				<div tooltip="{{expert.bio}}" style="margin-top:10px;">{{expert.bio | characters:300 :true}}</div>
-  				<button type="button" class="btn btn-default btn-xs pull-right">
-  					<a class="disabled" ng-href="/{{expert.username}}">More</a>	
-  				</button>
+  				
+  				<a class="btn btn-default btn-xs pull-right" ng-href="/{{expert.username}}">More</a>	
+  				
 			</div>
 		</div>
 	</div>

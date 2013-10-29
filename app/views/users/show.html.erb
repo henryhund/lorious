@@ -132,7 +132,7 @@
             <div class="panel-body">
               <ul class="nav nav-pills nav-stacked">
                 <li>
-                  <a href="#edit_availability" data-toggle="tab" class="content-load profile_tabs" data-content-url="<%= '/experts/availabilities/' + @user.availability.id + '/edit' rescue "/500.html" %>" data-content-handler="#edit_availability">Edit Availability</a>
+                  <a href="#edit_availability" data-toggle="tab" class="content-load profile_tabs" data-content-url="/experts/availabilities/<%= @user.availability.id %>/edit" data-content-handler="#edit_availability">Edit Availability</a>
                 </li>
               </ul>
             </div>

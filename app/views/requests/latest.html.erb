@@ -45,7 +45,6 @@
 					<select ng-model="orderProp">
 						<option value="">None</option>
 						<option value="created_at">Date</option>
-						<!--option value="age">Newest</option-->
 					</select>
 				</div>
 				
@@ -74,11 +73,7 @@
 								<div tooltip="{{expert.bio}}" style="margin-top:10px;">
 									{{request.problem_description | characters:300 :true}}
 								</div>
-								<!--button type="button" data-toggle="modal" href="#messageModal" class="btn btn-default btn-xs pull-right">
-								<a class="disabled" ng-href="/{{expert.username}}">More</a>
-								</button-->
-								
-								
+
 								<br />
 								<div>
 									<% if current_user.expert? %>
@@ -112,27 +107,13 @@
 									</div>
 								</div>
 							</div>
-							<!--script>
-							  $(document).ready(function() {
-							      $('.modalmessage').on('shown.bs.modal', function() {
-							          //$('#new_message_post').enableClientSideValidations();
-							         // $(this).find('input:visible:first').focus().end().find('form').enableClientSideValidations();
-							      })
-							  });
-							</script-->
 						</div>
 						<!-- Modal End -->
 					</div>
-
 				</div>
 			</div>
 		</div>
-		
-		
-		
-		
 	</div>
-
 </div>
 
 
