@@ -20,8 +20,13 @@ gem 'simple_form' , '~> 3.0'
  
 #Sidekiq Gem for backgrounding tasks
 gem 'sidekiq'
-gem 'sinatra', require: false
+
+#Braintree Gem
+
+gem 'sinatra'
+gem 'braintree'
 gem 'slim'
+gem 'sidetiq'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'

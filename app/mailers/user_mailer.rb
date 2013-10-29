@@ -13,6 +13,13 @@ class UserMailer < ActionMailer::Base
     
   end
   
+  def test_mail
+    mail(to: "pranav.dhar2@gmail.com",
+         body: "email_body",
+         content_type: "text/html",
+         subject: "Test Scheduled Task!!")
+  end
+  
   def request_created_suggest_experts request, to
      @request, @to = request, to
      mail(to: @to, subject: 'Recommended Request')

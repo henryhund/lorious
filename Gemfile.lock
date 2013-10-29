@@ -65,6 +65,8 @@ GEM
     bcrypt-ruby (3.1.2)
     bootstrap-sass (2.3.2.2)
       sass (~> 3.2)
+    braintree (2.26.0)
+      builder (>= 2.0.0)
     builder (3.1.4)
     cancan (1.6.10)
     carrierwave (0.9.0)
@@ -140,6 +142,7 @@ GEM
     hike (1.2.3)
     httpauth (0.2.0)
     i18n (0.6.5)
+    ice_cube (0.11.1)
     jbuilder (1.5.1)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2.0)
@@ -299,6 +302,10 @@ GEM
       json
       redis (>= 3.0.4)
       redis-namespace (>= 1.3.1)
+    sidetiq (0.4.3)
+      celluloid (>= 0.14.1)
+      ice_cube (~> 0.11.0)
+      sidekiq (~> 2.15.0)
     simple_form (3.0.0)
       actionpack (>= 4.0.0, < 4.1)
       activemodel (>= 4.0.0, < 4.1)
@@ -355,6 +362,7 @@ PLATFORMS
 DEPENDENCIES
   acts-as-taggable-on
   angularjs-rails (= 1.0.8)
+  braintree
   cancan
   carrierwave
   client_side_validations!
@@ -395,6 +403,7 @@ DEPENDENCIES
   sdoc
   shoulda-matchers
   sidekiq
+  sidetiq
   simple_form (~> 3.0)
   sinatra
   slim

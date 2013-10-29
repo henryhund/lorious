@@ -76,6 +76,8 @@ Lorious::Application.routes.draw do
   
   match "/:username" => "users/profiles#show", via: [:get], as: :profile
   
-  
+  match 'payments/new' => 'payments#new', via: [:get], :as => :new_payment
+  match 'payments/confirm' => 'payments#confirm', via: [:get], :as => :confirm_payment
+
   
 end
