@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131028090355) do
+ActiveRecord::Schema.define(version: 20131030120025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20131028090355) do
     t.boolean  "online"
     t.boolean  "user_confirmed"
     t.integer  "request_id"
+    t.string   "appt_state",       default: "new"
   end
 
   create_table "availabilities", force: true do |t|
@@ -179,6 +180,16 @@ ActiveRecord::Schema.define(version: 20131028090355) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "sidekiqjobs", force: true do |t|
+    t.integer  "sidekiq_id"
+    t.integer  "workable_id"
+    t.string   "workable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sidekiqjobs", ["workable_id", "workable_type"], name: "index_sidekiqjobs_on_workable_id_and_workable_type", using: :btree
 
   create_table "social_media", force: true do |t|
     t.string   "name"

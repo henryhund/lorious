@@ -4,6 +4,7 @@
       <th>Appointment with</th>
       <th>Regarding</th>
       <th>Time</th>
+      <th>Status</th>
       <th>Details</th>
     </tr>
   </thead>
@@ -13,6 +14,7 @@
         <td><%= appointment.appointment_with_for_user(current_user).name %></td>
         <td><%= appointment.subject %></td>
         <td><%= appointment.time %></td>
+        <td><%= appointment.appt_state %></td>
         <td><%= link_to "View", expert_appointment_url(appointment.expert.id, appointment.id), target: "_blank" %></td>
       </tr>
     <% end %>

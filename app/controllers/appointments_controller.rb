@@ -55,11 +55,26 @@ class AppointmentsController < ApplicationController
     else
       @appointment.user_confirmed = true
     end
-    @appointment.save
+    
     if @appointment.confirmed?
+      @appointment.appt_state = "confirmed"
       UserMailer.delay.appointment_confirmed_notification(@appointment, @appointment.user)
       UserMailer.delay.appointment_confirmed_notification(@appointment, @appointment.expert)
     end
+    
+    
+    @appointment.save
+    # remove any previous worker instances 
+    #queue = Sidekiq::Queue.new("default")
+    #queue.each do |job|
+    #  job.delete if @appointment.sidekiqjobs.pluck(:sidekiq_id).include? job.jid
+    #end
+    @appointment.sidekiqjobs.each do |s|
+      Sidekiq::Status.cancel s.sidekiq_id  
+    end
+    @appointment.sidekiqjobs.clear
+    #create a reminder worker task and a appointment completed task
+    @appointment.sidekiqjobs.create(sidekiq_id: ApptReminder.perform_at(@appointment.time, @appointment.id))
     redirect_to expert_appointment_url(current_user.id, @appointment.id), notice: I18n.t("appointment.confirmed")
   end
 

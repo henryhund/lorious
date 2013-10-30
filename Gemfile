@@ -20,7 +20,7 @@ gem 'simple_form' , '~> 3.0'
  
 #Sidekiq Gem for backgrounding tasks
 gem 'sidekiq'
-
+gem 'sidekiq-status'
 #Braintree Gem
 
 gem 'sinatra'

@@ -6,6 +6,6 @@ class ScheduledTask
 
   def perform
     
-    UserMailer.test_mail.deliver
+    #UserMailer.test_mail.deliver
   end
 end

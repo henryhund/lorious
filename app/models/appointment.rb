@@ -10,7 +10,9 @@ class Appointment < ActiveRecord::Base
   scope :history, -> { where("expert_confirmed = true AND user_confirmed = true AND time < ?", Time.now) }
 
   belongs_to :request
-
+  
+  has_many :sidekiqjobs, as: :workable
+  
   def total_credit_cost
     (expert.hourly_rate_in_credit * duration / 60.to_f).ceil
   end
