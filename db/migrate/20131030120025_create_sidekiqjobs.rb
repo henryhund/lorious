@@ -1,7 +1,7 @@
 class CreateSidekiqjobs < ActiveRecord::Migration
   def change
     create_table :sidekiqjobs do |t|
-      t.integer :sidekiq_id
+      t.string :sidekiq_id
       t.belongs_to :workable, polymorphic: true
 
       t.timestamps

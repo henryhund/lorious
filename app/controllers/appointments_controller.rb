@@ -47,7 +47,24 @@ class AppointmentsController < ApplicationController
       redirect_to expert_appointment_url(@appointment.expert.id, @appointment.id), notice: I18n.t("appointment.update.success")
     end
   end
-
+  
+  def cancel
+    begin
+      @appointment = Appointment.find params[:id]
+      @appointment.appt_state = "cancelled"
+      @appointment.save
+      
+    rescue Exception => e
+      redirect_to users_url, notice: I18n.t("appointment.cancel.failure")
+    else
+      # remove any previous worker instances 
+      @appointment.sidekiqjobs.each do |s|
+        Sidekiq::Status.cancel s.sidekiq_id  
+      end
+      redirect_to users_url, notice: I18n.t("appointment.cancel.success")
+    end
+  end
+  
   def confirm
     @appointment = Appointment.find(params[:id])
     if current_user.expert?
@@ -62,19 +79,20 @@ class AppointmentsController < ApplicationController
       UserMailer.delay.appointment_confirmed_notification(@appointment, @appointment.expert)
     end
     
-    
     @appointment.save
     # remove any previous worker instances 
-    #queue = Sidekiq::Queue.new("default")
-    #queue.each do |job|
-    #  job.delete if @appointment.sidekiqjobs.pluck(:sidekiq_id).include? job.jid
-    #end
     @appointment.sidekiqjobs.each do |s|
       Sidekiq::Status.cancel s.sidekiq_id  
     end
     @appointment.sidekiqjobs.clear
     #create a reminder worker task and a appointment completed task
-    @appointment.sidekiqjobs.create(sidekiq_id: ApptReminder.perform_at(@appointment.time, @appointment.id))
+    if @appointment.time - Time.now < 3600
+      @appointment.sidekiqjobs.create(sidekiq_id: ApptReminder.perform_at(@appointment.time, @appointment.id))
+    else
+      @appointment.sidekiqjobs.create(sidekiq_id: ApptReminder.perform_at(@appointment.time - 1.hours, @appointment.id))
+    end
+    
+    @appointment.sidekiqjobs.create(sidekiq_id: ApptCompleted.perform_at(@appointment.time + @appointment.duration.minutes, @appointment.id))
     redirect_to expert_appointment_url(current_user.id, @appointment.id), notice: I18n.t("appointment.confirmed")
   end
 

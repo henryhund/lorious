@@ -29,7 +29,17 @@ class UserMailer < ActionMailer::Base
     @appointment, @from, @to, @expert = appointment, from, to, appointment.expert
     mail(to: @to.email, subject: 'New Appointment')
   end
-
+  
+  def appointment_reminder appointment, to
+    @appointment, @to, @appointment_with = appointment, to, appointment.appointment_with_for_user(to)
+    mail(to: @to.email, subject: 'Appointment Reminder')  
+  end
+  
+  def appointment_completed appointment, to
+    @appointment, @to, @appointment_with = appointment, to, appointment.appointment_with_for_user(to)
+    mail(to: @to.email, subject: 'Appointment Completed')  
+  end
+  
   def appointment_updated_confirm_request appointment, to, edited_by
     @appointment, @to, @edited_by, @expert = appointment, to, edited_by, appointment.expert
     mail(to: @to.email, subject: 'Appointment Updated')

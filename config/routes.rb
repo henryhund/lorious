@@ -42,6 +42,7 @@ Lorious::Application.routes.draw do
     resources :appointments do
       member do
         post "confirm"
+        post "cancel"
       end
     end
   end
@@ -56,7 +57,6 @@ Lorious::Application.routes.draw do
   get '/subscriptions', to: 'home#subscriptions'
   get '/request_latest', to: 'requests#latest'
   
-  post '/add_credit', :controller => "credits", :action => "add_credit"
   post '/new_conversation', :controller => "conversations", :action => "create"
   post '/new_review', :controller => "home", :action => "new_review"
   
@@ -76,8 +76,14 @@ Lorious::Application.routes.draw do
   
   match "/:username" => "users/profiles#show", via: [:get], as: :profile
   
+  namespace :payments do
+    post "type1"
+    post "type2"
+    post "type3"
+  end
+  
   match 'payments/new' => 'payments#new', via: [:get], :as => :new_payment
   match 'payments/confirm' => 'payments#confirm', via: [:get], :as => :confirm_payment
-
+  match 'payments/repeat' => 'payments#repeat', via: [:get], :as => :repeat_payment
   
 end

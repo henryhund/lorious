@@ -3,7 +3,7 @@
 	<div class="col-lg-3 well" style="margin-right: 10px;">
 		<h1 class="text-center">50 Cr.</h1>
 		<p class="text-center">
-			<%= link_to "Buy", add_credit_path( :credits => {:transacter_id => current_user.id ,:amount => 50, :added => true}), method: :post, class: "btn btn-default" %>
+			<%= link_to "Buy", payments_type1_path, method: :post, class: "btn btn-default" %>
 		</p>
 		<h1 class="text-center"><span class="label label-primary">$50</span></h1>
 	</div><!-- /.col-lg-4 -->
@@ -11,7 +11,7 @@
 		
 		<h1 class="text-center">100 Cr.</h1>
 		<p class="text-center">
-			<%= link_to "Buy", add_credit_path( :credits => {:transacter_id => current_user.id ,:amount => 100, :added => true}), method: :post, class: "btn btn-default" %>
+			<%= link_to "Buy", payments_type2_path, method: :post, class: "btn btn-default" %>
 		</p>
 		<h1 class="text-center"><span class="label label-primary">$95</span></h1>
 	</div><!-- /.col-lg-4 -->
@@ -19,7 +19,7 @@
 		
 		<h1 class="text-center">150 Cr.</h1>
 		<p class="text-center">
-			<%= link_to "Buy", add_credit_path( :credits => {:transacter_id => current_user.id ,:amount => 150, :added => true}), method: :post, class: "btn btn-default" %>
+			<%= link_to "Buy", payments_type3_path, method: :post, class: "btn btn-default" %>
 		</p>
 		<h1 class="text-center"><span class="label label-primary">$140</span></h1>
 		
@@ -44,7 +44,7 @@
 	  <tbody>
 	    <% @transactions.each do |transaction| %>
 	      <tr>
-	        <td><%= number_to_currency(transaction.amount_with_sign) %></td>
+	        <td><%= "Cr. " + transaction.amount_with_sign.to_s %></td>
 	        <td><%= transaction.created_at.to_formatted_s(:long) %></td>
 	        <td><%= transaction.description %></td>
 	      </tr>

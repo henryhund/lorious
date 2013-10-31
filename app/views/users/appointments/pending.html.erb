@@ -9,6 +9,7 @@
       <% if current_user.expert? %>
         <th>Confirm</th>
       <% end %>
+      <th>Cancel</th>
     </tr>
   </thead>
   <tbody>
@@ -22,6 +23,7 @@
         <% if current_user.expert? %>
           <td><%= link_to "Confirm", confirm_expert_appointment_path(appointment.expert.id, appointment.id), method: :post %></td>
         <% end %>
+        <td><%= link_to "Cancel", cancel_expert_appointment_path(appointment.expert.id, appointment.id), method: :post %></td>
       </tr>
     <% end %>
   </tbody>

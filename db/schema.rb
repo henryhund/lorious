@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131030120025) do
+ActiveRecord::Schema.define(version: 20131031093918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -182,7 +182,7 @@ ActiveRecord::Schema.define(version: 20131030120025) do
   end
 
   create_table "sidekiqjobs", force: true do |t|
-    t.integer  "sidekiq_id"
+    t.string   "sidekiq_id"
     t.integer  "workable_id"
     t.string   "workable_type"
     t.datetime "created_at"
@@ -249,6 +249,8 @@ ActiveRecord::Schema.define(version: 20131030120025) do
     t.boolean  "step_1_complete",        default: false
     t.boolean  "step_2_complete",        default: false
     t.boolean  "expert_approved",        default: false
+    t.string   "braintree_id"
+    t.string   "braintree_last4"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

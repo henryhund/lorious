@@ -135,3 +135,6 @@ en:
       success: "Successfully updated appointment, pending to be accepted."
       failure: "Failed to update appointment."
     confirmed: "The appointment is confirmed"
+    cancel:
+      success: "Successfully cancelled appointment."
+      failure: "Failed to cancel appointment."
