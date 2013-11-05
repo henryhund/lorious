@@ -6,8 +6,7 @@ gem 'rails', '4.0.0'
 # Use mysql as the database for Active Record
 gem 'mysql2', '0.3.12b5'
 gem 'pg', '0.14.1'
-# Thinking sphinx search engine connector
-#gem 'thinking-sphinx'
+
 gem 'sunspot_rails'
 #Pagination gem
 gem 'will_paginate', '~> 3.0'
@@ -27,6 +26,9 @@ gem 'sinatra'
 gem 'braintree'
 gem 'slim'
 gem 'sidetiq'
+
+# Google Events API
+gem 'google-api-client'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'

@@ -1,0 +1,22 @@
+require 'google/api_client'
+require 'date'
+require 'openssl'
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+
+account_email = '444606661336-udn66m6fvs83q1g4s9ot8tj4nqi2dt30@developer.gserviceaccount.com' 
+key_file = '4e2d7a23bffc281f0329877bda2bd74d98357287-privatekey.p12' 
+key_secret = 'notasecret' 
+$g_client = Google::APIClient.new()
+
+key = Google::APIClient::KeyUtils.load_from_pkcs12(key_file, key_secret)
+
+$g_client.authorization = Signet::OAuth2::Client.new(
+  :token_credential_uri => 'https://accounts.google.com/o/oauth2/token',
+  :audience => 'https://accounts.google.com/o/oauth2/token',
+  :scope => 'https://www.googleapis.com/auth/calendar',
+  :issuer => account_email,
+  :signing_key => key)
+
+# # Request a token for our service account
+$g_client.authorization.fetch_access_token!
+$g_service = $g_client.discovered_api('calendar', 'v3')

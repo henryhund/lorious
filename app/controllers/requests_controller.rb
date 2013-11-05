@@ -2,6 +2,40 @@ class RequestsController < ApplicationController
   before_filter :authenticate_user!, except: [:index]
   
   def new 
+    
+    #temp
+    #@event = {
+    #  'summary' => 'this is a summary',
+    #  'location' => 'this is where the location goes',
+    #   'description' => 'desc',
+    #  'start' => {
+    #    'dateTime' => '2013-11-07T13:00:00.000-00:00' # Date with :- offset so (yyyy-mm-dd T hh:mm:ss.000-offset)
+    #  },
+    #  'end' => {
+    #    'dateTime' => '2013-11-07T13:25:00.000-00:00' # Date with :- offset so (yyyy-mm-dd T hh:mm:ss.000-offset)
+    #  },
+    #  'organizer' => {
+    #    'email' => 'pranav@codebrahma.com'
+    #  },
+    #  'attendees' => [
+    #    {
+    #      'email' => 'pranav.dhar2@gmail.com'
+    #    },
+    #    {
+    #      'email' => 'pranav@codebrahma.com'
+    #    }
+    #  ]
+    #}
+    
+    # Create event using the json structure 
+    
+    #result = $g_client.execute(:api_method => $g_service.events.insert,
+    #                      :parameters => {'calendarId' => 'primary'},
+    #                      :body => JSON.dump(@event),
+    #                      :headers => {'Content-Type' => 'application/json'})
+    
+    #debugger
+    #end temp
     @request = Request.new
     @request.appt_length = 30
     @header = "Create Request"
