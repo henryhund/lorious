@@ -420,7 +420,7 @@ DEPENDENCIES
   omniauth-linkedin
   omniauth-stackexchange
   omniauth-twitter
-  pg (= 0.14.1)
+  pg
   populator
   rails (= 4.0.0)
   rails_12factor

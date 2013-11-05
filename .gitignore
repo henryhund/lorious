@@ -21,3 +21,5 @@ public/uploads/
 
 solr/data
 dump.rdb
+
+config/initializers/google_calendar.temp

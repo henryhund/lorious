@@ -5,7 +5,7 @@ gem 'rails', '4.0.0'
 
 # Use mysql as the database for Active Record
 gem 'mysql2', '0.3.12b5'
-gem 'pg', '0.14.1'
+gem 'pg'
 
 gem 'sunspot_rails'
 #Pagination gem
