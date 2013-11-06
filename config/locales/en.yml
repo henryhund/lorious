@@ -127,6 +127,19 @@ en:
     update:
       success: "Successfully updated your availability."
       failure: "Failed to update your availability."
+  review:
+    create:
+      success: "Your review has been succesfully added."
+      failure: "Error saving Review"
+      error:   "You do not have any appointments to review."
+  request:
+    withdraw:
+      success: "Request was successfully withdrawn."
+      failure: "Error withdrawing request!"
+    create:
+      success: "Request was successfully created."
+    update:
+      success:  'Request was successfully updated.'    
   appointment:
     create:
       success: "Successfully created appointment, pending to be accepted."

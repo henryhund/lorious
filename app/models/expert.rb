@@ -58,6 +58,13 @@ class Expert < User
     (hourly_rate / CASH_TO_CREDIT_RATIO).ceil()
   end
 
+  def is_unreviewed_appointments(user_id)
+    if appointments.where(user_id: user_id, is_reviewed: false).length > 0
+      true
+    else
+      false
+    end
+  end
   alias_method :average_rating, :get_average_rating
   alias_method :hourly_rate, :get_hourly_rate
   before_create :set_default_subscriptions

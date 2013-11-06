@@ -11,7 +11,14 @@
 		<label class="string optional col-md-5 control-label" for="request_company_name">Rating</label>
 		<span id="s1" style="margin-top: 7px; margin-left: 12px;" />
   </div>
-  <%= f.select :tags, options_for_select(@available_skills), {}, multiple: "multiple", class: "chosen", "data-placeholder" => "Select your skills" %>	
+  
+  <div class="form-group text required review_content">
+	<label class="text required col-md-5 control-label" for="review_content"><abbr title="required">*</abbr> Skills</label>
+	<div class="col-md-7">
+		<%= f.select :tags, options_for_select(@available_skills), {}, multiple: "multiple", class: "chosen", "data-placeholder" => "Select your skills" %>
+	</div>
+  </div>
+  	
   
   <%= f.button :submit, "Submit review", class: "btn btn-default pull-right" %>
 <% end %>

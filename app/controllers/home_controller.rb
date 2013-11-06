@@ -42,18 +42,26 @@ class HomeController < ApplicationController
   
   def new_review
     @expert = Expert.find(params[:review][:reviewed_id])
-    begin
-      @review = Review.new params.require(:review).permit(:reviewer_id, :reviewed_id, :content, :rating)
-      @review.save
-    rescue Exception => e
-      flash[:alert] = @review.errors rescue "Error saving Review"
-      redirect_to profile_path(username: @expert.username)
+    #Check if reviwer has any unreviewed appointments with the reviewed expert
+    if @expert.is_unreviewed_appointments(params[:review][:reviewer_id])
+      begin
+        @review = Review.new params.require(:review).permit(:reviewer_id, :reviewed_id, :content, :rating)
+        @review.save
+      rescue Exception => e
+        flash[:alert] = @review.errors rescue I18n.t("review.create.failure") 
+        redirect_to profile_path(username: @expert.username)
+      else
+        @review.tag_list.add params[:review][:tags] if params[:review][:tags]
+        @review.save validate: false
+        flash[:notice] = I18n.t("review.create.success")  
+        
+        redirect_to profile_path(username: @expert.username)
+      end
     else
-      @review.tag_list.add params[:review][:tags] if params[:review][:tags]
-      @review.save validate: false
-      flash[:notice] = "Your review has been succesfully added."
-      redirect_to profile_path(username: @expert.username)
+      flash[:notice] = I18n.t("review.create.error") 
+      redirect_to profile_path(username: @expert.username)      
     end
+    
   end
   
   def subscriptions

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131106062444) do
+ActiveRecord::Schema.define(version: 20131106110102) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20131106062444) do
     t.string   "appt_state",        default: "new"
     t.string   "hangout_url"
     t.boolean  "is_hangout_active"
+    t.boolean  "is_reviewed",       default: false
   end
 
   create_table "availabilities", force: true do |t|

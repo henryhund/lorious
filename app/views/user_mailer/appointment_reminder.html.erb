@@ -1,3 +1,5 @@
 Appointment Reminder: Your appointment is scheduled for the following time <%= @appointment.time.to_formatted_s(:long)%>
 
-** Google Hangout Link **
+<p><%= link_to "View Appointment", expert_appointment_url(@appointment.expert.id, @appointment.id) %></p>
+
+Click on the link above to look at the details of the appointment and initiate a Google Hangout.

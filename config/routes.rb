@@ -5,7 +5,8 @@ Lorious::Application.routes.draw do
   
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks",
-                                        :registrations => "users/registrations" }
+                                        :registrations => "users/registrations",
+                                        :sessions => "users/sessions" }
 
   namespace :users do
     resources :social_media
@@ -39,6 +40,7 @@ Lorious::Application.routes.draw do
   end
 
   resources :experts, only: [] do
+    resources :reviews
     resources :appointments do
       member do
         post "confirm"
@@ -87,5 +89,6 @@ Lorious::Application.routes.draw do
   match 'payments/new' => 'payments#new', via: [:get], :as => :new_payment
   match 'payments/confirm' => 'payments#confirm', via: [:get], :as => :confirm_payment
   match 'payments/repeat' => 'payments#repeat', via: [:get], :as => :repeat_payment
+  
   
 end

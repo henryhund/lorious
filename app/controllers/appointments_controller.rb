@@ -1,5 +1,5 @@
 class AppointmentsController < ApplicationController
-
+  before_filter :authenticate_user!
   before_filter :get_expert
   before_filter :form_data, only: [:new, :edit]
 
@@ -87,7 +87,7 @@ class AppointmentsController < ApplicationController
     @appointment.sidekiqjobs.clear
     #create a reminder worker task and a appointment completed task
     if @appointment.time - Time.now < 3600
-      @appointment.sidekiqjobs.create(sidekiq_id: ApptReminder.perform_at(@appointment.time, @appointment.id))
+      @appointment.sidekiqjobs.create(sidekiq_id: ApptReminder.perform_at(Time.now + 1.minute, @appointment.id))
     else
       @appointment.sidekiqjobs.create(sidekiq_id: ApptReminder.perform_at(@appointment.time - 1.hours, @appointment.id))
     end

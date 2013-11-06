@@ -2,40 +2,6 @@ class RequestsController < ApplicationController
   before_filter :authenticate_user!, except: [:index]
   
   def new 
-    
-    #temp
-    #@event = {
-    #  'summary' => 'this is a summary',
-    #  'location' => 'this is where the location goes',
-    #   'description' => 'desc',
-    #  'start' => {
-    #    'dateTime' => '2013-11-07T13:00:00.000-00:00' # Date with :- offset so (yyyy-mm-dd T hh:mm:ss.000-offset)
-    #  },
-    #  'end' => {
-    #    'dateTime' => '2013-11-07T13:25:00.000-00:00' # Date with :- offset so (yyyy-mm-dd T hh:mm:ss.000-offset)
-    #  },
-    #  'organizer' => {
-    #    'email' => 'pranav@codebrahma.com'
-    #  },
-    #  'attendees' => [
-    #    {
-    #      'email' => 'pranav.dhar2@gmail.com'
-    #    },
-    #    {
-    #      'email' => 'pranav@codebrahma.com'
-    #    }
-    #  ]
-    #}
-    
-    # Create event using the json structure 
-    
-    #result = $g_client.execute(:api_method => $g_service.events.insert,
-    #                      :parameters => {'calendarId' => 'primary'},
-    #                      :body => JSON.dump(@event),
-    #                      :headers => {'Content-Type' => 'application/json'})
-    
-    #debugger
-    #end temp
     @request = Request.new
     @request.appt_length = 30
     @header = "Create Request"
@@ -58,10 +24,10 @@ class RequestsController < ApplicationController
     @request = Request.find(params[:id])
     respond_to do |format|
       if @request.update_attributes(:request_state => "withdraw")
-        format.html { redirect_to @request, notice: 'Request was successfully withdrawn.' }
+        format.html { redirect_to @request, notice: I18n.t("request.withdraw.success") }
         format.json { head :no_content }
       else
-        format.html { redirect_to root, notice: 'Error withdrawing request!' }
+        format.html { redirect_to root, notice: I18n.t("request.withdraw.failure") }
         format.json { render json: @request.errors, status: :unprocessable_entity }
       end
     end
@@ -76,7 +42,7 @@ class RequestsController < ApplicationController
           @request.create_problem_type(params[:request][:other_problem_type])
         end
         
-        format.html { redirect_to root_url, notice: 'Request was successfully created.' }
+        format.html { redirect_to root_url, notice: I18n.t("request.create.success") }
         format.json { render json: @request, status: :created, location: @request }
       else
         format.html { render action: "new" }
@@ -90,7 +56,7 @@ class RequestsController < ApplicationController
     
     respond_to do |format|
       if @request.update_attributes(params.require(:request).permit(:request_state, :problem_headline, :is_local, :is_online, :company_description, :problem_description, :local_zip, :appt_length, :other_problem_type, :requester_id, :company_name, :company_url, :skill_list, :problem_ids => []))
-        format.html { redirect_to @request, notice: 'Request was successfully updated.' }
+        format.html { redirect_to @request, notice: I18n.t("request.update.success") }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
