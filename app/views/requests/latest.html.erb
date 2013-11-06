@@ -35,11 +35,11 @@
 
 			</div>
 			<div class="col-md-8">
-				
-				<div class="pull-center">
-					<a href="/requests/new" class="btn btn-primary pull-center">Create New Request</a>
-				</div>
-						
+				<% if current_user.user? %>
+					<div class="pull-center">
+						<a href="/requests/new" class="btn btn-primary pull-center">Create New Request</a>
+					</div>
+				<% end %>	
 				<div class="pull-right" style="margin-bottom: 10px;">
 					Sort by:
 					<select ng-model="orderProp">

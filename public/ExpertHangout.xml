@@ -89,7 +89,8 @@ function init() {
 		  console.log(appData);
           
           var hangoutURL = gapi.hangout.getHangoutUrl();
-          var callbackUrl = "http://204a98cd.ngrok.com/hangout/request.json";
+          /*var callbackUrl = "http://204a98cd.ngrok.com/hangout/request.json";*/
+          var callbackUrl = "http://lorious-dev.herokuapp.com/hangout/request.json";
           
           $.ajax({
           	url: callbackUrl,
