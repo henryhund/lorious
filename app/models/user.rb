@@ -2,6 +2,11 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
+  acts_as_taggable
+  acts_as_taggable_on :skills
+  
+  attr_accessor :skills
+  
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable,
          :omniauthable, :omniauth_providers => [:google_oauth2, :facebook, :twitter, :github, :stackexchange, :linkedin]
@@ -27,7 +32,6 @@ class User < ActiveRecord::Base
   has_many :interests, dependent: :destroy
   accepts_nested_attributes_for :interests
 
-  has_many :credit_transactions
 
   geocoded_by :location
   after_validation :geocode
@@ -58,8 +62,13 @@ class User < ActiveRecord::Base
          last_name: data["last_name"],
          remote_image_url: data["image"]
       )
-      user.save validate: false
-      user.social_media.create(name: "google_oauth2", profile: oauth_data.extra.raw_info.link, data: oauth_data.to_json) if oauth_data.extra.raw_info.link
+      
+      saved = user.save(validate: false) rescue false
+      
+      if saved
+        user.social_media.create(name: "google_oauth2", profile: oauth_data.extra.raw_info.link, data: oauth_data.to_json) if oauth_data.extra.raw_info.link  
+      end
+      
     end
     user = User.where(:email => data["email"]).first || User.new
     user
@@ -106,7 +115,7 @@ class User < ActiveRecord::Base
 
   def change_to_expert_and_return_user!
     self.type = "Expert"
-    self.save
+    self.create_availability
     self.becomes(Expert)
   end
 
@@ -146,9 +155,16 @@ class User < ActiveRecord::Base
     self.transactions_made.inject(0) { |sum, e| sum + e.amount_with_sign }
   end
 
+  before_save do
+    if expert_approved_changed? && is_expert_applied && expert_approved
+      self.change_to_expert_and_return_user!
+    end
+  end
+  
   private
 
   def user_params
     params.require(:user).permit(:name)
   end
+  
 end

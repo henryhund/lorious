@@ -1,11 +1,8 @@
 class Expert < User
   acts_as_taggable
-  acts_as_taggable_on :skills
   acts_as_taggable_on :subscriptions
 
   CASH_TO_CREDIT_RATIO = 1.0
-
-  attr_accessor :skills
   
   has_one :availability
   has_many :appointments, foreign_key: "expert_id"

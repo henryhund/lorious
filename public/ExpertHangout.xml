@@ -39,8 +39,9 @@
 <body>
 
 <script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
-<h3>Simple Hangout App</h3>
+<h3>Lorious Hangout</h3>
 
 <p>
 <input class="button" type="button" value="Show participants!" id="showParticipants" 
@@ -52,7 +53,7 @@
 
 <hr>
 
-<p><a href="http://developers.google.com/+/hangouts/getting-started">Read the docs</a> to learn more about developing hangouts!</a></p>
+<!--p><a href="http://developers.google.com/+/hangouts/getting-started">Read the docs</a> to learn more about developing hangouts!</a></p-->
 
 <script>
 function showParticipants() {
@@ -81,8 +82,28 @@ function init() {
   gapi.hangout.onApiReady.add(
       function(eventObj) {
         if (eventObj.isApiReady) {
-          document.getElementById('showParticipants')
-            .style.visibility = 'visible';
+          document.getElementById('showParticipants').style.visibility = 'visible';
+          // Need to return the Hangout URL to the server
+          
+          var appData = gadgets.views.getParams()['appData'];
+		  console.log(appData);
+          
+          var hangoutURL = gapi.hangout.getHangoutUrl();
+          var callbackUrl = "http://204a98cd.ngrok.com/hangout/request.json";
+          
+          $.ajax({
+          	url: callbackUrl,
+          	dataType: 'json',
+          	data: {
+          		"hangoutUrl": hangoutURL,
+          		"apptID": appData
+      		}
+          }).done( function(data, status, xhr){
+          	console.log("done");
+          
+          }).fail( function(data, status, error){
+          	console.log("error");
+          });
         }
       });
 }

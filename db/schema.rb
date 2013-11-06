@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131031093918) do
+ActiveRecord::Schema.define(version: 20131106062444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20131031093918) do
     t.datetime "time"
     t.integer  "duration"
     t.string   "place"
-    t.boolean  "expert_confirmed", default: false
+    t.boolean  "expert_confirmed",  default: false
     t.integer  "expert_id"
     t.integer  "user_id"
     t.datetime "created_at"
@@ -30,7 +30,9 @@ ActiveRecord::Schema.define(version: 20131031093918) do
     t.boolean  "online"
     t.boolean  "user_confirmed"
     t.integer  "request_id"
-    t.string   "appt_state",       default: "new"
+    t.string   "appt_state",        default: "new"
+    t.string   "hangout_url"
+    t.boolean  "is_hangout_active"
   end
 
   create_table "availabilities", force: true do |t|
@@ -251,6 +253,7 @@ ActiveRecord::Schema.define(version: 20131031093918) do
     t.boolean  "expert_approved",        default: false
     t.string   "braintree_id"
     t.string   "braintree_last4"
+    t.boolean  "is_expert_applied"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

@@ -52,18 +52,28 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row" style="margin-bottom: 30px;">
     <div class="col-md-7 col-md-offset-5">
       
-      <%= link_to "Edit", edit_expert_appointment_url(@appointment.expert.id, @appointment.id), class: "btn btn-default" %>
+		<%= link_to "Edit", edit_expert_appointment_url(@appointment.expert.id, @appointment.id), class: "btn btn-default" %>
+  
+		<% if (current_user.expert? && !@appointment.expert_confirmed) || (!current_user.expert? && !@appointment.user_confirmed) %>
+
+			<%= link_to "Confirm", confirm_expert_appointment_path(@appointment.expert.id, @appointment.id), method: :post, class: "btn btn-success" %>
+    
+		<% end %>
       
-      <% if (current_user.expert? && !@appointment.expert_confirmed) || (!current_user.expert? && !@appointment.user_confirmed) %>
-        
-      	<%= link_to "Confirm", confirm_expert_appointment_path(@appointment.expert.id, @appointment.id), method: :post, class: "btn btn-success" %>
-        
-      <% end %>
-      
-      Start Hangout Button	
+      	<a href="https://plus.google.com/hangouts/_?gid=444606661336&gd=<%= @appointment.id %>" style="text-decoration:none;">
+		  <img src="https://ssl.gstatic.com/s2/oz/images/stars/hangout/1/gplus-hangout-20x86-normal.png"
+		    alt="Start a Hangout"
+		    style="border:0;width:86px;height:20px"/>
+		</a>
+		
+		<% if @appointment.is_hangout_active? %>
+			<a href="<%= @appointment.hangout_url %>" >
+				Link to Hangout	
+			</a>
+		<% end %>
     </div>
   </div>
 

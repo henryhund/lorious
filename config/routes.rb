@@ -74,6 +74,8 @@ Lorious::Application.routes.draw do
   
   post '/messages', :controller => "conversations", :action => "create_message"
   
+  match 'hangout/request' => 'appointments#new_hangout', via: [:get]
+  
   match "/:username" => "users/profiles#show", via: [:get], as: :profile
   
   namespace :payments do

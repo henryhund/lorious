@@ -96,6 +96,23 @@ class AppointmentsController < ApplicationController
     redirect_to expert_appointment_url(current_user.id, @appointment.id), notice: I18n.t("appointment.confirmed")
   end
 
+  def new_hangout
+    
+    if params[:apptID].present? && params[:hangoutUrl].present?
+      @appointment = Appointment.find(params[:apptID])
+      @appointment.hangout_url = params[:hangoutUrl]
+      @appointment.is_hangout_active = true
+      @appointment.save
+    end
+    
+    respond_to do |format|
+      
+      msg = { :status => "ok", :message => "Success!", :html => "<b>...</b>" }
+      
+      format.json  { render :json => msg }
+    end
+  end
+  
   private
 
   def get_expert
