@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131106110102) do
+ActiveRecord::Schema.define(version: 20131106115916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20131106110102) do
     t.datetime "time"
     t.integer  "duration"
     t.string   "place"
-    t.boolean  "expert_confirmed",  default: false
+    t.boolean  "expert_confirmed",   default: false
     t.integer  "expert_id"
     t.integer  "user_id"
     t.datetime "created_at"
@@ -30,10 +30,11 @@ ActiveRecord::Schema.define(version: 20131106110102) do
     t.boolean  "online"
     t.boolean  "user_confirmed"
     t.integer  "request_id"
-    t.string   "appt_state",        default: "new"
+    t.string   "appt_state",         default: "new"
     t.string   "hangout_url"
     t.boolean  "is_hangout_active"
-    t.boolean  "is_reviewed",       default: false
+    t.boolean  "is_reviewed",        default: false
+    t.datetime "hangout_start_time"
   end
 
   create_table "availabilities", force: true do |t|

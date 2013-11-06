@@ -150,7 +150,11 @@ class User < ActiveRecord::Base
   def expert?
     self.type == "Expert"
   end
-
+  
+  def user?
+    self.type == "User"
+  end
+  
   def credits
     self.transactions_made.inject(0) { |sum, e| sum + e.amount_with_sign }
   end

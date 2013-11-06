@@ -1,5 +1,5 @@
 class AppointmentsController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, except: [:new_hangout]
   before_filter :get_expert
   before_filter :form_data, only: [:new, :edit]
 
@@ -102,6 +102,7 @@ class AppointmentsController < ApplicationController
       @appointment = Appointment.find(params[:apptID])
       @appointment.hangout_url = params[:hangoutUrl]
       @appointment.is_hangout_active = true
+      @appointment.hangout_start_time = Time.now
       @appointment.save
     end
     
