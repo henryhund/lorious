@@ -15,6 +15,7 @@
   $(document).ready(function() {
       $('#messageModal').on('shown.bs.modal', function() {
           $('#new_message_post').enableClientSideValidations();
+          $('#new_message_post').resetClientSideValidations();
       })
   });
 </script>

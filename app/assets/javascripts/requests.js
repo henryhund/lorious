@@ -31,7 +31,8 @@ directive('whenScrolled', function() {
 .directive('onShow', function(){
 	return function(scope, elm, attr) {	
 		elm.on('shown.bs.modal', function() {
-			elm.find('#new_message_post').enableClientSideValidations();
+          	elm.find('#new_message_post').enableClientSideValidations();
+          	elm.find('#new_message_post').resetClientSideValidations();
 		})
 	}
 });

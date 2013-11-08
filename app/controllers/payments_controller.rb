@@ -1,8 +1,39 @@
 class PaymentsController < ApplicationController
   def new
-    @amount = calculate_amount
   end
-
+  
+  def repeat
+    @result = Braintree::Transaction.credit(
+      
+    )
+    debugger
+  end
+  def temp
+    
+    @result = Braintree::MerchantAccount.create(
+      :applicant_details => {
+        :first_name => Braintree::Test::MerchantAccount::Approve,
+        :last_name => "Bloggs",
+        :email => "joe@14ladders.com",
+        :phone => "5551112222",
+        :address => {
+          :street_address => "123 Credibility St.",
+          :postal_code => "60606",
+          :locality => "Chicago",
+          :region => "IL"
+        },
+        :date_of_birth => "1980-10-09",
+        :ssn => "123-00-1234"
+        #:routing_number => "1234567890",
+        #:account_number => "43759348798"
+      },
+      :tos_accepted => true,
+      :master_merchant_account_id => "gqzd8vqh3yx986ts"
+      #:id => "blue_ladders_store" optional
+    )
+    
+  end
+  
   def confirm
     @result = Braintree::TransparentRedirect.confirm(request.query_string)
     
@@ -32,14 +63,13 @@ class PaymentsController < ApplicationController
       begin
         @credit.save
       rescue Exception => e
-        render :action => "new"
       else
         render :action => "confirm"
       end
       
       #insert into transactions table  @result.transaction.id  @result.transaction.amount @result.transaction.created_at
     else
-      
+      @amount = @result.params[:transaction][:amount].to_i 
       render :action => "new"
     end
   end

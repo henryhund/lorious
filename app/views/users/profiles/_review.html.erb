@@ -1,3 +1,10 @@
+<style>
+	.chosen-container-multi .chosen-choices {
+	  border: 1px solid #cccccc !important;
+	  border-top-left-radius: 4px !important;
+	  border-bottom-left-radius: 4px !important;
+	}
+</style>
 
 <%= simple_form_for(Review.new, url: new_review_path, method: :post, remote: false, multipart: true, validate: true) do |f| %>
   <div class="alert alert-danger fade" id="modal_notice" style="margin-bottom: 5px;">

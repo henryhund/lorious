@@ -48,10 +48,19 @@
     <% end -%>
   <% end -%>
   <!- Normally this would be refactored into a Rails form helper - it is left here for clarity ->
-  <%= hidden_field_tag :tr_data, Braintree::TransparentRedirect.transaction_data(
-    :redirect_url => confirm_payment_url,
-    :transaction => {:type => "sale", :amount => @amount, :customer=> {:first_name => current_user.first_name, :last_name => current_user.last_name, :email => current_user.email}, :options=> {:submit_for_settlement => true, :store_in_vault_on_success => true} }
-  ) %>
+  <% unless current_user.braintree_id.present? %>
+	  
+	  <%= hidden_field_tag :tr_data, Braintree::TransparentRedirect.transaction_data(
+	    :redirect_url => confirm_payment_url,
+	    :transaction => {:type => "sale", :amount => @amount, :customer=> {:first_name => current_user.first_name, :last_name => current_user.last_name, :email => current_user.email}, :options=> {:submit_for_settlement => true, :store_in_vault_on_success => true} }
+	  ) %>
+  <% else -%>
+  	  <%= hidden_field_tag :tr_data, Braintree::TransparentRedirect.transaction_data(
+	    :redirect_url => confirm_payment_url,
+	    :transaction => {:type => "sale", :amount => @amount, :options=> {:submit_for_settlement => true}, :customer_id => current_user.braintree_id }
+	  ) %>
+  <% end -%>
+	  
   <%= f.submit "Submit" %>
 <% end -%>
 

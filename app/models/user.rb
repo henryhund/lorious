@@ -102,11 +102,11 @@ class User < ActiveRecord::Base
   end
 
   def user_info_step_validation_required
-    validation_required? "user_info"
+    validation_required? "user_info" || (step_1_complete && step_2_complete)
   end
 
   def profile_info_step_validation_required
-    validation_required? "profile_info"
+    validation_required? "profile_info" || (step_1_complete && step_2_complete)
   end
 
   def validation_required? step=nil

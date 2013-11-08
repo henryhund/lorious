@@ -6,9 +6,7 @@
       <th>Time</th>
       <th>Details</th>
       <th>Edit</th>
-      <% if current_user.expert? %>
-        <th>Confirm</th>
-      <% end %>
+      <th>Confirm</th>
       <th>Cancel</th>
     </tr>
   </thead>
@@ -20,9 +18,7 @@
         <td><%= appointment.time %></td>
         <td><%= link_to "View", expert_appointment_url(appointment.expert.id, appointment.id), target: "_blank" %></td>
         <td><%= link_to "Edit", edit_expert_appointment_url(appointment.expert.id, appointment.id), target: "_blank" %></td>
-        <% if current_user.expert? %>
-          <td><%= link_to "Confirm", confirm_expert_appointment_path(appointment.expert.id, appointment.id), method: :post %></td>
-        <% end %>
+        <td><%= link_to "Confirm", confirm_expert_appointment_path(appointment.expert.id, appointment.id), method: :post %></td>
         <td><%= link_to "Cancel", cancel_expert_appointment_path(appointment.expert.id, appointment.id), method: :post %></td>
       </tr>
     <% end %>
