@@ -10,21 +10,18 @@ class Request < ActiveRecord::Base
   belongs_to :requested, class_name: "User"
   has_many :appointments
   
-  has_and_belongs_to_many :problems
-  
   acts_as_taggable
   acts_as_taggable_on :skills
+  acts_as_taggable_on :problems
   
   attr_accessor     :other_problem_type
   
-  validates_presence_of :company_name, :company_url
-  
-  validates_format_of :company_url, :with => /((?:https?\:\/\/|www\.)(?:[-a-z0-9]+\.)*[-a-z0-9]+.*)/i
+  validates_presence_of :problem_description, :problem_headline
   
   searchable :auto_index => true, :auto_remove => true do
     
-    string :problems, :multiple => true, :stored => true do
-      problems.map{|c| c.value.downcase.strip}
+    string :problem_list, :multiple => true, :stored => true do
+      problem_list.map{|c| c.downcase.strip}
     end
     
     string :skill_list, :multiple => true, :stored => true do 

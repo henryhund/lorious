@@ -22,7 +22,7 @@
   <div class="form-group text required review_content">
 	<label class="text required col-md-5 control-label" for="review_content"><abbr title="required">*</abbr> Skills</label>
 	<div class="col-md-7">
-		<%= f.select :tags, options_for_select(@available_skills), {}, multiple: "multiple", class: "chosen", "data-placeholder" => "Select your skills" %>
+		<%= f.select :tags, options_for_select(@available_skills, @user.skill_list.split(",").first ), {} ,  multiple: "multiple", class: "chosen", "data-placeholder" => "Select your skills" %>
 	</div>
   </div>
   	

@@ -94,6 +94,22 @@ namespace :db do
     tags.each do |tag|
       AvailableTag.create(:name=> tag.to_s, :category => "Skills")
     end
+    
+    problems = ["Problem A","Problem 2","Problem 4", "Problem B"]
+    problems.each do |problem|
+      AvailableTag.create(:name=> problem.to_s, :category => "Problems")
+    end
   end
   
+  desc "Fill database with sample requests"
+  task fix_tags: :environment do
+    
+    Expert.all.each do |expert|
+      expert.skills.clear
+      5.times do 
+        expert.skill_list.add AvailableTag.skills.order("RANDOM()").first.name  
+      end
+      expert.save
+    end
+  end
 end

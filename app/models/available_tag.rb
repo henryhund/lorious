@@ -1,9 +1,10 @@
 class AvailableTag < ActiveRecord::Base
 
   scope :skills, -> { where(category: "Skills") }
-
+  scope :problems, -> { where(category: "Problems") }
+  
   def category_enum
-    ["Skills"]
+    ["Skills","Problems"]
   end
 
 end

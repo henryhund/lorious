@@ -9,6 +9,8 @@ class RequestsController < ApplicationController
       format.html { @request}
       format.json { render json: @request }
     end
+    @available_problems = AvailableTag.problems.map { |e| [e.name, e.name] }
+    @available_skills = AvailableTag.skills.map { |e| [e.name, e.name] }
   end
   
   def show
@@ -34,13 +36,12 @@ class RequestsController < ApplicationController
   end
   
   def create
-    @request = Request.new(params.require(:request).permit(:problem_headline, :is_local, :is_online, :company_description, :problem_description, :local_zip, :appt_length, :other_problem_type, :requester_id, :company_name, :company_url, :skill_list, :problem_ids => []))
-    
+    @request = Request.new(params.require(:request).permit(:problem_headline, :is_local, :is_online, :company_description, :problem_description, :local_zip, :appt_length, :other_problem_type, :requester_id, :company_name, :company_url, :skill_list, :problem_list))
     respond_to do |format|
       if @request.save
-        if params[:request][:other_problem_type].present?
-          @request.create_problem_type(params[:request][:other_problem_type])
-        end
+        @request.skill_list.add params[:request][:skill_list] if params[:request][:skill_list]
+        @request.problem_list.add params[:request][:problem_list] if params[:request][:problem_list]
+        @request.save validate: false
         
         format.html { redirect_to root_url, notice: I18n.t("request.create.success") }
         format.json { render json: @request, status: :created, location: @request }
@@ -55,7 +56,7 @@ class RequestsController < ApplicationController
     @request = Request.find(params[:id])
     
     respond_to do |format|
-      if @request.update_attributes(params.require(:request).permit(:request_state, :problem_headline, :is_local, :is_online, :company_description, :problem_description, :local_zip, :appt_length, :other_problem_type, :requester_id, :company_name, :company_url, :skill_list, :problem_ids => []))
+      if @request.update_attributes(params.require(:request).permit(:request_state, :problem_headline, :is_local, :is_online, :company_description, :problem_description, :local_zip, :appt_length, :other_problem_type, :requester_id, :company_name, :company_url, :skill_list, :problem_list))
         format.html { redirect_to @request, notice: I18n.t("request.update.success") }
         format.json { head :no_content }
       else

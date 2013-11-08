@@ -54,4 +54,5 @@ $ ->
       $(".profile_tabs").parent().removeClass "active"
       first_tab_button = element.find(".profile_tabs").first()
       $(first_tab_button).trigger('click')
-      
+    else
+      $("#manage_profile").collapse('show')

@@ -11,7 +11,7 @@ class Users::ProfilesController < ApplicationController
       end
       @reviews = @user.reviews_received.includes(:reviewer, :tags)
       
-      @available_skills = AvailableTag.skills.map { |e| [e.name, e.name] }
+      @available_skills = AvailableTag.skills.map { |e| [e.name.downcase, e.name.downcase] }
       
       render :show
     else
