@@ -13,12 +13,15 @@ class AppointmentsController < ApplicationController
       @appointment.user_id = get_user.id
       @appointment.request_id = params[:appointment][:request_id]
       confirm_appointment_for_current_user
-      @appointment.save
+      if @appointment.save
+        UserMailer.delay.new_appointment_request(@appointment, current_user, @appointment.appointment_with_for_user(current_user))
+        redirect_to expert_appointment_url(id: @appointment.id), notice: I18n.t("appointment.create.success"), error: @appointment.errors
+      else
+        redirect_to new_expert_appointment_url(params[:appointment]), notice: I18n.t("appointment.create.failure"), alert: @appointment.errors.full_messages.to_sentence
+      end
     rescue Exception => e
+      debugger
       redirect_to new_expert_appointment_url, notice: I18n.t("appointment.create.failure")
-    else
-      UserMailer.delay.new_appointment_request(@appointment, current_user, @appointment.appointment_with_for_user(current_user))
-      redirect_to expert_appointment_url(id: @appointment.id), notice: I18n.t("appointment.create.success")
     end
   end
 

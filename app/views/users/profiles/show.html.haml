@@ -40,17 +40,19 @@
         %p.tagline
           =@user.tag_line
         %br
-        %button.login_check.message{"data-toggle" => "modal", :href => "#messageModal"}
-          %i.icon-envelope
-          Message me
-        &nbsp;
-        %span.visible-sm
-          %br
-        -if @user.expert?
-          %a.login_check{href: "/experts/#{@user.id}/appointments/new"}
-            %button.appointment
-              %i.icon-calendar
-              Make Appointment
+        -unless @user.id == current_user.id 
+          %button.login_check.message{"data-toggle" => "modal", :href => "#messageModal"}
+            %i.icon-envelope
+            Message me
+          &nbsp;
+          %span.visible-sm
+            %br
+          -if @user.expert?
+            %a.login_check{href: "/experts/#{@user.id}/appointments/new"}
+              %button.appointment
+                %i.icon-calendar
+                Make Appointment
+              
         &nbsp;
       .col-md-1.col-xs-12
         %ul.list-unstyled.links

@@ -1,6 +1,6 @@
 require 'sidekiq/web'
 Lorious::Application.routes.draw do
-
+  
   resources :requests
   
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
@@ -53,7 +53,6 @@ Lorious::Application.routes.draw do
   resources :invites
   resources :credit_transaction, :controller => "credits"
   
-  root :to => "home#index"
   get '/search', to: 'home#search'
   get "/search/page/:page", :controller => "home", :action => "search"
   get '/subscriptions', to: 'home#subscriptions'
@@ -90,5 +89,5 @@ Lorious::Application.routes.draw do
   match 'payments/confirm' => 'payments#confirm', via: [:get], :as => :confirm_payment
   match 'payments/repeat' => 'payments#repeat', via: [:get], :as => :repeat_payment
   
-  
+  root :to => "home#index"
 end

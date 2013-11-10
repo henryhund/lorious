@@ -20,9 +20,9 @@ class UserMailer < ActionMailer::Base
          subject: "Test Scheduled Task!!")
   end
   
-  def request_created_suggest_experts request, to
-     #@request, @to = request, to
-     #mail(to: @to, subject: 'Recommended Request')
+  def request_created_suggest_experts requests, to
+     @requests, @to = requests, to
+     mail(to: @to.email, subject: 'Recommended Requests')
   end
   
   def new_appointment_request appointment, from, to

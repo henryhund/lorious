@@ -4,7 +4,8 @@ class Appointment < ActiveRecord::Base
 
   validates :subject, :description, :time, :duration, presence: true
   validates :place, presence: true, if: :in_person_meet?
-
+  validate :time_cannot_be_in_the_past
+  
   scope :pending, -> { where("appt_state = 'new' AND (expert_confirmed = false OR user_confirmed = false OR expert_confirmed is NULL OR user_confirmed is NULL)") }
   scope :upcoming, -> { where("expert_confirmed = true AND user_confirmed = true AND time >= ?", Time.now) }
   scope :history, -> { where("appt_state = 'cancelled' OR expert_confirmed = true AND user_confirmed = true AND time < ?", Time.now) }
@@ -27,5 +28,10 @@ class Appointment < ActiveRecord::Base
 
   def confirmed?
     user_confirmed && expert_confirmed
+  end
+  
+  def time_cannot_be_in_the_past
+    errors.add(:time, "of Appointment can't be in the past") if
+      !time.blank? and time < Date.today
   end
 end

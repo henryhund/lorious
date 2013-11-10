@@ -17,7 +17,7 @@ class Request < ActiveRecord::Base
   attr_accessor     :other_problem_type
   
   validates_presence_of :problem_description, :problem_headline
-  
+    
   searchable :auto_index => true, :auto_remove => true do
     
     string :problem_list, :multiple => true, :stored => true do
