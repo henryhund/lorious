@@ -37,6 +37,7 @@ class RequestsController < ApplicationController
   
   def create
     @request = Request.new(params.require(:request).permit(:problem_headline, :is_local, :is_online, :company_description, :problem_description, :local_zip, :appt_length, :other_problem_type, :requester_id, :company_name, :company_url, :skill_list, :problem_list))
+    
     respond_to do |format|
       if @request.save
         @request.skill_list.add params[:request][:skill_list] if params[:request][:skill_list]

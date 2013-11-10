@@ -40,7 +40,7 @@
         %p.tagline
           =@user.tag_line
         %br
-        -unless @user.id == current_user.id 
+        -unless @user.id == (current_user.id rescue @user.id)
           %button.login_check.message{"data-toggle" => "modal", :href => "#messageModal"}
             %i.icon-envelope
             Message me

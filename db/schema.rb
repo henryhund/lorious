@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131106115916) do
+ActiveRecord::Schema.define(version: 20131110171006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 20131106115916) do
     t.integer  "transacter_id"
     t.integer  "transacted_id"
     t.text     "description"
+    t.string   "transaction_id"
   end
 
   create_table "expertises", force: true do |t|
@@ -256,6 +257,7 @@ ActiveRecord::Schema.define(version: 20131106115916) do
     t.string   "braintree_id"
     t.string   "braintree_last4"
     t.boolean  "is_expert_applied"
+    t.string   "braintree_token"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

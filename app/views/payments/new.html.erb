@@ -17,7 +17,8 @@
 	  <!- Normally this would be refactored into a Rails form helper - it is left here for clarity ->
 	  <%= hidden_field_tag :tr_data, Braintree::TransparentRedirect.transaction_data(
 	    :redirect_url => confirm_payment_url,
-	    :transaction => {:type => "sale", :amount => @amount, :options=> {:submit_for_settlement => true}, :customer_id => current_user.braintree_id }
+	    :transaction => {:type => "sale", :amount => @amount, :options=> {:submit_for_settlement => true},
+	    :customer_id => current_user.braintree_id }
 	  ) %>
 	  <%= f.submit "Click here to use previously used card ending with " + current_user.braintree_last4 %>
 	<% end -%>
@@ -57,7 +58,7 @@
   <% else -%>
   	  <%= hidden_field_tag :tr_data, Braintree::TransparentRedirect.transaction_data(
 	    :redirect_url => confirm_payment_url,
-	    :transaction => {:type => "sale", :amount => @amount, :options=> {:submit_for_settlement => true}, :customer_id => current_user.braintree_id }
+	    :transaction => {:type => "sale", :amount => @amount, :options=> {:submit_for_settlement => true, :store_in_vault_on_success => true }, :customer_id => current_user.braintree_id }
 	  ) %>
   <% end -%>
 	  

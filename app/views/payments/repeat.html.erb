@@ -1,23 +1,24 @@
-<h1>Payment: $<%= h @amount %></h1>
+<h1>Braintree Credit Card Transaction Form</h1>
 
-<% if @result -%>
-  <div style="color: red;"><%= h @result.errors.size %> error(s)</div>
+<%= simple_form_for :merchant,
+	     #:params => @result && @result.params[:transaction],
+	     #:errors => @result && @result.errors.for(:transaction),
+	     #:builder => ApplicationHelper::BraintreeFormBuilder,
+	     :url => new_merchant_path,
+	     :html => {:autocomplete => "off", :id => 'braintree-merchant-form', :class => 'form-horizontal'} do |f| -%>
+	     
+
+	
+      <div><%= f.input :number, :input_html => { 'data-encrypted-name' => :number, :value => "121181976" } %></div>
+      <div><%= f.input :account, :input_html => { 'data-encrypted-name' => :account, :value => "43759348798" } %></div>
+      <div><%= f.input :cvv, :input_html => { 'data-encrypted-name' => :cvv } %></div>
+	
+  <%= f.submit "Click here to create merchant account" %>
 <% end -%>
 
-<%= simple_form_for :transaction,
-     :params => @result && @result.params[:transaction],
-     :errors => @result && @result.errors.for(:transaction),
-     :builder => ApplicationHelper::BraintreeFormBuilder,
-     :url => Braintree::TransparentRedirect.url,
-     :html => {:autocomplete => "off"} do |f| -%>
-  
-  <!- Normally this would be refactored into a Rails form helper - it is left here for clarity ->
-  <%= hidden_field_tag :tr_data, Braintree::TransparentRedirect.transaction_data(
-    :redirect_url => confirm_payment_url,
-    :transaction => {:type => "sale", :amount => @amount, :options=> {:submit_for_settlement => true}, :customer_id => current_user.braintree_id }
-  ) %>
-  <%= f.submit "Submit" %>
-<% end -%>
+<script src="https://js.braintreegateway.com/v1/braintree.js"></script>
+<script>
+  var braintree = Braintree.create("MIIBCgKCAQEAv/9XtLrVvDehv5DmdRQJLxXttj0vne/Cn+Bujq1YcHx2ByTIV2tf/es+38Zaq83Sdw/pb7PB0NcrTCfLEIQbvUiQ9UZ5HH+ggMdzn3Qe6srd/gO50T4gXYdYlnLapFS1zSQhIWKQaz44YyLL1cJjzlo67IGfJ6TWpCz4+2w1uTxzOjRsfGWYcQQwCv1faRyzoX6RhXBTr1bQik4W92ZfKkxCbcW2NtZsfxuhGOBo6KWJboNcj14DcZvE165waPeq//5EGTbUqMtrniF/ownmTs+ZxaWRc/+7TAJeETfuJ1R3hsA+0zWmSSl8eDI40Ph8Y0cgU3HeTYK7hIMhOkANOQIDAQAB");
+  braintree.onSubmitEncryptForm('braintree-merchant-form');
+</script>
 
-
-<br /><br /><br /><br /><br />
