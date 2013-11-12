@@ -1,0 +1,42 @@
+
+<%= current_user.id %>
+<%= current_user.braintree_token %>
+
+<%= simple_form_for :customer,
+     :params => @result && @result.params[:customer],
+     :errors => @result && @result.errors.for(:customer),
+     :builder => ApplicationHelper::BraintreeFormBuilder,
+     :url => Braintree::TransparentRedirect.url,
+     :html => {:autocomplete => "off"} do |f| -%>
+	  
+	  <%= field_set_tag "Credit Card" do -%>
+	    <%= f.fields_for :credit_card do |c| -%>
+	      <div><%= c.label :number, "Number" %></div>
+	      <div><%= c.text_field :number %></div>
+	      <div><%= c.label :expiration_date, "Expiration Date (MM/YY)" %></div>
+	      <div><%= c.text_field :expiration_date %></div>
+	      <div><%= c.label :cvv, "CVV" %></div>
+	      <div><%= c.text_field :cvv %></div>
+	    <% end -%>
+	  <% end -%>
+	  
+	  <% unless current_user.braintree_id.present? && current_user.braintree_token.present?  %>
+		  <%= hidden_field_tag :tr_data, Braintree::TransparentRedirect.create_customer_data(
+		    :redirect_url => new_credit_card_url,
+		    :customer => {:first_name => current_user.first_name, :last_name => current_user.last_name, :email => current_user.email }
+		  ) %>
+	  <%else%>
+		<!-- If braintree id is present then need to update credit card -->test
+		  <%= hidden_field_tag :tr_data, Braintree::TransparentRedirect.update_customer_data(
+		    :redirect_url => new_credit_card_url,
+		    :customer_id => current_user.braintree_id,
+		    :customer => { 
+		    	:credit_card => {
+		    		:options => {
+				        :update_existing_token => current_user.braintree_token
+				      }
+		    		}
+    		}) %>
+	  <% end -%>			  
+	  <%= f.submit "Submit" %>
+<% end -%>

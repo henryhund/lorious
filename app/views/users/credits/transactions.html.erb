@@ -1,38 +1,34 @@
-<h1>Buy Credits</h1>
+
 <div class="row">
-	<div class="col-lg-3 well" style="margin-right: 10px;">
-		<h1 class="text-center">50 Cr.</h1>
-		<p class="text-center">
-			<%= link_to "Buy", payments_type1_path, method: :post, class: "btn btn-default" %>
-		</p>
-		<h1 class="text-center"><span class="label label-primary">$50</span></h1>
-	</div><!-- /.col-lg-4 -->
-	<div class="col-lg-3 well" style="margin-left: 10px; margin-right: 10px;">
-		
-		<h1 class="text-center">100 Cr.</h1>
-		<p class="text-center">
-			<%= link_to "Buy", payments_type2_path, method: :post, class: "btn btn-default" %>
-		</p>
-		<h1 class="text-center"><span class="label label-primary">$95</span></h1>
-	</div><!-- /.col-lg-4 -->
-	<div class="col-lg-3 well" style="margin-left: 10px;">
-		
-		<h1 class="text-center">150 Cr.</h1>
-		<p class="text-center">
-			<%= link_to "Buy", payments_type3_path, method: :post, class: "btn btn-default" %>
-		</p>
-		<h1 class="text-center"><span class="label label-primary">$140</span></h1>
-		
-	</div><!-- /.col-lg-4 -->
+	<h1>Account</h1>	
+	<p>
+		<% if current_user.expert?%>
+			<% if current_user.braintree_merchant_id.present? %>
+				<div>Merchant account id: <%= current_user.braintree_merchant_id %></div>
+				<div>Account status: <%= current_user.braintree_merchant_status %></div>
+				<% if current_user.braintree_merchant_status_message.present? %>
+					<div>Message: <%= current_user.braintree_merchant_status_message %></div>
+				<% end %>		
+				
+			<% else%>
+				<div>No merchant account in system. <%= link_to "Click here to add one", merchant_url, :class => "btn btn-default" %></div>
+				
+			<% end %>
+		<% else %>
+			<% if current_user.braintree_token.present? %>
+				Credit Card Present with last 4 digits - <%= current_user.braintree_last4 %>
+				<%= link_to "Change card details", credit_card_url, :class => "btn btn-default" %>
+			<%else%>
+				You do not have a credit card linked to your account.
+				<%= link_to "Click here to add one", credit_card_url, :class => "btn btn-default" %>
+			<% end %>
+		<% end %>
+	</p>
 </div>
 <hr />
 
-<h1>Current Balance:&nbsp; <span class="label label-primary"><%= number_to_currency(current_user.credits) rescue "Error!"%></span></h1>
-<hr />
-<h1>Transaction History</h1>
-
 <div class="row">
-	
+	<h1>Transaction History</h1>	
 	<table class="table">
 	  <thead>
 	    <tr>

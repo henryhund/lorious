@@ -78,21 +78,20 @@ Lorious::Application.routes.draw do
   match 'hangout/request' => 'appointments#new_hangout', via: [:get]
   
   match '/webhooks' => 'payments#webhooks', via: [:get]
+  match '/webhooks' => 'payments#webhook_process', via: [:post]
+  
   match 'payments/new' => 'payments#new', via: [:get], :as => :new_payment
-  match 'payments/confirm' => 'payments#confirm', via: [:get], :as => :confirm_payment
-  match 'payments/repeat' => 'payments#repeat', via: [:get], :as => :repeat_payment
+  
+  match 'payments/credit_card' => 'payments#credit_card', via: [:get], :as => :credit_card
+  match 'payments/new_credit_card' => 'payments#new_credit_card', via: [:get], :as => :new_credit_card
+  
+  match 'payments/merchant' => 'payments#merchant', via: [:get], :as => :merchant
   match 'payments/new_merchant' => 'payments#new_merchant', via: [:post], :as => :new_merchant
   
+  match 'payments/confirm' => 'payments#confirm', via: [:get], :as => :confirm_payment
+  
+  match 'payments/temp' => 'payments#temp', via: [:get]
+  
   match "/:username" => "users/profiles#show", via: [:get], as: :profile
-  
-  namespace :payments do
-    post "type1"
-    post "type2"
-    post "type3"
-  end
-  
-  
-  
-  
   
 end

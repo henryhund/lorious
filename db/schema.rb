@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131110171006) do
+ActiveRecord::Schema.define(version: 20131111105741) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -225,12 +225,12 @@ ActiveRecord::Schema.define(version: 20131110171006) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "",    null: false
-    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "email",                             default: "",    null: false
+    t.string   "encrypted_password",                default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0
+    t.integer  "sign_in_count",                     default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -248,16 +248,19 @@ ActiveRecord::Schema.define(version: 20131110171006) do
     t.string   "username"
     t.string   "zip_code"
     t.text     "job"
-    t.boolean  "admin",                  default: false
+    t.boolean  "admin",                             default: false
     t.float    "latitude"
     t.float    "longitude"
-    t.boolean  "step_1_complete",        default: false
-    t.boolean  "step_2_complete",        default: false
-    t.boolean  "expert_approved",        default: false
+    t.boolean  "step_1_complete",                   default: false
+    t.boolean  "step_2_complete",                   default: false
+    t.boolean  "expert_approved",                   default: false
     t.string   "braintree_id"
     t.string   "braintree_last4"
     t.boolean  "is_expert_applied"
     t.string   "braintree_token"
+    t.string   "braintree_merchant_id"
+    t.string   "braintree_merchant_status"
+    t.text     "braintree_merchant_status_message"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

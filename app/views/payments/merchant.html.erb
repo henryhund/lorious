@@ -1,0 +1,46 @@
+<div class="row" style="margin-bottom: 150px;">
+	<div class="col-xs-6 col-md-3"></div>
+	<div class="col-xs-6 col-md-6 ">
+		<h1 class="text-center">Braintree Merchant Creation Form</h1>
+		
+		<%= simple_form_for(@merchant, url: new_merchant_path, method: :post, validate: true, html: {:autocomplete => "off", :class => 'form-horizontal'}) do |f| -%>
+
+		<%= f.error_notification %>
+		
+		<fieldset>
+			<legend>
+				Address
+			</legend>
+			<%= f.input :street_address, label: "Street" %>
+			<%= f.input :postal_code, label: "ZIP"  %>
+			<%= f.input :locality, label: "City"  %>
+			<%= f.input :region, label: "State"  %>
+		</fieldset>
+
+		<fieldset>
+			<legend>
+				Direct Deposit Details
+			</legend>
+			<%= f.input :date_of_birth, label: "Date of birth"  %>
+			<%= f.input :ssn_last4 , label: "SSN (last 4)" , :input_html => { 'data-encrypted-name' => :ssn_last4} %>
+			<%= f.input :routing_number, label: "Routing number" , :input_html => { 'data-encrypted-name' => :routing_number  } %>
+			<%= f.input :account_number, label: "A/c number" , :input_html => { 'data-encrypted-name' => :account_number } %>
+		</fieldset>
+
+		<%= f.input :tos_accepted, label: "Accept terms of service", as: :boolean %>
+
+		<div class="form-actions" style="margin-top: 70px;">
+			<%= f.button :submit, 'Submit Request' , :class => "btn btn-primary text-right col-lg-offset-10"  %>
+		</div>
+
+		<% end -%>
+	</div>
+	<div class="col-xs-6 col-md-3"></div>
+</div>
+
+<script src="https://js.braintreegateway.com/v1/braintree.js"></script>
+<script>
+	var braintree = Braintree.create("MIIBCgKCAQEAv/9XtLrVvDehv5DmdRQJLxXttj0vne/Cn+Bujq1YcHx2ByTIV2tf/es+38Zaq83Sdw/pb7PB0NcrTCfLEIQbvUiQ9UZ5HH+ggMdzn3Qe6srd/gO50T4gXYdYlnLapFS1zSQhIWKQaz44YyLL1cJjzlo67IGfJ6TWpCz4+2w1uTxzOjRsfGWYcQQwCv1faRyzoX6RhXBTr1bQik4W92ZfKkxCbcW2NtZsfxuhGOBo6KWJboNcj14DcZvE165waPeq//5EGTbUqMtrniF/ownmTs+ZxaWRc/+7TAJeETfuJ1R3hsA+0zWmSSl8eDI40Ph8Y0cgU3HeTYK7hIMhOkANOQIDAQAB");
+	braintree.onSubmitEncryptForm('new_merchant'); 
+</script>
+

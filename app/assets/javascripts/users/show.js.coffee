@@ -7,7 +7,6 @@ $ ->
     $(first_tab_button).trigger('click')
 
   $('a[href*="#edit_profile"]').on 'shown.bs.tab', (e)->
-    console.log("validate")
     $(".edit_user").enableClientSideValidations()
     $(".edit_expert").enableClientSideValidations()
     

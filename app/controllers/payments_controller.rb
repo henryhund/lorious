@@ -1,52 +1,47 @@
 class PaymentsController < ApplicationController
-  before_filter :authenticate_user!, except: [:webhooks]
+  before_filter :authenticate_user!, except: [:webhooks, :webhook_process]
+  skip_before_action :verify_authenticity_token, only: [:webhook_process]
   
   def new
   end
   
-  def repeat
+  def merchant
+    @merchant = Merchant.new
   end
   
   def webhooks
-    challenge = request.params["bt_challenge"]
-    challenge_response = Braintree::WebhookNotification.verify(challenge)
-    render xml: challenge_response
+    @challenge = request.params["bt_challenge"]
+    @challenge_response = Braintree::WebhookNotification.verify(@challenge)
+    render xml: @challenge_response
   end
   
-  def new_merchant
-    @result = Braintree::MerchantAccount.create(
-      :applicant_details => {
-        :first_name => Braintree::Test::MerchantAccount::Approve,
-        :last_name => "Bloggs",
-        :email => "joe@14ladders.com",
-        :phone => "5551112222",
-        :address => {
-          :street_address => "123 Credibility St.",
-          :postal_code => "60606",
-          :locality => "Chicago",
-          :region => "IL"
-        },
-        :date_of_birth => "1980-10-09",
-        :ssn => "123-00-1234",
-        :routing_number => params[:number],
-        :account_number => params[:account]
-        #:routing_number => "121181976",
-        #:account_number => "43759348798"
-      },
-      :tos_accepted => true,
-      :master_merchant_account_id => "gqzd8vqh3yx986ts"
-      #:id => "blue_ladders_store" optional
+  def webhook_process
+    @webhook_notification = Braintree::WebhookNotification.parse(
+      params[:bt_signature], params[:bt_payload]
     )
-    debugger
-    redirect_to repeat_payment_url
+    
+    if @webhook_notification.kind == "sub_merchant_account_approved"
+      @merchant = Expert.find_by(braintree_merchant_id: @webhook_notification.merchant_account.id)
+      if @merchant.present? 
+        @merchant.braintree_merchant_status = @webhook_notification.merchant_account.status 
+        @merchant.save 
+      end
+    elsif @webhook_notification.kind == "sub_merchant_account_declined"
+      @merchant = Expert.find_by(braintree_merchant_id: @webhook_notification.merchant_account.id)
+      if @merchant.present? 
+        @merchant.braintree_merchant_status = @webhook_notification.merchant_account.status  
+        @merchant.braintree_merchant_status_message = @webhook_notification.message
+        @merchant.save
+      end
+    end
+    
+    render :text => "OK" #can be anything doesn't matter as webhook doesnt expect response
   end
   
   def temp
-    
-    @result = Braintree::MerchantAccount.create(
+    result = Braintree::MerchantAccount.create(
       :applicant_details => {
-        #:first_name => Braintree::Test::MerchantAccount::Approve,
-        :first_name => "TEST",
+        :first_name => Braintree::ErrorCodes::MerchantAccount::ApplicantDetails::DeclinedOFAC,
         :last_name => "Bloggs",
         :email => "joe@14ladders.com",
         :phone => "5551112222",
@@ -58,13 +53,87 @@ class PaymentsController < ApplicationController
         },
         :date_of_birth => "1980-10-09",
         :ssn => "123-00-1234",
-        :routing_number => "1234567890",
+        :routing_number => "121181976",
         :account_number => "43759348798"
       },
       :tos_accepted => true,
       :master_merchant_account_id => "gqzd8vqh3yx986ts"
-      #:id => "blue_ladders_store" optional
     )
+    render status: :ok
+  end
+  def new_merchant
+
+    @merchant = Merchant.new(params.require(:merchant).permit!)
+    @merchant.routing_number = 1 
+    @merchant.account_number = 1 
+    @merchant.ssn_last4 = 1
+    
+    if @merchant.valid?
+      
+      @result = Braintree::MerchantAccount.create(
+        :applicant_details => {
+          :first_name => Braintree::Test::MerchantAccount::Approve,
+          #:first_name => Braintree::ErrorCodes::MerchantAccount::ApplicantDetails::DeclinedOFAC,
+          :last_name => current_user.last_name,
+          :email => current_user.email,
+          #:phone => "5551112222",
+          :address => {
+            :street_address => @merchant.street_address,
+            :postal_code => @merchant.postal_code,
+            :locality => @merchant.locality, #city
+            :region => @merchant.region#state
+          },
+          :date_of_birth => @merchant.date_of_birth,
+          :ssn => params[:ssn_last4],
+          :routing_number => params[:routing_number],
+          :account_number => params[:account_number]
+          #:routing_number => "121181976",
+          #:account_number => "43759348798"
+        },
+        :tos_accepted => @merchant.tos_accepted,
+        :master_merchant_account_id => "gqzd8vqh3yx986ts"
+      )
+    
+      if @result.success?
+        flash[:alert] = "Merchant account created successfully."
+        current_user.braintree_merchant_id = @result.merchant_account.id 
+        current_user.braintree_merchant_status = @result.merchant_account.status
+        current_user.save
+        redirect_to users_url(anchor: "credit")
+      else
+        @errors = @result.errors.map { |a| a.message} 
+        flash[:alert] = ""
+        @errors.each do |e|
+          flash[:alert] << (e.to_s + "\n")
+        end  
+        
+        @merchant.routing_number = nil
+        @merchant.account_number = nil 
+        @merchant.ssn_last4 = nil
+        render action: "merchant"
+      end
+    else
+      flash[:alert] = "Error creating merchant account."
+      render action: "merchant"
+    end
+  end
+  
+  def credit_card
+  end
+    
+  def new_credit_card
+    @result = Braintree::TransparentRedirect.confirm(request.query_string)
+    
+    if @result.success?
+      current_user.braintree_id = @result.customer.id  
+      current_user.braintree_last4 = @result.customer.default_credit_card.last_4
+      current_user.braintree_token = @result.customer.default_credit_card.token
+      current_user.save
+      flash[:alert] = "Credit Card updated successfully."
+      redirect_to users_url(anchor: "credit")
+    else
+      render action: "credit_card"    
+    end
     
   end
   
@@ -85,17 +154,8 @@ class PaymentsController < ApplicationController
         }
       )
       @credit = CreditTransaction.new
-      case @result.transaction.amount
-      when 140
-        @credit.amount = 150  
-      when 95
-        @credit.amount = 100
-      when 50
-        @credit.amount = 50
-      else
-        @credit.amount = @result.transaction.amount
-      end
-      
+      @credit.amount = @result.transaction.amount
+
       @credit.added = true
       @credit.transacted_id = current_user.id
       @credit.transacter_id = current_user.id
@@ -116,21 +176,5 @@ class PaymentsController < ApplicationController
       render :action => "new"
     end
   end
-  
-  def type1
-    @amount = 50
-    render :action => "new"
-  end
-  
-  def type2
-    @amount = 95
-    render :action => "new"
-  end
-  
-  def type3
-    @amount = 140
-    render :action => "new"
-  end
-  protected
   
 end
