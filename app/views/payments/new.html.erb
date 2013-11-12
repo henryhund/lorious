@@ -20,7 +20,7 @@
 	    :transaction => {:type => "sale", :amount => @amount, :options=> {:submit_for_settlement => true},
 	    :customer_id => current_user.braintree_id }
 	  ) %>
-	  <%= f.submit "Click here to use previously used card ending with " + current_user.braintree_last4 %>
+	  <%= f.submit "Click here to use card ending with " + current_user.braintree_last4 %>
 	<% end -%>
 	<br />
 	<br />

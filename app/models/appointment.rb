@@ -11,6 +11,7 @@ class Appointment < ActiveRecord::Base
   scope :history, -> { where("appt_state = 'cancelled' OR expert_confirmed = true AND user_confirmed = true AND time < ?", Time.now) }
 
   belongs_to :request
+  belongs_to :credit_transaction, foreign_key: "transaction_id"
   
   has_many :sidekiqjobs, as: :workable
   

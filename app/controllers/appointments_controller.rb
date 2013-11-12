@@ -69,34 +69,82 @@ class AppointmentsController < ApplicationController
   end
   
   def confirm
+    
+    #if current user doesn't have an account then flash message and redirect 
+    
     @appointment = Appointment.find(params[:id])
-    if current_user.expert?
-      @appointment.expert_confirmed = true
-    else
-      @appointment.user_confirmed = true
+    if current_user.id == @appointment.expert.id
+      if current_user.braintree_merchant_id.present? && ( current_user.braintree_merchant_status.present? && current_user.braintree_merchant_status == "active")
+        @appointment.expert_confirmed = true
+      else
+        flash[:alert] = "Cannot confirm appointment, need to have and active merchant account on file"
+        return redirect_to users_url(anchor: "credit") 
+      end
+    elsif current_user.id == @appointment.user.id
+      if current_user.braintree_id.present? && current_user.braintree_token.present?
+        @appointment.user_confirmed = true
+      else
+        flash[:alert] = "Cannot confirm appointment, need to have credit card on file"
+        return redirect_to users_url(anchor: "credit")  
+      end
     end
     
     if @appointment.confirmed?
+      #Create Payment in Escrow and send out email to user
       @appointment.appt_state = "confirmed"
+      
+      unless @appointment.credit_transaction.present?
+        @result = Braintree::Transaction.sale(
+          :amount => @appointment.total_credit_cost,
+          :merchant_account_id => @appointment.expert.braintree_merchant_id,
+          :customer_id => @appointment.user.braintree_id,
+          :payment_method_token => @appointment.user.braintree_token,
+          :options => {
+            :submit_for_settlement => true,
+            :hold_in_escrow => true
+          },
+          :service_fee_amount => (0.2 * @appointment.total_credit_cost).to_s
+        )
+        
+        if @result.success?
+          #send payment confirmation message
+          
+          @appointment.create_credit_transaction(
+            :amount => @result.transaction.amount,
+            :added => true,
+            :transacted_id => @appointment.expert.id,
+            :transacter_id => @appointment.user.id,
+            :transaction_id => @result.transaction.id,
+            :description => "Transaction ID: " + @result.transaction.id + " Amount Charged: $" + @result.transaction.amount.to_s,
+            :transaction_status => @result.transaction.status
+          )
+        
+        else
+          #send payment error message and unconfirm appointment
+          flash[:alert] = "Cannot confirm appointment, payment unsuccesful."
+          return redirect_to users_url(anchor: "appointment")
+        end
+      end
+      
+      @appointment.save
       UserMailer.delay.appointment_confirmed_notification(@appointment, @appointment.user)
       UserMailer.delay.appointment_confirmed_notification(@appointment, @appointment.expert)
+      
+      # remove any previous worker instances 
+      @appointment.sidekiqjobs.each do |s|
+        Sidekiq::Status.cancel s.sidekiq_id  
+      end
+      @appointment.sidekiqjobs.clear
+      #create a reminder worker task and a appointment completed task
+      if @appointment.time - Time.now < 3600
+        @appointment.sidekiqjobs.create(sidekiq_id: ApptReminder.perform_at(Time.now + 1.minute, @appointment.id))
+      else
+        @appointment.sidekiqjobs.create(sidekiq_id: ApptReminder.perform_at(@appointment.time - 1.hours, @appointment.id))
+      end
+      
+      @appointment.sidekiqjobs.create(sidekiq_id: ApptCompleted.perform_at(@appointment.time + @appointment.duration.minutes, @appointment.id))
+      redirect_to expert_appointment_url(current_user.id, @appointment.id), notice: I18n.t("appointment.confirmed")
     end
-    
-    @appointment.save
-    # remove any previous worker instances 
-    @appointment.sidekiqjobs.each do |s|
-      Sidekiq::Status.cancel s.sidekiq_id  
-    end
-    @appointment.sidekiqjobs.clear
-    #create a reminder worker task and a appointment completed task
-    if @appointment.time - Time.now < 3600
-      @appointment.sidekiqjobs.create(sidekiq_id: ApptReminder.perform_at(Time.now + 1.minute, @appointment.id))
-    else
-      @appointment.sidekiqjobs.create(sidekiq_id: ApptReminder.perform_at(@appointment.time - 1.hours, @appointment.id))
-    end
-    
-    @appointment.sidekiqjobs.create(sidekiq_id: ApptCompleted.perform_at(@appointment.time + @appointment.duration.minutes, @appointment.id))
-    redirect_to expert_appointment_url(current_user.id, @appointment.id), notice: I18n.t("appointment.confirmed")
   end
 
   def new_hangout
