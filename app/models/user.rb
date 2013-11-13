@@ -115,8 +115,8 @@ class User < ActiveRecord::Base
 
   def change_to_expert_and_return_user!
     self.type = "Expert"
-    self.create_availability
     self.becomes(Expert)
+    self.create_availability
   end
 
   def profile_info_page?

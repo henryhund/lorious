@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-
+  before_filter :authenticate_user!, except: [:index]
   def index
 
   end
@@ -64,7 +64,56 @@ class HomeController < ApplicationController
     
   end
   
+  def update_settings
+    @transactions = CreditTransaction.all.order(created_at: :desc).paginate(:page => params[:page], :per_page => 5)
+    begin @settings = Setting.update(params[:settings].keys, params[:settings].values)
+    rescue
+      redirect_to control_panel_url, alert: "Error updating settings"
+    else
+      redirect_to control_panel_url, alert: "Successfully updated settings"
+    end
+  end
+  
+  def update_transactions
+    #CreditTransaction.update(params[:transactions].keys, params[:transactions].values)
+    @settings = Setting.all
+    
+    begin
+      @transactions = CreditTransaction.update(params[:transactions].keys, params[:transactions].values)#.paginate(:page => params[:page], :per_page => 5)
+      @transactions.reject! { |p| p.errors.empty? }
+      
+      if @transactions.empty?
+        redirect_to control_panel_path
+      else
+        @transactions = WillPaginate::Collection.create(1, 5, @transactions.size) do |pager|
+         pager.replace(@transactions)
+        end
+        
+        render "control_panel", alert: "Successfully updated transactions"
+      end
+    rescue Exception => e
+      redirect_to control_panel_path, alert: "Error updating transactions"
+    end
+    
+  end  
+  
+  def control_panel
+    admin_authentication(current_user)
+    
+    @settings = Setting.all
+    @transactions = CreditTransaction.all.order(created_at: :desc).paginate(:page => params[:page], :per_page => 5)
+  end
+  
   def subscriptions
     render :layout => false
+  end
+  
+private
+  def admin_authentication(user)
+    unless user.admin?
+      flash[:alert] = "You do not have access to this page."
+      redirect_to root_url 
+      return 
+    end
   end
 end

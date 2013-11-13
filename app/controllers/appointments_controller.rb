@@ -4,6 +4,18 @@ class AppointmentsController < ApplicationController
   before_filter :form_data, only: [:new, :edit]
 
   def new
+    if current_user.expert?
+      unless current_user.braintree_merchant_id.present? && ( current_user.braintree_merchant_status.present? && current_user.braintree_merchant_status == "active")
+        flash[:alert] = "Cannot confirm appointment, need to have and active merchant account on file"
+        return redirect_to users_url(anchor: "credit") 
+      end
+    else
+      unless current_user.braintree_id.present? && current_user.braintree_token.present?
+        flash[:alert] = "Cannot confirm appointment, need to have credit card on file"
+        return redirect_to users_url(anchor: "credit")  
+      end
+    end
+    
     @appointment = @expert.appointments.new
   end
 
@@ -20,7 +32,6 @@ class AppointmentsController < ApplicationController
         redirect_to new_expert_appointment_url(params[:appointment]), notice: I18n.t("appointment.create.failure"), alert: @appointment.errors.full_messages.to_sentence
       end
     rescue Exception => e
-      debugger
       redirect_to new_expert_appointment_url, notice: I18n.t("appointment.create.failure")
     end
   end
@@ -116,9 +127,10 @@ class AppointmentsController < ApplicationController
             :transacter_id => @appointment.user.id,
             :transaction_id => @result.transaction.id,
             :description => "Transaction ID: " + @result.transaction.id + " Amount Charged: $" + @result.transaction.amount.to_s,
-            :transaction_status => @result.transaction.status
+            :transaction_status => @result.transaction.status,
+            :transaction_escrow_status => @result.transaction.escrow_status
           )
-        
+          
         else
           #send payment error message and unconfirm appointment
           flash[:alert] = "Cannot confirm appointment, payment unsuccesful."

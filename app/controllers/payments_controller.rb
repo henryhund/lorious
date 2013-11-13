@@ -19,7 +19,7 @@ class PaymentsController < ApplicationController
     @webhook_notification = Braintree::WebhookNotification.parse(
       params[:bt_signature], params[:bt_payload]
     )
-    
+    debugger
     if @webhook_notification.kind == "sub_merchant_account_approved"
       @merchant = Expert.find_by(braintree_merchant_id: @webhook_notification.merchant_account.id)
       if @merchant.present? 
@@ -39,26 +39,7 @@ class PaymentsController < ApplicationController
   end
   
   def temp
-    result = Braintree::MerchantAccount.create(
-      :applicant_details => {
-        :first_name => Braintree::ErrorCodes::MerchantAccount::ApplicantDetails::DeclinedOFAC,
-        :last_name => "Bloggs",
-        :email => "joe@14ladders.com",
-        :phone => "5551112222",
-        :address => {
-          :street_address => "123 Credibility St.",
-          :postal_code => "60606",
-          :locality => "Chicago",
-          :region => "IL"
-        },
-        :date_of_birth => "1980-10-09",
-        :ssn => "123-00-1234",
-        :routing_number => "121181976",
-        :account_number => "43759348798"
-      },
-      :tos_accepted => true,
-      :master_merchant_account_id => "gqzd8vqh3yx986ts"
-    )
+    
     render status: :ok
   end
   def new_merchant

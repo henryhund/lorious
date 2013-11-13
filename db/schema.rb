@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131112115731) do
+ActiveRecord::Schema.define(version: 20131113094047) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,10 @@ ActiveRecord::Schema.define(version: 20131112115731) do
     t.text     "description"
     t.string   "transaction_id"
     t.string   "transaction_status"
+    t.boolean  "is_request_cancel"
+    t.boolean  "is_request_hold"
+    t.text     "request_cancel_reason"
+    t.string   "transaction_escrow_status"
   end
 
   create_table "expertises", force: true do |t|
@@ -187,6 +191,13 @@ ActiveRecord::Schema.define(version: 20131112115731) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "settings", force: true do |t|
+    t.string "name"
+    t.string "value"
+  end
+
+  add_index "settings", ["name"], name: "index_settings_on_name", using: :btree
 
   create_table "sidekiqjobs", force: true do |t|
     t.string   "sidekiq_id"

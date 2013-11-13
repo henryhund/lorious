@@ -34,20 +34,26 @@
 </div>
 
 <script type="text/javascript">
-  $('#appointment_time').datetimepicker({
-    format: "MM dd, yyyy - HH:ii p",
-    maxView: 3,
-    minView: 0,
-    startView: 2,
-    minuteStep: 15,
-    viewSelect: 0,
-    weekStart: 1,
-    todayBtn:  0,
-    autoclose: 1,
-    todayHighlight: 1,
-    forceParse: 0,
-    showMeridian: 1,
-    pickerPosition: 'bottom-left'
+  $(function(){ 
+      var date = new Date();
+      date.setDate(date.getDate())
+
+	  $('#appointment_time').datetimepicker({
+	    format: "MM dd, yyyy - HH:ii p",
+	    maxView: 3,
+	    minView: 0,
+	    startView: 2,
+	    minuteStep: 15,
+	    viewSelect: 0,
+	    weekStart: 1,
+	    todayBtn:  0,
+	    autoclose: 1,
+	    todayHighlight: 1,
+	    forceParse: 0,
+	    showMeridian: 1,
+	    pickerPosition: 'bottom-left',
+	    startDate: date
+	  });
   });
 
   var hourly_rate_in_credit = <%= raw @hourly_rate_in_credit %>;

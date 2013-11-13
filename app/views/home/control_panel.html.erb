@@ -1,0 +1,134 @@
+<h1 class="text-center">Control Panel</h1>
+
+<div class="row" style="margin-bottom: 15px;">
+	<div class="col-xs-3 col-md-2"></div>
+	<div class="col-xs-12 col-md-6 ">
+		<h2>Settings</h2>
+
+		<%= form_tag update_multiple_settings_path, method: :put do %>
+			<% Setting.all.each do |setting| %>
+	
+				<%= fields_for "settings[]", setting do |f| %>
+					<% if setting.errors.any? %>
+					<div id="error_explanation">
+						<h2><%= pluralize(setting.errors.count, "error") %> prohibited this setting from being saved:</h2>
+						<ul>
+							<% setting.errors.full_messages.each do |msg| %>
+							<li>
+								<%= msg %>
+							</li>
+							<% end %>
+						</ul>
+					</div>
+					<% end %>
+		
+					<div class="form-group string optional request_company_name">
+						<label class="string optional col-md-7 control-label" for="request_company_name"><%= setting.name %></label>
+						<div class="col-md-5">
+							<%= f.text_field :value %>
+						</div>
+					</div>
+		
+				<% end %>
+			<% end %>
+
+			<div>
+				<%= submit_tag "Update Settings" %>
+			</div>
+		<% end %>
+
+	</div>
+	<div class="col-xs-6 col-md-4"></div>
+</div>
+
+<div class="row" style="margin-bottom: 15px;">
+	<div class="col-xs-6 col-md-2"></div>
+	<div class="col-xs-6 col-md-8 ">
+		<h2>Transactions in Escrow</h2>
+		<%= form_tag update_multiple_transactions_path, method: :put do %>
+		<table class="table table-condensed">
+  			<th>Hold</th>
+  			<th>Refund</th>
+  			<th>Release</th>
+  			<th>Nothing</th>
+  			<th>Transaction</th>
+  			<th>Escrow Status</th>
+  			<th>User</th>
+  			<th>Expert</th>
+  			<th>Time</th>
+  			<th>Subject</th>
+  			<th>Hold?</th>
+  			<th>Request Cancel?</th>
+  			<th>Reason</th>
+			<% @transactions.each do |transaction| %>
+				<%= fields_for "transactions[]", transaction do |f| %>
+					<% if transaction.errors.any? %>
+					<tr class="danger">
+						<td colspan="10">
+							<h2><%= pluralize(transaction.errors.count, "error") %> prohibited this transaction from being saved:</h2>
+							<ul>
+								<% transaction.errors.full_messages.each do |msg| %>
+								<li>
+									<%= msg %>
+								</li>
+								<% end %>
+							</ul>
+						</td>
+					</tr>
+					<% end %>
+					
+					<tr>
+						<td>
+							<%= f.radio_button(:state_change, "hold") %>
+						</td>
+						<td>
+							<%= f.radio_button(:state_change, "refund") %>
+						</td>
+						<td>
+							<%= f.radio_button(:state_change, "release") %>
+						</td>
+						<td>
+							<%= f.radio_button(:state_change, "nothing") %>
+						</td>
+						<td>
+							<%= transaction.transaction_status %>
+						</td>
+						<td>
+							<%= transaction.transaction_escrow_status %>
+						</td>
+						<td>
+							<%= transaction.appointment.user.name rescue "Unknown" %>
+						</td>
+						<td>
+							<%= transaction.appointment.expert.name rescue "Unknown" %>
+						</td>
+						<td>
+							<%= transaction.appointment.time rescue "Unknown" %>
+						</td>
+						<td>
+							<%= transaction.appointment.subject rescue "Unknown" %>
+						</td>
+						<td>
+							<%= transaction.is_request_hold %>
+						</td>
+						<td>
+							<%= transaction.is_request_cancel %>
+						</td>
+						<td>
+							<%= transaction.request_cancel_reason %>
+						</td>
+					</tr>
+					
+				<% end %>
+			<% end %>
+
+</table>
+			<div>
+				<%= will_paginate @transactions%>
+				<%= submit_tag "Update Transactions" %>
+			</div>
+		<% end %>
+</div>
+	<div class="col-xs-3 col-md-2"></div>
+</div>
+<!-- Add functionality to reverse payment>

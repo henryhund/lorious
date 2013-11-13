@@ -92,6 +92,11 @@ Lorious::Application.routes.draw do
   
   match 'payments/temp' => 'payments#temp', via: [:get]
   
+  match "/control_panel" => "home#control_panel", via: [:get], as: :control_panel
+  
+  match "update_multiple_settings" => "home#update_settings", via: [:put], as: :update_multiple_settings
+  match "update_multiple_transactions" => "home#update_transactions", via: [:put], as: :update_multiple_transactions
+  
   match "/:username" => "users/profiles#show", via: [:get], as: :profile
   
 end
