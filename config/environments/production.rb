@@ -90,6 +90,6 @@ Lorious::Application.configure do
     :port                 => 587,
     :user_name            => ENV['MANDRILL_USERNAME'],
     :password             => ENV['MANDRILL_API_KEY'],
-    :authentication       => 'plain',
-    :enable_starttls_auto => true  }
+    :authentication       => 'plain'
+  }
 end
