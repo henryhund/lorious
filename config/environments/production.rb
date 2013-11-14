@@ -89,7 +89,6 @@ Lorious::Application.configure do
     :address              => "smtp.mandrillapp.com",
     :port                 => 587,
     :user_name            => ENV['MANDRILL_USERNAME'],
-    :password             => ENV['MANDRILL_API_KEY'],
-    :authentication       => 'plain'
+    :password             => ENV['MANDRILL_API_KEY']
   }
 end
