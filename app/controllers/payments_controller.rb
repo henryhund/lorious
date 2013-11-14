@@ -72,7 +72,7 @@ class PaymentsController < ApplicationController
           #:account_number => "43759348798"
         },
         :tos_accepted => @merchant.tos_accepted,
-        :master_merchant_account_id => ENV['BRAINTREE_MASTER_MERCHANT_ID']
+        :master_merchant_account_id => "t6vvt3fvkqccvnqr"
       )
     
       if @result.success?
