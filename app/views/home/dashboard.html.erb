@@ -1,0 +1,119 @@
+<div class="container wrapper">
+	<div class="row" style="margin-top:20px;">
+		<div class="col-md-1"></div>
+		<div class="col-md-10">
+			<h1>Browse Expertises</h1>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+
+	<div class="row" style="margin-top: 10px;">
+		<div class="col-md-2"></div>
+		<% Expert.order("RANDOM()").all(:limit => 4).each do |expertise| %>
+			<div class="col-md-2 well" style="margin-right: 10px; margin-left: 10px;">
+				<%= image_tag(expertise.image.url, class: "img-thumbnail") %>
+				<h3 class="text-center"><%= expertise.name %></h3>
+				<div style="margin-top: 15px;" class="text-center">
+					<% expertise.skill_list.first(2).each do |skill| %>
+						<span class="label label-primary" style="margin-right:10px;"><%= skill.to_s %></span>
+					<% end %>
+				</div>
+			</div>
+		<% end %>
+		<div class="col-md-2"></div>
+	</div>
+	<div class="row">
+
+		<%= form_tag search_path, method: :get do %>
+		<div class="col-lg-3"></div>
+		<div class="col-lg-5">
+			<div class="input-group merged">
+				<span class="input-group-addon"><i class="icon-search"></i></span>
+				<%= search_field_tag :keyword ,nil, :class => 'form-control', :placeholder => 'Enter Keyword' %>
+			</div>
+		</div>
+		<div class="col-lg-1" >
+			<%= submit_tag "Search", :class => 'btn btn-primary', :style => 'margin-top: 9px; padding: 13px;' %>
+		</div>
+		<div class="col-lg-3"></div>
+		<% end %>
+		<!--div class="input-group merged">
+		<span class="input-group-addon"><i class="icon-search"></i></span>
+		<input type="text" class="form-control searchbox" placeholder="Search" ng-model="query.$" />
+		</div-->
+	</div>
+	<hr />
+	<div class="row" style="margin-top:0px;">
+		<div class="col-md-1"></div>
+		<div class="col-md-10">
+			<h1>Featured Experts</h1>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+	
+	<div class="marketing" style="margin-bottom: 100px;">
+
+		<!-- Three columns of text below the carousel -->
+		<div class="row">
+			<% Expert.where(is_featured: true).limit(3).order("created_at DESC").each do |expert| %>
+				<div class="col-lg-4">
+					<%= image_tag(expert.image.url, class: "img-thumbnail") %>
+					<h2><%= expert.name %></h2>
+					<p>
+						<%= expert.bio %>
+					</p>
+					<p>
+						<%= link_to "View Details", profile_url(expert.username), class: "btn btn-primary" %>
+					</p>
+				</div>
+			<% end %>
+		</div><!-- /.row -->
+
+	</div>
+
+	<hr />
+	<div class="row" style="margin-top:0px;">
+		<div class="col-md-1"></div>
+		<div class="col-md-10">
+			<h1>Latest Requests</h1>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+	
+	<div class="row">
+			<div class="col-md-8">
+				<% Request.all(:limit => 3).each do |request| %>
+					<div class="well">
+						<div class="row">
+							<div class="col-md-4">
+								<br />
+								<a href="#" class="thumbnail">
+									<%= image_tag(request.requester.image.url , class: "img-thumbnail") %>
+								</a>
+								
+							</div>
+							<div class="col-md-8">
+								<h2 style="margin-top: 22px;"> <%= request.problem_headline %></h2>
+								
+								<div style="margin-top:10px;">
+									<%= request.problem_description %>
+								</div>
+								
+							</div>
+						</div>
+						
+					</div>
+				<% end %>
+					
+				
+			</div>
+			<div class="col-md-4">
+				<%= link_to "View More Requests", request_latest_url, class: "btn-lg btn-primary" %>
+				
+				<% unless current_user.expert? %>
+					<%= link_to "Post Requests", new_request_url, class: "btn-lg btn-primary" %>
+				<% end %>
+			</div>
+
+	</div>
+</div>

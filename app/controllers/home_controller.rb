@@ -4,6 +4,9 @@ class HomeController < ApplicationController
 
   end
 
+  def dashboard
+    
+  end
   def search
     
     @search = Expert.search do
@@ -93,13 +96,13 @@ class HomeController < ApplicationController
       @transactions.reject! { |p| p.errors.empty? }
       
       if @transactions.empty?
-        redirect_to control_panel_path
+        redirect_to control_panel_path, alert: "Successfully updated transactions"
       else
         @transactions = WillPaginate::Collection.create(1, 5, @transactions.size) do |pager|
          pager.replace(@transactions)
         end
         
-        render "control_panel", alert: "Successfully updated transactions"
+        render "control_panel"
       end
     rescue Exception => e
       redirect_to control_panel_path, alert: "Error updating transactions"

@@ -1,6 +1,14 @@
 require 'sidekiq/web'
 Lorious::Application.routes.draw do
-  root :to => "home#index"
+  
+  authenticated :user do
+    root to: "home#dashboard", as: :authenticated_root
+  end
+  
+  unauthenticated do
+    root to: "home#index", as: :unauthenticated_root
+  end
+
   resources :requests
   
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
@@ -60,6 +68,7 @@ Lorious::Application.routes.draw do
   
   post '/new_conversation', :controller => "conversations", :action => "create"
   post '/new_review', :controller => "home", :action => "new_review"
+  post '/search', to: 'home#search'
   
   resources :conversations do
     member do

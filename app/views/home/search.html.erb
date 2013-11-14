@@ -8,7 +8,7 @@
 				<h3>Search:</h3>
 				<div class="input-group merged">
 				    <span class="input-group-addon"><i class="icon-search"></i></span>
-				    <input type="text" class="form-control searchbox" placeholder="Keyword" ng-model="query.$" />
+				    <input ng-init="query.$=default_keyword" type="text" class="form-control searchbox" placeholder="Keyword" ng-model="query.$" />
 				</div>
 				
 				<h3>TAG:</h3>

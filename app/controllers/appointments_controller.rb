@@ -105,6 +105,7 @@ class AppointmentsController < ApplicationController
       @appointment.appt_state = "confirmed"
       
       unless @appointment.credit_transaction.present?
+        
         @result = Braintree::Transaction.sale(
           :amount => @appointment.total_credit_cost,
           :merchant_account_id => @appointment.expert.braintree_merchant_id,
@@ -116,7 +117,7 @@ class AppointmentsController < ApplicationController
           },
           :service_fee_amount => (0.2 * @appointment.total_credit_cost).to_s
         )
-        
+        debugger
         if @result.success?
           #send payment confirmation message
           

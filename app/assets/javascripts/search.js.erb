@@ -52,11 +52,23 @@ this.SearchCtrl = [
   "$scope", "$resource", "$route", "$routeParams", "$location", "Search", function($scope, $resource, $route, $routeParams, $location, Search) {
     $scope.loading = true;
     $scope.model = {facets: [] };
-    Search.get({id: 1}, function (new_experts) {
-	  $scope.experts = new_experts.results;
-	  $scope.model.facets = new_experts.facets;
-	  $scope.loading = false;
-	});
+    
+    parameter = getUrlParameters("keyword", "", true)
+    if (parameter){
+	    Search.get({id: 1, keyword: parameter}, function (new_experts) {
+		    $scope.experts = new_experts.results;
+		    $scope.model.facets = new_experts.facets;
+		    $scope.loading = false;
+	    });	
+	    $scope.default_keyword = parameter;
+    }else{
+    	Search.get({id: 1}, function (new_experts) {
+		    $scope.experts = new_experts.results;
+		    $scope.model.facets = new_experts.facets;
+		    $scope.loading = false;
+	    });	
+	    $scope.default_keyword = "";
+    }
 	
     //Initializing rating elements
     $scope.rate = 2.5;
@@ -118,8 +130,6 @@ this.SearchDetailCtrl = [
 	  Search.get($scope.generateSearchParams($scope.pg_counter++), function (new_experts) {
         //new data is available in the callback to insert to the experts ng-model
         $scope.experts.push.apply($scope.experts, new_experts.results);
-        //$scope.update(new_experts.facets);
-        //console.log('length '+$scope.experts.length);
         $scope.loading = false;
       });
     };
@@ -129,8 +139,6 @@ this.SearchDetailCtrl = [
 	  $scope.loading = true;
 	  Search.get(params, function (new_experts) {
         $scope.experts = new_experts.results;
-        //console.log('length '+$scope.experts.length);
-        //$scope.update(new_experts.facets);
         $scope.loading = false;
       });
     };
