@@ -27,6 +27,8 @@ gem 'braintree'
 gem 'slim'
 gem 'sidetiq'
 
+#Mandrill
+#gem 'mandrill-api'
 # Google Events API
 gem 'google-api-client'
 
@@ -79,7 +81,7 @@ gem 'omniauth-github', :git => 'git://github.com/intridea/omniauth-github.git'
 gem 'omniauth-twitter'
 gem 'omniauth-stackexchange'
 
-gem "fog", "~> 1.3.1"
+gem "fog", '1.18'
 
 gem 'mailboxer', git: 'git://github.com/ging/mailboxer.git'
 

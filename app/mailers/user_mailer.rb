@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default from: "testing@devbrother.com"
+  default from: "info@lorious.com"
 
   @@base_url = "http://" + Rails.configuration.action_mailer.default_url_options[:host]
 

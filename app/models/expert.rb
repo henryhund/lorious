@@ -65,6 +65,13 @@ class Expert < User
       false
     end
   end
+  
+  def mark_appointment_reviewed(user_id)
+    apt = self.appointments.find_by(user_id: user_id, is_reviewed: false)
+    apt.is_reviewed = true
+    apt.save validate:false
+  end
+  
   alias_method :average_rating, :get_average_rating
   alias_method :hourly_rate, :get_hourly_rate
   before_create :set_default_subscriptions

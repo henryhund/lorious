@@ -53,8 +53,8 @@ class HomeController < ApplicationController
       else
         @review.tag_list.add params[:review][:tags] if params[:review][:tags]
         @review.save validate: false
+        @expert.mark_appointment_reviewed(params[:review][:reviewer_id])
         flash[:notice] = I18n.t("review.create.success")  
-        
         redirect_to profile_path(username: @expert.username)
       end
     else

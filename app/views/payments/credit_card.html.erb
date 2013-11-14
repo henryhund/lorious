@@ -1,7 +1,8 @@
-
-<%= current_user.id %>
-<%= current_user.braintree_token %>
-
+<div class="row" style="margin-bottom: 150px;">
+	<div class="col-xs-6 col-md-3"></div>
+	<div class="col-xs-6 col-md-6 ">
+		<h1 class="text-center">Credit Card Details</h1>
+		
 <%= simple_form_for :customer,
      :params => @result && @result.params[:customer],
      :errors => @result && @result.errors.for(:customer),
@@ -26,7 +27,7 @@
 		    :customer => {:first_name => current_user.first_name, :last_name => current_user.last_name, :email => current_user.email }
 		  ) %>
 	  <%else%>
-		<!-- If braintree id is present then need to update credit card -->test
+		<!-- If braintree id is present then need to update credit card -->
 		  <%= hidden_field_tag :tr_data, Braintree::TransparentRedirect.update_customer_data(
 		    :redirect_url => new_credit_card_url,
 		    :customer_id => current_user.braintree_id,
@@ -38,5 +39,8 @@
 		    		}
     		}) %>
 	  <% end -%>			  
-	  <%= f.submit "Submit" %>
+	  <%= f.submit "Submit", class: "btn btn-primary" %>
 <% end -%>
+</div>
+	<div class="col-xs-6 col-md-3"></div>
+</div>
