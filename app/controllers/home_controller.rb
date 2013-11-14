@@ -64,8 +64,18 @@ class HomeController < ApplicationController
     
   end
   
+  def update_experts
+    begin
+      Expert.update_all({expert_approved: true}, {id: params[:expert_ids]})
+    rescue
+      redirect_to control_panel_url, alert: "Error approving experts"
+    else
+      redirect_to control_panel_url, alert: "Successfully approved experts"
+    end
+  end
+  
   def update_settings
-    @transactions = CreditTransaction.all.order(created_at: :desc).paginate(:page => params[:page], :per_page => 5)
+    @transactions = CreditTransaction.all.order(created_at: :desc).paginate(:page => params[:page], :per_page => 15)
     begin @settings = Setting.update(params[:settings].keys, params[:settings].values)
     rescue
       redirect_to control_panel_url, alert: "Error updating settings"
@@ -101,7 +111,7 @@ class HomeController < ApplicationController
     admin_authentication(current_user)
     
     @settings = Setting.all
-    @transactions = CreditTransaction.all.order(created_at: :desc).paginate(:page => params[:page], :per_page => 5)
+    @transactions = CreditTransaction.all.order(created_at: :desc).paginate(:page => params[:page], :per_page => 15)
   end
   
   def subscriptions
