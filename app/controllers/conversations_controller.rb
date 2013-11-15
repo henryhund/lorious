@@ -26,9 +26,9 @@ class ConversationsController < ApplicationController
   
   def index
       @box = params[:box] || 'inbox'
-      @messages = current_user.mailbox.inbox.paginate(:page => params[:page], :per_page => 5, :count => {:group => 'conversations.id' }) if @box == 'inbox'
-      @messages = current_user.mailbox.sentbox.paginate(:page => params[:page], :per_page => 5, :count => {:group => 'conversations.id' }) if @box == 'sent'
-      @messages = current_user.mailbox.trash.paginate(:page => params[:page], :per_page => 5, :count => {:group => 'conversations.id' }) if @box == 'trash'
+      @messages = current_user.mailbox.inbox.paginate(:page => params[:page], :per_page => 10, :count => {:group => 'conversations.id' }) if @box == 'inbox'
+      @messages = current_user.mailbox.sentbox.paginate(:page => params[:page], :per_page => 10, :count => {:group => 'conversations.id' }) if @box == 'sent'
+      @messages = current_user.mailbox.trash.paginate(:page => params[:page], :per_page => 10, :count => {:group => 'conversations.id' }) if @box == 'trash'
   end
 
   def new

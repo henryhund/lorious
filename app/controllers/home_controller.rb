@@ -73,7 +73,6 @@ class HomeController < ApplicationController
         user.update_attributes(expert_approved: true)
       end
     rescue Exception => e
-      debugger
       redirect_to control_panel_url, alert: "Error approving experts"
     else
       redirect_to control_panel_url, alert: "Successfully approved experts"

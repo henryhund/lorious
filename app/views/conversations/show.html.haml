@@ -12,22 +12,19 @@
         
     %h2.subject= "Subject: " + @conversation.subject
     .well
-      %ul.list-group
-        %p Message History
-        - @conversation.messages.each do |message|
-          %li.list-group-item
-          
-            .panel.panel-default
-              .panel-heading.strong
-                
-                - if message.sender.image_url.present?
-                  %img{src: message.sender.image_url, width: '25px', class: "img-rounded"}
-                - else
-                  =image_tag("https://s3.amazonaws.com/lorious/layout/elements/placeholders/image_placeholder.jpg", width: "25px", class: "img-rounded")
-                #{message.created_at.to_s(:short)} (#{time_ago_in_words(message.created_at)} ago)
-                = message.sender.name
-              .panel-body= message.body
-    
+      
+      %p Message History
+      - @conversation.messages.each do |message|
+        .panel.panel-default
+          .panel-heading.strong
+            %img{src: message.sender.image_url, width: '25px', class: "img-rounded"}
+            #{message.created_at.to_s(:short)} (#{time_ago_in_words(message.created_at)} ago)
+            - if message.sender == current_user
+              You said
+            - else
+              = message.sender.name
+          .panel-body= message.body
+  
     #reply
       = simple_form_for @message  do |f|
         = f.input :conversation_id, as: :hidden

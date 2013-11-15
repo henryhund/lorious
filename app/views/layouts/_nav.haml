@@ -65,12 +65,11 @@
           =link_to(users_url(anchor: "appointment"), style:"padding-left:0px;padding-right:0px;") do
             %span.label.label-danger
               %i.icon-calendar
-              = "#{0}"
+              = Appointment.upcoming.size
         %li 
           =link_to(users_url(anchor: "credit"), style:"padding-left:0px;padding-right:0px;") do
             %span.label.label-info
               %i.icon-asterisk
-              = current_user.credits.to_s rescue "0"
       -else 
         %li 
           = link_to "Sign in", user_omniauth_authorize_url(:google_oauth2)
