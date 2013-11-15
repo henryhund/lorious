@@ -69,8 +69,11 @@ class HomeController < ApplicationController
   
   def update_experts
     begin
-      Expert.update_all({expert_approved: true}, {id: params[:expert_ids]})
-    rescue
+      User.find(params[:expert_ids]).each do |user|
+        user.update_attributes(expert_approved: true)
+      end
+    rescue Exception => e
+      debugger
       redirect_to control_panel_url, alert: "Error approving experts"
     else
       redirect_to control_panel_url, alert: "Successfully approved experts"

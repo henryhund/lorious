@@ -115,8 +115,8 @@ class User < ActiveRecord::Base
 
   def change_to_expert_and_return_user!
     self.type = "Expert"
-    self.becomes(Expert)
-    self.create_availability
+    @expert = self.becomes(Expert)
+    @expert.create_availability
     UserMailer.delay.new_expert_request(self)
   end
 
