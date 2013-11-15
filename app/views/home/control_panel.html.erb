@@ -149,7 +149,7 @@
 	  			<th>Created At</th>
 	  			<th>Approve?</th>
 	  			
-			<% Expert.where(is_expert_applied: true).where(expert_approved: [false, nil]).each do |expert| %>
+			<% User.where(is_expert_applied: true).where(expert_approved: [false, nil]).each do |expert| %>
 	
 				<%= fields_for "experts[]", expert do |f| %>
 					<% if expert.errors.any? %>
