@@ -6,7 +6,7 @@ Lorious::Application.routes.draw do
   end
   
   unauthenticated do
-    root to: "home#index", as: :unauthenticated_root
+    root to: "home#index", as: :root
   end
 
   resources :requests

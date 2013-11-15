@@ -117,6 +117,7 @@ class User < ActiveRecord::Base
     self.type = "Expert"
     self.becomes(Expert)
     self.create_availability
+    UserMailer.delay.new_expert_request(self)
   end
 
   def profile_info_page?

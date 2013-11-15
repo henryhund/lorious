@@ -19,12 +19,13 @@ class PaymentsController < ApplicationController
     @webhook_notification = Braintree::WebhookNotification.parse(
       params[:bt_signature], params[:bt_payload]
     )
-    debugger
+    
     if @webhook_notification.kind == "sub_merchant_account_approved"
       @merchant = Expert.find_by(braintree_merchant_id: @webhook_notification.merchant_account.id)
       if @merchant.present? 
         @merchant.braintree_merchant_status = @webhook_notification.merchant_account.status 
         @merchant.save 
+        UserMailer.delay.merchant_account_approved(@merchant)
       end
     elsif @webhook_notification.kind == "sub_merchant_account_declined"
       @merchant = Expert.find_by(braintree_merchant_id: @webhook_notification.merchant_account.id)
@@ -32,6 +33,7 @@ class PaymentsController < ApplicationController
         @merchant.braintree_merchant_status = @webhook_notification.merchant_account.status  
         @merchant.braintree_merchant_status_message = @webhook_notification.message
         @merchant.save
+        UserMailer.delay.merchant_account_declined(@merchant, @webhook_notification.message)
       end
     end
     

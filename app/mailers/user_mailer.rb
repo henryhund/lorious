@@ -9,10 +9,21 @@ class UserMailer < ActionMailer::Base
     mail(to: @invite.email, subject: 'Welcome to Lorious')
   end
 
-  def new_expert_request
-    
+  def new_expert_request expert
+    @expert = expert
+    mail(to: @expert.email, subject: 'Expert Application Aprroved')
   end
   
+  def merchant_account_approved expert
+    @expert = expert
+    mail(to: @expert.email, subject: 'Merchant Account Aprroved')
+  end
+  
+  def merchant_account_declined expert, reason
+    @expert, @reason = expert, reason
+    mail(to: @expert.email, subject: 'Merchant Account Declined')
+  end
+    
   def test_mail
     mail(to: "pranav.dhar2@gmail.com",
          body: "email_body",

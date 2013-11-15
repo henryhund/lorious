@@ -4,7 +4,7 @@ class Appointment < ActiveRecord::Base
 
   validates :subject, :description, :time, :duration, presence: true
   validates :place, presence: true, if: :in_person_meet?
-  validate :time_cannot_be_in_the_past
+  validate :time_cannot_be_in_the_past, :check_minimum_transaction_amount
   
   scope :pending, -> { where("appt_state = 'new' AND (expert_confirmed = false OR user_confirmed = false OR expert_confirmed is NULL OR user_confirmed is NULL)") }
   scope :upcoming, -> { where("expert_confirmed = true AND user_confirmed = true AND time >= ?", Time.now) }
@@ -29,6 +29,11 @@ class Appointment < ActiveRecord::Base
 
   def confirmed?
     user_confirmed && expert_confirmed
+  end
+  
+  def check_minimum_transaction_amount
+    errors.add(:base, "Appointment transaction is less than minimum value allowed.") if
+      total_credit_cost < Setting.find_by(name: "minimum_transaction_amount").value.to_i
   end
   
   def time_cannot_be_in_the_past

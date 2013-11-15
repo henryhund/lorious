@@ -63,20 +63,19 @@
     
 		<% end %>
       
-      	<% if current_user.expert? %>
-      		<a href="https://plus.google.com/hangouts/_?gid=444606661336&gd=<%= @appointment.id %>" class="btn btn-danger">
-			    Start a Hangout
-			</a>
-      	<% end %>
-		
-		<% unless current_user.expert? %>
-			
-			<% if @appointment.is_hangout_active? %>
-				<a href="<%= @appointment.hangout_url %>" class="btn btn-success">
-					Join Hangout	
+      	<% if Time.now > (@appointment.time - Setting.find_by(name: "google_hangout_show_hours_before").value.to_i.hour) %>
+	      	<% if current_user.expert? %>
+	      		<a href="https://plus.google.com/hangouts/_?gid=444606661336&gd=<%= @appointment.id %>" class="btn btn-danger">
+				    Start a Hangout
 				</a>
-			<% else %>
-				<button class="btn btn-warning">No active Hangouts</button>			
+	      	<% else %>
+				<% if @appointment.is_hangout_active? %>
+					<a href="<%= @appointment.hangout_url %>" class="btn btn-success">
+						Join Hangout	
+					</a>
+				<% else %>
+					<button class="btn btn-warning">No active Hangouts</button>			
+				<% end %>
 			<% end %>
 		<% end %>
     </div>

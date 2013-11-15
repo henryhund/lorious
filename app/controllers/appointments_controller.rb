@@ -53,6 +53,7 @@ class AppointmentsController < ApplicationController
       else
         @appointment.expert_confirmed = false
       end
+      @appointment.appt_state = "new"
       @appointment.save
     rescue Exception => e
       redirect_to expert_appointment_url(@appointment.expert.id, @appointment.id), notice: I18n.t("appointment.update.failure")
@@ -63,26 +64,38 @@ class AppointmentsController < ApplicationController
   end
   
   def cancel
-    begin
+    
       @appointment = Appointment.find params[:id]
+      @hours_cancellation = Setting.find_by(name: "hours_cancellation_allowed").value
+      
+      if (@appointment.time - @hours_cancellation.to_i.hours) < Time.now
+        flash[:alert] = "Cannot cancel appointment " + @hours_cancellation + " hours before scheduled time."
+        return redirect_to users_url(anchor: "appointment")  
+      end
+      
+      if @appointment.appt_state = "confirmed"
+        @appointment.credit_transaction.state_change = "refund"
+        @appointment.credit_transaction.save
+        
+        @appointment.sidekiqjobs.each do |s|
+          Sidekiq::Status.cancel s.sidekiq_id  
+        end
+      end
+      
       @appointment.appt_state = "cancelled"
       @appointment.save
       
+      redirect_to users_url, notice: I18n.t("appointment.cancel.success"), alert: @appointment.credit_transaction.errors.full_messages.join
+    begin
+      #  
     rescue Exception => e
       redirect_to users_url, notice: I18n.t("appointment.cancel.failure")
-    else
-      # remove any previous worker instances 
-      @appointment.sidekiqjobs.each do |s|
-        Sidekiq::Status.cancel s.sidekiq_id  
-      end
-      redirect_to users_url, notice: I18n.t("appointment.cancel.success")
     end
   end
   
   def confirm
     
     #if current user doesn't have an account then flash message and redirect 
-    
     @appointment = Appointment.find(params[:id])
     if current_user.id == @appointment.expert.id
       if current_user.braintree_merchant_id.present? && ( current_user.braintree_merchant_status.present? && current_user.braintree_merchant_status == "active")
@@ -115,9 +128,9 @@ class AppointmentsController < ApplicationController
             :submit_for_settlement => true,
             :hold_in_escrow => true
           },
-          :service_fee_amount => (0.2 * @appointment.total_credit_cost).to_s
+          :service_fee_amount => (Setting.find_by(name: "lorious_service_charge_percent").value.to_i * @appointment.total_credit_cost / 100).to_s
         )
-        debugger
+        
         if @result.success?
           #send payment confirmation message
           

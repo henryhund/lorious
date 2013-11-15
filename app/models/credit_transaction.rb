@@ -53,7 +53,7 @@ class CreditTransaction < ActiveRecord::Base
             end   
           end  
         else
-          self.errors[:base] << "Transaction not eligible for Refund. Allow the transaction to reach Settled state."  
+          self.errors[:base] << "Transaction not eligible for Refund. Please contact Administration."  
         end
       when "hold"
         self.is_request_hold = self.is_request_hold? ? 0 : 1
