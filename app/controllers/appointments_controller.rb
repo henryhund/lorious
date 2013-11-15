@@ -6,12 +6,12 @@ class AppointmentsController < ApplicationController
   def new
     if current_user.expert?
       unless current_user.braintree_merchant_id.present? && ( current_user.braintree_merchant_status.present? && current_user.braintree_merchant_status == "active")
-        flash[:alert] = "Cannot confirm appointment, need to have and active merchant account on file"
+        flash[:alert] = "Cannot create appointment, need to have and active merchant account on file"
         return redirect_to users_url(anchor: "credit") 
       end
     else
       unless current_user.braintree_id.present? && current_user.braintree_token.present?
-        flash[:alert] = "Cannot confirm appointment, need to have credit card on file"
+        flash[:alert] = "Cannot create appointment, need to have credit card on file"
         return redirect_to users_url(anchor: "credit")  
       end
     end

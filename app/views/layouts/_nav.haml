@@ -65,7 +65,7 @@
           =link_to(users_url(anchor: "appointment"), style:"padding-left:0px;padding-right:0px;") do
             %span.label.label-danger
               %i.icon-calendar
-              = Appointment.upcoming.size
+              = current_user.appointments.upcoming.size rescue 0
         %li 
           =link_to(users_url(anchor: "credit"), style:"padding-left:0px;padding-right:0px;") do
             %span.label.label-info
