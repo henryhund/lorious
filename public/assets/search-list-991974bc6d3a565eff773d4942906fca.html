@@ -18,11 +18,10 @@
 		<div class="row">
 			<div class="col-md-4">
 				<br />
-				<a href="#" class="thumbnail">
-			      <img ng-src="{{expert.image.url}}" alt="..."> 
-			    </a>	
-			    <h4 class="text-center">{{expert.hourly_rate | currency:"Cr."}}/hr.</h4>
-			    
+				
+					<img ng-src="{{expert.image.url}}" alt="..." class='img-circle avatar' style="width: 175px; height:175px;"> 	
+				
+			    <h4 class="text-center">{{expert.hourly_rate | currency:"$"}}/hr.</h4>
 			</div>
   			<div class="col-md-8">
   				<h2> {{expert.name}}</h2>
