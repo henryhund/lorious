@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="row">
+  <div class="row" style="margin-top: 20px;">
     <div class="col-xs-5"></div>
     <div class="col-xs-7">
       <div class="row">
@@ -11,8 +11,12 @@
         <div class="col-xs-8"><%= @appointment.description %></div>
       </div>
       <div class="row mg-20">
+        <div class="col-xs-4">Time Zone</div>
+        <div class="col-xs-8"><%= @appointment.time_zone %></div>
+      </div>
+      <div class="row mg-20">
         <div class="col-xs-4">Time</div>
-        <div class="col-xs-8"><%= @appointment.time %></div>
+        <div class="col-xs-8"><%= @appointment.time.in_time_zone(@appointment.time_zone).to_formatted_s(:long) %></div>
       </div>
       <div class="row mg-20">
         <div class="col-xs-4">Duration</div>
@@ -26,7 +30,7 @@
         <div class="col-xs-4">Total credit cost</div>
         <div class="col-xs-8">
           <span class="label label-info">
-            <i class="icon-asterisk"><%= @appointment.total_credit_cost %></i>
+            <i class="icon-asterisk">&nbsp;<%= number_to_currency(@appointment.total_credit_cost) %></i>
           </span>
         </div>
       </div>
@@ -54,9 +58,11 @@
 
   <div class="row" style="margin-bottom: 30px;">
     <div class="col-md-7 col-md-offset-5">
-      
-		<%= link_to "Edit", edit_expert_appointment_url(@appointment.expert.id, @appointment.id), class: "btn btn-default" %>
-  
+      	
+      	<% unless @appointment.appt_state == "confirmed" %>
+			<%= link_to "Edit", edit_expert_appointment_url(@appointment.expert.id, @appointment.id), class: "btn btn-default" %>
+  		<% end %>
+  		
 		<% if (current_user.expert? && !@appointment.expert_confirmed) || (!current_user.expert? && !@appointment.user_confirmed) %>
 
 			<%= link_to "Confirm", confirm_expert_appointment_path(@appointment.expert.id, @appointment.id), method: :post, class: "btn btn-success" %>

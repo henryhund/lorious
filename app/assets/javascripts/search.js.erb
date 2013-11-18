@@ -126,12 +126,18 @@ this.SearchDetailCtrl = [
 	};
 	 
     $scope.load_data = function() {
-	  $scope.loading = true;
-	  Search.get($scope.generateSearchParams($scope.pg_counter++), function (new_experts) {
-        //new data is available in the callback to insert to the experts ng-model
-        $scope.experts.push.apply($scope.experts, new_experts.results);
-        $scope.loading = false;
-      });
+      if($scope.experts.length < 15){
+      	return;
+      }
+      else{
+      	$scope.loading = true;
+	    Search.get($scope.generateSearchParams(++$scope.pg_counter), function (new_experts) {
+          //new data is available in the callback to insert to the experts ng-model
+          $scope.experts.push.apply($scope.experts, new_experts.results);
+          $scope.loading = false;
+        });	
+      }
+	  
     };
     
     $scope.load_data_with_params = function(params) {

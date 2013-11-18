@@ -107,10 +107,12 @@
             .star{id: "star-average", "data-score" => @user.get_average_rating}
         .col-md-4.center
           %p.detail-label I've had
-          %p.detail-content 15 conversations
+          %p.detail-content 
+            =@user.appointments.history.size.to_s + " conversations" rescue "0 conversations"
         .col-md-4.right
           %p.detail-label My hourly rate is
-          %p.detail-content $30 / hour
+          %p.detail-content 
+            =number_to_currency(@user.hourly_rate_in_credit) + "/ hour"
     #expertise.row
       .container
         .col-md-12

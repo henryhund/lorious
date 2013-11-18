@@ -58,11 +58,16 @@ this.RequestCtrl = [
 	});	 
 	
 	$scope.load_data = function() {
+	  if($scope.requests.length < 15){
+      	return;
+      }
+      else{
 		$scope.loading = true;
-	  	Request.get({id: "", page: $scope.pg_counter++}, function (new_requests) {
+	  	Request.get({id: "", page: ++$scope.pg_counter}, function (new_requests) {
 		  $scope.requests.push.apply($scope.requests, new_requests.results);
 		  $scope.loading = false;
 		});
+	  }
     };
     
     $scope.generateSearchParams = function(pageId) {

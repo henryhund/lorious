@@ -1,5 +1,7 @@
 class AppointmentsController < ApplicationController
   before_filter :authenticate_user!, except: [:new_hangout]
+  around_filter :time_zone, if: :authenticate_user!, only: [:create, :update]
+  
   before_filter :get_expert
   before_filter :form_data, only: [:new, :edit]
 
@@ -16,7 +18,6 @@ class AppointmentsController < ApplicationController
       end
     end
     
-    @appointment = @expert.appointments.new
   end
 
   def create
@@ -42,6 +43,12 @@ class AppointmentsController < ApplicationController
 
   def edit
     @appointment = Appointment.find(params[:id])
+    @hours_edit = Setting.find_by(name: "hours_edit_allowed").value
+    
+    if (@appointment.time - @hours_edit.to_i.hours) < Time.now
+      flash[:alert] = "Cannot edit appointment " + @hours_edit + " hours before scheduled time."
+      return redirect_to users_url(anchor: "appointment")  
+    end
   end
 
   def update
@@ -49,14 +56,17 @@ class AppointmentsController < ApplicationController
     begin
       @appointment.attributes = appointment_params
       if current_user.expert?
+        @appointment.expert_confirmed = true
         @appointment.user_confirmed = false
       else
         @appointment.expert_confirmed = false
+        @appointment.user_confirmed = true
       end
       @appointment.appt_state = "new"
       @appointment.save
+      raise @appointment.errors.full_messages.join.to_s if !@appointment.valid?
     rescue Exception => e
-      redirect_to expert_appointment_url(@appointment.expert.id, @appointment.id), notice: I18n.t("appointment.update.failure")
+      redirect_to expert_appointment_url(@appointment.expert.id, @appointment.id), notice: I18n.t("appointment.update.failure"), alert: e.message
     else
       UserMailer.delay.appointment_updated_confirm_request(@appointment, @appointment.appointment_with_for_user(current_user), current_user)
       redirect_to expert_appointment_url(@appointment.expert.id, @appointment.id), notice: I18n.t("appointment.update.success")
@@ -64,7 +74,7 @@ class AppointmentsController < ApplicationController
   end
   
   def cancel
-    
+    begin
       @appointment = Appointment.find params[:id]
       @hours_cancellation = Setting.find_by(name: "hours_cancellation_allowed").value
       
@@ -86,8 +96,6 @@ class AppointmentsController < ApplicationController
       @appointment.save
       
       redirect_to users_url, notice: I18n.t("appointment.cancel.success"), alert: @appointment.credit_transaction.errors.full_messages.join
-    begin
-      #  
     rescue Exception => e
       redirect_to users_url, notice: I18n.t("appointment.cancel.failure")
     end
@@ -198,13 +206,14 @@ class AppointmentsController < ApplicationController
   end
 
   def appointment_params
-    params.require(:appointment).permit(:time, :duration, :place, :subject, :description, :online)
+    params.require(:appointment).permit(:time, :time_zone, :duration, :place, :subject, :description, :online)
   end
 
   def form_data
+    @appointment = Appointment.find_by_id(params[:id]) || @expert.appointments.new
     @duration_options = (30..360).step(30).map { |d| [ d < 60 ? "#{d.to_s} minutes" : "#{(d/60.round(1)).to_s} #{"hour".pluralize(d/60.round(1))}" , d.to_s ] }
-    @default_duration = params[:duration].to_i || 30
-    @hourly_rate_in_credit = @expert.hourly_rate_in_credit
+    @default_duration = params[:duration].to_i == 0 ? @appointment.duration : params[:duration].to_i
+    @hourly_rate_in_credit = @appointment.expert.hourly_rate_in_credit
     @user_id = params[:user_id]
     @request_id = params[:request_id]
   end
@@ -225,4 +234,8 @@ class AppointmentsController < ApplicationController
     end
   end
 
+  def time_zone(&block)
+    Time.use_zone(params[:appointment][:time_zone], &block)
+  end
+  
 end

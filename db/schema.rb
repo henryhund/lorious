@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131114195111) do
+ActiveRecord::Schema.define(version: 20131118104052) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20131114195111) do
     t.boolean  "is_reviewed",        default: false
     t.datetime "hangout_start_time"
     t.integer  "transaction_id"
+    t.string   "time_zone"
   end
 
   create_table "availabilities", force: true do |t|
