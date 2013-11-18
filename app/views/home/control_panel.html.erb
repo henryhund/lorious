@@ -146,6 +146,8 @@
 	  			<th>Name</th>
 	  			<th>Email</th>
 	  			<th>Location</th>
+	  			<th>Skills</th>
+	  			<th>About</th>
 	  			<th>Created At</th>
 	  			<th>Approve?</th>
 	  			
@@ -171,6 +173,8 @@
 						<td><%= expert.name%></td>
 						<td><%= expert.email%></td>
 						<td><%= expert.location%></td>
+						<td><%= expert.skill_list%></td>
+						<td><%= expert.about_description%></td>
 						<td><%= expert.created_at%></td>
 						<td><%= check_box_tag "expert_ids[]", expert.id %></td>
 					</tr>

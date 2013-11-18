@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131118104052) do
+ActiveRecord::Schema.define(version: 20131118114231) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20131118104052) do
     t.datetime "hangout_start_time"
     t.integer  "transaction_id"
     t.string   "time_zone"
+    t.decimal  "hourly_rate"
   end
 
   create_table "availabilities", force: true do |t|
@@ -276,6 +277,7 @@ ActiveRecord::Schema.define(version: 20131118104052) do
     t.string   "braintree_merchant_status"
     t.text     "braintree_merchant_status_message"
     t.boolean  "is_featured",                       default: false
+    t.text     "about_description"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

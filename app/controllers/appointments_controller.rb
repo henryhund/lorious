@@ -206,14 +206,14 @@ class AppointmentsController < ApplicationController
   end
 
   def appointment_params
-    params.require(:appointment).permit(:time, :time_zone, :duration, :place, :subject, :description, :online)
+    params.require(:appointment).permit(:hourly_rate, :time, :time_zone, :duration, :place, :subject, :description, :online)
   end
 
   def form_data
     @appointment = Appointment.find_by_id(params[:id]) || @expert.appointments.new
     @duration_options = (30..360).step(30).map { |d| [ d < 60 ? "#{d.to_s} minutes" : "#{(d/60.round(1)).to_s} #{"hour".pluralize(d/60.round(1))}" , d.to_s ] }
-    @default_duration = params[:duration].to_i == 0 ? @appointment.duration : params[:duration].to_i
-    @hourly_rate_in_credit = @appointment.expert.hourly_rate_in_credit
+    @default_duration = @appointment.duration || params[:duration].to_i || 30
+    @hourly_rate_in_credit = @appointment.hourly_rate.present? ?  @appointment.hourly_rate : @appointment.expert.hourly_rate_in_credit
     @user_id = params[:user_id]
     @request_id = params[:request_id]
   end

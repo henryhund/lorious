@@ -24,13 +24,13 @@
       </div>
       <div class="row mg-20">
         <div class="col-xs-4">Expert Hourly credit cost</div>
-        <div class="col-xs-8"><%= @appointment.expert.hourly_rate_in_credit %></div>
+        <div class="col-xs-8"><%= number_to_currency(@appointment.hourly_rate) %></div>
       </div>
       <div class="row mg-20">
         <div class="col-xs-4">Total credit cost</div>
         <div class="col-xs-8">
           <span class="label label-info">
-            <i class="icon-asterisk">&nbsp;<%= number_to_currency(@appointment.total_credit_cost) %></i>
+            <%= number_to_currency(@appointment.total_credit_cost) %>
           </span>
         </div>
       </div>

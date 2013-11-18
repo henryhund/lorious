@@ -11,12 +11,10 @@
       <%= f.input :duration, collection: @duration_options, selected: @default_duration %>	
       <div class="col-md-offset-5 col-md-7">
         <span class="label label-info">
-          <i class="icon-asterisk">
-            <span id="total"><%= (@hourly_rate_in_credit * @default_duration / 60).to_i %><span> credits
-          </i>
+            <span id="total">$<%= (@hourly_rate_in_credit * @default_duration / 60).to_i %></span> 
         </span>
         <div>
-          <%= @expert.hourly_rate_in_credit %> <i>(hourly rate)</i> &times; 
+          <%= @hourly_rate_in_credit %> <i>(hourly rate)</i> &times; 
           <span id="duration_info"><%= @default_duration %> minutes</span>
         </div>
       </div>
@@ -26,7 +24,8 @@
       <div class="col-md-offset-5 col-md-7">
         <%= f.button :submit %>
       </div>
-
+	  
+	  <%= f.hidden_field :hourly_rate, value: @hourly_rate_in_credit %>	
       <%= f.hidden_field :user_id, value: @user_id %>
       <%= f.hidden_field :request_id, value: @request_id %>
 

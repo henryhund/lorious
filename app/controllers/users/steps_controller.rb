@@ -14,6 +14,7 @@ class Users::StepsController < ApplicationController
     if @user.apply_for_expert_page?
       # @user.attributes = expert_params
       @user.skill_list.add params[:user][:skills] if params[:user][:skills]
+      @user.about_description = params[:user][:about_description]
       @user.save validate: false
     else
       @user.update_attributes user_params

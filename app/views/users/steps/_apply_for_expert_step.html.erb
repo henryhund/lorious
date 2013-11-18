@@ -1,14 +1,32 @@
 <h1>Apply to be an Expert</h1>
 <%= hidden_field_tag :current_step_index, 2 %>
 
-Name Email prefilled
+<div class="form-group row">
+	<label class="col-xs-2 control-label">Name</label>
+	<div class="col-xs-10">
+		<input class="form-control" type="text" readonly="true" value="<%= current_user.name %>" />
+	</div>
+</div>
 
-personal website
+<div class="form-group row">
+	<label class="col-xs-2 control-label">Email</label>
+	<div class="col-xs-10">
+		<input class="form-control" type="text" readonly="true" value="<%= current_user.email %>" />
+		your email will not be shared publicly
+	</div>
+</div>
 
 <div class="form-group row">
   <%= f.label :skills, class: "col-xs-2 control-label" %>
   <div class="col-xs-10">
     <%= f.select :skills, options_for_select(@available_skills), {}, multiple: "multiple", class: "chosen", "data-placeholder" => "Select your skills" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label "Tell us about yourself (Feel free to keep it brief)", class: "col-xs-2 control-label" %>
+  <div class="col-xs-10">
+    <%= f.text_area :about_description, class: "form-control" %>
   </div>
 </div>
 
@@ -19,4 +37,4 @@ personal website
 </div>
 
 
-Tell us about yourself (Feel free to keep it brief)
+
