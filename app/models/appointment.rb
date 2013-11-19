@@ -40,4 +40,8 @@ class Appointment < ActiveRecord::Base
     errors.add(:time, "of Appointment can't be in the past") if
       !time.blank? and time < Date.today
   end
+  
+  def time_local
+    time = time.in_time_zone(time_zone)
+  end
 end

@@ -20,8 +20,18 @@
         <td><%= appointment.time_zone %></td>
         <td><%= link_to "View", expert_appointment_url(appointment.expert.id, appointment.id), target: "_blank" %></td>
         <td><%= link_to "Edit", edit_expert_appointment_url(appointment.expert.id, appointment.id), target: "_blank" %></td>
-        <td><%= link_to "Confirm", confirm_expert_appointment_path(appointment.expert.id, appointment.id), method: :post %></td>
-        <td><%= link_to "Cancel", cancel_expert_appointment_path(appointment.expert.id, appointment.id), method: :post %></td>
+        <td>
+        	<% if (current_user == appointment.expert && !appointment.expert_confirmed) || (current_user == appointment.user && !appointment.user_confirmed) %>
+        		<%= link_to "Confirm", confirm_expert_appointment_path(appointment.expert.id, appointment.id), method: :post %>
+        	<% else %>
+        		Pending Confirmation	
+        	<% end %>
+    	</td>
+        <td>
+    		<% if (appointment.appt_state != "confirmed" ) %>
+    			<%= link_to "Cancel", cancel_expert_appointment_path(appointment.expert.id, appointment.id), method: :post, :confirm => "Are you sure you want to CANCEL this appointment ?" %>        		
+    		<% end %>
+    	</td>
       </tr>
     <% end %>
   </tbody>

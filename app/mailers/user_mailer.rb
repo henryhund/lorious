@@ -60,4 +60,9 @@ class UserMailer < ActionMailer::Base
     @appointment, @to, @appointment_with = appointment, to, appointment.appointment_with_for_user(to)
     mail(to: @to.email, subject: 'Appointment Confirmed')
   end
+  
+  def payment_successful_notification to, result
+    @to, @result = to, result
+    mail(to: @to.email, subject: 'Payment Confirmed')
+  end
 end

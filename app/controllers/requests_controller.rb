@@ -85,14 +85,14 @@ class RequestsController < ApplicationController
       if params[:tags].present?
         all_of do
           params[:tags].split(',').each do |tag|
-            with(:skill_list, tag)
+            with(:skill_list, tag.downcase)
           end
         end
       end
       order_by :created_at, :desc
     end
     
-    @requests = {results: @request.results, problems: AvailableTag.problems.map { |e| e.name }, tags: @request.facet(:skill_list).rows.map {  |e| e.value }  } 
+    @requests = {results: @request.results, problems: AvailableTag.problems.map { |e| e.name }, tags: AvailableTag.skills.map { |e| e.name }  } 
     
     respond_to do |format|
       format.html # show.html.erb

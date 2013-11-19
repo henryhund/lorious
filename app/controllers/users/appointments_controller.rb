@@ -7,15 +7,15 @@ class Users::AppointmentsController < ApplicationController
   end
 
   def pending
-    @appointments = current_user.appointments.pending.includes([:expert, :user])
+    @appointments = Appointment.pending.where("user_id = ? OR expert_id = ?", current_user.id, current_user.id)
   end
 
   def upcoming
-    @appointments = current_user.appointments.upcoming.includes([:expert, :user])
+    @appointments = Appointment.upcoming.where("user_id = ? OR expert_id = ?", current_user.id, current_user.id)
   end
 
   def history
-    @appointments = current_user.appointments.history.includes([:expert, :user])
+    @appointments = Appointment.history.where("user_id = ? OR expert_id = ?", current_user.id, current_user.id)
   end
 
 end

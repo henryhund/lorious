@@ -20,6 +20,8 @@ class Expert < User
     text :first_name , :as => :first_name_textp
     text :last_name , :as => :last_name_textp
     text :bio , :as => :bio_textp
+    
+    text :skill_list
     string :skill_list, :multiple => true, :stored => true do 
       skill_list.map!{|c| c.downcase.strip}
     end

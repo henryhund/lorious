@@ -6,10 +6,18 @@ class AppointmentsController < ApplicationController
   before_filter :form_data, only: [:new, :edit]
 
   def new
+    
     if current_user.expert?
       unless current_user.braintree_merchant_id.present? && ( current_user.braintree_merchant_status.present? && current_user.braintree_merchant_status == "active")
         flash[:alert] = "Cannot create appointment, need to have and active merchant account on file"
         return redirect_to users_url(anchor: "credit") 
+      end
+      
+      unless (params[:expert_id].to_i == current_user.id) 
+        unless current_user.braintree_id.present? && current_user.braintree_token.present?
+          flash[:alert] = "Cannot create appointment, need to have credit card on file"
+          return redirect_to users_url(anchor: "credit")
+        end    
       end
     else
       unless current_user.braintree_id.present? && current_user.braintree_token.present?
@@ -26,8 +34,9 @@ class AppointmentsController < ApplicationController
       @appointment.user_id = get_user.id
       @appointment.request_id = params[:appointment][:request_id]
       confirm_appointment_for_current_user
+      
       if @appointment.save
-        UserMailer.delay.new_appointment_request(@appointment, current_user, @appointment.appointment_with_for_user(current_user))
+        UserMailer.delay.new_appointment_request(@appointment, current_user, @mail_to)
         redirect_to expert_appointment_url(id: @appointment.id), notice: I18n.t("appointment.create.success"), error: @appointment.errors
       else
         redirect_to new_expert_appointment_url(params[:appointment]), notice: I18n.t("appointment.create.failure"), alert: @appointment.errors.full_messages.to_sentence
@@ -43,12 +52,15 @@ class AppointmentsController < ApplicationController
 
   def edit
     @appointment = Appointment.find(params[:id])
-    @hours_edit = Setting.find_by(name: "hours_edit_allowed").value
     
-    if (@appointment.time - @hours_edit.to_i.hours) < Time.now
+    @hours_edit = Setting.find_by(name: "hours_edit_allowed").value
+    if (@appointment.time.in_time_zone(@appointment.time_zone) - @hours_edit.to_i.hours) < Time.now
       flash[:alert] = "Cannot edit appointment " + @hours_edit + " hours before scheduled time."
       return redirect_to users_url(anchor: "appointment")  
     end
+    
+    @appointment.time = @appointment.time.in_time_zone(@appointment.time_zone).to_formatted_s(:long)
+  
   end
 
   def update
@@ -56,11 +68,19 @@ class AppointmentsController < ApplicationController
     begin
       @appointment.attributes = appointment_params
       if current_user.expert?
-        @appointment.expert_confirmed = true
-        @appointment.user_confirmed = false
+        unless @appointment.expert.id == current_user.id
+          @appointment.expert_confirmed = false
+          @appointment.user_confirmed = true
+          @mail_to = @appointment.expert
+        else
+          @appointment.expert_confirmed = true
+          @appointment.user_confirmed = false
+          @mail_to = @appointment.user  
+        end
       else
         @appointment.expert_confirmed = false
         @appointment.user_confirmed = true
+        @mail_to = @appointment.expert
       end
       @appointment.appt_state = "new"
       @appointment.save
@@ -68,7 +88,7 @@ class AppointmentsController < ApplicationController
     rescue Exception => e
       redirect_to expert_appointment_url(@appointment.expert.id, @appointment.id), notice: I18n.t("appointment.update.failure"), alert: e.message
     else
-      UserMailer.delay.appointment_updated_confirm_request(@appointment, @appointment.appointment_with_for_user(current_user), current_user)
+      UserMailer.delay.appointment_updated_confirm_request(@appointment, @mail_to, current_user)
       redirect_to expert_appointment_url(@appointment.expert.id, @appointment.id), notice: I18n.t("appointment.update.success")
     end
   end
@@ -78,12 +98,12 @@ class AppointmentsController < ApplicationController
       @appointment = Appointment.find params[:id]
       @hours_cancellation = Setting.find_by(name: "hours_cancellation_allowed").value
       
-      if (@appointment.time - @hours_cancellation.to_i.hours) < Time.now
+      if (@appointment.time.in_time_zone(@appointment.time_zone) - @hours_cancellation.to_i.hours) < Time.now
         flash[:alert] = "Cannot cancel appointment " + @hours_cancellation + " hours before scheduled time."
         return redirect_to users_url(anchor: "appointment")  
       end
       
-      if @appointment.appt_state = "confirmed"
+      if @appointment.appt_state == "confirmed"
         @appointment.credit_transaction.state_change = "refund"
         @appointment.credit_transaction.save
         
@@ -95,7 +115,11 @@ class AppointmentsController < ApplicationController
       @appointment.appt_state = "cancelled"
       @appointment.save
       
-      redirect_to users_url, notice: I18n.t("appointment.cancel.success"), alert: @appointment.credit_transaction.errors.full_messages.join
+      unless @appointment.credit_transaction.valid?
+        flash[:alert] = @appointment.credit_transaction.errors.full_messages.join
+      end
+      
+      redirect_to users_url, notice: I18n.t("appointment.cancel.success")
     rescue Exception => e
       redirect_to users_url, notice: I18n.t("appointment.cancel.failure")
     end
@@ -136,7 +160,7 @@ class AppointmentsController < ApplicationController
             :submit_for_settlement => true,
             :hold_in_escrow => true
           },
-          :service_fee_amount => (Setting.find_by(name: "lorious_service_charge_percent").value.to_i * @appointment.total_credit_cost / 100).to_s
+          :service_fee_amount => (Setting.find_by(name: "lorious_service_charge_percent").value.to_f * @appointment.total_credit_cost.to_f / 100).to_s
         )
         
         if @result.success?
@@ -153,7 +177,9 @@ class AppointmentsController < ApplicationController
             :transaction_escrow_status => @result.transaction.escrow_status
           )
           
+          UserMailer.delay.payment_successful_notification(@appointment.user, @appointment.credit_transaction)
         else
+          debugger
           #send payment error message and unconfirm appointment
           flash[:alert] = "Cannot confirm appointment, payment unsuccesful."
           return redirect_to users_url(anchor: "appointment")
@@ -212,7 +238,7 @@ class AppointmentsController < ApplicationController
   def form_data
     @appointment = Appointment.find_by_id(params[:id]) || @expert.appointments.new
     @duration_options = (30..360).step(30).map { |d| [ d < 60 ? "#{d.to_s} minutes" : "#{(d/60.round(1)).to_s} #{"hour".pluralize(d/60.round(1))}" , d.to_s ] }
-    @default_duration = @appointment.duration || params[:duration].to_i || 30
+    @default_duration = @appointment.duration || (params[:duration].to_i == 0 ? 30 : params[:duration].to_i) 
     @hourly_rate_in_credit = @appointment.hourly_rate.present? ?  @appointment.hourly_rate : @appointment.expert.hourly_rate_in_credit
     @user_id = params[:user_id]
     @request_id = params[:request_id]
@@ -220,7 +246,11 @@ class AppointmentsController < ApplicationController
 
   def get_user
     if current_user.expert?
-      User.find_by_id(params[:appointment][:user_id])
+      unless params[:expert_id].to_i == current_user.id
+        current_user
+      else
+        User.find_by_id(params[:appointment][:user_id])
+      end
     else
       current_user
     end
@@ -228,14 +258,21 @@ class AppointmentsController < ApplicationController
 
   def confirm_appointment_for_current_user
     if current_user.expert?
-      @appointment.expert_confirmed = true
+      unless params[:expert_id].to_i == current_user.id
+        @appointment.user_confirmed = true
+        @mail_to = @appointment.expert
+      else
+        @appointment.expert_confirmed = true
+        @mail_to = @appointment.user  
+      end
     else
       @appointment.user_confirmed = true
+      @mail_to = @appointment.expert
     end
   end
 
   def time_zone(&block)
     Time.use_zone(params[:appointment][:time_zone], &block)
   end
-  
+    
 end

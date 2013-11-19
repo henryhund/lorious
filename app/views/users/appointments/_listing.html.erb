@@ -19,7 +19,9 @@
         <td><%= appointment.time_zone %></td>
         <td><%= appointment.appt_state %></td>
         <td><%= link_to "View", expert_appointment_url(appointment.expert.id, appointment.id), target: "_blank" %></td>
-        <td><%= link_to "Cancel", cancel_expert_appointment_path(appointment.expert.id, appointment.id), method: :post %></td>
+        <td>
+			<%= link_to "Cancel", cancel_expert_appointment_path(appointment.expert.id, appointment.id), method: :post, :confirm => "Are you sure you want to CANCEL this appointment ?" %>        		
+    	</td>
       </tr>
     <% end %>
   </tbody>

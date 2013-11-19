@@ -1,0 +1,7 @@
+.search-avatar {
+	margin-top: 5px;
+	margin-left: 15px;
+	border: medium none !important;
+	box-shadow: 0px 0px 0px 6px rgba(109, 110, 113, 0.25);
+	width: 175px; height:175px;
+}

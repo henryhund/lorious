@@ -63,7 +63,7 @@
 			<%= link_to "Edit", edit_expert_appointment_url(@appointment.expert.id, @appointment.id), class: "btn btn-default" %>
   		<% end %>
   		
-		<% if (current_user.expert? && !@appointment.expert_confirmed) || (!current_user.expert? && !@appointment.user_confirmed) %>
+		<% if (current_user == @appointment.expert && !@appointment.expert_confirmed) || (current_user == @appointment.user && !@appointment.user_confirmed) %>
 
 			<%= link_to "Confirm", confirm_expert_appointment_path(@appointment.expert.id, @appointment.id), method: :post, class: "btn btn-success" %>
     

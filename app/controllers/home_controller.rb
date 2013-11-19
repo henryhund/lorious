@@ -22,11 +22,8 @@ class HomeController < ApplicationController
       
       if params[:tag].present?
         all_of do
-          #params[:tag].each do |tag|
-          #  with(:skill_list, tag)
-          #end
           params[:tag].split(',').each do |tag|
-            with(:skill_list, tag)
+            with(:skill_list, tag.downcase)
           end
         end
       end
@@ -34,7 +31,8 @@ class HomeController < ApplicationController
       with(:location).in_radius(*Geocoder.coordinates(params[:location]), 100) if params[:location].present?
   
     end
-    @experts = {results: @search.results, facets: @search.facet(:skill_list).rows.map {  |e| {tag: e.value} } } #count: e.count -> tag frequency
+    
+    @experts = {results: @search.results, facets: AvailableTag.skills.map { |e| {:tag => e.name} } } #count: e.count -> tag frequency
     
     respond_to do |format|
       format.html { @experts}

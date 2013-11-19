@@ -1,0 +1,25 @@
+<h1>Payment Result</h1>
+
+<div>
+	Thank you for your payment. <%= @to.name %>
+</div>
+
+<h2>Transaction Details</h2>
+
+<table>
+	<tr>
+		<td>Amount</td><td>$<%= @result.amount %></td>
+	</tr>
+	<tr>
+		<td>Transaction ID:</td><td><%= @result.transaction_id %></td>
+	</tr>
+	<tr>
+		<td>First Name:</td><td><%=  @to.first_name %></td>
+	</tr>
+	<tr>
+		<td>Last Name:</td><td><%=  @to.last_name %></td>
+	</tr>
+	<tr>
+		<td>Email:</td><td><%=  @to.email %></td>
+	</tr>
+</table>

@@ -55,6 +55,7 @@ this.SearchCtrl = [
     
     parameter = getUrlParameters("keyword", "", true)
     if (parameter){
+    	parameter = parameter.replace(/\+/g," ");
 	    Search.get({id: 1, keyword: parameter}, function (new_experts) {
 		    $scope.experts = new_experts.results;
 		    $scope.model.facets = new_experts.facets;

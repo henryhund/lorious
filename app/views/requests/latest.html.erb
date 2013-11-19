@@ -35,11 +35,9 @@
 
 			</div>
 			<div class="col-md-8">
-				<% unless current_user.expert? %>
-					<div class="pull-center">
-						<a href="/requests/new" class="btn btn-primary pull-center">Create New Request</a>
-					</div>
-				<% end %>	
+				<div class="pull-center" style="margin-top: 15px;">
+					<a href="/requests/new" class="btn btn-primary pull-center">Create New Request</a>
+				</div>
 				<div class="pull-right" style="margin-bottom: 10px;">
 					Sort by:
 					<select ng-model="orderProp">
@@ -55,7 +53,7 @@
 						<div class="row">
 							<div class="col-md-4">
 								<br />
-								<img ng-src="{{request.requester_image.image.url}}" class="img-circle avatar" alt="..." style="width: 175px; height:175px;">
+								<img ng-src="{{request.requester_image.image.url}}" class="img-circle search-avatar" alt="..." style="width: 175px; height:175px; margin-left: 20px;">
 								<h4 class="text-center">{{request.requester_name}}</h4>
 								<h4 class="text-center">{{request.company_url}}</h4>
 							</div>
@@ -68,7 +66,13 @@
 									</ul>
 								</div>
 								<h2 style="margin-top: 22px;"> {{request.problem_headline }}</h2>
-								<span class="label label-primary" style="margin-right:10px;" ng-repeat="skill in request.skill_list" >{{skill}}</span>
+								<ul class="list-unstyled tags" >
+									<a href="#" ng-repeat="skill in request.skill_list">
+										<li class="highlighted small">
+											{{skill}}
+										</li> 
+									</a>
+								</ul>
 								<br />
 								<div tooltip="{{expert.bio}}" style="margin-top:10px;">
 									{{request.problem_description | characters:300 :true}}

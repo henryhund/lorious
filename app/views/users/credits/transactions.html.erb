@@ -14,6 +14,14 @@
 				<div>No merchant account in system. <%= link_to "Click here to add one", merchant_url, :class => "btn btn-default" %></div>
 				
 			<% end %>
+			<br />
+			<% if current_user.braintree_token.present? %>
+				Credit Card Present with last 4 digits - <%= current_user.braintree_last4 %>
+				<%= link_to "Change card details", credit_card_url, :class => "btn btn-default" %>
+			<%else%>
+				You do not have a credit card linked to your account.
+				<%= link_to "Click here to add one", credit_card_url, :class => "btn btn-default" %>
+			<% end %>
 		<% else %>
 			<% if current_user.braintree_token.present? %>
 				Credit Card Present with last 4 digits - <%= current_user.braintree_last4 %>
@@ -41,7 +49,7 @@
 	  <tbody>
 	    <% @transactions.each do |transaction| %>
 	      <tr>
-	        <td><%= "Cr. " + transaction.amount_with_sign.to_s %></td>
+	        <td><%= number_to_currency(transaction.amount_with_sign) %></td>
 	        <td><%= transaction.created_at.to_formatted_s(:long) %></td>
 	        <td><%= transaction.description %></td>
 	        <td><%= transaction.transaction_status %></td>
