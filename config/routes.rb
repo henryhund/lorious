@@ -53,6 +53,7 @@ Lorious::Application.routes.draw do
       member do
         post "confirm"
         post "cancel"
+        post "new_conversation" 
       end
     end
   end
@@ -67,6 +68,8 @@ Lorious::Application.routes.draw do
   get '/request_latest', to: 'requests#latest'
   
   post '/new_conversation', :controller => "conversations", :action => "create"
+  
+  
   post '/new_review', :controller => "home", :action => "new_review"
   post '/search', to: 'home#search'
   

@@ -19,6 +19,10 @@ class Appointment < ActiveRecord::Base
     (expert.hourly_rate_in_credit * duration / 60.to_f).ceil
   end
 
+  def duration_in_words
+    duration < 60 ? "#{duration.to_s} minutes" : "#{(duration/60.round(1)).to_s} #{"hour".pluralize(duration/60.round(1))}"
+  end
+  
   def in_person_meet?
     !online
   end

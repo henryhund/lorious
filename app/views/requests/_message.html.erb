@@ -4,7 +4,7 @@
   
   <%= f.hidden_field :recipient_id, value: "{{request.requester_id}}" %>
   <%= f.input :subject %>
-  <%= f.input :body %>
+  <%= f.input :body, as: :text, :input_html => { :cols => 50, :rows => 3 } %>
   <%= f.button :submit, "Send message", class: "btn btn-default pull-right" %>
 <% end %>
 

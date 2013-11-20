@@ -48,6 +48,15 @@ class AppointmentsController < ApplicationController
 
   def show
     @appointment = Appointment.find(params[:id])
+    if current_user.expert?
+      unless @appointment.expert.id == current_user.id
+        @message_to = @appointment.expert
+      else
+        @message_to = @appointment.user  
+      end
+    else
+      @message_to = @appointment.expert
+    end
   end
 
   def edit
@@ -223,6 +232,25 @@ class AppointmentsController < ApplicationController
       
       format.json  { render :json => msg }
     end
+  end
+  
+  def new_conversation
+    
+    @appointment = Appointment.find(params[:id])
+    @message = params[:message_post]
+    
+    if @appointment.message_id.nil?
+      @user = User.find(@message[:recipient_id])
+      @receipt = current_user.send_message(@user, @message[:body], @message[:subject], true, nil)
+      @appointment.message_id = @receipt.conversation.id
+      
+      @appointment.save validate: false
+    else
+      @conversation = Conversation.find(@appointment.message_id)
+      @receipt = current_user.reply_to_conversation(@conversation, @message[:body], nil, true, true, nil)
+    end
+    
+    redirect_to expert_appointment_url(params[:expert_id], params[:id])
   end
   
   private

@@ -1,90 +1,189 @@
 <div class="container">
-  <div class="row" style="margin-top: 20px;">
-    <div class="col-xs-5"></div>
-    <div class="col-xs-7">
-      <div class="row">
-        <div class="col-xs-4">Subject</div>
-        <div class="col-xs-8"><%= @appointment.subject %></div>
-      </div>
-      <div class="row mg-20">
-        <div class="col-xs-4">Description</div>
-        <div class="col-xs-8"><%= @appointment.description %></div>
-      </div>
-      <div class="row mg-20">
-        <div class="col-xs-4">Time Zone</div>
-        <div class="col-xs-8"><%= @appointment.time_zone %></div>
-      </div>
-      <div class="row mg-20">
-        <div class="col-xs-4">Time</div>
-        <div class="col-xs-8"><%= @appointment.time.in_time_zone(@appointment.time_zone).to_formatted_s(:long) %></div>
-      </div>
-      <div class="row mg-20">
-        <div class="col-xs-4">Duration</div>
-        <div class="col-xs-8"><%= @appointment.duration %></div>
-      </div>
-      <div class="row mg-20">
-        <div class="col-xs-4">Expert Hourly credit cost</div>
-        <div class="col-xs-8"><%= number_to_currency(@appointment.hourly_rate) %></div>
-      </div>
-      <div class="row mg-20">
-        <div class="col-xs-4">Total credit cost</div>
-        <div class="col-xs-8">
-          <span class="label label-info">
-            <%= number_to_currency(@appointment.total_credit_cost) %>
-          </span>
-        </div>
-      </div>
-      <div class="row mg-20">
-        <div class="col-xs-4">Meet online</div>
-        <div class="col-xs-8"><%= boolean_mapper(@appointment.online) %></div>
-      </div>
-      <% unless @appointment.online %>
-        <div class="row mg-20">
-          <div class="col-xs-4">Place of Meet</div>
-          <div class="col-xs-8"><%= @appointment.place %></div>
-        </div>
-      <% end %>
-      <div class="row mg-20">
-        <% if current_user.expert? %>
-          <div class="col-xs-4">Approved by User</div>
-          <div class="col-xs-8"><%= boolean_mapper(@appointment.user_confirmed) %></div>
-        <% else %>
-          <div class="col-xs-4">Approved by Expert</div>
-          <div class="col-xs-8"><%= boolean_mapper(@appointment.expert_confirmed) %></div>
-        <% end %>
-      </div>
-    </div>
-  </div>
-
-  <div class="row" style="margin-bottom: 30px;">
-    <div class="col-md-7 col-md-offset-5">
-      	
-      	<% unless @appointment.appt_state == "confirmed" %>
-			<%= link_to "Edit", edit_expert_appointment_url(@appointment.expert.id, @appointment.id), class: "btn btn-default" %>
-  		<% end %>
-  		
-		<% if (current_user == @appointment.expert && !@appointment.expert_confirmed) || (current_user == @appointment.user && !@appointment.user_confirmed) %>
-
-			<%= link_to "Confirm", confirm_expert_appointment_path(@appointment.expert.id, @appointment.id), method: :post, class: "btn btn-success" %>
-    
-		<% end %>
-      
-      	<% if Time.now > (@appointment.time - Setting.find_by(name: "google_hangout_show_hours_before").value.to_i.hour) %>
-	      	<% if current_user.expert? %>
-	      		<a href="https://plus.google.com/hangouts/_?gid=444606661336&gd=<%= @appointment.id %>" class="btn btn-danger">
-				    Start a Hangout
-				</a>
-	      	<% else %>
-				<% if @appointment.is_hangout_active? %>
-					<a href="<%= @appointment.hangout_url %>" class="btn btn-success">
-						Join Hangout	
-					</a>
-				<% else %>
-					<button class="btn btn-warning">No active Hangouts</button>			
-				<% end %>
+	<div class="row" style="margin-top: 20px; margin-bottom: 30px;">
+		<h1 class="text-center">Appointment: <%= number_to_currency(@appointment.total_credit_cost) %>/<%= @appointment.duration_in_words %> </h1>
+		<div class="col-xs-6">
+			<div class="row">
+				<h3>Message History</h3>
+				<div class="well" style="height: 250px; overflow-y: scroll;">
+					<% if Conversation.where(id: @appointment.message_id).size > 0 %>
+						<% Conversation.find(@appointment.message_id).messages.order(:created_at => :desc).each do |message|%>
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<h4><img class="img-rounded" src="<%= message.sender.image_url %>"  width="25px">
+								<%= message.created_at.to_s(:short) %> (<%= time_ago_in_words(message.created_at) %> ago)
+								<% if message.sender == current_user %>
+									You said
+								<% else %>
+									<%= message.sender.name %>
+								<% end %>
+								 </h4>
+								<%= message.body %>
+							</div>
+						</div>
+						<% end %>
+					<% else %>
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<h4>No Messages</h4>
+							</div>
+						</div>
+					<% end %>
+				</div>
+				
+			</div>
+			<div class="row">
+				<h3 style="margin-bottom: 3px;">Reply Now</h3>
+				<%= render 'message' %>	
+			</div>
+			
+		</div>
+		<div class="col-xs-1">
+		</div>
+		<div class="col-xs-5">
+			<h3 style="margin-bottom: 15px;">Request Info</h3>
+			
+			<div class="row">
+				<h5>Who</h5>
+				<div class="col-xs-4 strong">
+					Host:
+				</div>
+				<div class="col-xs-8">
+					<img class="img-rounded" src="<%= @appointment.expert.image_url %>"  width="25px" style="margin-right: 10px;"><%= @appointment.expert.name %>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4 strong">
+					Attendee:
+				</div>
+				<div class="col-xs-8">
+					<img class="img-rounded" src="<%= @appointment.user.image_url %>"  width="25px" style="margin-right: 10px;"><%= @appointment.user.name %>
+				</div>
+			</div>
+			<div class="row mg-20">
+				<h5>When</h5>
+				<div class="col-xs-4">
+					Time
+				</div>
+				<div class="col-xs-8">
+					<%= @appointment.time.in_time_zone(@appointment.time_zone).to_formatted_s(:long) %>
+				</div>
+			</div>
+			<div class="row mg-20">
+				<div class="col-xs-4">
+					Time Zone
+				</div>
+				<div class="col-xs-8">
+					<%= @appointment.time_zone %>
+				</div>
+			</div>
+			
+			<div class="row mg-20">
+				<div class="col-xs-4">
+					Duration
+				</div>
+				<div class="col-xs-8">
+					<%= @appointment.duration_in_words %>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					Subject
+				</div>
+				<div class="col-xs-8">
+					<%= @appointment.subject %>
+				</div>
+			</div>
+			<div class="row mg-20">
+				<div class="col-xs-4">
+					Description
+				</div>
+				<div class="col-xs-8">
+					<%= @appointment.description %>
+				</div>
+			</div>
+			<div class="row mg-20">
+				<div class="col-xs-4">
+					Expert Hourly credit cost
+				</div>
+				<div class="col-xs-8">
+					<%= number_to_currency(@appointment.hourly_rate) %>
+				</div>
+			</div>
+			<div class="row mg-20">
+				<div class="col-xs-4">
+					Total credit cost
+				</div>
+				<div class="col-xs-8">
+					<span class="label label-info"> <%= number_to_currency(@appointment.total_credit_cost) %> </span>
+				</div>
+			</div>
+			<div class="row mg-20">
+				<div class="col-xs-4">
+					Meet online
+				</div>
+				<div class="col-xs-8">
+					<%= boolean_mapper(@appointment.online) %>
+				</div>
+			</div>
+			<% unless @appointment.online %>
+			<div class="row mg-20">
+				<div class="col-xs-4">
+					Place of Meet
+				</div>
+				<div class="col-xs-8">
+					<%= @appointment.place %>
+				</div>
+			</div>
 			<% end %>
-		<% end %>
-    </div>
-  </div>
+			<div class="row mg-20">
+				<% if current_user.expert? %>
+				<div class="col-xs-4">
+					Approved by User
+				</div>
+				<div class="col-xs-8">
+					<%= boolean_mapper(@appointment.user_confirmed) %>
+				</div>
+				<% else %>
+				<div class="col-xs-4">
+					Approved by Expert
+				</div>
+				<div class="col-xs-8">
+					<%= boolean_mapper(@appointment.expert_confirmed) %>
+				</div>
+				<% end %>
+			</div>
+			
+			<div class="row mg-20">
+				
+		
+					<% unless @appointment.appt_state == "confirmed" %>
+					<%= link_to "Edit", edit_expert_appointment_url(@appointment.expert.id, @appointment.id), class: "btn btn-default" %>
+					<% end %>
+		
+					<% if (current_user == @appointment.expert && !@appointment.expert_confirmed) || (current_user == @appointment.user && !@appointment.user_confirmed) %>
+		
+					<%= link_to "Confirm", confirm_expert_appointment_path(@appointment.expert.id, @appointment.id), method: :post, class: "btn btn-success" %>
+		
+					<% end %>
+		
+					<% if Time.now > (@appointment.time - Setting.find_by(name: "google_hangout_show_hours_before").value.to_i.hour) %>
+					<% if current_user.expert? %>
+					<a href="https://plus.google.com/hangouts/_?gid=444606661336&gd=<%= @appointment.id %>" class="btn btn-danger"> Start a Hangout </a>
+					<% else %>
+					<% if @appointment.is_hangout_active? %>
+					<a href="<%= @appointment.hangout_url %>" class="btn btn-success"> Join Hangout </a>
+					<% else %>
+					<button class="btn btn-warning">
+						No active Hangouts
+					</button>
+					<% end %>
+					<% end %>
+					<% end %>
+				
+			</div>
+		</div>
+	</div>
+
+	
 
 </div>
