@@ -11,6 +11,7 @@ class Users::StepsController < ApplicationController
     @user = current_user
     current_step_index = params[:current_step_index].to_i
     @user.current_step ||= @user.steps[current_step_index]
+    
     if @user.apply_for_expert_page?
       # @user.attributes = expert_params
       @user.skill_list.add params[:user][:skills] if params[:user][:skills]
@@ -19,6 +20,7 @@ class Users::StepsController < ApplicationController
       @user.stack_overflow_url = params[:user][:stack_overflow_url]
       @user.linked_in_url = params[:user][:linked_in_url]
       @user.personal_website = params[:user][:personal_website]
+      @user.is_expert_applied = true
       @user.save validate: false
     else
       @user.update_attributes user_params
@@ -28,7 +30,7 @@ class Users::StepsController < ApplicationController
     else
       @user.current_step = @user.steps[current_step_index + 1]
       if @user.apply_for_expert_page?
-        @user.is_expert_applied = true
+        #@user.is_expert_applied = true
         @user.save
         @user.current_step = @user.steps.last
         @available_skills = AvailableTag.skills.map { |e| [e.name, e.name] }

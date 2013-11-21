@@ -49,7 +49,6 @@ class User < ActiveRecord::Base
   end
   
   with_options if: :apply_for_expert_page? do |user|
-    user.validates :skills, presence: true
     user.validates :stack_overflow_url, :github_url, :linked_in_url, :personal_website, :about_description, presence: true
   end
   
