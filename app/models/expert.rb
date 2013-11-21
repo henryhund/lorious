@@ -7,14 +7,6 @@ class Expert < User
   has_one :availability
   has_many :appointments, foreign_key: "expert_id"
   has_many :expertise
-
-  with_options if: :apply_for_expert_step_validation_required do |user|
-    user.validates :job, presence: true
-  end
-
-  with_options if: :apply_for_expert_page? do |user|
-    user.validates :skills, presence: true
-  end
   
   searchable :auto_index => true, :auto_remove => true do
     text :first_name , :as => :first_name_textp
@@ -42,10 +34,6 @@ class Expert < User
 
   def get_availability(availability, timezone_in_minutes)
     self.availability.is_free?(availability, timezone_in_minutes)
-  end
-
-  def apply_for_expert_step_validation_required
-    validation_required? "apply_for_expert"
   end
   
   def get_hourly_rate()

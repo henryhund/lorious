@@ -17,6 +17,34 @@
 </div>
 
 <div class="form-group row">
+	<%= f.label :github_url, label: "Github URL", class: "col-xs-2 control-label" %>
+	<div class="col-xs-10">
+		<%= f.text_field :github_url, class: "form-control", placeholder: "Github URL", validate: true %>
+	</div>
+</div>
+
+<div class="form-group row">
+	<%= f.label :stack_overflow_url, label: "StackOverflow URL", class: "col-xs-2 control-label" %>
+	<div class="col-xs-10">
+		<%= f.text_field :stack_overflow_url, class: "form-control", placeholder: "StackOverflow URL", validate: true %>
+	</div>
+</div>
+
+<div class="form-group row">
+	<%= f.label :linked_in_url, label: "Linked In URL", class: "col-xs-2 control-label" %>
+	<div class="col-xs-10">
+		<%= f.text_field :linked_in_url, class: "form-control", placeholder: "Linked In URL", validate: true %>
+	</div>
+</div>
+
+<div class="form-group row">
+	<%= f.label :personal_website, label: "Personal Website", class: "col-xs-2 control-label" %>
+	<div class="col-xs-10">
+		<%= f.text_field :personal_website, class: "form-control", placeholder: "Personal Website", validate: true %>
+	</div>
+</div>
+
+<div class="form-group row">
   <%= f.label :skills, class: "col-xs-2 control-label" %>
   <div class="col-xs-10">
     <%= f.select :skills, options_for_select(@available_skills), {}, multiple: "multiple", class: "chosen", "data-placeholder" => "Select your skills" %>

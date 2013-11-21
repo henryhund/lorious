@@ -8,4 +8,11 @@ class UsersController < ApplicationController
     authorize! :edit, @user
   end
 
+  def cancel_application
+    if params[:id].present?
+      User.find(params[:id]).update_attributes(:is_expert_applied => false)
+      flash[:notice] = "Succesfully cancelled Expert application."  
+    end
+    redirect_to users_path
+  end
 end

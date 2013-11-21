@@ -137,8 +137,8 @@
 </div>
 
 <div class="row" style="margin-bottom: 55px;">
-	<div class="col-xs-3 col-md-2"></div>
-	<div class="col-xs-12 col-md-6 ">
+	<div class="col-xs-3 col-md-1"></div>
+	<div class="col-xs-12 col-md-7 ">
 		<h2>Expert Approvals</h2>
 
 		<%= form_tag update_multiple_experts_path, method: :put do %>
@@ -148,6 +148,10 @@
 	  			<th>Location</th>
 	  			<th>Skills</th>
 	  			<th>About</th>
+	  			<th>Stackoverflow</th>
+	  			<th>Github</th>
+	  			<th>LinkedIn</th>
+	  			<th>Website</th>
 	  			<th>Created At</th>
 	  			<th>Approve?</th>
 	  			
@@ -175,6 +179,10 @@
 						<td><%= expert.location%></td>
 						<td><%= expert.skill_list%></td>
 						<td><%= expert.about_description%></td>
+						<td><%= expert.stack_overflow_url%></td>
+						<td><%= expert.github_url%></td>
+						<td><%= expert.linked_in_url%></td>
+						<td><%= expert.personal_website%></td>
 						<td><%= expert.created_at%></td>
 						<td><%= check_box_tag "expert_ids[]", expert.id %></td>
 					</tr>

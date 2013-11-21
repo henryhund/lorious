@@ -44,6 +44,15 @@ class User < ActiveRecord::Base
     user.validates :username, :first_name, :last_name, :tag_line, :location, presence: true
   end
 
+  with_options if: :apply_for_expert_step_validation_required do |user|
+    user.validates :job, presence: true
+  end
+  
+  with_options if: :apply_for_expert_page? do |user|
+    user.validates :skills, presence: true
+    user.validates :stack_overflow_url, :github_url, :linked_in_url, :personal_website, :about_description, presence: true
+  end
+  
   with_options if: :profile_info_step_validation_required do |user|
     user.validates :bio, :job, presence: true
   end
@@ -105,6 +114,10 @@ class User < ActiveRecord::Base
     validation_required? "user_info" || (step_1_complete && step_2_complete)
   end
 
+  def apply_for_expert_step_validation_required
+    validation_required? "apply_for_expert"
+  end
+  
   def profile_info_step_validation_required
     validation_required? "profile_info" || (step_1_complete && step_2_complete)
   end

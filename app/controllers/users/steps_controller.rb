@@ -15,6 +15,10 @@ class Users::StepsController < ApplicationController
       # @user.attributes = expert_params
       @user.skill_list.add params[:user][:skills] if params[:user][:skills]
       @user.about_description = params[:user][:about_description]
+      @user.github_url = params[:user][:github_url]
+      @user.stack_overflow_url = params[:user][:stack_overflow_url]
+      @user.linked_in_url = params[:user][:linked_in_url]
+      @user.personal_website = params[:user][:personal_website]
       @user.save validate: false
     else
       @user.update_attributes user_params

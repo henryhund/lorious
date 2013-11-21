@@ -40,6 +40,7 @@ Lorious::Application.routes.draw do
         get "completed"
       end
     end
+    put "cancel_application"
   end
 
   namespace :experts do

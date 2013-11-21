@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131120100416) do
+ActiveRecord::Schema.define(version: 20131121105953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -279,6 +279,10 @@ ActiveRecord::Schema.define(version: 20131120100416) do
     t.text     "braintree_merchant_status_message"
     t.boolean  "is_featured",                       default: false
     t.text     "about_description"
+    t.string   "github_url"
+    t.string   "stack_overflow_url"
+    t.string   "linked_in_url"
+    t.string   "personal_website"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

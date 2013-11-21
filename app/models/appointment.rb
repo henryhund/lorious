@@ -2,10 +2,12 @@ class Appointment < ActiveRecord::Base
   belongs_to :expert
   belongs_to :user
 
-  validates :subject, :description, :time, :duration, presence: true
-  validates :place, presence: true, if: :in_person_meet?
-  validate :time_cannot_be_in_the_past, :check_minimum_transaction_amount
+  attr_accessor :what_message, :tos_accepted
+  validates :subject, :description, :time, :duration, :what_message, :tos_accepted, presence: true
+  validates :tos_accepted, :presence => { :message => "Please Accept the terms and conditions." }
   
+  validate :time_cannot_be_in_the_past, :check_minimum_transaction_amount
+
   scope :pending, -> { where("appt_state = 'new' AND (expert_confirmed = false OR user_confirmed = false OR expert_confirmed is NULL OR user_confirmed is NULL)") }
   scope :upcoming, -> { where("expert_confirmed = true AND user_confirmed = true AND time >= ?", Time.now) }
   scope :history, -> { where("appt_state = 'cancelled' OR expert_confirmed = true AND user_confirmed = true AND time < ?", Time.now) }

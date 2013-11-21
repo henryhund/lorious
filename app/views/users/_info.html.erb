@@ -49,7 +49,11 @@
 </table>
 
 <% unless @user.expert? %>
-	<%= button_to 'Apply to be an Expert', users_step_path(id: @user.id, current_step_index: 1, user: @user.attributes, apply_to_be_an_expert: true ), :method => :put, class: 'btn btn-primary' %>
+	<% if @user.is_expert_applied? %>
+			<%= button_to 'Cancel Application to be an Expert', users_cancel_application_path(id: @user.id), :method => :put, class: 'btn btn-danger' %>
+	<% else %>
+		<%= button_to 'Apply to be an Expert', users_step_path(id: @user.id, current_step_index: 1, user: @user.attributes, apply_to_be_an_expert: true ), :method => :put, class: 'btn btn-primary' %>
+	<% end %>	
 <% end %>
 
 <br />

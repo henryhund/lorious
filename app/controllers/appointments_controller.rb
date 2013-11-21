@@ -37,11 +37,24 @@ class AppointmentsController < ApplicationController
       
       if @appointment.save
         UserMailer.delay.new_appointment_request(@appointment, current_user, @mail_to)
+        if params[:appointment][:what_message].present?
+          #Create a new appoinment conversation
+          if current_user.expert?
+            @message_receiver = @appointment.expert
+          else
+            @message_receiver = @appointment.user  
+          end
+          
+          @receipt = current_user.send_message(@message_receiver, params[:appointment][:what_message], @appointment.subject, true, nil)
+          @appointment.message_id = @receipt.conversation.id
+          @appointment.save validate: false
+        end
         redirect_to expert_appointment_url(id: @appointment.id), notice: I18n.t("appointment.create.success"), error: @appointment.errors
       else
         redirect_to new_expert_appointment_url(params[:appointment]), notice: I18n.t("appointment.create.failure"), alert: @appointment.errors.full_messages.to_sentence
       end
     rescue Exception => e
+      debugger
       redirect_to new_expert_appointment_url, notice: I18n.t("appointment.create.failure")
     end
   end
@@ -119,17 +132,18 @@ class AppointmentsController < ApplicationController
         @appointment.sidekiqjobs.each do |s|
           Sidekiq::Status.cancel s.sidekiq_id  
         end
+        
+        unless @appointment.credit_transaction.valid?
+          flash[:alert] = @appointment.credit_transaction.errors.full_messages.join
+        end
       end
       
       @appointment.appt_state = "cancelled"
       @appointment.save
       
-      unless @appointment.credit_transaction.valid?
-        flash[:alert] = @appointment.credit_transaction.errors.full_messages.join
-      end
-      
       redirect_to users_url, notice: I18n.t("appointment.cancel.success")
     rescue Exception => e
+      debugger
       redirect_to users_url, notice: I18n.t("appointment.cancel.failure")
     end
   end
@@ -243,7 +257,6 @@ class AppointmentsController < ApplicationController
       @user = User.find(@message[:recipient_id])
       @receipt = current_user.send_message(@user, @message[:body], @message[:subject], true, nil)
       @appointment.message_id = @receipt.conversation.id
-      
       @appointment.save validate: false
     else
       @conversation = Conversation.find(@appointment.message_id)
@@ -260,7 +273,7 @@ class AppointmentsController < ApplicationController
   end
 
   def appointment_params
-    params.require(:appointment).permit(:hourly_rate, :time, :time_zone, :duration, :place, :subject, :description, :online)
+    params.require(:appointment).permit(:what_message, :tos_accepted, :hourly_rate, :time, :time_zone, :duration, :place, :subject, :description, :online)
   end
 
   def form_data
