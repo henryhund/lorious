@@ -18,6 +18,14 @@
 				<%= f.input :what_message, label: false, as: :text %>
 			</div>
 			
+			<% @available_skills = AvailableTag.skills.map { |e| [e.name, e.name] } %>
+			<div class="form-group text">
+				<label class="text col-md-5 control-label" for="review_content"> Tags</label>
+				<div class="col-md-7">
+					<%= f.select :skill_list, options_for_select(@available_skills), {} ,  multiple: "multiple", class: "chosen", "data-placeholder" => "Select your tags", :include_blank => true, :required => true %>
+				</div>
+		  	</div>
+		  	
 			<div class="col-md-offset-4 col-md-12" style="margin-top: 15px;">
 				<h3>Length:</h3>
 				<%= f.input :duration, collection: @duration_options, selected: @default_duration, label: false %>

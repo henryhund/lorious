@@ -49,6 +49,10 @@ class AppointmentsController < ApplicationController
           @appointment.message_id = @receipt.conversation.id
           @appointment.save validate: false
         end
+        
+        @appointment.skill_list.add params[:appointment][:skill_list] if params[:appointment][:skill_list]
+        @appointment.save validate: false
+        
         redirect_to expert_appointment_url(id: @appointment.id), notice: I18n.t("appointment.create.success"), error: @appointment.errors
       else
         redirect_to new_expert_appointment_url(params[:appointment]), notice: I18n.t("appointment.create.failure"), alert: @appointment.errors.full_messages.to_sentence
@@ -209,7 +213,7 @@ class AppointmentsController < ApplicationController
         end
       end
       
-      @appointment.save
+      @appointment.save validate: false
       UserMailer.delay.appointment_confirmed_notification(@appointment, @appointment.user)
       UserMailer.delay.appointment_confirmed_notification(@appointment, @appointment.expert)
       
