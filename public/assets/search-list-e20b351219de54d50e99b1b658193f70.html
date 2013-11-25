@@ -16,14 +16,16 @@
 	
 	<div class="well" ng:repeat="expert in experts | rating_filter:ratings | slider_filter:slider | orderBy:orderProp"> 
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-xs-4">
 				<br />
-				
-					<img ng-src="{{expert.image.url}}" alt="..." class='img-circle search-avatar'> 	
+					<a ng-href="/{{expert.username}}">
+						<img ng-src="{{expert.image.url}}" alt="..." class='img-circle search-avatar'>	
+					</a>
+					 	
 				
 			    <h4 class="text-center">{{expert.hourly_rate | currency:"$"}}/hr.</h4>
 			</div>
-  			<div class="col-md-8">
+  			<div class="col-xs-8">
   				<h2><a style="color: inherit; text-decoration: none;" ng-href="/{{expert.username}}">{{expert.name}}</a> </h2>
   				<div>
 				    <rating value="expert.average_rating" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
@@ -39,7 +41,7 @@
 					</a>
 				</ul>
   				<br />
-  				<div tooltip="{{expert.bio}}" style="margin-top:10px;">{{expert.bio | characters:300 :true}}</div>
+  				<div tooltip="{{expert.bio}}" style="margin-top:10px;">{{expert.bio | characters:180 :true}}</div>
   				
   				<a class="btn btn-default btn-xs pull-right" ng-href="/{{expert.username}}">More</a>	
   				

@@ -5,3 +5,7 @@
 	box-shadow: 0px 0px 0px 6px rgba(109, 110, 113, 0.25);
 	width: 175px; height:175px;
 }
+
+.search-avatar.no-margin{
+	margin-left: -10px;
+}

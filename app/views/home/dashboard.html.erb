@@ -7,20 +7,27 @@
 		<div class="col-md-1"></div>
 	</div>
 
-	<div class="row" style="margin-top: 10px;">
-		<div class="col-md-2"></div>
+	<div class="row" style="margin-top: 10px; width: 1176px;">
+		<div class="col-md-1"></div>
 		<% Expert.order("RANDOM()").all(:limit => 4).each do |expertise| %>
-			<div class="col-md-2 well" style="margin-right: 10px; margin-left: 10px;">
-				<%= image_tag(expertise.image.url, class: "img-thumbnail") %>
+			<div class="col-md-2 well pull-left" style="margin-right: 20px; margin-left: 20px;">
+				<%= image_tag(expertise.image.url, class: "img-circle search-avatar no-margin") %> 
 				<h3 class="text-center"><%= expertise.name %></h3>
 				<div style="margin-top: 15px;" class="text-center">
-					<% expertise.skill_list.first(2).each do |skill| %>
-						<span class="label label-primary" style="margin-right:10px;"><%= skill.to_s %></span>
-					<% end %>
+					
+					<ul class="list-unstyled tags" >
+						<% expertise.skill_list.first(2).each do |skill| %>
+							<a href="#">
+								<li class="highlighted smallest">
+									<%= skill %>
+								</li> 
+							</a>
+						<% end %>
+					</ul>
 				</div>
 			</div>
 		<% end %>
-		<div class="col-md-2"></div>
+		<div class="col-md-3"></div>
 	</div>
 	<div class="row">
 
@@ -56,8 +63,8 @@
 		<!-- Three columns of text below the carousel -->
 		<div class="row">
 			<% Expert.where(is_featured: true).limit(3).order("created_at DESC").each do |expert| %>
-				<div class="col-lg-4">
-					<%= image_tag(expert.image.url, class: "img-thumbnail") %>
+				<div class="col-lg-4" style="margin-bottom: 40px;">
+					<%= image_tag(expert.image.url, class: "img-circle search-avatar") %>
 					<h2><%= expert.name %></h2>
 					<p>
 						<%= expert.bio %>
@@ -80,15 +87,15 @@
 		<div class="col-md-1"></div>
 	</div>
 	
-	<div class="row">
+	<div class="row" style="margin-bottom: 50px;">
 			<div class="col-md-8">
 				<% Request.all(:limit => 3).each do |request| %>
 					<div class="well">
 						<div class="row">
 							<div class="col-md-4">
 								<br />
-								<a href="#" class="thumbnail">
-									<%= image_tag(request.requester.image.url , class: "img-thumbnail") %>
+								<a href="#">
+									<%= image_tag(request.requester.image.url , class: "img-circle search-avatar") %>
 								</a>
 								
 							</div>
