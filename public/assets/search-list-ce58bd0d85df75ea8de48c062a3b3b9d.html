@@ -24,7 +24,7 @@
 			    <h4 class="text-center">{{expert.hourly_rate | currency:"$"}}/hr.</h4>
 			</div>
   			<div class="col-md-8">
-  				<h2> {{expert.name}}</h2>
+  				<h2><a style="color: inherit; text-decoration: none;" ng-href="/{{expert.username}}">{{expert.name}}</a> </h2>
   				<div>
 				    <rating value="expert.average_rating" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
 				    <span class="badge" ng-class="{'badge-warning': percent<30, 'badge-info': percent>=30 && percent<70, 'badge-success': percent>=70}" ng-show="overStar && !isReadonly">{{percent}}%</span>

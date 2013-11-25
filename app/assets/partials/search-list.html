@@ -18,8 +18,10 @@
 		<div class="row">
 			<div class="col-md-4">
 				<br />
-				
-					<img ng-src="{{expert.image.url}}" alt="..." class='img-circle search-avatar'> 	
+					<a ng-href="/{{expert.username}}">
+						<img ng-src="{{expert.image.url}}" alt="..." class='img-circle search-avatar'>	
+					</a>
+					 	
 				
 			    <h4 class="text-center">{{expert.hourly_rate | currency:"$"}}/hr.</h4>
 			</div>
@@ -39,7 +41,7 @@
 					</a>
 				</ul>
   				<br />
-  				<div tooltip="{{expert.bio}}" style="margin-top:10px;">{{expert.bio | characters:300 :true}}</div>
+  				<div tooltip="{{expert.bio}}" style="margin-top:10px;">{{expert.bio | characters:180 :true}}</div>
   				
   				<a class="btn btn-default btn-xs pull-right" ng-href="/{{expert.username}}">More</a>	
   				
