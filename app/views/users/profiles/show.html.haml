@@ -31,9 +31,9 @@
 
         %h6.job
           Designation: 
-          =@user.job.capitalize rescue "Unknown"
+          =@user.job rescue "Unknown"
         %h6.location
-          =@user.location.capitalize rescue "Unknown"
+          =@user.location rescue "Unknown"
         // Maybe a modal or something?
         %a{"data-toggle" => "modal", :href => "#calendarModal"} See My Calendar
         %hr

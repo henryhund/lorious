@@ -6,11 +6,12 @@ class Appointment < ActiveRecord::Base
   belongs_to :expert
   belongs_to :user
 
-  attr_accessor :what_message, :tos_accepted
-  validates :subject, :description, :time, :duration, :what_message, :tos_accepted, presence: true
-  validates :tos_accepted, :presence => { :message => "Please Accept the terms and conditions." }
+  attr_accessor :what_message, :tos_accepted, :check_valid
+  validates :subject, :time, :duration, presence: true
+  validates_presence_of :what_message, :if => :skip_form_field_validation?
+  validates_acceptance_of :tos_accepted, :message => "Please Accept the terms and conditions." , :if => :skip_form_field_validation?
   
-  validate :time_cannot_be_in_the_past, :check_minimum_transaction_amount
+  validate :time_cannot_be_in_the_past, :check_minimum_transaction_amount, :if => :skip_form_field_validation?
 
   scope :pending, -> { where("appt_state = 'new' AND (expert_confirmed = false OR user_confirmed = false OR expert_confirmed is NULL OR user_confirmed is NULL)") }
   scope :upcoming, -> { where("expert_confirmed = true AND user_confirmed = true AND time >= ?", Time.now) }
@@ -20,6 +21,10 @@ class Appointment < ActiveRecord::Base
   belongs_to :credit_transaction, foreign_key: "transaction_id"
   
   has_many :sidekiqjobs, as: :workable
+  
+  def skip_form_field_validation?
+    self.check_valid ||= false
+  end 
   
   def total_credit_cost
     (expert.hourly_rate_in_credit * duration / 60.to_f).ceil

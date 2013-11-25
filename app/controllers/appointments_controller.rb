@@ -8,16 +8,16 @@ class AppointmentsController < ApplicationController
   def new
     
     if current_user.expert?
-      unless current_user.braintree_merchant_id.present? && ( current_user.braintree_merchant_status.present? && current_user.braintree_merchant_status == "active")
-        flash[:alert] = "Cannot create appointment, need to have and active merchant account on file"
-        return redirect_to users_url(anchor: "credit") 
-      end
-      
       unless (params[:expert_id].to_i == current_user.id) 
         unless current_user.braintree_id.present? && current_user.braintree_token.present?
           flash[:alert] = "Cannot create appointment, need to have credit card on file"
           return redirect_to users_url(anchor: "credit")
-        end    
+        end   
+      else
+        unless current_user.braintree_merchant_id.present? && ( current_user.braintree_merchant_status.present? && current_user.braintree_merchant_status == "active")
+          flash[:alert] = "Cannot create appointment, need to have and active merchant account on file"
+          return redirect_to users_url(anchor: "credit") 
+        end   
       end
     else
       unless current_user.braintree_id.present? && current_user.braintree_token.present?
@@ -33,7 +33,9 @@ class AppointmentsController < ApplicationController
       @appointment = @expert.appointments.build appointment_params
       @appointment.user_id = get_user.id
       @appointment.request_id = params[:appointment][:request_id]
+      @appointment.description = params[:appointment][:what_message]
       confirm_appointment_for_current_user
+      @appointment.check_valid = true
       
       if @appointment.save
         UserMailer.delay.new_appointment_request(@appointment, current_user, @mail_to)
@@ -59,7 +61,7 @@ class AppointmentsController < ApplicationController
       end
     rescue Exception => e
       debugger
-      redirect_to new_expert_appointment_url, notice: I18n.t("appointment.create.failure")
+      redirect_to new_expert_appointment_url(params[:appointment]), notice: I18n.t("appointment.create.failure")
     end
   end
 
@@ -109,6 +111,7 @@ class AppointmentsController < ApplicationController
         @mail_to = @appointment.expert
       end
       @appointment.appt_state = "new"
+      @appointment.check_valid = true
       @appointment.save
       raise @appointment.errors.full_messages.join.to_s if !@appointment.valid?
     rescue Exception => e
