@@ -1,65 +1,12 @@
-
-<div class="row">
-	<h1>Account</h1>	
-	<p>
-		<% if current_user.expert?%>
-			<% if current_user.braintree_merchant_id.present? %>
-				<div>Merchant account id: <%= current_user.braintree_merchant_id %></div>
-				<div>Account status: <%= current_user.braintree_merchant_status %></div>
-				<% if current_user.braintree_merchant_status_message.present? %>
-					<div>Message: <%= current_user.braintree_merchant_status_message %></div>
-				<% end %>		
-				
-			<% else%>
-				<div>No merchant account in system. <%= link_to "Click here to add one", merchant_url, :class => "btn btn-default" %></div>
-				
-			<% end %>
-			<br />
-			<% if current_user.braintree_token.present? %>
-				Credit Card Present with last 4 digits - <%= current_user.braintree_last4 %>
-				<%= link_to "Change card details", credit_card_url, :class => "btn btn-default" %>
-			<%else%>
-				You do not have a credit card linked to your account.
-				<%= link_to "Click here to add one", credit_card_url, :class => "btn btn-default" %>
-			<% end %>
-		<% else %>
-			<% if current_user.braintree_token.present? %>
-				Credit Card Present with last 4 digits - <%= current_user.braintree_last4 %>
-				<%= link_to "Change card details", credit_card_url, :class => "btn btn-default" %>
-			<%else%>
-				You do not have a credit card linked to your account.
-				<%= link_to "Click here to add one", credit_card_url, :class => "btn btn-default" %>
-			<% end %>
-		<% end %>
-	</p>
+<div  id="collection_index">
+	<%= render "transaction"%>
 </div>
-<hr />
 
-<div class="row">
-	<h1>Transaction History</h1>	
-	<table class="table">
-	  <thead>
-	    <tr>
-	      <th>Amount</th>
-	      <th>Date</th>
-	      <th>Details</th>
-	      <th>Status</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	    <% @transactions.each do |transaction| %>
-	      <tr>
-	        <td><%= number_to_currency(transaction.amount_with_sign) %></td>
-	        <td><%= transaction.created_at.to_formatted_s(:long) %></td>
-	        <td><%= transaction.description %></td>
-	        <td><%= transaction.transaction_status %></td>
-	      </tr>
-	    <% end %>
-	  </tbody>
-	</table>
-	
-	<% if @transactions.empty? %>
-	  <div>No Transactions.</div>
-	<% end %>
-	
-</div>
+<script type="text/javascript">
+  $(document).ready( function() {
+  	$('body').on('click', '#collection_paginator a', function(){
+      $.get(this.href, null, null, 'script');
+	  return false;
+    }) 
+  })
+</script>

@@ -31,6 +31,7 @@ Lorious::Application.routes.draw do
     resources :credit_transaction, only: [:index], :controller => 'credits' do
       collection do
         get "transactions"
+        get "accounts"
       end
     end
     resources :requests_made, only: [:index], :controller => 'requests' do

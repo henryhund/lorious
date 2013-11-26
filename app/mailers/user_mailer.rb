@@ -1,6 +1,7 @@
 class UserMailer < ActionMailer::Base
-  default from: "info@lorious.com"
-
+  default from: "no-reply@lorious.com"
+  layout 'mailer_layout'
+   
   @@base_url = "http://" + Rails.configuration.action_mailer.default_url_options[:host]
 
   def invite_approved invite
@@ -25,10 +26,9 @@ class UserMailer < ActionMailer::Base
   end
     
   def test_mail
+    @heading = " Appointment Completed. "
     mail(to: "pranav.dhar2@gmail.com",
-         body: "email_body",
-         content_type: "text/html",
-         subject: "Test Scheduled Task!!")
+         subject: "Test Mail")
   end
   
   def request_created_suggest_experts requests, to

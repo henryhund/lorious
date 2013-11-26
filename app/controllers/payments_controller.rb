@@ -44,8 +44,8 @@ class PaymentsController < ApplicationController
     
     render status: :ok
   end
+  
   def new_merchant
-
     @merchant = Merchant.new(params.require(:merchant).permit!)
     @merchant.routing_number = 1 
     @merchant.account_number = 1 
@@ -111,7 +111,7 @@ class PaymentsController < ApplicationController
       current_user.braintree_id = @result.customer.id  
       current_user.braintree_last4 = @result.customer.default_credit_card.last_4
       current_user.braintree_token = @result.customer.default_credit_card.token
-      current_user.save
+      current_user.save validate: false
       flash[:alert] = "Credit Card updated successfully."
       redirect_to users_url(anchor: "credit")
     else
@@ -152,8 +152,7 @@ class PaymentsController < ApplicationController
       else
         render :action => "confirm"
       end
-      
-      #insert into transactions table  @result.transaction.id  @result.transaction.amount @result.transaction.created_at
+
     else
       @amount = @result.params[:transaction][:amount].to_i 
       render :action => "new"

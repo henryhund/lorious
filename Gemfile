@@ -103,7 +103,7 @@ gem 'faker', '1.1.2'
 gem 'populator'
 gem 'rails_12factor', group: :production
 gem 'exceptional'
-
+gem 'unf' 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

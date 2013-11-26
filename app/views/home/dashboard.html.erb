@@ -11,7 +11,7 @@
 		<div class="col-md-1"></div>
 		<% Expert.order("RANDOM()").all(:limit => 4).each do |expertise| %>
 			<div class="col-md-2 well pull-left" style="margin-right: 20px; margin-left: 20px;">
-				<%= image_tag(expertise.image.url, class: "img-circle search-avatar no-margin") %> 
+				<%= link_to image_tag(expertise.image.url, class: "img-circle search-avatar no-margin"), profile_path(expertise.username) %> 
 				<h3 class="text-center"><%= expertise.name %></h3>
 				<div style="margin-top: 15px;" class="text-center">
 					

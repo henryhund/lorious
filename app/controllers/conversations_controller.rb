@@ -10,25 +10,21 @@ class ConversationsController < ApplicationController
         format.js { render "invalid_msg", :status => :unprocessable_entity }
       end
     end
-    
   end
   
   def inbox
-    
     @inbox = current_user.mailbox.inbox
-    
     respond_to do |format|
       format.html { @inbox }
       format.json { render json: @inbox }
     end
-    
   end
   
   def index
-      @box = params[:box] || 'inbox'
-      @messages = current_user.mailbox.inbox.paginate(:page => params[:page], :per_page => 10, :count => {:group => 'conversations.id' }) if @box == 'inbox'
-      @messages = current_user.mailbox.sentbox.paginate(:page => params[:page], :per_page => 10, :count => {:group => 'conversations.id' }) if @box == 'sent'
-      @messages = current_user.mailbox.trash.paginate(:page => params[:page], :per_page => 10, :count => {:group => 'conversations.id' }) if @box == 'trash'
+    @box = params[:box] || 'inbox'
+    @messages = current_user.mailbox.inbox.paginate(:page => params[:page], :per_page => 10, :count => {:group => 'conversations.id' }) if @box == 'inbox'
+    @messages = current_user.mailbox.sentbox.paginate(:page => params[:page], :per_page => 10, :count => {:group => 'conversations.id' }) if @box == 'sent'
+    @messages = current_user.mailbox.trash.paginate(:page => params[:page], :per_page => 10, :count => {:group => 'conversations.id' }) if @box == 'trash'
   end
 
   def new

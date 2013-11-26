@@ -55,7 +55,7 @@
 								<br />
 								<img ng-src="{{request.requester_image.image.url}}" class="img-circle search-avatar" alt="..." style="width: 175px; height:175px; margin-left: 20px;">
 								<h4 class="text-center">{{request.requester_name}}</h4>
-								<h4 class="text-center">{{request.company_url}}</h4>
+								<h4 class="text-center"><a target="_blank" ng-href="http://{{request.company_url}}">{{request.company_url | characters:20 :true}}</a></h4>
 							</div>
 							<div class="col-xs-8">
 								<div style=" float: right;top: -20px; right: -4px; position: absolute;">
