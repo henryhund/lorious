@@ -6,11 +6,10 @@
 	<select ng-model="orderProp">
 	  <option value="">None</option>
 	  <option value="first_name">Alphabetical</option>
-	  <!--option value="age">Newest</option-->
 	</select>	
 </p>
 
-<div when-scrolled="load_data()" id="AngularCtrl" ng-controller="SearchDetailCtrl" style="height: 600px; width:100%; overflow-y: scroll;">
+<div when-scrolled="load_data()" id="AngularCtrl" ng-controller="SearchDetailCtrl" style="height: 550px; width:100%; overflow-y: scroll;">
 	
 	<div ng-show="loading" class="cropcontainer" style="background-image:url('486.GIF'); " >&nbsp;</div>
 	
@@ -21,8 +20,6 @@
 					<a ng-href="/{{expert.username}}">
 						<img ng-src="{{expert.image.url}}" alt="..." class='img-circle search-avatar'>	
 					</a>
-					 	
-				
 			    <h4 class="text-center">{{expert.hourly_rate | currency:"$"}}/hr.</h4>
 			</div>
   			<div class="col-xs-8">
