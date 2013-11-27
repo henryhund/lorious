@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   after_filter :set_access_control_headers
-  before_filter :set_no_cache
+  before_filter :set_no_cache, :profile_not_completed
    
   rescue_from CanCan::AccessDenied do |exception|
    redirect_to '/', :alert => exception.message
@@ -30,5 +30,20 @@ class ApplicationController < ActionController::Base
     response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
+  end
+  
+  def profile_not_completed
+    @user = current_user
+    if @user.present?
+        if !@user.step_1_complete
+          session[:current_step] = "user_info"
+          flash[:alert] = "Please complete your profile information before using the application."
+          redirect_to edit_users_step_url(@user)
+        elsif !@user.step_2_complete
+          session[:current_step] = "profile_info"
+          flash[:alert] = "Please complete your profile information before using the application."
+          redirect_to edit_users_step_url(@user)
+        end
+    end 
   end
 end

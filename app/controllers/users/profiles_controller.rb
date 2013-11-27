@@ -1,5 +1,5 @@
 class Users::ProfilesController < ApplicationController
-
+  skip_before_action :profile_not_completed
   def show
     @user = User.find_by_username params[:username]
     if @user

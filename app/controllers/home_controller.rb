@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   before_filter :authenticate_user!, except: [:index]
+  skip_before_action :profile_not_completed
   def index
   end
 

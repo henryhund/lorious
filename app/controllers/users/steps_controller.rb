@@ -1,5 +1,5 @@
 class Users::StepsController < ApplicationController
-
+  skip_before_action :profile_not_completed
   def edit
     @user = current_user
     @user.current_step = session[:current_step] || @user.steps.first
