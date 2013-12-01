@@ -115,11 +115,12 @@
 				
 			</div>
 			<div class="col-md-4">
-				<%= link_to "View More Requests", request_latest_url, class: "btn-lg btn-primary" %>
-				
-				<% unless current_user.expert? %>
-					<%= link_to "Post Requests", new_request_url, class: "btn-lg btn-primary" %>
-				<% end %>
+				<div class="row" style="margin-bottom: 40px;">
+					<%= link_to "View More Requests", request_latest_url, class: "btn-lg btn-primary" %>	
+				</div>
+				<div class="row">
+					<%= link_to "Post Requests", new_request_url, class: "btn-lg btn-primary" %>	
+				</div>
 			</div>
 
 	</div>

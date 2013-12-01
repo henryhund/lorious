@@ -1,5 +1,28 @@
-<p>New appointment</p>
+<p>
+	Hi <%= @to.name %>,	
+</p>
 
-<p>requested user: <%= @from.name %></p>
-<p><%= link_to "Confirm", expert_appointment_url(@expert.id, @appointment.id) %></p>
-<p><%= link_to "Edit", edit_expert_appointment_url(@expert.id, @appointment.id) %></p>
+<p>
+	You have received a request for an appointment with <%= @from.name %> at <%= @appointment.time.to_formatted_s(:long)%>.	
+</p>
+ 
+<p>
+	If you would like to view the details of your appointment request or make any changes to it, you can do so <%= link_to "here", edit_expert_appointment_url(@expert.id, @appointment.id) %>.	
+</p>
+ 
+<p>
+	Click <%= link_to "here", expert_appointment_url(@expert.id, @appointment.id) %> to confirm the appointment.
+
+Remember, once your appointment is confirmed you can propose changes to the appointment until eight hours before the appointment start time.	
+</p>
+
+<p>
+	Thank you for using Lorious! If you ever have any questions or thoughts, don't hesitate to contact me at support@lorious.com.	
+</p>
+
+<p>
+Sincerely,<br />
+Henry<br />
+co-founder of Lorious<br />	
+</p>
+

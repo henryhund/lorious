@@ -8,7 +8,7 @@ class Appointment < ActiveRecord::Base
 
   attr_accessor :what_message, :tos_accepted, :check_valid
   validates :subject, :time, :duration, presence: true
-  validates_presence_of :what_message, :if => :skip_form_field_validation?
+  validates_presence_of :what_message, :message => "Please enter text in the field labeled 'What'." , :if => :skip_form_field_validation?
   validates_acceptance_of :tos_accepted, :message => "Please Accept the terms and conditions." , :if => :skip_form_field_validation?
   
   validate :time_cannot_be_in_the_past, :check_minimum_transaction_amount, :if => :skip_form_field_validation?

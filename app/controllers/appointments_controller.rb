@@ -1,10 +1,12 @@
 class AppointmentsController < ApplicationController
   before_filter :authenticate_user!, except: [:new_hangout]
-  around_filter :time_zone, if: :authenticate_user!, only: [:create, :update]
+  around_filter :time_zone, only: [:create, :update]
   
   before_filter :get_expert
   before_filter :form_data, only: [:new, :edit]
-
+  
+  skip_before_action :verify_authenticity_token, only: [:new_hangout]
+  
   def new
     
     if current_user.expert?
@@ -54,10 +56,13 @@ class AppointmentsController < ApplicationController
         
         @appointment.skill_list.add params[:appointment][:skill_list] if params[:appointment][:skill_list]
         @appointment.save validate: false
-        
+
         redirect_to expert_appointment_url(id: @appointment.id), notice: I18n.t("appointment.create.success"), error: @appointment.errors
       else
-        redirect_to new_expert_appointment_url(params[:appointment]), notice: I18n.t("appointment.create.failure"), alert: @appointment.errors.full_messages.to_sentence
+        get_expert
+        persist_data
+        render action: "new"
+        #redirect_to new_expert_appointment_url(params[:appointment]), notice: I18n.t("appointment.create.failure"), alert: @appointment.errors.full_messages.to_sentence
       end
     rescue Exception => e
       debugger
@@ -244,7 +249,7 @@ class AppointmentsController < ApplicationController
       @appointment.hangout_url = params[:hangoutUrl]
       @appointment.is_hangout_active = true
       @appointment.hangout_start_time = Time.now
-      @appointment.save
+      @appointment.save validate: false
     end
     
     respond_to do |format|
@@ -291,7 +296,15 @@ class AppointmentsController < ApplicationController
     @user_id = params[:user_id]
     @request_id = params[:request_id]
   end
-
+  
+  def persist_data
+    @duration_options = (30..360).step(30).map { |d| [ d < 60 ? "#{d.to_s} minutes" : "#{(d/60.round(1)).to_s} #{"hour".pluralize(d/60.round(1))}" , d.to_s ] }
+    @default_duration = @appointment.duration || (params[:duration].to_i == 0 ? 30 : params[:duration].to_i) 
+    @hourly_rate_in_credit = @appointment.hourly_rate.present? ?  @appointment.hourly_rate : @appointment.expert.hourly_rate_in_credit
+    @user_id = params[:user_id]
+    @request_id = params[:request_id]
+  end
+  
   def get_user
     if current_user.expert?
       unless params[:expert_id].to_i == current_user.id

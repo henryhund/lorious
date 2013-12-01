@@ -1,3 +1,23 @@
-<p>Appointment with <%= @appointment_with.name %> is confirmed.</p>
-
-<p><%= link_to "View details", expert_appointment_url(@appointment.expert.id, @appointment.id) %></p>
+<p>
+	Hi <%= @to.name %>,	
+</p>
+<p>
+	Your appointment with <%= @appointment_with.name %> has been confirmed for <%= @appointment.time.to_formatted_s(:long)%>.	
+</p>
+<p>
+	Please view the details of your appointment <%= link_to "here", expert_appointment_url(@appointment.expert.id, @appointment.id) %>.
+	You can edit or cancel your appointment up to 8 hours before the scheduled start time.  	
+</p>
+<% if @appointment.user == @to %> 
+	<p>
+		After that point Pranav D. will have reserved time especially for you so please do your best to be on time.	
+	</p>
+<% end %>
+<p>
+	If you ever have any questions or thoughts, don't hesitate to contact me at support@lorious.com.	
+</p>
+<p>
+Sincerely,<br />
+Henry<br />
+co-founder of Lorious<br />	
+</p>

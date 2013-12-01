@@ -2,9 +2,9 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  after_filter :set_access_control_headers
   before_filter :set_no_cache, :profile_not_completed
    
+
   rescue_from CanCan::AccessDenied do |exception|
    redirect_to '/', :alert => exception.message
   end
@@ -21,11 +21,6 @@ class ApplicationController < ActionController::Base
     action.include?(params[:action])
   end
   
-  def set_access_control_headers
-    headers['Access-Control-Allow-Origin'] = '*'
-    headers['Access-Control-Request-Method'] = '*'
-  end
-
   def set_no_cache
     response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
     response.headers["Pragma"] = "no-cache"

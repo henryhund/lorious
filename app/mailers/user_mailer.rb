@@ -43,26 +43,31 @@ class UserMailer < ActionMailer::Base
   
   def appointment_reminder appointment, to
     @appointment, @to, @appointment_with = appointment, to, appointment.appointment_with_for_user(to)
-    mail(to: @to.email, subject: 'Appointment Reminder')  
+    @heading = "Upcoming Appointment!"
+    mail(to: @to.email, subject: 'You have an appointment coming up in about an hour!')  
   end
   
   def appointment_completed appointment, to
     @appointment, @to, @appointment_with = appointment, to, appointment.appointment_with_for_user(to)
+    @heading = "Appointment Completed."
     mail(to: @to.email, subject: 'Appointment Completed')  
   end
   
   def appointment_updated_confirm_request appointment, to, edited_by
     @appointment, @to, @edited_by, @expert = appointment, to, edited_by, appointment.expert
+    @heading = "Confirm Your Appointment."
     mail(to: @to.email, subject: 'Appointment Updated')
   end
 
   def appointment_confirmed_notification appointment, to
     @appointment, @to, @appointment_with = appointment, to, appointment.appointment_with_for_user(to)
+    @heading = "Appointment Confirmed."
     mail(to: @to.email, subject: 'Appointment Confirmed')
   end
   
   def payment_successful_notification to, result
     @to, @result = to, result
+    @heading = "Payment Confirmed."
     mail(to: @to.email, subject: 'Payment Confirmed')
   end
 end

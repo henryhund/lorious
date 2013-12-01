@@ -86,10 +86,10 @@ function init() {
           // Need to return the Hangout URL to the server
           
           var appData = gadgets.views.getParams()['appData'];
-		  console.log(appData);
+		  //console.log(appData);
           
           var hangoutURL = gapi.hangout.getHangoutUrl();
-          /*var callbackUrl = "http://204a98cd.ngrok.com/hangout/request.json";*/
+          //var callbackUrl = "http://3bdb6ebd.ngrok.com/hangout/request.json";
           var callbackUrl = "http://lorious-dev.herokuapp.com/hangout/request.json";
           
           $.ajax({

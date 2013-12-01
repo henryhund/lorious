@@ -20,6 +20,8 @@ gem 'simple_form' , '~> 3.0'
 #Sidekiq Gem for backgrounding tasks
 gem 'sidekiq'
 gem 'sidekiq-status'
+
+gem 'rack-cors', :require => 'rack/cors'
 #Braintree Gem
 
 gem 'sinatra'

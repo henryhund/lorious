@@ -154,9 +154,14 @@
 					<%= link_to "Cancel", cancel_expert_appointment_path(@appointment.expert.id, @appointment.id), method: :post, class: "btn btn-warning", :confirm => "Are you sure you want to CANCEL this appointment ?" %>
 				<% end %>
 				<% if @appointment.appt_state == "confirmed" %>
+					
 					<% if Time.now > (@appointment.time - Setting.find_by(name: "google_hangout_show_hours_before").value.to_i.hour) %>
 						<% if current_user == @appointment.expert %>
-							<a href="https://plus.google.com/hangouts/_?gid=444606661336&gd=<%= @appointment.id %>" class="btn btn-danger"> Start a Hangout </a>
+							<% if @appointment.is_hangout_active? && (Time.now - @appointment.hangout_start_time < 3600) %>
+								<a href="<%= @appointment.hangout_url %>" class="btn btn-success"> Join Hangout </a>
+							<% else %>
+								<a href="https://plus.google.com/hangouts/_?gid=444606661336&gd=<%= @appointment.id %>" class="btn btn-danger"> Start a Hangout </a>
+							<% end %>
 						<% else %>
 							<% if @appointment.is_hangout_active? %>
 								<a href="<%= @appointment.hangout_url %>" class="btn btn-success"> Join Hangout </a>

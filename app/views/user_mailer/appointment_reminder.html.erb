@@ -1,5 +1,21 @@
-Appointment Reminder: Your appointment is scheduled for the following time <%= @appointment.time.to_formatted_s(:long)%>
+<p>
+	Hi <%= @to.name %>,	
+</p>
 
-<p><%= link_to "View Appointment", expert_appointment_url(@appointment.expert.id, @appointment.id) %></p>
+<p>
+	We just wanted to remind you that you have an upcoming <%= link_to "Appointment", expert_appointment_url(@appointment.expert.id, @appointment.id) %> with <%= @appointment_with.name %> at <%= @appointment.time.to_formatted_s(:long)%>.	
+</p>
 
-Click on the link above to look at the details of the appointment and initiate a Google Hangout.
+<p>
+	At this point <%= @appointment_with.name %> has specially reserved this time just for you, so you cannot update or change the appointment.	
+</p>
+
+<p>
+	We look forward to hearing about how your appointment went! If you ever have any questions or thoughts, don't hesitate to contact me at support@lorious.com.	
+</p>
+
+<p>
+Sincerely,<br />
+Henry<br />
+co-founder of Lorious<br />	
+</p>

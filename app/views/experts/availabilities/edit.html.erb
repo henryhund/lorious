@@ -10,7 +10,7 @@
   <div class="form-group row">
     <%= f.label :time_zone, class: "col-xs-2 control-label" %>
     <div class="col-xs-10">
-      <%= f.time_zone_select :time_zone, nil, class: "form-control" %>
+      <%= f.time_zone_select :time_zone, nil, priority_zones: /US/, default: 'Eastern Time (US & Canada)', class: "form-control" %>
     </div>
   </div>
 
