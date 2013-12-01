@@ -103,7 +103,7 @@ function init() {
           	console.log("done");
           
           }).fail( function(data, status, error){
-          	console.log("error");
+          	console.log("error" + error);
           });
         }
       });
