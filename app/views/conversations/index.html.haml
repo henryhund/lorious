@@ -26,7 +26,7 @@
           %tr{ class: "#{ 'success' if m.is_unread?(current_user) }" }
             - unless @box == 'trash'
               %td= check_box_tag '', m.id, false, class: 'delete_multiple_checkbox', name: "conversations[]"
-            %td= link_to m.last_sender.name, conversation_path(m)
+            %td= link_to m.last_sender.name.nil? ? "Unknown" : m.last_sender.name , conversation_path(m) 
             %td= link_to m.subject, conversation_path(m)
             %td= link_to m.count_messages, conversation_path(m)
             %td= link_to truncate(m.last_message.body), conversation_path(m)
