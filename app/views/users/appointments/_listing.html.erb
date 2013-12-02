@@ -24,7 +24,7 @@
         	<% end %>
         </td>
         <td>
-    		<% unless appointment.appt_state == "cancelled"%>
+    		<% unless appointment.appt_state == "cancelled" || appointment.appt_state == "completed" %>
 				<%= link_to "Cancel", cancel_expert_appointment_path(appointment.expert.id, appointment.id), method: :post, :confirm => "Are you sure you want to CANCEL this appointment ?" %>
 			<% end %>				        		
     	</td>

@@ -50,7 +50,7 @@ Lorious::Application.routes.draw do
   end
 
   resources :experts, only: [] do
-    resources :reviews
+    resources :reviews 
     resources :appointments do
       member do
         post "confirm"
@@ -71,8 +71,9 @@ Lorious::Application.routes.draw do
   
   post '/new_conversation', :controller => "conversations", :action => "create"
   
-  
   post '/new_review', :controller => "home", :action => "new_review"
+  put  '/request_cancel' , :controller => "reviews", :action => "request_cancel"
+  
   post '/search', to: 'home#search'
   
   resources :conversations do

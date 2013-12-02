@@ -1,5 +1,5 @@
 <h1 class="text-center">Write a Review for <%= Expert.find(@expert_id).name rescue "" %></h1>
-<div class="row" style="margin-bottom: 150px;">
+<div class="row" style="margin-bottom: 50px;">
 	<div class="col-xs-6 col-md-2"></div>
 	<div class="col-xs-6 col-md-6 ">
 
@@ -29,7 +29,26 @@
 </div>
 <br />
 <br />
+<h1 class="text-center">Request Cancellation</h1>
+<div class="row" style="margin-bottom: 150px;">
+	<div class="col-xs-6 col-md-2"></div>
+	<div class="col-xs-6 col-md-6 ">
+		<%= form_tag request_cancel_path(appointment: @appointment), method: :put do %>
+		  <div class="row form-group" style="margin-bottom: 55px;">
+		  	<label class="string optional col-md-5 control-label" >Cancellation Reason</label>
+		  	<div class="col-md-7">
+		  		<%= text_area_tag :request_cancel_reason, nil, class: "text form-control"%>		
+		  	</div>	
+		  </div>
+		  <div class="row">
+		  	<%= submit_tag "Submit Cancellation Request", class: "btn btn-default pull-right" %>	
+		  </div>
+		  
+		<% end %>
 
+	</div>
+	<div class="col-xs-6 col-md-4"></div>
+</div>	
 <script>
 	$(document).ready(function() {
 		$('#s1').raty({

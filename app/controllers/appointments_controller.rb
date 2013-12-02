@@ -61,6 +61,8 @@ class AppointmentsController < ApplicationController
       else
         get_expert
         persist_data
+        flash[:alert] = @appointment.errors.full_messages.to_sentence
+        flash[:notice] = I18n.t("appointment.create.failure")
         render action: "new"
         #redirect_to new_expert_appointment_url(params[:appointment]), notice: I18n.t("appointment.create.failure"), alert: @appointment.errors.full_messages.to_sentence
       end
