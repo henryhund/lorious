@@ -13,7 +13,7 @@
   <tbody>
     <% @appointments.each do |appointment| %>
       <tr>
-        <td><%= appointment.appointment_with_for_user(current_user).name %></td>
+        <td><%= appointment.appointment_with_for_user(current_user).name rescue "Unknown" %></td>
         <td><%= appointment.subject %></td>
         <td><%= appointment.time.in_time_zone(appointment.time_zone).to_formatted_s(:long) %></td>
         <td><%= appointment.time_zone %></td>
