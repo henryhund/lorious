@@ -156,12 +156,11 @@
 				<% if @appointment.appt_state == "confirmed" %>
 					
 					<% if Time.now > (@appointment.time - Setting.find_by(name: "google_hangout_show_hours_before").value.to_i.hour) %>
-						<%= current_user.id %> <%= @appointment.expert.id%>
 						<% if current_user == @appointment.expert %>
 							<% if @appointment.is_hangout_active? && (Time.now - @appointment.hangout_start_time < 3600) %>
 								<a href="<%= @appointment.hangout_url %>" class="btn btn-success"> Join Hangout </a>
 							<% else %>
-								<a href="https://plus.google.com/hangouts/_?gid=444606661336&gd=33" class="btn btn-danger"> Start a Hangout </a><%= @appointment.id %>
+								<a href="https://plus.google.com/hangouts/_?gid=444606661336&gd=<%= @appointment.id %>" class="btn btn-danger"> Start a Hangout </a>
 							<% end %>
 						<% else %>
 							<% if @appointment.is_hangout_active? %>
