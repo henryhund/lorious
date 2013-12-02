@@ -39,7 +39,11 @@ class Appointment < ActiveRecord::Base
   end
 
   def appointment_with_for_user for_user
-    for_user.expert? ? user : expert
+    if for_user == self.expert
+      user
+    else
+      expert
+    end
   end
 
   def confirmed?
