@@ -38,10 +38,15 @@
 </style>
 <body>
 
-<script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
-<h3>Lorious Hangout</h3>
+<script src="https://plus.google.com/hangouts/_/api/v1/hangout.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.0-beta2.js"></script>
+<!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+
+<!--script type="text/javascript" src="//www.google.com/jsapi"></script-->
+<!--script type="text/javascript">google.load("jquery","1.7.1");</script-->
+
+<h3>Lorious Hangout GET 2 newer</h3>
 
 <p>
 <input class="button" type="button" value="Show participants!" id="showParticipants" 
@@ -89,24 +94,28 @@ function init() {
 		  //console.log(appData);
           
           var hangoutURL = gapi.hangout.getHangoutUrl();
-          var callbackUrl = "http://3bdb6ebd.ngrok.com/hangout/request.json";
-          /*var callbackUrl = "http://lorious-dev.herokuapp.com/hangout/request.json";*/
-          console.log("hi new test");
+          //var callbackUrl = "http://3bdb6ebd.ngrok.com/hangout/request.json";
+          var callbackUrl = "http://lorious-dev.herokuapp.com/hangout/request.json";
+          
           $.ajax({
           	url: callbackUrl,
           	dataType: 'json',
           	data: {
           		"hangoutUrl": hangoutURL,
           		"apptID": appData
-      		}
+      		},
+      		cache: false
           }).done( function(data, status, xhr){
           	console.log("done");
           
           }).fail( function(data, status, error){
+          	global_xhr = data;
           	console.log("error" + error + status + data);
           });
+ 
         }
       });
+  
 }
 
 // Wait for gadget to load.                                                       

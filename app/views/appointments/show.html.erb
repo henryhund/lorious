@@ -155,7 +155,7 @@
 				<% end %>
 				<% if @appointment.appt_state == "confirmed" %>
 					
-					<% if true || Time.now > (@appointment.time - Setting.find_by(name: "google_hangout_show_hours_before").value.to_i.hour) %>
+					<% if Time.now > (@appointment.time - Setting.find_by(name: "google_hangout_show_hours_before").value.to_i.hour) %>
 						<%= current_user.id %> <%= @appointment.expert.id%>
 						<% if current_user == @appointment.expert %>
 							<% if @appointment.is_hangout_active? && (Time.now - @appointment.hangout_start_time < 3600) %>
