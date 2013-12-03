@@ -153,8 +153,8 @@ class AppointmentsController < ApplicationController
       @appointment.appt_state = "cancelled"
       @appointment.save
       
-      UserMailer.delay.appointment_cancelled(@appointment, @mail_to, current_user)
-      UserMailer.delay.appointment_cancelled(@appointment, current_user, current_user)
+      UserMailer.delay.appointment_cancelled(@appointment, @appointment.user, current_user)
+      UserMailer.delay.appointment_cancelled(@appointment, @appointment.expert, current_user)
       
       redirect_to users_url, notice: I18n.t("appointment.cancel.success")
     rescue Exception => e
