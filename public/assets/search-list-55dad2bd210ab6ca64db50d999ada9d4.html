@@ -31,7 +31,7 @@
 				
   				<h4> {{expert.location}}</h4>
   				<ul class="list-unstyled tags" >
-					<a href="#" ng-repeat="skill in expert.skill_list">
+					<a ng-href="/search?keyword={{skill}}" ng-repeat="skill in expert.skill_list">
 						<li class="highlighted small">
 							{{skill}}
 						</li> 

@@ -54,7 +54,7 @@ gem 'font-awesome-rails', '>=3.2.1.3'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-
+gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 

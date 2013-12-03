@@ -22,6 +22,8 @@
 //= require search
 //= require search-ui
 //= require requests
+//= require dataTables/jquery.dataTables
+//= require control_panel
 //= require_directory ./angular
 //= require_directory ./common
 //= require availability_calendar

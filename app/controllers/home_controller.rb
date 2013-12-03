@@ -108,7 +108,7 @@ class HomeController < ApplicationController
   def update_transactions
     #CreditTransaction.update(params[:transactions].keys, params[:transactions].values)
     @settings = Setting.all
-    
+    @experts = User.where(is_expert_applied: true).where(expert_approved: [false, nil])
     begin
       @transactions = CreditTransaction.update(params[:transactions].keys, params[:transactions].values)#.paginate(:page => params[:page], :per_page => 5)
       @transactions.reject! { |p| p.errors.empty? }
@@ -132,7 +132,8 @@ class HomeController < ApplicationController
     admin_authentication(current_user)
     
     @settings = Setting.all
-    @transactions = CreditTransaction.all.order(created_at: :desc).paginate(:page => params[:page], :per_page => 15)
+    @transactions = CreditTransaction.all.order(created_at: :desc).paginate(:page => params[:page], :per_page => 30)
+    @experts = User.where(is_expert_applied: true).where(expert_approved: [false, nil])
   end
   
   def subscriptions
