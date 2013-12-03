@@ -20,7 +20,7 @@ Lorious::Application.routes.draw do
     resources :social_media
     resources :steps, only: [:edit, :update]
     resource :profile, only: [:show]
-    resources :interests, only: [:new, :create]
+    resources :interests, only: [:new, :create, :destroy]
     resources :appointments, only: [:index] do
       collection do
         get "pending"
@@ -45,7 +45,7 @@ Lorious::Application.routes.draw do
   end
 
   namespace :experts do
-    resources :expertise, only: [:new, :create]
+    resources :expertise, only: [:new, :create, :destroy]
     resources :availabilities, only: [:edit, :update]
   end
 

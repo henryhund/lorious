@@ -20,3 +20,26 @@
   </div>
 
 <% end %>
+
+
+<% if(@existing_expertise.length > 1) %>
+<table class="table table-condensed">
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Description</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @existing_expertise.where("ID IS NOT NULL").each do |interest|%>
+			<tr>
+				<td><%= interest.title %></td>
+				<td><%= interest.description %></td>
+				<td><%= link_to("Delete", experts_expertise_path(id: interest), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn btn-mini') %></td>
+			</tr>
+		<% end %>
+	</tbody>
+<% else %>
+	<h3>No Expertise Added.</h3>
+<% end %>
