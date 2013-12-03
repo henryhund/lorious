@@ -120,7 +120,7 @@
           %h1 I'm an expert with
           %ul.list-unstyled.tags
             -@user.skill_list.each do |skill|
-              =link_to "#" do
+              =link_to "/search?keyword=#{skill}" do
                 %li.highlighted
                   =skill
     #expertise-detail.row
@@ -137,7 +137,7 @@
           %p.body-container
             =expertise.description
 
-  -else
+  
     #expertise-detail.row
     .container{ style: "margin-bottom: 50px;"}
       .col-md-12
@@ -208,7 +208,7 @@
                   %span.strong
                     Topics:&nbsp;&nbsp;
                   -review.tags.each do |tag|
-                    =link_to "#" do
+                    =link_to "/search?keyword=#{tag}" do
                       %span.highlighted
                         =tag
               %hr.divider

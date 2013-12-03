@@ -67,7 +67,7 @@
 								</div>
 								<h2 style="margin-top: 22px;"> {{request.problem_headline }}</h2>
 								<ul class="list-unstyled tags" >
-									<a href="#" ng-repeat="skill in request.skill_list">
+									<a ng-href="/search?keyword={{skill}}" ng-repeat="skill in request.skill_list">
 										<li class="highlighted small">
 											{{skill}}
 										</li> 
