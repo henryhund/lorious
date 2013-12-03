@@ -136,6 +136,7 @@ class HomeController < ApplicationController
   end
   
   def subscriptions
+    @available_skills = AvailableTag.skills.map { |e| [e.name.downcase, e.name.downcase] }
     render :layout => false
   end
   

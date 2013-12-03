@@ -9,12 +9,23 @@ class Users::RegistrationsController < Devise::RegistrationsController
       # doesn't know how to ignore it
       user_params.delete(:current_password)
       @user.update_without_password(user_params)
-      @user.save!
       
-      if params[:expert][:skills].present?
-        @user.skill_list = []
-        @user.skill_list.add params[:expert][:skills]
-        @user.save validate: false  
+      if @user.save! 
+        if params[:expert][:skills].present?
+          @user.skill_list = []
+          @user.skill_list.add params[:expert][:skills]
+          @user.save validate: false
+        end
+        
+        if params[:expert][:subscriptions].present?
+          @user.subscription_list = []
+          @user.subscription_list.add params[:expert][:subscriptions]
+          @user.save validate: false
+        end
+        
+        true
+      else
+        false      
       end  
         
     end

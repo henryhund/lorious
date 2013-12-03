@@ -64,10 +64,12 @@ class Expert < User
   
   alias_method :average_rating, :get_average_rating
   alias_method :hourly_rate, :get_hourly_rate
-  before_create :set_default_subscriptions
+  before_save :set_default_subscriptions
   
   private
     def set_default_subscriptions
-      self.subscription_list ||= self.skill_list
+      if self.subscription_list.size == 0
+        self.subscription_list.add self.skill_list  
+      end
     end
 end
