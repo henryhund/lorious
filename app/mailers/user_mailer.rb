@@ -53,6 +53,12 @@ class UserMailer < ActionMailer::Base
     mail(to: @to.email, subject: 'Appointment Completed')  
   end
   
+  def appointment_cancelled appointment, to, edited_by
+    @appointment, @to, @edited_by, @expert = appointment, to, edited_by, appointment.expert
+    @heading = "Appointment Cancelled."
+    mail(to: @to.email, subject: 'Appointment Cancelled')
+  end
+  
   def appointment_updated_confirm_request appointment, to, edited_by
     @appointment, @to, @edited_by, @expert = appointment, to, edited_by, appointment.expert
     @heading = "Confirm Your Appointment."

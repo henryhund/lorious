@@ -13,7 +13,7 @@ class Appointment < ActiveRecord::Base
   
   validate :time_cannot_be_in_the_past, :check_minimum_transaction_amount, :if => :skip_form_field_validation?
 
-  scope :pending, -> { where("appt_state = 'new' AND (expert_confirmed = false OR user_confirmed = false OR expert_confirmed is NULL OR user_confirmed is NULL)") }
+  scope :pending, -> { where("appt_state = 'new' AND time > ? AND (expert_confirmed = false OR user_confirmed = false OR expert_confirmed is NULL OR user_confirmed is NULL)", Time.now) }
   scope :upcoming, -> { where("expert_confirmed = true AND user_confirmed = true AND time >= ?", Time.now) }
   scope :history, -> { where("appt_state = 'cancelled' OR expert_confirmed = true AND user_confirmed = true AND time < ?", Time.now) }
 
@@ -21,6 +21,8 @@ class Appointment < ActiveRecord::Base
   belongs_to :credit_transaction, foreign_key: "transaction_id"
   
   has_many :sidekiqjobs, as: :workable
+  
+  has_one :review
   
   def skip_form_field_validation?
     self.check_valid ||= false

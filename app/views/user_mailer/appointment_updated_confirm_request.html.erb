@@ -2,7 +2,7 @@
 	Hi <%= @to.name %>,	
 </p>
 <p>
-	Your appointment with <%= @appointment_with.name %> has been modified. <%= @appointment_with.name %> has requested that the appointment be changed to <%= @appointment.time.to_formatted_s(:long)%>. 	
+	Your appointment with <%= @appointment_with.name %> has been modified. <%= @edited_by.name %> has requested that the appointment be changed to <%= @appointment.time.to_formatted_s(:long)%>. 	
 </p>
 <p>
 	If you would like to confirm the new appointment details, please click <%= link_to "here", expert_appointment_url(@expert.id, @appointment.id) %>. 

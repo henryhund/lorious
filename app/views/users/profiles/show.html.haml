@@ -35,7 +35,7 @@
         %h6.location
           =@user.location rescue "Unknown"
         // Maybe a modal or something?
-        -if @user.expert?
+        -if @user.expert? && (JSON.parse( @user.availability.timespans).length > 0)
           %a{"data-toggle" => "modal", :href => "#calendarModal"} See My Calendar
         %hr
         %p.tagline
@@ -198,7 +198,8 @@
                     =image_tag(reviewer.image.url, class: "img-circle review-image")
                     %p.review-name
                       =reviewer.name
-                  %p 7/8/13
+                  %p 
+                    =review.created_at.strftime("%m/%d/%Y")
                   .star{"data-score" => review.rating }  
                 .review-detail-div
                   %p.more

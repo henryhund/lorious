@@ -43,25 +43,43 @@ class HomeController < ApplicationController
   
   def new_review
     @expert = Expert.find(params[:review][:reviewed_id])
-    #Check if reviwer has any unreviewed appointments with the reviewed expert
-    if @expert.is_unreviewed_appointments(params[:review][:reviewer_id])
-      begin
-        @review = Review.new params.require(:review).permit(:reviewer_id, :reviewed_id, :content, :rating)
-        @review.save
+    if params[:review][:appointment].present?
+      # if appointment id has been passed associate the review with the appointment
+      @appointment = Appointment.find(params[:review][:appointment])
+      begin 
+        @review = @appointment.create_review(params.require(:review).permit(:reviewer_id, :reviewed_id, :content, :rating))
+        @review.tag_list.add params[:review][:tags] if params[:review][:tags]
+        @review.save validate: false
+        flash[:notice] = I18n.t("review.create.success")  
+        redirect_to profile_path(username: @expert.username)
       rescue Exception => e
         flash[:alert] = @review.errors rescue I18n.t("review.create.failure") 
         redirect_to profile_path(username: @expert.username)
-      else
-        @review.tag_list.add params[:review][:tags] if params[:review][:tags]
-        @review.save validate: false
-        @expert.mark_appointment_reviewed(params[:review][:reviewer_id])
-        flash[:notice] = I18n.t("review.create.success")  
-        redirect_to profile_path(username: @expert.username)
       end
     else
-      flash[:notice] = I18n.t("review.create.error") 
-      redirect_to profile_path(username: @expert.username)      
+      #Check if reviwer has any unreviewed appointments with the reviewed expert
+      #This conditional is for reviews that are made from the profile page of the Expert with no association to the appointment.
+      #Marks the latest appointment as reviewed
+      if @expert.is_unreviewed_appointments(params[:review][:reviewer_id])
+        begin
+          @review = Review.new params.require(:review).permit(:reviewer_id, :reviewed_id, :content, :rating)
+          @review.save
+        rescue Exception => e
+          flash[:alert] = @review.errors rescue I18n.t("review.create.failure") 
+          redirect_to profile_path(username: @expert.username)
+        else
+          @review.tag_list.add params[:review][:tags] if params[:review][:tags]
+          @review.save validate: false
+          @expert.mark_appointment_reviewed(params[:review][:reviewer_id])
+          flash[:notice] = I18n.t("review.create.success")  
+          redirect_to profile_path(username: @expert.username)
+        end
+      else
+        flash[:notice] = I18n.t("review.create.error") 
+        redirect_to profile_path(username: @expert.username)      
+      end
     end
+      
     
   end
   

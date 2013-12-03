@@ -46,7 +46,7 @@
 <!--script type="text/javascript" src="//www.google.com/jsapi"></script-->
 <!--script type="text/javascript">google.load("jquery","1.7.1");</script-->
 
-<h3>Lorious Hangout GET 2 newer</h3>
+<h3>Lorious Hangout</h3>
 
 <p>
 <input class="button" type="button" value="Show participants!" id="showParticipants" 

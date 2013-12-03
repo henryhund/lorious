@@ -7,6 +7,7 @@
 		<div class="alert alert-danger fade" id="modal_notice" style="margin-bottom: 5px;"></div>
 
 		<%= f.hidden_field :reviewer_id, value: current_user.id %>
+		<%= f.hidden_field :appointment, value: @appointment.id %>
 		<%= f.hidden_field :reviewed_id, value: @expert_id %>
 		<%= f.input :content, :input_html => { :cols => 50, :rows => 3 } %>
 

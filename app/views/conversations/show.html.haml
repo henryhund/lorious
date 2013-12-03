@@ -17,7 +17,7 @@
       - @conversation.messages.each do |message|
         .panel.panel-default
           .panel-heading.strong
-            %img{src: message.sender.image_url, width: '25px', class: "img-rounded"}
+            %img{src: message.sender.nil? ? "" : message.sender.image_url, width: '25px', class: "img-rounded"}
             #{message.created_at.to_s(:short)} (#{time_ago_in_words(message.created_at)} ago)
             - if message.sender == current_user
               You said

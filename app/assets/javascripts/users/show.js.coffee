@@ -1,5 +1,6 @@
 $ ->
   $(".accordion-toggle").click ->
+    $(".xpanel.in").collapse('hide')
     element = $(this)
     collapse_to_show = element.attr("href")
     $(".profile_tabs").parent().removeClass "active"
@@ -26,7 +27,7 @@ $ ->
     element = $("#collapseFour")
     element.collapse('show')
     $(".profile_tabs").parent().removeClass "active"
-    first_tab_button = element.find(".profile_tabs").first()
+    first_tab_button = element.find(".profile_tabs").eq(1)
     $(first_tab_button).trigger('click')
    
   $("a[href*='#appointment']").on 'click', (e)->
@@ -36,7 +37,21 @@ $ ->
     $(".profile_tabs").parent().removeClass "active"
     first_tab_button = element.find(".profile_tabs").first()
     $(first_tab_button).trigger('click')
-      
+  
+  $("a[href*='#request']").on 'click', (e)->
+    console.log("request")
+    $(".xpanel.in").collapse('hide')
+    element = $("#collapseThree")
+    element.collapse('show')
+    $(".profile_tabs").parent().removeClass "active"
+    first_tab_button = element.find(".profile_tabs").first()
+    $(first_tab_button).trigger('click')
+  
+  $("a[href*='#profile']").on 'click', (e)->
+    $(".xpanel.in").collapse('hide')
+    $(".profile_tabs").parent().removeClass "active"
+    $("#manage_profile").collapse('show').find(".profile_tabs").eq(1).trigger('click')
+            
   hash = window.location.hash
   switch hash 
     when "#credit"  
@@ -44,7 +59,7 @@ $ ->
       element = $("#collapseFour")
       element.collapse('show')
       $(".profile_tabs").parent().removeClass "active"
-      first_tab_button = element.find(".profile_tabs").first()
+      first_tab_button = element.find(".profile_tabs").eq(1)
       $(first_tab_button).trigger('click')
     when "#appointment"  
       $(".xpanel.in").collapse('hide')
@@ -53,5 +68,15 @@ $ ->
       $(".profile_tabs").parent().removeClass "active"
       first_tab_button = element.find(".profile_tabs").first()
       $(first_tab_button).trigger('click')
+    when "#request"  
+      $(".xpanel.in").collapse('hide')
+      element = $("#collapseThree")
+      element.collapse('show')
+      $(".profile_tabs").parent().removeClass "active"
+      first_tab_button = element.find(".profile_tabs").first()
+      $(first_tab_button).trigger('click')
+    when "#profile"
+      element = $("#manage_profile")
+      element.collapse('show').find(".profile_tabs").eq(1).trigger('click')
     else
       $("#manage_profile").collapse('show')

@@ -62,9 +62,7 @@ class AppointmentsController < ApplicationController
         get_expert
         persist_data
         flash[:alert] = @appointment.errors.full_messages.to_sentence
-        flash[:notice] = I18n.t("appointment.create.failure")
         render action: "new"
-        #redirect_to new_expert_appointment_url(params[:appointment]), notice: I18n.t("appointment.create.failure"), alert: @appointment.errors.full_messages.to_sentence
       end
     rescue Exception => e
       debugger
@@ -89,7 +87,7 @@ class AppointmentsController < ApplicationController
     @appointment = Appointment.find(params[:id])
     
     @hours_edit = Setting.find_by(name: "hours_edit_allowed").value
-    if (@appointment.time.in_time_zone(@appointment.time_zone) - @hours_edit.to_i.hours) < Time.now
+    if (@appointment.appt_state != "new") && (@appointment.time.in_time_zone(@appointment.time_zone) - @hours_edit.to_i.hours) < Time.now
       flash[:alert] = "Cannot edit appointment " + @hours_edit + " hours before scheduled time."
       return redirect_to users_url(anchor: "appointment")  
     end
@@ -134,7 +132,7 @@ class AppointmentsController < ApplicationController
       @appointment = Appointment.find params[:id]
       @hours_cancellation = Setting.find_by(name: "hours_cancellation_allowed").value
       
-      if (@appointment.time.in_time_zone(@appointment.time_zone) - @hours_cancellation.to_i.hours) < Time.now
+      if (@appointment.appt_state != "new") && (@appointment.time.in_time_zone(@appointment.time_zone) - @hours_cancellation.to_i.hours) < Time.now
         flash[:alert] = "Cannot cancel appointment " + @hours_cancellation + " hours before scheduled time."
         return redirect_to users_url(anchor: "appointment")  
       end
@@ -155,9 +153,11 @@ class AppointmentsController < ApplicationController
       @appointment.appt_state = "cancelled"
       @appointment.save
       
+      UserMailer.delay.appointment_cancelled(@appointment, @mail_to, current_user)
+      UserMailer.delay.appointment_cancelled(@appointment, current_user, current_user)
+      
       redirect_to users_url, notice: I18n.t("appointment.cancel.success")
     rescue Exception => e
-      debugger
       redirect_to users_url, notice: I18n.t("appointment.cancel.failure")
     end
   end

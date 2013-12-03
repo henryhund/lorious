@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   def show
     @user = current_user
-    @available_skills = AvailableTag.skills.map { |e| [e.name, e.name] }
+    @available_skills = AvailableTag.skills.map { |e| [e.name.downcase, e.name.downcase] }
     authorize! :edit, @user
   end
 
