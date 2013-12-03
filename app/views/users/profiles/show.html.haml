@@ -35,7 +35,7 @@
         %h6.location
           =@user.location rescue "Unknown"
         // Maybe a modal or something?
-        -if @user.expert? && (JSON.parse( @user.availability.timespans).length > 0)
+        -if @user.expert? && (@user.availability.nil? ? false : JSON.parse( @user.availability.timespans).length > 0)
           %a{"data-toggle" => "modal", :href => "#calendarModal"} See My Calendar
         %hr
         %p.tagline
