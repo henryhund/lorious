@@ -19,12 +19,14 @@
         <td><%= appointment.time_zone %></td>
         <td><%= appointment.appt_state %></td>
         <td><%= link_to "View", expert_appointment_url(appointment.expert.id, appointment.id), target: "_blank" %>
-        	<% if appointment.appt_state == "completed" && appointment.review.nil? %>
-        		<%= link_to "Review", new_expert_review_url(appointment.expert.id, :appointment => appointment.id) %>
-    		<% else %>
-    			<% if appointment.review.present? && appointment.user == current_user %>
-    				<%= link_to "Edit Review", edit_expert_review_url(appointment.expert.id, :id => appointment.review.id) %>
-				<% end %>    				
+        	<% if appointment.user == current_user %>
+	        	<% if appointment.appt_state == "completed" && appointment.review.nil? %>
+	        		<%= link_to "Review", new_expert_review_url(appointment.expert.id, :appointment => appointment.id) %>
+	    		<% else %>
+	    			<% if appointment.review.present? %>
+	    				<%= link_to "Edit Review", edit_expert_review_url(appointment.expert.id, :id => appointment.review.id) %>
+					<% end %>    				
+	        	<% end %>
         	<% end %>
         </td>
         <td>
