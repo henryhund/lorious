@@ -52,6 +52,7 @@ class AppointmentsController < ApplicationController
           @receipt = current_user.send_message(@message_receiver, params[:appointment][:what_message], @appointment.subject, true, nil)
           @appointment.message_id = @receipt.conversation.id
           @appointment.save validate: false
+          
         end
         
         @appointment.skill_list.add params[:appointment][:skill_list] if params[:appointment][:skill_list]
@@ -72,6 +73,12 @@ class AppointmentsController < ApplicationController
 
   def show
     @appointment = Appointment.find(params[:id])
+    
+    if @appointment.message_id.present?
+      @conversation = Conversation.find_by_id(@appointment.message_id)
+      current_user.mark_as_read(@conversation)  
+    end
+    
     if current_user.expert?
       unless @appointment.expert.id == current_user.id
         @message_to = @appointment.expert

@@ -54,6 +54,11 @@ class ConversationsController < ApplicationController
 
   def show
     @conversation = Conversation.find_by_id(params[:id])
+    # check if appointment present for this conversation 
+    @appointment = Appointment.find_by(message_id: @conversation.id)
+    if @appointment.present?
+      return redirect_to expert_appointment_url(@appointment.expert, @appointment.id)
+    end
     unless @conversation.is_participant?(current_user)
       flash[:alert] = "You do not have permission to view that conversation."
       return redirect_to root_path
