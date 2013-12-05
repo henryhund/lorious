@@ -7,11 +7,11 @@
 		<div class="col-md-1"></div>
 	</div>
 
-	<div class="row" style="margin-top: 10px; width: 1176px;">
-		<div class="col-md-1"></div>
+	<div class="row" style="margin-top: 10px; min-width: 890px;">
+		<div class="col-xs-1"></div>
 		<% Expert.order("RANDOM()").all(:limit => 4).each do |expertise| %>
-			<div class="col-md-2 well pull-left" style="margin-right: 20px; margin-left: 20px;">
-				<%= link_to image_tag(expertise.image.url, class: "img-circle search-avatar no-margin"), profile_path(expertise.username) %> 
+			<div class="col-xs-2 well pull-left" style="margin-right: 20px; margin-left: 20px;">
+				<%= link_to image_tag(expertise.image.url, class: "img-circle search-avatar-small no-margin"), profile_path(expertise.username) %> 
 				<h3 class="text-center"><%= expertise.name %></h3>
 				<div style="margin-top: 15px;" class="text-center">
 					
@@ -27,10 +27,9 @@
 				</div>
 			</div>
 		<% end %>
-		<div class="col-md-3"></div>
+		<div class="col-xs-3"></div>
 	</div>
 	<div class="row">
-
 		<form action="<%=search_path %>" method="get">
 			<div class="col-xs-3"></div>
 			<div class="col-xs-5">
@@ -44,18 +43,14 @@
 			</div>
 			<div class="col-xs-3"></div>
 		</form>
-		<!--div class="input-group merged">
-		<span class="input-group-addon"><i class="icon-search"></i></span>
-		<input type="text" class="form-control searchbox" placeholder="Search" ng-model="query.$" />
-		</div-->
 	</div>
 	<hr />
 	<div class="row" style="margin-top:0px;">
-		<div class="col-md-1"></div>
-		<div class="col-md-10">
+		<div class="col-xs-1"></div>
+		<div class="col-xs-10">
 			<h1>Featured Experts</h1>
 		</div>
-		<div class="col-md-1"></div>
+		<div class="col-xs-1"></div>
 	</div>
 	
 	<div class="marketing" style="margin-bottom: 100px;">
@@ -63,7 +58,7 @@
 		<!-- Three columns of text below the carousel -->
 		<div class="row">
 			<% Expert.where(is_featured: true).limit(3).order("created_at DESC").each do |expert| %>
-				<div class="col-lg-4" style="margin-bottom: 40px;">
+				<div class="col-xs-4" style="margin-bottom: 40px;">
 					<%= link_to image_tag(expert.image.url, class: "img-circle search-avatar no-margin"), profile_path(expert.username) %>
 					<h2><%= expert.name %></h2>
 					<p>
@@ -80,11 +75,11 @@
 
 	<hr />
 	<div class="row" style="margin-top:0px;">
-		<div class="col-md-1"></div>
-		<div class="col-md-10">
+		<div class="col-xs-1"></div>
+		<div class="col-xs-10">
 			<h1>Latest Requests</h1>
 		</div>
-		<div class="col-md-1"></div>
+		<div class="col-xs-1"></div>
 	</div>
 	
 	<div class="row" style="margin-bottom: 50px;">

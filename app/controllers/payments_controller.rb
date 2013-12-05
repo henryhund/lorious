@@ -40,11 +40,6 @@ class PaymentsController < ApplicationController
     render :text => "OK" #can be anything doesn't matter as webhook doesnt expect response
   end
   
-  def temp
-    
-    render status: :ok
-  end
-  
   def new_merchant
     @merchant = Merchant.new(params.require(:merchant).permit!)
     @merchant.routing_number = 1 

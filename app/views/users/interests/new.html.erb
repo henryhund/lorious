@@ -28,6 +28,7 @@
 			<th>Title</th>
 			<th>Description</th>
 			<th></th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -35,6 +36,7 @@
 			<tr>
 				<td><%= interest.title %></td>
 				<td><%= interest.description %></td>
+				<td>Edit</td>
 				<td><%= link_to("Delete", users_interest_path(id: interest), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn btn-mini') %></td>
 			</tr>
 		<% end %>

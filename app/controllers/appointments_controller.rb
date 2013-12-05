@@ -229,8 +229,14 @@ class AppointmentsController < ApplicationController
           
           UserMailer.delay.payment_successful_notification(@appointment.user, @appointment.credit_transaction)
         else
+          @error_string = ""
+          @trasact_errors = @result.errors.map { |a| a.message} 
+          @trasact_errors.each do |e|
+            @error_string << (e.to_s + "\n")
+          end
+          #send @error_string via email to @appointment.user
           debugger
-          #send payment error message and unconfirm appointment
+          
           flash[:alert] = "Cannot confirm appointment, payment unsuccesful."
           return redirect_to users_url(anchor: "appointment")
         end

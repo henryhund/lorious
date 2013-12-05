@@ -195,6 +195,7 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    metamagic (2.0.5)
     mime-types (1.25)
     minitest (4.7.5)
     multi_json (1.8.0)
@@ -424,6 +425,7 @@ DEPENDENCIES
   less-rails
   localtunnel
   mailboxer!
+  metamagic
   mysql2 (= 0.3.12b5)
   omniauth
   omniauth-facebook
