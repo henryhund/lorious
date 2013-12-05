@@ -28,6 +28,14 @@ class Experts::ExpertiseController < ApplicationController
     end
   end
   
+  def update
+    if Expertise.find(params[:id]).update_attributes(expertise_params)
+      redirect_to users_url, notice: I18n.t("expertise.update.success")
+    else
+      redirect_to users_url, notice: I18n.t("expertise.update.failure")  
+    end
+  end
+  
   private
 
   def expertise_params

@@ -27,6 +27,15 @@ class Users::InterestsController < ApplicationController
       redirect_to users_url, notice: I18n.t("interests.destroy.success")
     end
   end
+  
+  def update
+    if Interest.find(params[:id]).update_attributes(interests_params)
+      redirect_to users_url, notice: I18n.t("interests.update.success")
+    else
+      redirect_to users_url, notice: I18n.t("interests.update.failure")  
+    end
+  end
+  
   private
 
   def interests_params

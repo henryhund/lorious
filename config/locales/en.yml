@@ -43,6 +43,10 @@ en:
       add_bank_account:
         success: "successfully linked bank account"
         failure: "failed to link bank account"
+  review:
+    update:
+      success: "successfully updated appointment review"
+      failure: "there was an error updating the appointment review" 
   credits:
     purchase:
       success: "successfully purchased %{amount} credits!"
@@ -58,13 +62,11 @@ en:
     review:
       create:
         success: "successfully added appointment review"
-        failure: "there was an erorr adding the appointment review"
+        failure: "there was an error adding the appointment review" 
   message:
     on_appointment:
       create:
         success: "successfully added message to appointment"
-
-
   landing_page:
     home:
       title: Build Amazing Products Faster
@@ -124,6 +126,9 @@ en:
     destroy:
       success: "Deleted interest from your profile"
       failure: "Failed to delete interest from your profile"
+    update:
+      success: "Updated interest to your profile"
+      failure: "Failed to update interest to your profile"  
   expertise:
     create:
       success: "Added expertise to your profile"
@@ -131,6 +136,9 @@ en:
     destroy:
       success: "Deleted expertise from your profile"
       failure: "Failed to delete expertise from your profile"
+    update:
+      success: "Updated expertise to your profile"
+      failure: "Failed to update expertise to your profile"
   availability:
     update:
       success: "Successfully updated your availability."

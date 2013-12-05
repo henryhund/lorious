@@ -36,7 +36,7 @@
 			<tr>
 				<td><%= interest.title %></td>
 				<td><%= interest.description %></td>
-				<td>Edit</td>
+				<td><button data-toggle="modal" href="#expertModal<%= interest.id %>">Edit</button></td>
 				<td><%= link_to("Delete", users_interest_path(id: interest), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn btn-mini') %></td>
 			</tr>
 		<% end %>
@@ -44,3 +44,33 @@
 <% else %>
 	<h3>No Interests Added.</h3>
 <% end %>
+
+
+<% @existing_interests.each do |interests| %>
+	<div aria-hidden="true" class="modal fade modalmessage" on-show id="expertModal<%= interests.id %>" role="dialog" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"> Interest Details </h4>
+				</div>
+				<div class="modal-body" style="margin-bottom: 150px;">
+					<%= simple_form_for(interests, url: users_interest_path(interests), method: :put, remote: false, multipart: false, validate: false) do |f| %>
+					  <div class="alert alert-danger fade" id="modal_notice" style="margin-bottom: 5px;">
+					  </div>
+					  
+					  <%= f.input :title %>
+					  <%= f.input :description, as: :text, :input_html => { :cols => 50, :rows => 3 } %>
+					  <%= f.button :submit, "Update", class: "btn btn-default pull-right", style: "margin-top: 10px;" %>
+					  
+					<% end %>
+				</div>
+				<div class="modal-footer">
+					<p>
+						Press ESC to Exit
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+<% end %>
+

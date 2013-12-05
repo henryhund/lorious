@@ -20,7 +20,7 @@ Lorious::Application.routes.draw do
     resources :social_media
     resources :steps, only: [:edit, :update]
     resource :profile, only: [:show]
-    resources :interests, only: [:new, :create, :destroy]
+    resources :interests, only: [:new, :create, :destroy, :update]
     resources :appointments, only: [:index] do
       collection do
         get "pending"
@@ -45,7 +45,7 @@ Lorious::Application.routes.draw do
   end
 
   namespace :experts do
-    resources :expertise, only: [:new, :create, :destroy]
+    resources :expertise, only: [:new, :create, :destroy, :update]
     resources :availabilities, only: [:edit, :update]
   end
 
@@ -72,6 +72,7 @@ Lorious::Application.routes.draw do
   post '/new_conversation', :controller => "conversations", :action => "create"
   
   post '/new_review', :controller => "home", :action => "new_review"
+  put '/update_review', :controller => "reviews", :action => "update_review"
   put  '/request_cancel' , :controller => "reviews", :action => "request_cancel"
   
   post '/search', to: 'home#search'

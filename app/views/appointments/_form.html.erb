@@ -52,12 +52,14 @@
 			</div>
 			
 			<div class="col-md-offset-3 col-md-7" style="margin-top: 15px;">
-				<%= f.button :submit, 'Request Appointment & Agree to Pay' , :class => "btn btn-primary text-right col-lg-offset-8"  %>
-			</div>
-			<div class="col-md-offset-4 col-md-10" style="margin-top: 15px;">
-				<span class="text-right"><i>The user will be charges the amount listed above once the appointment is confirmed.</i></span>	
+				<%= f.button :submit, @request_id.present? ? 'Request Appointment' : 'Request Appointment & Agree to Pay' , :class => "btn btn-primary text-right col-lg-offset-8"  %>
 			</div>
 			
+			<% if @request_id.nil? %>
+				<div class="col-md-offset-4 col-md-10" style="margin-top: 15px;">
+					<span class="text-right"><i>The user will be charges the amount listed above once the appointment is confirmed.</i></span>	
+				</div>
+			<% end %>
 
 			<%= f.hidden_field :hourly_rate, value: @hourly_rate_in_credit %>
 			<%= f.hidden_field :user_id, value: @user_id %>
