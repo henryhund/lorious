@@ -85,7 +85,7 @@ class AppointmentsController < ApplicationController
 
   def edit
     @appointment = Appointment.find(params[:id])
-    
+    @edit = true
     @hours_edit = Setting.find_by(name: "hours_edit_allowed").value
     if (@appointment.appt_state != "new") && (@appointment.time.in_time_zone(@appointment.time_zone) - @hours_edit.to_i.hours) < Time.now
       flash[:alert] = "Cannot edit appointment " + @hours_edit + " hours before scheduled time."
@@ -117,8 +117,14 @@ class AppointmentsController < ApplicationController
       end
       @appointment.appt_state = "new"
       @appointment.check_valid = true
-      @appointment.save
+      if @appointment.save
+        #updating tags
+        @appointment.skill_list = []
+        @appointment.skill_list.add params[:appointment][:skill_list]
+        @appointment.save validate: false
+      end
       raise @appointment.errors.full_messages.join.to_s if !@appointment.valid?
+      
     rescue Exception => e
       redirect_to expert_appointment_url(@appointment.expert.id, @appointment.id), notice: I18n.t("appointment.update.failure"), alert: e.message
     else
@@ -291,6 +297,7 @@ class AppointmentsController < ApplicationController
   end
 
   def form_data
+    @available_skills = AvailableTag.skills.map { |e| [e.name.downcase, e.name.downcase] }
     @appointment = Appointment.find_by_id(params[:id]) || @expert.appointments.new
     @duration_options = (30..360).step(30).map { |d| [ d < 60 ? "#{d.to_s} minutes" : "#{(d/60.round(1)).to_s} #{"hour".pluralize(d/60.round(1))}" , d.to_s ] }
     @default_duration = @appointment.duration || (params[:duration].to_i == 0 ? 30 : params[:duration].to_i) 
