@@ -31,6 +31,23 @@ class UserMailer < ActionMailer::Base
          subject: "Test Mail")
   end
   
+  def expert_applied expert
+    @support_mail = Setting.find_by(name: "support_email_id").value
+    mail(to: @support_mail.nil? ? "support@lorious.com" : @support_mail,
+         body: expert + " has applied to be an Expert!",
+         content_type: "text/html",
+         subject: expert + " has applied to be an Expert!")
+  end
+  
+  def after_appointment_cancel appointment, reason
+    @support_mail = Setting.find_by(name: "support_email_id").value
+    mail(to: @support_mail.nil? ? "support@lorious.com" : @support_mail,
+         body: appointment.user.name + " has requested cancellation of appointment Subject: " + appointment.subject + " Dated: " +\
+         appointment.created_at.to_s + "Reason: " + reason,
+         content_type: "text/html",
+         subject: appointment.user.name + " has requested cancellation")
+  end
+  
   def request_created_suggest_experts requests, to
      @requests, @to = requests, to
      mail(to: @to.email, subject: 'Recommended Requests')

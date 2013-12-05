@@ -22,6 +22,8 @@ class Users::StepsController < ApplicationController
       @user.personal_website = params[:user][:personal_website]
       @user.is_expert_applied = true
       @user.save validate: false
+      #send mail
+      UserMailer.delay.expert_applied(@user.name)
     else
       @user.update_attributes user_params
     end

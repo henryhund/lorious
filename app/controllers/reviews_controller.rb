@@ -19,6 +19,7 @@ class ReviewsController < ApplicationController
       @transaction.request_cancel_reason = params[:request_cancel_reason]
       @transaction.save validate: false
   
+      UserMailer.delay.after_appointment_cancel(@appointment, @transaction.request_cancel_reason)
       flash[:notice] = "Cancellation request submitted."
       redirect_to users_url
     end
