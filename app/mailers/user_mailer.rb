@@ -1,6 +1,6 @@
 class UserMailer < ActionMailer::Base
   default from: "no-reply@lorious.com"
-  layout 'mailer_layout'
+  layout 'mail_layout'
    
   @@base_url = "http://" + Rails.configuration.action_mailer.default_url_options[:host]
 

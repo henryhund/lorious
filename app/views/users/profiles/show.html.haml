@@ -62,43 +62,72 @@
               =link_to @social_links[:facebook], target: "_blank" do
                 %i.icon-facebook
             - else
-              %i.icon-facebook.disabled
+              -if current_user == @user
+                =link_to "/users/auth/facebook" do
+                  %i.icon-facebook.disabled &nbsp;Add
+              -else
+                %i.icon-facebook.disabled 
           %li
             -if @social_links[:linkedin]
               =link_to @social_links[:linkedin], target: "_blank" do
                 %i.icon-linkedin
             -else
-              %i.icon-linkedin.disabled
+              -if current_user == @user
+                =link_to "/users/auth/linkedin" do
+                  %i.icon-linkedin.disabled &nbsp;Add
+              -else
+                %i.icon-linkedin.disabled 
+                
           %li
             -if @social_links[:twitter]
               =link_to @social_links[:twitter], target: "_blank" do
                 %i.icon-twitter
             -else
-              %i.icon-twitter.disabled
+              -if current_user == @user
+                =link_to "/users/auth/twitter" do
+                  %i.icon-twitter.disabled Add
+              -else
+                %i.icon-twitter.disabled 
           %li
             -if @social_links[:google]
               =link_to @social_links[:google], target: "_blank" do
                 %i.icon-google-plus
             -else
-              %i.icon-google-plus.disabled
+              -if current_user == @user
+                =link_to "/users/auth/google_oauth2" do
+                  %i.icon-google-plus.disabled &nbsp;Add
+              -else
+                %i.icon-google-plus.disabled 
           %li
             -if @social_links[:stackexchange]
               =link_to @social_links[:stackexchange], target: "_blank" do
                 %i.icon-stackexchange
             -else
-              %i.icon-stackexchange.disabled
+              -if current_user == @user
+                =link_to "/users/auth/stackexchange" do
+                  %i.icon-stackexchange.disabled &nbsp;Add
+              -else
+                %i.icon-stackexchange.disabled 
           %li
             -if @social_links[:github]
               =link_to "http://www.github.com", target: "_blank" do
-                %i.icon-github
+                %i.icon-github 
             -else
-              %i.icon-github.disabled
+              -if current_user == @user
+                =link_to "/users/auth/github" do
+                  %i.icon-github.disabled &nbsp;Add
+              -else
+                %i.icon-github.disabled  
           %li
             -if @social_links[:personal]
-              =link_to "http://www.henryhund.com", target: "_blank" do
+              =link_to @user.personal_website, target: "_blank" do
                 %i.icon-link
             -else
-              %i.icon-link.disabled
+              -if current_user == @user
+                =link_to users_url(anchor: "profile") do
+                  %i.icon-link.disabled &nbsp;Add
+              -else
+                %i.icon-link.disabled
   -if @user.expert?
     #user-detail.row
       .container

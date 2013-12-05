@@ -64,7 +64,7 @@
 		<div class="row">
 			<% Expert.where(is_featured: true).limit(3).order("created_at DESC").each do |expert| %>
 				<div class="col-lg-4" style="margin-bottom: 40px;">
-					<%= image_tag(expert.image.url, class: "img-circle search-avatar") %>
+					<%= link_to image_tag(expert.image.url, class: "img-circle search-avatar no-margin"), profile_path(expert.username) %>
 					<h2><%= expert.name %></h2>
 					<p>
 						<%= expert.bio %>
@@ -94,7 +94,7 @@
 						<div class="row">
 							<div class="col-md-4">
 								<br />
-								<a href="#">
+								<a href="/<%= request.requester.username rescue '#' %>">
 									<%= image_tag(request.requester.image.url , class: "img-circle search-avatar") %>
 								</a>
 								
@@ -109,7 +109,7 @@
 									<div style="margin-top: 15px;" >
 										<% if current_user.expert? %>
 											<a style="color: inherit;" href="/experts/<%= current_user.id %>/appointments/new?request_id=<%= request.id %>&user_id=<%= request.requester_id %>&duration=<%= request.appt_length %>" >
-												<button class="message" class="btn btn-default btn-xs pull-right">
+												<button class="btn btn-primary message" class="btn btn-default btn-xs pull-right">
 													<i class="icon-calendar"></i>
 													Request new appointment
 												</button>
