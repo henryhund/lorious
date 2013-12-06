@@ -33,7 +33,7 @@
 			scoreName : 'review[rating]',
 			scoreId : 'review_rating',
 			path : '/',
-			score: <%=@rating_score%>
+			score: <%=@rating_score.nil? ? 0 : @rating_score%>
 		});
 	}); 
 </script>
