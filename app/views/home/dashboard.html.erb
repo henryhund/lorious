@@ -1,5 +1,5 @@
 <div class="container wrapper">
-	<div class="row" style="margin-top:20px;">
+	<div class="row" style="margin-top:20px; min-width: 750px;">
 		<div class="col-md-1"></div>
 		<div class="col-md-10">
 			<h1>Browse Expertises</h1>
@@ -7,10 +7,10 @@
 		<div class="col-md-1"></div>
 	</div>
 
-	<div class="row" style="margin-top: 10px; min-width: 890px;">
+	<div class="row" style="margin-top: 10px;">
 		<div class="col-xs-1"></div>
 		<% Expert.order("RANDOM()").all(:limit => 4).each do |expertise| %>
-			<div class="col-xs-2 well pull-left" style="margin-right: 20px; margin-left: 20px;">
+			<div class="col-xs-2 well pull-left" style="margin-right: 20px; margin-left: 20px; min-height: 300px;">
 				<%= link_to image_tag(expertise.image.url, class: "img-circle search-avatar-small no-margin"), profile_path(expertise.username) %> 
 				<h3 class="text-center"><%= expertise.name %></h3>
 				<div style="margin-top: 15px;" class="text-center">
@@ -18,7 +18,7 @@
 					<ul class="list-unstyled tags" >
 						<% expertise.skill_list.first(2).each do |skill| %>
 							<li class="highlighted smallest">
-								<a href="/search?keyword=<%= skill %>">
+								<a href="/search?keyword=<%= skill %>" style="color: inherit; text-decoration: none;">
 									<%= skill %>
 								</a>
 							</li> 

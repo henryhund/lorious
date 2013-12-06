@@ -1,6 +1,6 @@
 <div ng-app='requests' class='container-search wrapper'>
 
-	<div ng-controller="RequestCtrl" class='row' style="min-width: 960px;">
+	<div ng-controller="RequestCtrl" class='row'>
 		
 			<div class="col-xs-4">
 				<br />
@@ -53,7 +53,7 @@
 						<div class="row">
 							<div class="col-xs-4">
 								<br />
-								<img ng-src="{{request.requester_image.image.url}}" class="img-circle search-avatar" alt="..." style="width: 175px; height:175px; margin-left: 20px;">
+								<img ng-src="{{request.requester_image.image.url}}" class="img-circle search-avatar-small" alt="...">
 								<h4 class="text-center">{{request.requester_name}}</h4>
 								<h4 class="text-center"><a target="_blank" ng-href="http://{{request.company_url}}">{{request.company_url | characters:20 :true}}</a></h4>
 							</div>
@@ -82,14 +82,15 @@
 								
 								<div ng-show="request.requester_id != <%= current_user.id %>">
 									<% if current_user.expert? %>
-										<a style="color: inherit;" ng-href="/experts/<%= current_user.id %>/appointments/new?request_id={{request.id}}&user_id={{request.requester_id}}&duration={{request.appt_length}}" >
-											<button class="btn btn-sm btn-primary message" class="btn btn-default btn-xs pull-right">
+										
+											<button style="margin-top: 10px;" class="btn btn-sm btn-primary message" class="btn btn-default btn-xs pull-left">
+												<a style="color: inherit;" ng-href="/experts/<%= current_user.id %>/appointments/new?request_id={{request.id}}&user_id={{request.requester_id}}&duration={{request.appt_length}}" >
 												<i class="icon-calendar"></i>
-												Request new appointment
+												Request new appointment</a>
 											</button>
-										</a>
+										
 									<% end %>
-									<button class="btn btn-sm btn-primary message pull-right" data-toggle="modal" href="#messageModal{{request.id}}">
+									<button class="btn btn-sm btn-primary message pull-left" data-toggle="modal" href="#messageModal{{request.id}}" style="margin-top: 10px; margin-right: 25px;">
 										<i class="icon-envelope"></i>
 										Respond to request
 									</button>	
