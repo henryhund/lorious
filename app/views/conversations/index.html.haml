@@ -9,10 +9,10 @@
     %h1.text-center Trash
   
   .row
-    .col-md-1
-    .col-md-3  
+    .col-xs-1
+    .col-xs-3  
       = render 'messagenav'
-    .col-md-7
+    .col-xs-7
       = form_tag trash_conversations_path, method: :delete do
         = hidden_field_tag 'current_box', @box
         %table.table.table-hover.table-condensed.table-bordered
