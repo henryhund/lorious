@@ -17,11 +17,11 @@
 					
 					<ul class="list-unstyled tags" >
 						<% expertise.skill_list.first(2).each do |skill| %>
-							<a href="/search?keyword=<%= skill %>">
-								<li class="highlighted smallest">
+							<li class="highlighted smallest">
+								<a href="/search?keyword=<%= skill %>">
 									<%= skill %>
-								</li> 
-							</a>
+								</a>
+							</li> 
 						<% end %>
 					</ul>
 				</div>

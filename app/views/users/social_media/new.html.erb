@@ -5,3 +5,27 @@
   </div>
   <p><%= f.submit "Link", class: "btn btn-default" %></p>
 <% end %>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Social Media</th>
+      <th>Profile</th>
+      <th>Remove</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @social_media.each do |social_medium| %>
+      <tr class="social_medium">
+        <td><%= social_medium.name %></td>
+        <td>
+          <a href="<%= social_medium.profile %>" target="_blank"><%= social_medium.profile %></a>
+        </td>
+        <td>
+          <a href="#" class="social_media_remove" data-id="<%= social_medium.id %>">
+            <span class="glyphicon glyphicon-trash">Delete</span>
+          </a>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

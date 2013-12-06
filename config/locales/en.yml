@@ -43,6 +43,10 @@ en:
       add_bank_account:
         success: "successfully linked bank account"
         failure: "failed to link bank account"
+  mailboxer:
+    message_mailer:
+      subject_new: 'Lorious, new message about %{subject}'
+      subject_reply: 'Lorious, new reply about %{subject}'
   review:
     update:
       success: "successfully updated appointment review"
