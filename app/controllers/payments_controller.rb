@@ -35,6 +35,12 @@ class PaymentsController < ApplicationController
         @merchant.save
         UserMailer.delay.merchant_account_declined(@merchant, @webhook_notification.message)
       end
+    elsif @webhook_notification.kind == "transaction_disbursed"
+      @transaction = CreditTransaction.find_by(transaction_id: @webhook_notification.transaction.id)
+      if @transaction.present?
+        @transaction.transaction_status = @webhook_notification.transaction.status || "transaction_disbursed"
+        @transaction.save 
+      end
     end
     
     render :text => "OK" #can be anything doesn't matter as webhook doesnt expect response

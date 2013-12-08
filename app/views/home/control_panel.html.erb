@@ -56,6 +56,7 @@
 					<th>Transaction</th>
 					<th>Tr. ID</th>
 					<th>Escrow Status</th>
+					<th>Amt.</th>
 					<th>User</th>
 					<th>Expert</th>
 					<th>Hold?</th>
@@ -88,6 +89,7 @@
 					<td> <%= transaction.transaction_status.to_s[0,9] %> </td>
 					<td> <%= transaction.transaction_id %> </td>
 					<td> <%= transaction.transaction_escrow_status %> </td>
+					<td> <%= transaction.amount %> </td>
 					<td> <%= transaction.appointment.user.name rescue "Unknown" %> </td>
 					<td> <%= transaction.appointment.expert.name rescue "Unknown" %> </td>
 					<td> <%= transaction.is_request_hold %> </td>
