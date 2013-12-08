@@ -37,8 +37,8 @@
 			<tr>
 				<td><%= expertise.title %></td>
 				<td><%= expertise.description %></td>
-				<td><button data-toggle="modal" href="#expertModal<%= expertise.id %>">Edit</button></td>
-				<td><%= link_to("Delete", experts_expertise_path(id: expertise), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn btn-mini') %></td>
+				<td><a class="btn-sm btn-primary" data-toggle="modal" href="#expertiseModal<%= expertise.id %>">Edit</a></td>
+				<td><%= link_to("Delete", experts_expertise_path(id: expertise), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn-sm btn-primary') %></td>
 			</tr>
 		<% end %>
 	</tbody>
@@ -47,7 +47,7 @@
 <% end %>
 
 <% @existing_expertise.each do |expertise| %>
-	<div aria-hidden="true" class="modal fade modalmessage" on-show id="expertModal<%= expertise.id %>" role="dialog" tabindex="-1">
+	<div aria-hidden="true" class="modal fade modalmessage" on-show id="expertiseModal<%= expertise.id %>" role="dialog" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">

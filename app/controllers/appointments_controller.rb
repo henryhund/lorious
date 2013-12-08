@@ -66,7 +66,6 @@ class AppointmentsController < ApplicationController
         render action: "new"
       end
     rescue Exception => e
-      debugger
       redirect_to new_expert_appointment_url(params[:appointment]), notice: I18n.t("appointment.create.failure")
     end
   end

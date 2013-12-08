@@ -46,6 +46,7 @@ class User < ActiveRecord::Base
 
   with_options if: :apply_for_expert_step_validation_required do |user|
     user.validates :job, presence: true
+    validates_length_of :job, :minimum => 5, :maximum => 30
   end
   
   with_options if: :apply_for_expert_page? do |user|

@@ -36,8 +36,8 @@
 			<tr>
 				<td><%= interest.title %></td>
 				<td><%= interest.description %></td>
-				<td><button data-toggle="modal" href="#expertModal<%= interest.id %>">Edit</button></td>
-				<td><%= link_to("Delete", users_interest_path(id: interest), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn btn-mini') %></td>
+				<td><a class="btn-primary btn-sm" data-toggle="modal" href="#expertModal<%= interest.id %>">Edit</a></td>
+				<td><%= link_to("Delete", users_interest_path(id: interest), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn-primary btn-sm') %></td>
 			</tr>
 		<% end %>
 	</tbody>
