@@ -28,7 +28,7 @@ class UserMailer < ActionMailer::Base
   def test_mail
     @heading = " Appointment Completed. "
     mail(to: "pranav.dhar2@gmail.com",
-         subject: "Test Mail", content_type "text/html")
+         subject: "Test Mail")
   end
   
   def expert_applied expert
