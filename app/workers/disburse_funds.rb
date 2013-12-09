@@ -17,7 +17,7 @@ class DisburseFunds
         @credit_transaction.save validate: false #to make sure nothing prevents transaction status update
         
         #if transaction status is "settled" and escrow status is "held" we can proceed to release the funds
-        if @transaction.status == "settled" && @transaction.escrow_status == "held"
+        if @transaction.status == "settled" && @transaction.transaction_escrow_status == "held"
           begin
             @result = Braintree::Transaction.release_from_escrow(@transaction.id)
           rescue Exception => e
