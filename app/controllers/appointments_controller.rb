@@ -199,7 +199,7 @@ class AppointmentsController < ApplicationController
       @appointment.appt_state = "confirmed"
       
       unless @appointment.credit_transaction.present?
-        
+        debugger
         # Calculate payment brackets
         @transaction_amount = @appointment.total_credit_cost.to_f
         @slot_1_limit= Setting.find_by(name: "slot_1_limit").value.to_f
@@ -248,9 +248,7 @@ class AppointmentsController < ApplicationController
             @error_string << (e.to_s + "\n")
           end
           #send @error_string via email to @appointment.user
-          debugger
-          
-          flash[:alert] = "Cannot confirm appointment, payment unsuccesful."
+          flash[:alert] = "Cannot confirm appointment, payment unsuccesful.\n" + @error_string  
           return redirect_to users_url(anchor: "appointment")
         end
       end
