@@ -260,7 +260,9 @@ Devise.setup do |config|
 
   require "omniauth-google-oauth2"
   config.omniauth :google_oauth2, Rails.configuration.google_app_id, Rails.configuration.google_secret, { access_type: "offline", approval_prompt: "", scope: 'userinfo.email,userinfo.profile' }
-  config.omniauth :twitter, ENV['TWITTER_CONSUMER_KEY'], ENV['TWITTER_CONSUMER_SECRET']
+  #TWITTER_CONSUMER_KEY: o72nA2rLqIrIWsdYhRBeKA
+  #TWITTER_CONSUMER_SECRET: kaUfSSsqjifAGqnw8dI2to5dR9bCxiPHibSi8erMME
+  config.omniauth :twitter, "vW4u1UHOr7T9LloRXbGI9A", "Wt1E87vMHENhe54EejfhYNKZwbnscz1iMMVQUdRQ"
   config.omniauth :facebook, ENV['FACEBOOK_APP_ID'], ENV['FACEBOOK_SECRET']
   config.omniauth :linkedin, ENV['LINKEDIN_API_KEY'], ENV['LINKEDIN_SECRET_KEY'], :scope => 'r_fullprofile r_emailaddress r_network'
   config.omniauth :stackexchange, ENV['STACKEXCHANGE_CLIENT_ID'], ENV["STACKEXCHANGE_CLIENT_SECRET"], public_key: ENV["STACKEXCHANGE_KEY"], site: 'stackoverflow'

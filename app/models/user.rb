@@ -46,7 +46,6 @@ class User < ActiveRecord::Base
 
   with_options if: :apply_for_expert_step_validation_required do |user|
     user.validates :job, presence: true
-    validates_length_of :job, :minimum => 5, :maximum => 30
   end
   
   with_options if: :apply_for_expert_page? do |user|
@@ -55,8 +54,18 @@ class User < ActiveRecord::Base
   
   with_options if: :profile_info_step_validation_required do |user|
     user.validates :bio, :job, presence: true
+    user.validates :job, length: { in: 5..30 }
   end
 
+  @disallowed_usernames = [
+    "admin",
+    "legal",
+    "user",
+    "careers"
+  ]
+  
+  validates :username, :exclusion=> { :in => @disallowed_usernames }
+  
   validates_format_of :website, 
           :with => /\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/ix,
           :message => "not a valid url", allow_blank: true

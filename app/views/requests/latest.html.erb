@@ -82,13 +82,9 @@
 								
 								<div ng-show="request.requester_id != <%= current_user.id %>">
 									<% if current_user.expert? %>
-										
-											<button style="margin-top: 10px;" class="btn btn-sm btn-primary message" class="btn btn-default btn-xs pull-left">
-												<a style="color: inherit;" ng-href="/experts/<%= current_user.id %>/appointments/new?request_id={{request.id}}&user_id={{request.requester_id}}&duration={{request.appt_length}}" >
-												<i class="icon-calendar"></i>
-												Request new appointment</a>
-											</button>
-										
+										<a class="btn btn-sm btn-primary message"  style="margin-top: 10px;" ng-href="/experts/<%= current_user.id %>/appointments/new?request_id={{request.id}}&user_id={{request.requester_id}}&duration={{request.appt_length}}" >
+										<i class="icon-calendar"></i>
+										Request new appointment</a>
 									<% end %>
 									<button class="btn btn-sm btn-primary message pull-left" data-toggle="modal" href="#messageModal{{request.id}}" style="margin-top: 10px; margin-right: 25px;">
 										<i class="icon-envelope"></i>

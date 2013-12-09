@@ -51,12 +51,16 @@
 			</div>
 			
 			<div class="col-md-offset-3 col-md-7" style="margin-top: 15px;">
-				<%= f.button :submit, @request_id.present? ? 'Request Appointment' : 'Request Appointment & Agree to Pay' , :class => "btn btn-primary text-right col-lg-offset-8"  %>
+				<% if !@edit %>
+					<%= f.button :submit, @request_id.present? ? 'Request Appointment' : 'Request Appointment & Agree to Pay' , :class => "btn btn-primary text-right col-lg-offset-8"  %>
+				<% else %>	
+					<%= f.button :submit, 'Update Appointment' , :class => "btn btn-primary text-right col-lg-offset-8"  %>
+				<% end %>	
 			</div>
 			
-			<% if @request_id.nil? %>
+			<% if @request_id.nil? && @edit.nil? %>
 				<div class="col-md-offset-4 col-md-10" style="margin-top: 15px;">
-					<span class="text-right"><i>The user will be charges the amount listed above once the appointment is confirmed.</i></span>	
+					<span class="text-right"><i>The user will be charged the amount listed above once the appointment is confirmed.</i></span>	
 				</div>
 			<% end %>
 

@@ -1,3 +1,4 @@
+<div class="container-search">
 <h1 class="text-center">Control Panel</h1>
 
 <div class="row" style="margin-bottom: 15px;">
@@ -41,9 +42,9 @@
 	<div class="col-xs-6 col-md-4"></div>
 </div>
 
-<div class="row" style="margin-bottom: 15px;">
-	<div class="col-xs-1"></div>
-	<div class="col-xs-11 ">
+<div class="row" style="margin: 1px;">
+	
+	<div class="col-xs-12 ">
 		<h2>Transactions in Escrow</h2>
 		<%= form_tag update_multiple_transactions_path, method: :put do %>
 		<table class="data-table display table table-condensed">
@@ -52,15 +53,15 @@
 					<th>Hold</th>
 					<th>Refund</th>
 					<th>Release</th>
-					<th>Nothing</th>
+					<th>N/A</th>
 					<th>Transaction</th>
 					<th>Tr. ID</th>
 					<th>Escrow Status</th>
 					<th>Amt.</th>
 					<th>User</th>
 					<th>Expert</th>
-					<th>Hold?</th>
-					<th>Request Cancel?</th>
+					<th>Hold</th>
+					<th>Cancel</th>
 					<th>Detail</th>
 				</tr>
 			</thead>
@@ -228,3 +229,4 @@
 		</div>
 	</div>
 <% end %>
+</div>

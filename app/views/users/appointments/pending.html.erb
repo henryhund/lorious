@@ -1,11 +1,9 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Appointment with</th>
-      <th>Regarding</th>
+      <th style="min-width: 115px;">Other Party</th>
+      <th>Topic</th>
       <th>Time</th>
-      <th>Timezone</th>
-      <th>Details</th>
       <th>Edit</th>
       <th>Confirm</th>
       <th>Cancel</th>
@@ -15,10 +13,8 @@
     <% @appointments.each do |appointment| %>
       <tr>
         <td><%= appointment.appointment_with_for_user(current_user).name rescue "Unknown" %></td>
-        <td><%= appointment.subject %></td>
-        <td><%= appointment.time.in_time_zone(appointment.time_zone).to_formatted_s(:long) %></td>
-        <td><%= appointment.time_zone %></td>
-        <td><%= link_to "View", expert_appointment_url(appointment.expert.id, appointment.id), target: "_blank" %></td>
+        <td><%= link_to appointment.subject, expert_appointment_url(appointment.expert.id, appointment.id), target: "_blank" %> </td>
+        <td><%= appointment.time.in_time_zone(appointment.time_zone).strftime "%-d %b %Y, %H:%M %Z" %></td>
         <td><%= link_to "Edit", edit_expert_appointment_url(appointment.expert.id, appointment.id), target: "_blank" %></td>
         <td>
         	<% if (current_user == appointment.expert && !appointment.expert_confirmed) || (current_user == appointment.user && !appointment.user_confirmed) %>
