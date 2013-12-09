@@ -25,7 +25,6 @@
 			<div class="form-group text">
 				<label class="text col-md-5 control-label" for="review_content"> Tags</label>
 				<div class="col-md-7">
-					<!-- f.select :skill_list, options_for_select(@available_skills), {} ,  multiple: "multiple", class: "chosen", "data-placeholder" => "Select your tags", :include_blank => true, :required => true -->
 					<%= f.select :skill_list, options_for_select(@available_skills, (@appointment.skill_list.split(",").first rescue [""]) ), {}, multiple: "multiple", class: "chosen", "data-placeholder" => "Select your tags" %>
 				</div>
 		  	</div>

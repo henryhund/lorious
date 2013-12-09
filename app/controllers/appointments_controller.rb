@@ -200,6 +200,20 @@ class AppointmentsController < ApplicationController
       
       unless @appointment.credit_transaction.present?
         
+        # Calculate payment brackets
+        @transaction_amount = @appointment.total_credit_cost.to_f
+        @slot_1_limit= Setting.find_by(name: "slot_1_limit").value.to_f
+        @slot_2_limit= Setting.find_by(name: "slot_2_limit").value.to_f
+        @slot_3_limit= Setting.find_by(name: "slot_3_limit").value.to_f
+        
+        if @transaction_amount > Setting.find_by(name: "minimum_transaction_amount").value.to_f && @transaction_amount <= @slot_1_limit
+          @pay_amount = (Setting.find_by(name: "slot_1_percent").value.to_f * @transaction_amount / 100)
+        elsif @transaction_amount > @slot_1_limit && @transaction_amount <= @slot_2_limit
+          @pay_amount = (Setting.find_by(name: "slot_2_percent").value.to_f * @transaction_amount / 100)
+        elsif @transaction_amount > @slot_3_limit
+          @pay_amount = (Setting.find_by(name: "slot_3_percent").value.to_f * @transaction_amount / 100)
+        end
+        
         @result = Braintree::Transaction.sale(
           :amount => @appointment.total_credit_cost,
           :merchant_account_id => @appointment.expert.braintree_merchant_id,
@@ -209,7 +223,7 @@ class AppointmentsController < ApplicationController
             :submit_for_settlement => true,
             :hold_in_escrow => true
           },
-          :service_fee_amount => (Setting.find_by(name: "lorious_service_charge_percent").value.to_f * @appointment.total_credit_cost.to_f / 100).to_s
+          :service_fee_amount => @pay_amount.to_s
         )
         
         if @result.success?
