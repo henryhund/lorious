@@ -29,7 +29,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def twitter
-    social_media_updated = current_user.update_social_media_for "twitter", request.env["omniauth.auth"].extra.raw_info.link, request.env["omniauth.auth"]
+    social_media_updated = current_user.update_social_media_for "twitter", request.env["omniauth.auth"].info.urls.Twitter, request.env["omniauth.auth"]
     redirect_to users_url, notice: set_notice(social_media_updated, "twitter")
   end
 
