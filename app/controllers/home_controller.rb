@@ -89,9 +89,9 @@ class HomeController < ApplicationController
         user.update_attributes(expert_approved: true)
       end
     rescue Exception => e
-      redirect_to control_panel_url, alert: "Error approving experts"
+      redirect_to control_panel_url, alert: I18n.t("user.control_panel.expert.failure")
     else
-      redirect_to control_panel_url, alert: "Successfully approved experts"
+      redirect_to control_panel_url, alert: I18n.t("user.control_panel.expert.success")
     end
   end
   
@@ -99,9 +99,9 @@ class HomeController < ApplicationController
     @transactions = CreditTransaction.all.order(created_at: :desc).paginate(:page => params[:page], :per_page => 15)
     begin @settings = Setting.update(params[:settings].keys, params[:settings].values)
     rescue
-      redirect_to control_panel_url, alert: "Error updating settings"
+      redirect_to control_panel_url, alert: I18n.t("user.control_panel.settings.success")
     else
-      redirect_to control_panel_url, alert: "Successfully updated settings"
+      redirect_to control_panel_url, alert: I18n.t("user.control_panel.settings.success")
     end
   end
   
@@ -114,7 +114,7 @@ class HomeController < ApplicationController
       @transactions.reject! { |p| p.errors.empty? }
       
       if @transactions.empty?
-        redirect_to control_panel_path, alert: "Successfully updated transactions"
+        redirect_to control_panel_path, alert: I18n.t("user.control_panel.transaction.success")
       else
         @transactions = WillPaginate::Collection.create(1, 5, @transactions.size) do |pager|
          pager.replace(@transactions)
@@ -123,7 +123,7 @@ class HomeController < ApplicationController
         render "control_panel"
       end
     rescue Exception => e
-      redirect_to control_panel_path, alert: "Error updating transactions"
+      redirect_to control_panel_path, alert: I18n.t("user.control_panel.transaction.failure")
     end
     
   end  
@@ -144,7 +144,7 @@ class HomeController < ApplicationController
 private
   def admin_authentication(user)
     unless user.admin?
-      flash[:alert] = "You do not have access to this page."
+      flash[:alert] = I18n.t("user.admin.access.failure")
       redirect_to root_url 
       return 
     end

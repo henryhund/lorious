@@ -12,18 +12,18 @@ class AppointmentsController < ApplicationController
     if current_user.expert?
       unless (params[:expert_id].to_i == current_user.id) 
         unless current_user.braintree_id.present? && current_user.braintree_token.present?
-          flash[:alert] = "Cannot create appointment, need to have credit card on file"
+          flash[:alert] = I18n.t("user.no_credit_card.failure")
           return redirect_to users_url(anchor: "credit")
         end   
       else
         unless current_user.braintree_merchant_id.present? && ( current_user.braintree_merchant_status.present? && current_user.braintree_merchant_status == "active")
-          flash[:alert] = "Cannot create appointment, need to have and active merchant account on file"
+          flash[:alert] = I18n.t("user.no_merchant_account.failure")
           return redirect_to users_url(anchor: "credit") 
         end   
       end
     else
       unless current_user.braintree_id.present? && current_user.braintree_token.present?
-        flash[:alert] = "Cannot create appointment, need to have credit card on file"
+        flash[:alert] = I18n.t("user.no_credit_card.failure")
         return redirect_to users_url(anchor: "credit")  
       end
     end
@@ -101,7 +101,7 @@ class AppointmentsController < ApplicationController
     @edit = true
     @hours_edit = Setting.find_by(name: "hours_edit_allowed").value rescue "8"
     if (@appointment.appt_state != "new") && (@appointment.time.in_time_zone(@appointment.time_zone) - @hours_edit.to_i.hours) < Time.now
-      flash[:alert] = "Cannot edit appointment " + @hours_edit + " hours before scheduled time."
+      flash[:alert] = I18n.t("appointment.edit.failure", hours: @hours_edit)
       return redirect_to users_url(anchor: "appointment")  
     end
     
@@ -152,7 +152,7 @@ class AppointmentsController < ApplicationController
       @hours_cancellation = Setting.find_by(name: "hours_cancellation_allowed").value rescue "8"
       
       if (@appointment.appt_state != "new") && (@appointment.time.in_time_zone(@appointment.time_zone) - @hours_cancellation.to_i.hours) < Time.now
-        flash[:alert] = "Cannot cancel appointment " + @hours_cancellation + " hours before scheduled time."
+        flash[:alert] = I18n.t("appointment.cancel.failure", hours: @hours_cancellation)
         return redirect_to users_url(anchor: "appointment")  
       end
       
@@ -189,14 +189,14 @@ class AppointmentsController < ApplicationController
       if current_user.braintree_merchant_id.present? && ( current_user.braintree_merchant_status.present? && current_user.braintree_merchant_status == "active")
         @appointment.expert_confirmed = true
       else
-        flash[:alert] = "Cannot confirm appointment, need to have and active merchant account on file"
+        flash[:alert] = I18n.t("user.no_merchant_account.failure")
         return redirect_to users_url(anchor: "credit") 
       end
     elsif current_user.id == @appointment.user.id
       if current_user.braintree_id.present? && current_user.braintree_token.present?
         @appointment.user_confirmed = true
       else
-        flash[:alert] = "Cannot confirm appointment, need to have credit card on file"
+        flash[:alert] = I18n.t("user.no_credit_card.failure")
         return redirect_to users_url(anchor: "credit")  
       end
     end
@@ -255,7 +255,7 @@ class AppointmentsController < ApplicationController
             @error_string << (e.to_s + "\n")
           end
           #send @error_string via email to @appointment.user
-          flash[:alert] = "Cannot confirm appointment, payment unsuccesful.\n" + @error_string  
+          flash[:alert] = I18n.t("appointment.payment.failure") + "\n" + @error_string  
           return redirect_to users_url(anchor: "appointment")
         end
       end

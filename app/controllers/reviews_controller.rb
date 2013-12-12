@@ -9,7 +9,7 @@ class ReviewsController < ApplicationController
     if params[:appointment].present?
       @appointment = Appointment.find(params[:appointment])  
       if @appointment.review.present?
-        flash[:alert] = "Review already created. To edit go to Appointment History."
+        flash[:alert] = I18n.t("review.created.failure") 
         return redirect_to users_url(anchor: 'appointment')
       end
     end
@@ -42,7 +42,7 @@ class ReviewsController < ApplicationController
       @transaction.save validate: false
   
       UserMailer.delay.after_appointment_cancel(@appointment, @transaction.request_cancel_reason)
-      flash[:notice] = "Cancellation request submitted."
+      flash[:notice] = I18n.t("review.cancel.success")  
       redirect_to users_url
     end
   end

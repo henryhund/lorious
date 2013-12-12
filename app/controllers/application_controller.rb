@@ -55,11 +55,11 @@ class ApplicationController < ActionController::Base
     if @user.present?
         if !@user.step_1_complete
           session[:current_step] = "user_info"
-          flash[:alert] = "Please complete your profile information before using the application."
+          flash[:alert] = I18n.t("user.profile.failure")
           redirect_to edit_users_step_url(@user)
         elsif !@user.step_2_complete
           session[:current_step] = "profile_info"
-          flash[:alert] = "Please complete your profile information before using the application."
+          flash[:alert] = I18n.t("user.profile.failure")
           redirect_to edit_users_step_url(@user)
         end
     end 

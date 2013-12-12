@@ -1,12 +1,16 @@
+
 .container.wrapper
   - if @search
     %h1 Search results for '#{@search}'
   - if @box == 'inbox'
     %h1.text-center Inbox
+    -meta :title => "Lorious | Inbox" 
   - if @box == 'sent'
     %h1.text-center Sent
+    -meta :title => "Lorious | Sent" 
   - if @box == 'trash'
     %h1.text-center Trash
+    -meta :title => "Lorious | Trash" 
   
   .row
     .col-xs-1

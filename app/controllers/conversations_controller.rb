@@ -37,7 +37,7 @@ class ConversationsController < ApplicationController
     if @message.conversation_id
       @conversation = Conversation.find(@message.conversation_id)
       unless @conversation.is_participant?(current_user)
-        flash[:alert] = "You do not have permission to view that conversation."
+        flash[:alert] = I18n.t("mailboxer.permission.failure")
         return redirect_to root_path
       end
       receipt = current_user.reply_to_conversation(@conversation, @message.body, nil, true, true, @message.attachment)
@@ -47,7 +47,7 @@ class ConversationsController < ApplicationController
       end
       receipt = current_user.send_message(@message.recipients, @message.body, @message.subject, true, @message.attachment)
     end
-    flash[:notice] = "Message sent."
+    flash[:notice] = I18n.t("mailboxer.sent.sucess")
 
     redirect_to conversation_path(receipt.conversation)
   end
@@ -60,7 +60,7 @@ class ConversationsController < ApplicationController
       return redirect_to expert_appointment_url(@appointment.expert, @appointment.id)
     end
     unless @conversation.is_participant?(current_user)
-      flash[:alert] = "You do not have permission to view that conversation."
+      flash[:alert] = I18n.t("mailboxer.permission.failure")
       return redirect_to root_path
     end
     @message = Message.new conversation_id: @conversation.id
@@ -71,11 +71,11 @@ class ConversationsController < ApplicationController
     conversation = Conversation.find_by_id(params[:id])
     if conversation
       current_user.trash(conversation)
-      flash[:notice] = "Message sent to trash."
+      flash[:notice] = I18n.t("mailboxer.trash.sucess")
     else
       conversations = Conversation.find(params[:conversations])
       conversations.each { |c| current_user.trash(c) }
-      flash[:notice] = "Messages sent to trash."
+      flash[:notice] = I18n.t("mailboxer.trash.sucess")
     end
     redirect_to conversations_path(box: params[:current_box])
   end
@@ -83,7 +83,7 @@ class ConversationsController < ApplicationController
   def untrash
     conversation = Conversation.find(params[:id])
     current_user.untrash(conversation)
-    flash[:notice] = "Message untrashed."
+    flash[:notice] = I18n.t("mailboxer.untrash.sucess")
     redirect_to conversations_path(box: 'inbox')
   end
 
