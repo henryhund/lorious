@@ -40,7 +40,7 @@ class AppointmentsController < ApplicationController
       @appointment.check_valid = true
       
       if @appointment.save
-        UserMailer.delay.new_appointment_request(@appointment, current_user, @mail_to)
+        #UserMailer.delay.new_appointment_request(@appointment, current_user, @mail_to)
         if params[:appointment][:what_message].present?
           #Create a new appoinment conversation
           if current_user.expert?
@@ -48,9 +48,9 @@ class AppointmentsController < ApplicationController
           else
             @message_receiver = @appointment.user  
           end
-          
-          @receipt = current_user.send_message(@message_receiver, params[:appointment][:what_message], @appointment.subject, true, nil)
-          @appointment.message_id = @receipt.conversation.id
+          #Bypass default mailbpxer behavior and add conversation with email
+          @receipt = send_message_without_email(@message_receiver, params[:appointment][:what_message], @appointment.subject, true, nil)
+          @appointment.message_id = @receipt
           @appointment.save validate: false
           
         end
@@ -66,6 +66,7 @@ class AppointmentsController < ApplicationController
         render action: "new"
       end
     rescue Exception => e
+      debugger
       redirect_to new_expert_appointment_url(params[:appointment]), notice: I18n.t("appointment.create.failure")
     end
   end
@@ -318,6 +319,38 @@ class AppointmentsController < ApplicationController
   
   private
 
+  def send_message_without_email(recipients, msg_body, subject, sanitize_text=true, attachment=nil, message_timestamp = Time.now)
+    @convo = Conversation.new({:subject => subject})
+    @convo.created_at = message_timestamp
+    @convo.updated_at = message_timestamp
+    @convo.save
+    @message = Message.new({:body => msg_body, :subject => subject, :attachment => attachment})
+    @message.created_at = message_timestamp
+    @message.updated_at = message_timestamp
+    @message.conversation = @convo
+    @message.sender = current_user
+    @message.recipients = recipients.is_a?(Array) ? recipients : [recipients]
+    @message.recipients = @message.recipients.uniq
+    @message.save
+    @receipt = Receipt.new
+    @receipt.receiver = current_user
+    @receipt.receiver_type = "User"
+    @receipt.mailbox_type = "inbox"
+    @receipt.trashed = false
+    @receipt.deleted = false
+    @receipt.notification = @message
+    @receipt.save
+    @receipt = Receipt.new
+    @receipt.receiver = recipients
+    @receipt.receiver_type = "User"
+    @receipt.mailbox_type = "inbox"
+    @receipt.trashed = false
+    @receipt.deleted = false
+    @receipt.notification = @message
+    @receipt.save
+    @convo.id
+  end
+
   def get_expert
     @expert = Expert.find_by_id(params[:expert_id])
   end
@@ -337,6 +370,7 @@ class AppointmentsController < ApplicationController
   end
   
   def persist_data
+    @available_skills = AvailableTag.skills.map { |e| [e.name.downcase, e.name.downcase] }
     @duration_options = (30..360).step(30).map { |d| [ d < 60 ? "#{d.to_s} minutes" : "#{(d/60.round(1)).to_s} #{"hour".pluralize(d/60.round(1))}" , d.to_s ] }
     @default_duration = @appointment.duration || (params[:duration].to_i == 0 ? 30 : params[:duration].to_i) 
     @hourly_rate_in_credit = @appointment.hourly_rate.present? ?  @appointment.hourly_rate : @appointment.expert.hourly_rate_in_credit

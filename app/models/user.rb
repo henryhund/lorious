@@ -192,6 +192,12 @@ class User < ActiveRecord::Base
     end
   end
   
+  after_save do
+    if self.delete_record?
+      self.destroy
+    end
+  end
+
   private
 
   def user_params
