@@ -65,4 +65,5 @@ class Appointment < ActiveRecord::Base
   def time_local
     time = time.in_time_zone(time_zone)
   end
+
 end

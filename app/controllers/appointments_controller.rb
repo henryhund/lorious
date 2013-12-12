@@ -87,12 +87,18 @@ class AppointmentsController < ApplicationController
     else
       @message_to = @appointment.expert
     end
+
+    respond_to do |format|
+      format.js { render "show.js" }      
+      format.html { render "show" }
+    end
+
   end
 
   def edit
     @appointment = Appointment.find(params[:id])
     @edit = true
-    @hours_edit = Setting.find_by(name: "hours_edit_allowed").value
+    @hours_edit = Setting.find_by(name: "hours_edit_allowed").value rescue "8"
     if (@appointment.appt_state != "new") && (@appointment.time.in_time_zone(@appointment.time_zone) - @hours_edit.to_i.hours) < Time.now
       flash[:alert] = "Cannot edit appointment " + @hours_edit + " hours before scheduled time."
       return redirect_to users_url(anchor: "appointment")  
@@ -142,7 +148,7 @@ class AppointmentsController < ApplicationController
   def cancel
     begin
       @appointment = Appointment.find params[:id]
-      @hours_cancellation = Setting.find_by(name: "hours_cancellation_allowed").value
+      @hours_cancellation = Setting.find_by(name: "hours_cancellation_allowed").value rescue "8"
       
       if (@appointment.appt_state != "new") && (@appointment.time.in_time_zone(@appointment.time_zone) - @hours_cancellation.to_i.hours) < Time.now
         flash[:alert] = "Cannot cancel appointment " + @hours_cancellation + " hours before scheduled time."
@@ -202,16 +208,16 @@ class AppointmentsController < ApplicationController
         debugger
         # Calculate payment brackets
         @transaction_amount = @appointment.total_credit_cost.to_f
-        @slot_1_limit= Setting.find_by(name: "slot_1_limit").value.to_f
-        @slot_2_limit= Setting.find_by(name: "slot_2_limit").value.to_f
-        @slot_3_limit= Setting.find_by(name: "slot_3_limit").value.to_f
+        @slot_1_limit= Setting.find_by(name: "slot_1_limit").value.to_f rescue 10.0
+        @slot_2_limit= Setting.find_by(name: "slot_2_limit").value.to_f rescue 20.0
+        @slot_3_limit= Setting.find_by(name: "slot_3_limit").value.to_f rescue 30.0
         
         if @transaction_amount > Setting.find_by(name: "minimum_transaction_amount").value.to_f && @transaction_amount <= @slot_1_limit
-          @pay_amount = (Setting.find_by(name: "slot_1_percent").value.to_f * @transaction_amount / 100)
+          @pay_amount = ( (Setting.find_by(name: "slot_1_percent").value rescue 30.0).to_f * @transaction_amount / 100)
         elsif @transaction_amount > @slot_1_limit && @transaction_amount <= @slot_2_limit
-          @pay_amount = (Setting.find_by(name: "slot_2_percent").value.to_f * @transaction_amount / 100)
+          @pay_amount = ( (Setting.find_by(name: "slot_2_percent").value rescue 20.0).to_f * @transaction_amount / 100)
         elsif @transaction_amount > @slot_3_limit
-          @pay_amount = (Setting.find_by(name: "slot_3_percent").value.to_f * @transaction_amount / 100)
+          @pay_amount = ( (Setting.find_by(name: "slot_3_percent").value rescue 10.0).to_f * @transaction_amount / 100)
         end
         
         @result = Braintree::Transaction.sale(

@@ -166,6 +166,10 @@ class User < ActiveRecord::Base
     }
   end
 
+  def upcoming_appointment_count
+    Appointment.upcoming.where("user_id = ? OR expert_id = ?", self.id, self.id).order(:created_at => :desc).size rescue 0
+  end
+
   def profile_link_for social_medium
     self.social_media.find_by_name(social_medium).try(:profile)
   end

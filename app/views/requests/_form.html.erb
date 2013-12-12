@@ -6,8 +6,8 @@
 	}
 </style>
 <div class="row" style="margin-bottom: 150px;">
-  <div class="col-xs-6 col-md-2"></div>
-  <div class="col-xs-6 col-md-6 ">
+  <div class="col-xs-3"></div>
+  <div class="col-xs-6">
   	<h1 class="text-center"><%= @header %></h1>
   	
   	<%= simple_form_for @request, validate: true do |f| %>
@@ -26,7 +26,7 @@
 				
 				<div class="form-group string optional request_company_name">
 					<label class="string optional col-md-5 control-label" for="request_company_name">Email</label>
-					<div class="col-md-7">
+					<div class="col-xs-7">
 						<input class="form-control" type="text" readonly="true" value="<%= current_user.email %>" />
 						your email will not be shared publicly
 					</div>
@@ -40,8 +40,8 @@
 		    <%= f.input :company_description, label: 'What does your Company Do?', :as => :text, :input_html => { :cols => 50, :rows => 3 } %>
 		    
 		    <div class="form-group text">
-				<label class="text col-md-5 control-label" for="review_content"> Problem Type</label>
-				<div class="col-md-7">
+				<label class="text col-xs-5 control-label" for="review_content"> Problem Type</label>
+				<div class="col-xs-7">
 					<%= f.select :problem_list, options_for_select(@available_problems, (@request.problem_list.split(",").first rescue [""]) ), {}, multiple: "multiple", class: "chosen", "data-placeholder" => "Select your problem type" %>
 				</div>
 		  	</div>
@@ -51,8 +51,8 @@
 		    <%= f.input :problem_description, label: 'Problem Description', :as => :text, :input_html => { :cols => 50, :rows => 3 } %>
 		    
 		  	<div class="form-group text">
-				<label class="text col-md-5 control-label" for="review_content"> Tags</label>
-				<div class="col-md-7">
+				<label class="text col-xs-5 control-label" for="review_content"> Tags</label>
+				<div class="col-xs-7">
 					<%= f.select :skill_list, options_for_select(@available_skills, (@request.skill_list.split(",").first rescue [""]) ), {}, multiple: "multiple", class: "chosen", "data-placeholder" => "Select your skills" %>
 				</div>
 		  	</div>
@@ -75,13 +75,13 @@
 		  	
 		  	 
 		  <div class="form-actions" style="margin-top: 70px;">
-		    <%= f.button :submit, 'Submit Request' , :class => "btn btn-primary text-right col-lg-offset-10"  %>
+		    <%= f.button :submit, 'Submit Request' , :class => "btn btn-primary pull-right col-lg-offset-10"  %>
 		  </div>
 		</div>
 	<% end %>
 			
   </div>
-  <div class="col-xs-6 col-md-4"></div>
+  <div class="col-xs-3"></div>
 </div>
 
 
