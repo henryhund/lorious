@@ -40,7 +40,7 @@ class AppointmentsController < ApplicationController
       @appointment.check_valid = true
       
       if @appointment.save
-        #UserMailer.delay.new_appointment_request(@appointment, current_user, @mail_to)
+        UserMailer.delay.new_appointment_request(@appointment, current_user, @mail_to)
         if params[:appointment][:what_message].present?
           #Create a new appoinment conversation
           if current_user.expert?
