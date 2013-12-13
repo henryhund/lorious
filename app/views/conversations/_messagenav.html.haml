@@ -1,6 +1,7 @@
 %ul.nav.nav-pills.nav-stacked
-  %li{:class => 'active' if @box == 'inbox'}= link_to "Inbox", conversations_path(:box => "inbox")
+  %li{:class => "#{@box == 'inbox' ? 'active' : 'none'}"}= link_to "Inbox", conversations_path(:box => "inbox")
   %li.divider
-  %li{:class => 'active' if @box == 'sent'}= link_to "Sent", conversations_path(:box => "sent")
+  %li{:class => "#{@box == 'sent' ? 'active' : 'none'}"}= link_to "Sent", conversations_path(:box => "sent")
   %li.divider
-  %li{:class => 'active' if @box == 'trash'}= link_to "Trash", conversations_path(:box => "trash")
+  %li{:class => "#{@box == 'trash' ? 'active' : 'none'}"}= link_to "Trash", conversations_path(:box => "trash")
+
