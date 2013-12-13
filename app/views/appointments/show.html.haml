@@ -1,0 +1,147 @@
+- meta :title => "Lorious | View Appointment"
+.container
+  .row{:style => "margin-top: 20px; margin-bottom: 30px;"}
+    %h1.text-center
+      = @appointment.subject
+      , #{number_to_currency(@appointment.total_credit_cost)}/#{@appointment.duration_in_words}
+    .col-xs-6
+      .row
+        %h3 Message History
+        .well{:style => "height: 250px; overflow-y: scroll;"}
+          - if Conversation.where(id: @appointment.message_id).size > 0
+            - Conversation.find(@appointment.message_id).messages.order(:created_at => :desc).each do |message|
+              .panel.panel-default
+                .panel-body
+                  %h4
+                    %img.img-rounded{:src => message.sender.image_url, :width => "25px"}/
+                    = message.created_at.to_s(:short)
+                    (#{time_ago_in_words(message.created_at)} ago)
+                    - if message.sender == current_user
+                      You said
+                    - else
+                      = message.sender.name
+                  = message.body
+          - else
+            .panel.panel-default
+              .panel-body
+                %h4 No Messages
+      .row
+        %h3{:style => "margin-bottom: 3px;"} Reply Now
+        = render 'message'
+    .col-xs-1
+    .col-xs-5
+      %h3{:style => "margin-bottom: 15px;"} Request Info
+      .row
+        %h5 Who
+        .col-xs-4.strong
+          Host:
+        .col-xs-8
+          %img.img-rounded{:src => @appointment.expert.image_url, :style => "margin-right: 10px;", :width => "25px"}/
+          = @appointment.expert.name
+      .row
+        .col-xs-4.strong
+          Attendee:
+        .col-xs-8
+          %img.img-rounded{:src => @appointment.user.image_url, :style => "margin-right: 10px;", :width => "25px"}/
+          = @appointment.user.name
+      .row.mg-20
+        %h5 When
+        .col-xs-4
+          Time
+        .col-xs-8
+          = @appointment.time.in_time_zone(@appointment.time_zone).to_formatted_s(:long)
+      .row.mg-20
+        .col-xs-4
+          Time Zone
+        .col-xs-8
+          = @appointment.time_zone
+      .row.mg-20
+        %h5 What
+        .col-xs-4
+          Subject
+        .col-xs-8
+          = @appointment.subject
+      .row.mg-20
+        .col-xs-4
+          Description
+        .col-xs-8
+          = @appointment.description
+      .row.mg-20
+        .col-xs-4
+          Tags
+        .col-xs-8
+          %ul.list-unstyled.tags
+            - @appointment.skill_list.each do |skill|
+              %a{:href => "/search?keyword=#{skill}"}
+              %li.highlighted.smallest
+                = skill
+      .row.mg-20
+        %h5 Length
+        .col-xs-12
+          = @appointment.duration_in_words
+      .row.mg-20
+        .col-xs-4
+          Hourly Rate
+        .col-xs-8
+          = number_to_currency(@appointment.hourly_rate)
+      .row.mg-20
+        %h5 Subtotal
+        .col-xs-12
+          %h3
+            %span.label.label-info{:style => "font-size: 13px;"}
+              = number_to_currency(@appointment.total_credit_cost)
+      .row.mg-20
+        %h5 Appointment Confirmation
+        .row{:style => "margin-left: 20px;"}
+          %div{:style => "min-width: 400px;"}
+            %strong.strong-padding-10 Attendee:
+            %img.img-rounded{:src => @appointment.user.image_url, :style => "margin-right: 10px;", :width => "25px"}/
+            = @appointment.user.name
+            %strong.strong-padding-10 Confirmed:
+            = boolean_mapper(@appointment.user_confirmed)
+        .row{:style => "margin-left: 20px;"}
+          %div{:style => "min-width: 400px;"}
+            %strong.strong-padding-50 Host:
+            %img.img-rounded{:src => @appointment.expert.image_url, :style => "margin-right: 10px;", :width => "25px"}/
+            = @appointment.expert.name
+            %strong.strong-padding-10 Confirmed:
+            = boolean_mapper(@appointment.expert_confirmed)
+      .row.mg-20
+        - unless (@appointment.appt_state == "confirmed" || @appointment.appt_state == "completed")
+          = link_to "Edit", edit_expert_appointment_url(@appointment.expert.id, @appointment.id), class: "btn btn-primary"
+          - if (current_user == @appointment.expert && !@appointment.expert_confirmed) || (current_user == @appointment.user && !@appointment.user_confirmed)
+            = link_to "Confirm", confirm_expert_appointment_path(@appointment.expert.id, @appointment.id), method: :post, class: "btn btn-success"
+        - unless (@appointment.appt_state == "cancelled" || @appointment.appt_state == "completed" )
+          = link_to "Cancel", cancel_expert_appointment_path(@appointment.expert.id, @appointment.id), method: :post, class: "btn btn-warning", :confirm => "Are you sure you want to CANCEL this appointment ?"
+        - if @appointment.appt_state == "confirmed"
+          - if Time.now > (@appointment.time - (Setting.find_by(name: "google_hangout_show_hours_before") rescue "1").value.to_i.hour)
+            - if current_user == @appointment.expert
+              - if @appointment.is_hangout_active? && (Time.now - @appointment.hangout_start_time < 3600)
+                %a#hangout_link.btn.btn-success{:href => @appointment.hangout_url, :target => "_blank"} Join Hangout
+              - else
+                %a.btn.btn-danger{:href => "https://plus.google.com/hangouts/_?gid=444606661336&gd=#{@appointment.id}", :target => "_blank"} Start a Hangout
+            - else
+              - if @appointment.is_hangout_active?
+                %a#hangout_link.btn.btn-success{:href => @appointment.hangout_url, :target => "_blank"} Join Hangout
+              - else
+                %button.btn.btn-warning
+                  No active Hangouts
+          - else
+            - if Time.now > (@appointment.time + 24.hours)
+              %button.btn.btn-warning
+                Appointment Completed
+:javascript
+  var HangoutPoller;
+  
+  	HangoutPoller = {
+  	  poll: function() {
+  	    return setTimeout(this.request, 5000);
+  	  },
+  	  request: function() {
+  	    return $.get("#{expert_appointment_url(@appointment.expert.id, @appointment.id)}");
+  	  }
+  	};
+  
+  	jQuery(function() {
+      HangoutPoller.poll();
+  	});

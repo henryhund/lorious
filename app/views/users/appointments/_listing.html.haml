@@ -1,0 +1,27 @@
+%table.table
+  %thead
+    %tr
+      %th{:style => "min-width: 115px;"} Other Party
+      %th Topic
+      %th Time
+      %th Status
+      %th Details
+      %th Cancel
+  %tbody
+    - @appointments.each do |appointment|
+      %tr
+        %td= appointment.appointment_with_for_user(current_user).name rescue "Unknown"
+        %td
+          = link_to appointment.subject, expert_appointment_url(appointment.expert.id, appointment.id), target: "_blank"
+        %td= appointment.time.in_time_zone(appointment.time_zone).strftime "%-d %b %Y, %H:%M %Z"
+        %td= appointment.appt_state
+        %td
+          - if appointment.user == current_user
+            - if appointment.appt_state == "completed" && appointment.review.nil?
+              = link_to "Review", new_expert_review_url(appointment.expert.id, :appointment => appointment.id)
+            - else
+              - if appointment.review.present?
+                = link_to "Edit Review", edit_expert_review_url(appointment.expert.id, :id => appointment.review.id)
+        %td
+          - unless appointment.appt_state == "cancelled" || appointment.appt_state == "completed"
+            = link_to "Cancel", cancel_expert_appointment_path(appointment.expert.id, appointment.id), method: :post, :confirm => "Are you sure you want to CANCEL this appointment ?"

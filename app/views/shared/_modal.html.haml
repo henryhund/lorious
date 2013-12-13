@@ -1,0 +1,11 @@
+#login_modal.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} &times;
+        %h4.modal-title Login
+      .modal-body
+        %a.google_oauth2_login{:href => "/users/auth/google_oauth2"}
+          Sign in with google
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close

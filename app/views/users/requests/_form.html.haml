@@ -1,0 +1,17 @@
+%table.table
+  %thead
+    %tr
+      %th Request Headline
+      %th Appointment Length
+      %th Date
+      %th Details
+  %tbody
+    - @requests.each do |request|
+      %tr
+        %td= request.problem_headline
+        %td= request.appt_length_in_words
+        %td= request.created_at.to_formatted_s(:long)
+        %td
+          = link_to "Show", request_path(request), target: "_blank"
+- if @requests.empty?
+  %div No Requests.

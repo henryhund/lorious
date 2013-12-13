@@ -1,0 +1,50 @@
+.row.container.wrapper{:style => "margin-bottom: 150px;"}
+  .col-xs-3
+  .col-xs-9
+    %h1.text-center Braintree Merchant Creation Form
+    = simple_form_for(@merchant, url: new_merchant_path, method: :post, validate: true, html: {:autocomplete => "off", :class => 'form-horizontal'}) do |f|
+      = f.error_notification
+      %fieldset
+        %legend
+          Address
+        = f.input :street_address, label: "Street"
+        = f.input :postal_code, label: "ZIP"
+        = f.input :locality, label: "City"
+        = f.input :region, label: "State"
+      %fieldset
+        %legend
+          Direct Deposit Details
+        = f.input :date_of_birth, label: "Date of birth"
+        = f.input :ssn_last4 , label: "SSN (last 4)" , :input_html => { 'data-encrypted-name' => :ssn_last4}
+        = f.input :routing_number, label: "Routing number" , :input_html => { 'data-encrypted-name' => :routing_number  }
+        = f.input :account_number, label: "A/c number" , :input_html => { 'data-encrypted-name' => :account_number }
+      = f.input :tos_accepted, label: "Accept terms of service", as: :boolean
+      .form-actions{:style => "margin-top: 70px;"}
+        = f.button :submit, 'Submit' , :class => "btn btn-primary text-right col-lg-offset-10"
+  .col-xs-6
+%script{:src => "https://js.braintreegateway.com/v1/braintree.js"}
+:javascript
+  var braintree = Braintree.create("MIIBCgKCAQEA349y3YOFiizxUeSuSw1DESQ1bpIkeLOAV2H7tMQdcGCAQ+wmBquaCLsrxD+Up4jeeE9DF87DpR1qAwGeKie9WFzQjdjgB847M6Ycc+wAp+ASJLPqPuMfNXG6xVjrCLmnQq7nvR/GmSv7yZv7or+Lo1xsfeynV/IvEu9mnpnaprlcdaVMjRhr3X78aRxvepZztQwpkspMZnVPJLdsqfXmpyGD5F850A6VxGclfR0t0Q/ZGG18kjLE5nu+6LldkTyXKKkeSP/2N357jwcbnD67FOt4sZUvJlY3Gj2jWgoKz7liABgojZ27zx8FQN68vfcv+yS6a5xV37Ib7uVftfULBQIDAQAB");
+  braintree.onSubmitEncryptForm('new_merchant'); 
+  
+  $(function() {
+  	var date = new Date();
+  	date.setDate(date.getDate())
+
+  	$('#merchant_date_of_birth').datetimepicker({
+  		format : "mm/dd/yyyy",
+  		maxView : 4,
+  		minView : 2,
+  		startView : 4,
+  		minuteStep : 15,
+  		viewSelect : 2,
+  		weekStart : 1,
+  		todayBtn : 0,
+  		autoclose : 1,
+  		todayHighlight : 1,
+  		forceParse : 0,
+  		showMeridian : 1,
+  		pickerPosition : 'bottom-left',
+  		endDate : date
+  	});
+  });

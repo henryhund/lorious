@@ -1,0 +1,45 @@
+= form_for @interest, url: "/users/interests", role: "form", validate: true do |f|
+  .form-group.row
+    = f.label :title, class: "col-xs-2 control-label"
+    .col-xs-10
+      = f.text_field :title, class: "form-control", placeholder: "Title"
+  .form-group.row
+    = f.label :description, class: "col-xs-2 control-label"
+    .col-xs-10
+      = f.text_area :description, class: "form-control", placeholder: "Description"
+  .form-group.row
+    .col-lg-offset-2.col-lg-10
+      = f.submit "Save", class: "btn btn-default"
+- if(@existing_interests.length > 1)
+  %table.table.table-condensed
+    %thead
+      %tr
+        %th Title
+        %th Description
+        %th
+        %th
+    %tbody
+      - @existing_interests.where("ID IS NOT NULL").each do |interest|
+        %tr
+          %td= interest.title
+          %td= interest.description
+          %td
+            %a.btn-primary.btn-sm{"data-toggle" => "modal", :href => "#expertModal#{interest.id}"} Edit
+          %td= link_to("Delete", users_interest_path(id: interest), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn-primary btn-sm')
+- else
+  %h3 No Interests Added.
+- @existing_interests.each do |interests|
+  .modal.fade.modalmessage{"aria-hidden" => "true", :id => "expertModal#{interests.id}", "on-show" => "", :role => "dialog", :tabindex => "-1"}
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %h4.modal-title Interest Details
+        .modal-body{:style => "margin-bottom: 150px;"}
+          = simple_form_for(interests, url: users_interest_path(interests), method: :put, remote: false, multipart: false, validate: false) do |f|
+            #modal_notice.alert.alert-danger.fade{:style => "margin-bottom: 5px;"}
+            = f.input :title
+            = f.input :description, as: :text, :input_html => { :cols => 50, :rows => 3 }
+            = f.button :submit, "Update", class: "btn btn-default pull-right", style: "margin-top: 10px;"
+        .modal-footer
+          %p
+            Press ESC to Exit

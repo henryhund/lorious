@@ -1,0 +1,29 @@
+.row
+  %h1 Account
+  %p
+    - if current_user.expert?
+      - if current_user.braintree_merchant_id.present?
+        %div
+          Merchant account id: #{current_user.braintree_merchant_id}
+        %div
+          Account status: #{current_user.braintree_merchant_status}
+        - if current_user.braintree_merchant_status_message.present?
+          %div
+            Message: #{current_user.braintree_merchant_status_message}
+      - else
+        %div
+          No merchant account in system. #{link_to "Click here to add one", merchant_url, :class => "btn btn-default"}
+      %br/
+      - if current_user.braintree_token.present?
+        Credit Card Present with last 4 digits - #{current_user.braintree_last4}
+        \#{link_to "Change card details", credit_card_url, :class => "btn btn-default"}
+      - else
+        You do not have a credit card linked to your account.
+        \#{link_to "Click here to add one", credit_card_url, :class => "btn btn-default"}
+    - else
+      - if current_user.braintree_token.present?
+        Credit Card Present with last 4 digits - #{current_user.braintree_last4}
+        \#{link_to "Change card details", credit_card_url, :class => "btn btn-default"}
+      - else
+        You do not have a credit card linked to your account.
+        \#{link_to "Click here to add one", credit_card_url, :class => "btn btn-default"}

@@ -1,0 +1,15 @@
+%p
+  Hi #{@to.name},
+%p
+  We just wanted to remind you that you have an upcoming #{link_to "Appointment", expert_appointment_url(@appointment.expert.id, @appointment.id)} with #{@appointment_with.name} at #{@appointment.time.to_formatted_s(:long)}.
+%p
+  At this point #{@appointment_with.name} has specially reserved this time just for you, so you cannot update or change the appointment.
+%p
+  We look forward to hearing about how your appointment went! If you ever have any questions or thoughts, don't hesitate to contact me at support@lorious.com.
+%p
+  Sincerely,
+  %br/
+  Henry
+  %br/
+  co-founder of Lorious
+  %br/

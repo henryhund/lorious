@@ -1,0 +1,26 @@
+- meta :title => "Lorious | View Request"
+.container.wrapper{:style => "margin-top: 100px;"}
+  .row
+    .col-xs-5
+    .col-xs-7
+      .row
+        .col-xs-4 Company Name
+        .col-xs-8= @request.company_name
+      .row.mg-20
+        .col-xs-4 Description
+        .col-xs-8= @request.company_url
+      .row.mg-20
+        .col-xs-4 Time
+        .col-xs-8= @request.appt_length_in_words
+      .row.mg-20
+        .col-xs-4 Duration
+        .col-xs-8= @request.company_description
+      .row.mg-20
+        .col-xs-4 Expert Hourly credit cost
+        .col-xs-8= @request.problem_description
+      .row.mg-20
+        .col-xs-4 Expert Hourly credit cost
+        .col-xs-8= @request.problem_headline
+  .row
+    .col-md-7.col-md-offset-5
+      = link_to "Edit", edit_request_url(@request), :class => "btn btn-default pull-right"

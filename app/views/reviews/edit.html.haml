@@ -1,0 +1,28 @@
+.container
+  %h1.text-center Edit Review
+  .row{:style => "margin-bottom: 50px;"}
+    .col-xs-6.col-md-2
+    .col-xs-6.col-md-6
+      = simple_form_for(@review, url: update_review_path(id: @review.id), method: :put, remote: false, multipart: false, validate: true) do |f|
+        #modal_notice.alert.alert-danger.fade{:style => "margin-bottom: 5px;"}
+        = f.input :content, :input_html => { :cols => 50, :rows => 3 }
+        .form-group
+          %label.string.optional.col-md-5.control-label{:for => "request_company_name"} Rating
+          %span#s1{:style => "margin-top: 7px; margin-left: 12px;"}
+        .form-group.text.required.review_content
+          %label.text.required.col-md-5.control-label{:for => "review_content"}
+            %abbr{:title => "required"} *
+            Skills
+          .col-md-7
+            = f.select :tags, options_for_select(@available_skills, (@review.tag_list.split(",").first rescue [""]) ), {} ,  multiple: "multiple", class: "chosen", "data-placeholder" => "Select your skills"
+        = f.button :submit, "Submit review", class: "btn btn-default pull-right"
+    .col-xs-6.col-md-4
+:javascript
+  $(document).ready(function() {
+  	$('#s1').raty({
+  		scoreName : 'review[rating]',
+  		scoreId : 'review_rating',
+  		path : '/',
+  		score: #{@rating_score.nil? ? 0 : @rating_score}
+  	});
+  });

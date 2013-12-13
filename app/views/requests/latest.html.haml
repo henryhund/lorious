@@ -1,0 +1,75 @@
+- meta :title => "Lorious | View Latest Requests"
+.container-search.wrapper{"ng-app" => "requests"}
+  .row{"ng-controller" => "RequestCtrl"}
+    .col-xs-4
+      %br/
+      %h3 Problem Type:
+      .input-group.merged
+        %span.input-group-addon
+          %i.icon-search
+        %select.form-control{:chosen => "", "data-placeholder" => "Problem Type", :multiple => "", "ng-model" => "selectedProblems", "ng-options" => "f for f in problems", "no-results-text" => "'Could not find Type'", :style => "width: 100%;"}
+      %hr/
+      %h3 TAG:
+      .input-group.merged
+        %span.input-group-addon
+          %i.icon-search
+        %select.form-control{:chosen => "", "data-placeholder" => "TAG", :multiple => "", "ng-model" => "selectedTags", "ng-options" => "f for f in tags", "no-results-text" => "'Could not find TAG'", :style => "width: 100%;"}
+      %hr/
+      %h3 Appt. Length (hrs)
+      %div{:max => "5", :min => "0", "ng-init" => "slider=[0,5]", "ng-model" => "slider", :step => "0.5", :style => "margin-left:5%; width: 50%;", "ui-slider" => "{range: true}", "use-decimals" => ""}
+      %h4.text-left Between {{slider[0] }} & {{slider[1] }} Hrs.
+      %hr/
+    .col-xs-8
+      .pull-center{:style => "margin-top: 15px;"}
+        %a.btn.btn-primary.pull-center{:href => "/requests/new"} Create New Request
+      .pull-right{:style => "margin-bottom: 10px;"}
+        Sort by:
+        %select{"ng-model" => "orderProp"}
+          %option{:value => ""} None
+          %option{:value => "created_at"} Date
+      %div{:style => "height: 600px; width:100%; overflow-y: scroll;", "when-scrolled" => "load_data()"}
+        .cropcontainer{"ng-show" => "loading", :style => "background-image:url('486.GIF'); "} &nbsp;
+        .well{"ng:repeat" => "request in requests | duration_filter:slider | orderBy:orderProp:reverse"}
+          .row
+            .col-xs-4
+              %br/
+              %img.img-circle.search-avatar-small{:alt => "...", "ng-src" => "{{request.requester_image.image.url}}"}/
+              %h4.text-center {{request.requester_name}}
+              %h4.text-center
+                %a{"ng-href" => "http://{{request.company_url}}", :target => "_blank"} {{request.company_url | characters:20 :true}}
+            .col-xs-8
+              %div{:style => " float: right;top: -20px; right: -4px; position: absolute;"}
+                %ul.nav.nav-pills.nav-stacked
+                  %li.active
+                    %a{:href => "#"}
+                      %span.badge.pull-right {{request.appt_length_in_words}}
+                      %small Time Requested:
+              %h2{:style => "margin-top: 22px;"} {{request.problem_headline }}
+              %ul.list-unstyled.tags
+              %a{"ng-href" => "/search?keyword={{skill}}", "ng-repeat" => "skill in request.skill_list"}
+                %li.highlighted.small
+                  {{skill}}
+              %br/
+              %div{:style => "margin-top:10px;", :tooltip => "{{expert.bio}}"}
+                {{request.problem_description | characters:200 :true}}
+              %br/
+              %div{"ng-show" => "request.requester_id != #{current_user.id}"}
+                - if current_user.expert?
+                  %a.btn.btn-sm.btn-primary.message{"ng-href" => "/experts/#{current_user.id}/appointments/new?request_id={{request.id}}&user_id={{request.requester_id}}&duration={{request.appt_length}}", :style => "margin-top: 10px;"}
+                    %i.icon-calendar
+                    Request new appointment
+                %button.btn.btn-sm.btn-primary.message.pull-left{"data-toggle" => "modal", :href => "#messageModal{{request.id}}", :style => "margin-top: 10px; margin-right: 25px;"}
+                  %i.icon-envelope
+                  Respond to request
+          / Modal Start
+          .modal.fade.modalmessage{"aria-hidden" => "true", :id => "messageModal{{request.id}}", "on-show" => "", :role => "dialog", :tabindex => "-1"}
+            .modal-dialog
+              .modal-content
+                .modal-header
+                  %h4.modal-title Message {{request.requester_name}}
+                .modal-body
+                  = render 'message'
+                .modal-footer
+                  %p
+                    Press ESC to Exit
+          / Modal End
