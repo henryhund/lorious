@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   acts_as_taggable
   acts_as_taggable_on :skills
   
-  attr_accessor :skills
+  attr_accessor :skills, :hourly_cost
   
   devise :database_authenticatable, :registerable, :lockable,
          :recoverable, :rememberable, :trackable,

@@ -78,6 +78,14 @@
       <%= f.text_area :job, class: "form-control", placeholder: "Job Description", validate: true %>
     </div>
   </div>
+  <% if current_user.expert? %>
+    <div class="form-group row">
+      <%= f.label "Hourly Cost", class: "col-xs-2 control-label" %>
+      <div class="col-xs-10">
+        <%= f.text_field :hourly_cost, class: "form-control", value: (@user.availability.hourly_cost rescue 0), placeholder: "Hourly Cost", validate: true %>
+      </div>
+    </div>
+  <% end %>
 
   <div class="form-group row">
     <%= f.label :image, class: "col-xs-2 control-label" %>

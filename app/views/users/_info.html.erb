@@ -44,6 +44,12 @@
       <td><%= "job".humanize %></td>
       <td><%= placeholder_for_blank @user.job %></td>
     </tr>
+    <% if current_user.expert? && current_user.availability.present? %>
+      <tr>
+        <td><%= "Hourly Cost".humanize %></td>
+        <td><%= placeholder_for_blank @user.availability.hourly_cost rescue 0 %></td>
+      </tr>
+    <% end %>
 
   </tbody>
 </table>

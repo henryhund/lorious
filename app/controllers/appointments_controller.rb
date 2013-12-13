@@ -8,7 +8,10 @@ class AppointmentsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:new_hangout]
   
   def new
-    
+    if (@expert.availability.hourly_cost rescue 0) <= 0 
+      flash[:alert] = I18n.t("user.expert.hourly_cost.failure", expert: @expert.name)
+      return redirect_to profile_url(@expert.username) 
+    end
     if current_user.expert?
       unless (params[:expert_id].to_i == current_user.id) 
         unless current_user.braintree_id.present? && current_user.braintree_token.present?
@@ -16,6 +19,7 @@ class AppointmentsController < ApplicationController
           return redirect_to users_url(anchor: "credit")
         end   
       else
+        #Check that hourly rate is present
         unless current_user.braintree_merchant_id.present? && ( current_user.braintree_merchant_status.present? && current_user.braintree_merchant_status == "active")
           flash[:alert] = I18n.t("user.no_merchant_account.failure")
           return redirect_to users_url(anchor: "credit") 
@@ -27,7 +31,6 @@ class AppointmentsController < ApplicationController
         return redirect_to users_url(anchor: "credit")  
       end
     end
-    
   end
 
   def create

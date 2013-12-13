@@ -39,6 +39,8 @@ en:
     expert:
       application:
         cancel:  "Succesfully cancelled Expert application."
+      hourly_cost: 
+        failure: "%{expert}'s hourly rate is not set."  
     profile:
       failure: "Please complete your profile information before using the application."
     update:
