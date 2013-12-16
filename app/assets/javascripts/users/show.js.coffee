@@ -39,7 +39,7 @@ $ ->
     element = $("#collapseTwo")
     element.collapse('show')
     $(".profile_tabs").parent().removeClass "active"
-    first_tab_button = element.find(".profile_tabs").first()
+    first_tab_button = element.find(".profile_tabs").eq(1)
     $(first_tab_button).trigger('click')
   
   $("a[href*='#request']").on 'click', (e)->
@@ -70,7 +70,7 @@ $ ->
       element = $("#collapseTwo")
       element.collapse('show')
       $(".profile_tabs").parent().removeClass "active"
-      first_tab_button = element.find(".profile_tabs").first()
+      first_tab_button = element.find(".profile_tabs").eq(1)
       $(first_tab_button).trigger('click')
     when "#request"  
       $(".xpanel.in").collapse('hide')

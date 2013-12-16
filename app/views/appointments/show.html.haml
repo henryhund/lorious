@@ -107,7 +107,7 @@
             %strong.strong-padding-10 Confirmed:
             = boolean_mapper(@appointment.expert_confirmed)
       .row.mg-20
-        - unless (@appointment.appt_state == "confirmed" || @appointment.appt_state == "completed")
+        - unless (@appointment.appt_state == "confirmed" || @appointment.appt_state == "completed" || @appointment.appt_state == "cancelled")
           = link_to "Edit", edit_expert_appointment_url(@appointment.expert.id, @appointment.id), class: "btn btn-primary"
           - if (current_user == @appointment.expert && !@appointment.expert_confirmed) || (current_user == @appointment.user && !@appointment.user_confirmed)
             = link_to "Confirm", confirm_expert_appointment_path(@appointment.expert.id, @appointment.id), method: :post, class: "btn btn-success"
@@ -119,7 +119,7 @@
               - if @appointment.is_hangout_active? && (Time.now - @appointment.hangout_start_time < 3600)
                 %a#hangout_link.btn.btn-success{:href => @appointment.hangout_url, :target => "_blank"} Join Hangout
               - else
-                %a.btn.btn-danger{:href => "https://plus.google.com/hangouts/_?gid=444606661336&gd=#{@appointment.id}", :target => "_blank"} Start a Hangout
+                %a#start_hangout_link.btn.btn-danger{:href => "https://plus.google.com/hangouts/_?gid=444606661336&gd=#{@appointment.id}", :target => "_blank"} Start a Hangout
             - else
               - if @appointment.is_hangout_active?
                 %a#hangout_link.btn.btn-success{:href => @appointment.hangout_url, :target => "_blank"} Join Hangout
@@ -130,6 +130,8 @@
             - if Time.now > (@appointment.time + 24.hours)
               %button.btn.btn-warning
                 Appointment Completed
+        - if @appointment.appt_state == "cancelled"
+          %h3 This Appointment is Cancelled
 :javascript
   var HangoutPoller;
   

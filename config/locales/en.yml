@@ -82,15 +82,7 @@ en:
     trash:
       success: "Message Trashed"  
     untrash:
-      success: "Message Untrashed"  
-  review:
-    update:
-      success: "successfully updated appointment review"
-      failure: "there was an error updating the appointment review" 
-    created:
-      failure: "Review already created. To edit go to Appointment History."  
-    cancel:
-      success: "Cancellation request submitted."  
+      success: "Message Untrashed"    
   credits:
     purchase:
       success: "successfully purchased %{amount} credits!"
@@ -198,6 +190,13 @@ en:
       success: "Your review has been succesfully added."
       failure: "Error saving Review"
       error:   "You do not have any appointments to review."
+    update:
+      success: "successfully updated appointment review"
+      failure: "there was an error updating the appointment review" 
+    created:
+      failure: "Review already created. To edit go to Appointment History."  
+    cancel:
+      success: "Cancellation request submitted."
   request:
     withdraw:
       success: "Request was successfully withdrawn."
