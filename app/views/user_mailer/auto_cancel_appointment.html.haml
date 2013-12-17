@@ -1,0 +1,13 @@
+%p
+  Hi #{@appointment.user.name}
+%p
+  Your appointment with #{@appointment.expert.name} at #{@appointment.time.to_formatted_s(:long)} has been automatically cancelled due to non-confirmation 1 hour prior to the scheduled time!
+%p
+  Thank you for using Lorious! If you have any questions or comments, please feel free to contact us at support@lorious.com
+%p
+  Sincerely,
+  %br/
+  Henry
+  %br/
+  co-founder of Lorious
+  %br/

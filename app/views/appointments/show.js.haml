@@ -9,4 +9,7 @@ start_hangout_link.removeClass('btn-danger');
 start_hangout_link.addClass('btn-success');
 start_hangout_link.text('Join Hangout');
 }
+- if @appointment.is_hangout_active? && current_user == @appointment.user
+  $('#hangout_panel').append( "%a#hangout_link.btn.btn-success{:href => #{@appointment.hangout_url}, :target => "_blank"} Join Hangout");
+
 HangoutPoller.poll();

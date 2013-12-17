@@ -42,6 +42,12 @@ class UserMailer < ActionMailer::Base
          subject: appointment.user.name + " has requested cancellation")
   end
   
+  def auto_cancel_appointment appointment, to
+    @appointment, @to, @appointment_with = appointment, to, appointment.appointment_with_for_user(to)
+    @heading = "Appointment Cancelled."
+    mail(to: @to.email, subject: 'Appointment Cancelled')
+  end
+
   def request_created_suggest_experts requests, to
      @requests, @to = requests, to
      mail(to: @to.email, subject: 'Recommended Requests')

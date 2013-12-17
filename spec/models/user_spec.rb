@@ -7,7 +7,8 @@ describe User do
     it { should have_many :appointments }
     it { should have_many :social_media }
     it { should have_many :interests }
-    it { should have_many :credit_transactions }
+    it { should have_many(:transactions_made).class_name('CreditTransaction') }
+    it { should have_many(:transactions_received).class_name('CreditTransaction') }
   end
 
   context "mailboxer" do
@@ -50,16 +51,6 @@ describe User do
           user.validation_required?("step2").should be_false
         end
       end
-    end
-  end
-
-  context "total credits" do
-    let(:user) { FactoryGirl.create :user }
-    let!(:credit_transaction1) { FactoryGirl.create :credit_transaction, amount: 40, added: true, user_id: user.id }
-    let!(:credit_transaction2) { FactoryGirl.create :credit_transaction, amount: 10, added: true, user_id: user.id }
-    let!(:credit_transaction3) { FactoryGirl.create :credit_transaction, amount: 25, added: false, user_id: user.id }
-    it "should return 25" do
-      user.credits.should eq(25)
     end
   end
 

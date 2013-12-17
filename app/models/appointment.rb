@@ -59,7 +59,7 @@ class Appointment < ActiveRecord::Base
   
   def time_cannot_be_in_the_past
     errors.add(:time, "of Appointment can't be in the past") if
-      !time.blank? and time < Date.today
+      !time.blank? and time < Time.now
   end
   
   def time_local

@@ -1,0 +1,16 @@
+MANDRILL_USERNAME: app18438172@heroku.com
+MANDRILL_API_KEY: xxx
+FACEBOOK_APP_ID: "1234"
+FACEBOOK_APP_SECRET: "abcd"
+FACEBOOK_ACCESS_TOKEN: "1234xyz"
+AWS_ACCESS_KEY_ID: "XXX"
+AWS_SECRET_ACCESS_KEY: "yyy"
+AWS_ASSET_URL: "https://s3.amazonaws.com/socialwise-staging"
+AWS_BUCKET: "socialwise-staging"
+development:
+  SECRET_KEY_BASE: abcdefghijklmnopqrstuvwxyz
+test:
+  SECRET_KEY_BASE: abcdefghijklmnopqrstuvwxyz
+production:
+  SECRET_KEY_BASE: xxx
+  HTTP_PASSWORD: s0cialw1se

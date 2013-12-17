@@ -1,6 +1,6 @@
 class Request < ActiveRecord::Base
   
-  default_scope order('created_at DESC')
+  default_scope { order('created_at DESC') }
   
   def self.APPT_LENGTH 
     (30..360).step(30).map { |d| [ d < 60 ? "#{d.to_s} minutes" : "#{(d/60.round(1)).to_s} #{"hour".pluralize(d/60.round(1))}" , d.to_s ] }

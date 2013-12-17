@@ -155,6 +155,14 @@ ActiveRecord::Schema.define(version: 20131216071856) do
 
   add_index "rails_admin_histories", ["item", "table", "month", "year"], name: "index_rails_admin_histories", using: :btree
 
+  create_table "ratings", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "expert_id"
+    t.integer  "rate_value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "receipts", force: true do |t|
     t.integer  "receiver_id"
     t.string   "receiver_type"

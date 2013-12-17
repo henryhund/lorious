@@ -106,7 +106,7 @@
             = @appointment.expert.name
             %strong.strong-padding-10 Confirmed:
             = boolean_mapper(@appointment.expert_confirmed)
-      .row.mg-20
+      .row.mg-20#hangout_panel
         - unless (@appointment.appt_state == "confirmed" || @appointment.appt_state == "completed" || @appointment.appt_state == "cancelled")
           = link_to "Edit", edit_expert_appointment_url(@appointment.expert.id, @appointment.id), class: "btn btn-primary"
           - if (current_user == @appointment.expert && !@appointment.expert_confirmed) || (current_user == @appointment.user && !@appointment.user_confirmed)

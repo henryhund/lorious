@@ -15,19 +15,19 @@ class AppointmentsController < ApplicationController
     if current_user.expert?
       unless (params[:expert_id].to_i == current_user.id) 
         unless current_user.braintree_id.present? && current_user.braintree_token.present?
-          flash[:alert] = I18n.t("user.no_credit_card.failure")
+          flash[:alert] = I18n.t("user.payment.no_credit_card.failure")
           return redirect_to users_url(anchor: "credit")
         end   
       else
         #Check that hourly rate is present
         unless current_user.braintree_merchant_id.present? && ( current_user.braintree_merchant_status.present? && current_user.braintree_merchant_status == "active")
-          flash[:alert] = I18n.t("user.no_merchant_account.failure")
+          flash[:alert] = I18n.t("user.payment.no_merchant_account.failure")
           return redirect_to users_url(anchor: "credit") 
         end   
       end
     else
       unless current_user.braintree_id.present? && current_user.braintree_token.present?
-        flash[:alert] = I18n.t("user.no_credit_card.failure")
+        flash[:alert] = I18n.t("user.payment.no_credit_card.failure")
         return redirect_to users_url(anchor: "credit")  
       end
     end
@@ -61,6 +61,8 @@ class AppointmentsController < ApplicationController
         @appointment.skill_list.add params[:appointment][:skill_list] if params[:appointment][:skill_list]
         @appointment.save validate: false
 
+        #Create a auto cancellation job
+        @appointment.sidekiqjobs.create(sidekiq_id: ApptCancel.perform_at(@appointment.time - 1.hours, @appointment.id))
         redirect_to expert_appointment_url(id: @appointment.id), notice: I18n.t("appointment.create.success"), error: @appointment.errors
       else
         get_expert
@@ -141,6 +143,12 @@ class AppointmentsController < ApplicationController
       end
       raise @appointment.errors.full_messages.join.to_s if !@appointment.valid?
       
+      #clear auto cancel job and create a new one to update any change in appt time
+      @appointment.sidekiqjobs.each do |s|
+        Sidekiq::Status.cancel s.sidekiq_id  
+      end
+      @appointment.sidekiqjobs.create(sidekiq_id: ApptCancel.perform_at(@appointment.time - 1.hours, @appointment.id))
+
     rescue Exception => e
       redirect_to expert_appointment_url(@appointment.expert.id, @appointment.id), notice: I18n.t("appointment.update.failure"), alert: e.message
     else
@@ -192,14 +200,14 @@ class AppointmentsController < ApplicationController
       if current_user.braintree_merchant_id.present? && ( current_user.braintree_merchant_status.present? && current_user.braintree_merchant_status == "active")
         @appointment.expert_confirmed = true
       else
-        flash[:alert] = I18n.t("user.no_merchant_account.failure")
+        flash[:alert] = I18n.t("user.payment.no_merchant_account.failure")
         return redirect_to users_url(anchor: "credit") 
       end
     elsif current_user.id == @appointment.user.id
       if current_user.braintree_id.present? && current_user.braintree_token.present?
         @appointment.user_confirmed = true
       else
-        flash[:alert] = I18n.t("user.no_credit_card.failure")
+        flash[:alert] = I18n.t("user.payment.no_credit_card.failure")
         return redirect_to users_url(anchor: "credit")  
       end
     end
