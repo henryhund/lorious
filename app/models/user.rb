@@ -5,13 +5,11 @@ class User < ActiveRecord::Base
   acts_as_taggable
   acts_as_taggable_on :skills
   
-  attr_accessor :skills, :hourly_cost
+  attr_accessor :hourly_cost, :current_step
   
   devise :database_authenticatable, :registerable, :lockable,
          :recoverable, :rememberable, :trackable,
          :omniauthable, :omniauth_providers => [:google_oauth2, :facebook, :twitter, :github, :stackexchange, :linkedin]
-
-  attr_accessor :current_step, :skills
 
   acts_as_messageable
   mount_uploader :image, ImageUploader
@@ -189,12 +187,6 @@ class User < ActiveRecord::Base
   before_save do
     if expert_approved_changed? && is_expert_applied && expert_approved
       self.change_to_expert_and_return_user!
-    end
-  end
-  
-  after_save do
-    if self.delete_record?
-      self.destroy
     end
   end
 

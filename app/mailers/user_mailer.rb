@@ -24,7 +24,6 @@ class UserMailer < ActionMailer::Base
     @expert, @reason = expert, reason
     mail(to: @expert.email, subject: 'Merchant Account Declined')
   end
-<<<<<<< HEAD
 
   def test_mail
     @heading = " Appointment Completed. "
@@ -40,9 +39,6 @@ class UserMailer < ActionMailer::Base
          subject: " has applied to be an Expert!")
   end
 
-=======
-    
->>>>>>> db482fcada360bd9a9a7684a0aeadd52a9ae6ff3
   def expert_applied expert
     @support_mail = Setting.find_by(name: "support_email_id").value rescue "support@lorious.com"
     mail(to: @support_mail,
