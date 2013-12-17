@@ -5,7 +5,7 @@
 * Solr Sunspot added under development env in Gemfile, run bundle
 * Redis - Intall using brew utility
 ```bash
-  brew install redis
+brew install redis
 ```
 * V8 (this will probably be compiled automatically during `bundle install` if you are missing it)
 
@@ -48,9 +48,11 @@ rake db:seed
 ```
 
 9. Open the Rails console and create yourself a regular user and an admin user.
+
 ```bash
 rails c
 ```
+
 ```ruby
 User.create!(
   email: 'user@example.com', first_name: 'Mister', last_name: 'User', password: '12345678', admin: false)
