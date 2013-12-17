@@ -20,6 +20,8 @@ class RequestsController < ApplicationController
   def edit
     @header = "Edit Request"
     @request = Request.find(params[:id])
+    @available_problems = AvailableTag.problems.map { |e| [e.name.downcase, e.name.downcase] }
+    @available_skills = AvailableTag.skills.map { |e| [e.name.downcase, e.name.downcase] }
   end
   
   def withdraw_request
@@ -58,6 +60,12 @@ class RequestsController < ApplicationController
     
     respond_to do |format|
       if @request.update_attributes(params.require(:request).permit(:request_state, :problem_headline, :is_local, :is_online, :company_description, :problem_description, :local_zip, :appt_length, :other_problem_type, :requester_id, :company_name, :company_url, :skill_list, :problem_list))
+        @request.skill_list = []
+        @request.problem_list = []
+        @request.skill_list.add params[:request][:skill_list] if params[:request][:skill_list]
+        @request.problem_list.add params[:request][:problem_list] if params[:request][:problem_list]
+        @request.save validate: false
+        
         format.html { redirect_to @request, notice: I18n.t("request.update.success") }
         format.json { head :no_content }
       else

@@ -11,18 +11,25 @@ class Users::RegistrationsController < Devise::RegistrationsController
       @user.update_without_password(user_params)
       
       if @user.save! 
-        if params[:expert][:skills].present?
-          @user.skill_list = []
-          @user.skill_list.add params[:expert][:skills]
-          @user.save validate: false
+        if @user.expert?
+          if params[:expert][:skills].present?
+            @user.skill_list = []
+            @user.skill_list.add params[:expert][:skills]
+            @user.save validate: false
+          end
+          
+          if params[:expert][:subscriptions].present?
+            @user.subscription_list = []
+            @user.subscription_list.add params[:expert][:subscriptions]
+            @user.save validate: false
+          end
+          
+          if params[:expert][:hourly_cost].present? && @user.availability.present?
+            @availability = @user.availability
+            @availability.hourly_cost = params[:expert][:hourly_cost]
+            @availability.save
+          end
         end
-        
-        if params[:expert][:subscriptions].present?
-          @user.subscription_list = []
-          @user.subscription_list.add params[:expert][:subscriptions]
-          @user.save validate: false
-        end
-        
         true
       else
         false      

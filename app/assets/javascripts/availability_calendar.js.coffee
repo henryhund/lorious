@@ -6,6 +6,10 @@ $ ->
     _.each availability_list, (availability)->
       $('.availability_time_unit[data-start="' + availability.start_time + '"]').addClass("available").data("available", true)
 
+<<<<<<< HEAD
+=======
+  
+>>>>>>> db482fcada360bd9a9a7684a0aeadd52a9ae6ff3
   isMouseDown = false
 
   $("body").on "mousedown", "#edit_availability .availability_time_unit", ()->
@@ -18,6 +22,7 @@ $ ->
 
   $("body").on "mouseup", "#edit_availability .availability_time_unit", ()->
     isMouseDown = false
+<<<<<<< HEAD
 
   # $("body").on "click", "#edit_calendar .availability_time_unit", ()->
   #   element = $(this)
@@ -25,6 +30,8 @@ $ ->
   #     element.removeClass("available").removeData("available")
   #   else
   #     element.addClass("available").data("available", true)
+=======
+>>>>>>> db482fcada360bd9a9a7684a0aeadd52a9ae6ff3
 
   $("body").on "submit", ".edit_availability", ()->
     available_elements = $(".available")
@@ -33,6 +40,10 @@ $ ->
       end_time: $(element).data("end")
     $("#availability_timespans").val JSON.stringify(available_timespans)
 
+  #Clear the availability
+  $("body").on "click", "#clear_availability", (e)->
+    $(".available").removeClass("available")
+    
   $("#time_zone_selector select").change ->
     selected_option_text = $(this).find("option:selected").text()
     lorious.fn.reset_calendar_with_new_timezone(selected_option_text)

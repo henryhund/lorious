@@ -1,0 +1,16 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+  %body
+    - content_for :message do
+      %h1
+        You have a new reply: #{@message.subject.html_safe? ? @message.subject : strip_tags(@message.subject)}
+      %p
+        You have received a new reply:
+      %blockquote
+        %p
+          = raw @message.body
+      %p
+        Visit #{link_to "mailbox", conversations_url} and go to your inbox for more info.
+    = render template: "layouts/mail_layout"

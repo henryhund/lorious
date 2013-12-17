@@ -8,26 +8,29 @@ class AppointmentsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:new_hangout]
   
   def new
-    
+    if (@expert.availability.hourly_cost rescue 0) <= 0 
+      flash[:alert] = I18n.t("user.expert.hourly_cost.failure", expert: @expert.name)
+      return redirect_to profile_url(@expert.username) 
+    end
     if current_user.expert?
       unless (params[:expert_id].to_i == current_user.id) 
         unless current_user.braintree_id.present? && current_user.braintree_token.present?
-          flash[:alert] = "Cannot create appointment, need to have credit card on file"
+          flash[:alert] = I18n.t("user.no_credit_card.failure")
           return redirect_to users_url(anchor: "credit")
         end   
       else
+        #Check that hourly rate is present
         unless current_user.braintree_merchant_id.present? && ( current_user.braintree_merchant_status.present? && current_user.braintree_merchant_status == "active")
-          flash[:alert] = "Cannot create appointment, need to have and active merchant account on file"
+          flash[:alert] = I18n.t("user.no_merchant_account.failure")
           return redirect_to users_url(anchor: "credit") 
         end   
       end
     else
       unless current_user.braintree_id.present? && current_user.braintree_token.present?
-        flash[:alert] = "Cannot create appointment, need to have credit card on file"
+        flash[:alert] = I18n.t("user.no_credit_card.failure")
         return redirect_to users_url(anchor: "credit")  
       end
     end
-    
   end
 
   def create
@@ -48,9 +51,9 @@ class AppointmentsController < ApplicationController
           else
             @message_receiver = @appointment.user  
           end
-          
-          @receipt = current_user.send_message(@message_receiver, params[:appointment][:what_message], @appointment.subject, true, nil)
-          @appointment.message_id = @receipt.conversation.id
+          #Bypass default mailbpxer behavior and add conversation with email
+          @receipt = send_message_without_email(@message_receiver, params[:appointment][:what_message], @appointment.subject, true, nil)
+          @appointment.message_id = @receipt
           @appointment.save validate: false
           
         end
@@ -88,14 +91,20 @@ class AppointmentsController < ApplicationController
     else
       @message_to = @appointment.expert
     end
+
+    respond_to do |format|
+      format.js { render "show.js" }      
+      format.html { render "show" }
+    end
+
   end
 
   def edit
     @appointment = Appointment.find(params[:id])
     @edit = true
-    @hours_edit = Setting.find_by(name: "hours_edit_allowed").value
+    @hours_edit = Setting.find_by(name: "hours_edit_allowed").value rescue "8"
     if (@appointment.appt_state != "new") && (@appointment.time.in_time_zone(@appointment.time_zone) - @hours_edit.to_i.hours) < Time.now
-      flash[:alert] = "Cannot edit appointment " + @hours_edit + " hours before scheduled time."
+      flash[:alert] = I18n.t("appointment.edit.failure", hours: @hours_edit)
       return redirect_to users_url(anchor: "appointment")  
     end
     
@@ -143,10 +152,10 @@ class AppointmentsController < ApplicationController
   def cancel
     begin
       @appointment = Appointment.find params[:id]
-      @hours_cancellation = Setting.find_by(name: "hours_cancellation_allowed").value
+      @hours_cancellation = Setting.find_by(name: "hours_cancellation_allowed").value rescue "8"
       
       if (@appointment.appt_state != "new") && (@appointment.time.in_time_zone(@appointment.time_zone) - @hours_cancellation.to_i.hours) < Time.now
-        flash[:alert] = "Cannot cancel appointment " + @hours_cancellation + " hours before scheduled time."
+        flash[:alert] = I18n.t("appointment.cancel.failure", hours: @hours_cancellation)
         return redirect_to users_url(anchor: "appointment")  
       end
       
@@ -183,14 +192,14 @@ class AppointmentsController < ApplicationController
       if current_user.braintree_merchant_id.present? && ( current_user.braintree_merchant_status.present? && current_user.braintree_merchant_status == "active")
         @appointment.expert_confirmed = true
       else
-        flash[:alert] = "Cannot confirm appointment, need to have and active merchant account on file"
+        flash[:alert] = I18n.t("user.no_merchant_account.failure")
         return redirect_to users_url(anchor: "credit") 
       end
     elsif current_user.id == @appointment.user.id
       if current_user.braintree_id.present? && current_user.braintree_token.present?
         @appointment.user_confirmed = true
       else
-        flash[:alert] = "Cannot confirm appointment, need to have credit card on file"
+        flash[:alert] = I18n.t("user.no_credit_card.failure")
         return redirect_to users_url(anchor: "credit")  
       end
     end
@@ -200,6 +209,20 @@ class AppointmentsController < ApplicationController
       @appointment.appt_state = "confirmed"
       
       unless @appointment.credit_transaction.present?
+        debugger
+        # Calculate payment brackets
+        @transaction_amount = @appointment.total_credit_cost.to_f
+        @slot_1_limit= Setting.find_by(name: "slot_1_limit").value.to_f rescue 10.0
+        @slot_2_limit= Setting.find_by(name: "slot_2_limit").value.to_f rescue 20.0
+        @slot_3_limit= Setting.find_by(name: "slot_3_limit").value.to_f rescue 30.0
+        
+        if @transaction_amount > Setting.find_by(name: "minimum_transaction_amount").value.to_f && @transaction_amount <= @slot_1_limit
+          @pay_amount = ( (Setting.find_by(name: "slot_1_percent").value rescue 30.0).to_f * @transaction_amount / 100)
+        elsif @transaction_amount > @slot_1_limit && @transaction_amount <= @slot_2_limit
+          @pay_amount = ( (Setting.find_by(name: "slot_2_percent").value rescue 20.0).to_f * @transaction_amount / 100)
+        elsif @transaction_amount > @slot_3_limit
+          @pay_amount = ( (Setting.find_by(name: "slot_3_percent").value rescue 10.0).to_f * @transaction_amount / 100)
+        end
         
         @result = Braintree::Transaction.sale(
           :amount => @appointment.total_credit_cost,
@@ -210,7 +233,7 @@ class AppointmentsController < ApplicationController
             :submit_for_settlement => true,
             :hold_in_escrow => true
           },
-          :service_fee_amount => (Setting.find_by(name: "lorious_service_charge_percent").value.to_f * @appointment.total_credit_cost.to_f / 100).to_s
+          :service_fee_amount => @pay_amount.to_s
         )
         
         if @result.success?
@@ -235,9 +258,7 @@ class AppointmentsController < ApplicationController
             @error_string << (e.to_s + "\n")
           end
           #send @error_string via email to @appointment.user
-          debugger
-          
-          flash[:alert] = "Cannot confirm appointment, payment unsuccesful."
+          flash[:alert] = I18n.t("appointment.payment.failure") + "\n" + @error_string  
           return redirect_to users_url(anchor: "appointment")
         end
       end
@@ -301,6 +322,38 @@ class AppointmentsController < ApplicationController
   
   private
 
+  def send_message_without_email(recipients, msg_body, subject, sanitize_text=true, attachment=nil, message_timestamp = Time.now)
+    @convo = Conversation.new({:subject => subject})
+    @convo.created_at = message_timestamp
+    @convo.updated_at = message_timestamp
+    @convo.save
+    @message = Message.new({:body => msg_body, :subject => subject, :attachment => attachment})
+    @message.created_at = message_timestamp
+    @message.updated_at = message_timestamp
+    @message.conversation = @convo
+    @message.sender = current_user
+    @message.recipients = recipients.is_a?(Array) ? recipients : [recipients]
+    @message.recipients = @message.recipients.uniq
+    @message.save
+    @receipt = Receipt.new
+    @receipt.receiver = current_user
+    @receipt.receiver_type = "User"
+    @receipt.mailbox_type = "inbox"
+    @receipt.trashed = false
+    @receipt.deleted = false
+    @receipt.notification = @message
+    @receipt.save
+    @receipt = Receipt.new
+    @receipt.receiver = recipients
+    @receipt.receiver_type = "User"
+    @receipt.mailbox_type = "inbox"
+    @receipt.trashed = false
+    @receipt.deleted = false
+    @receipt.notification = @message
+    @receipt.save
+    @convo.id
+  end
+
   def get_expert
     @expert = Expert.find_by_id(params[:expert_id])
   end
@@ -320,6 +373,7 @@ class AppointmentsController < ApplicationController
   end
   
   def persist_data
+    @available_skills = AvailableTag.skills.map { |e| [e.name.downcase, e.name.downcase] }
     @duration_options = (30..360).step(30).map { |d| [ d < 60 ? "#{d.to_s} minutes" : "#{(d/60.round(1)).to_s} #{"hour".pluralize(d/60.round(1))}" , d.to_s ] }
     @default_duration = @appointment.duration || (params[:duration].to_i == 0 ? 30 : params[:duration].to_i) 
     @hourly_rate_in_credit = @appointment.hourly_rate.present? ?  @appointment.hourly_rate : @appointment.expert.hourly_rate_in_credit

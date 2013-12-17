@@ -1,5 +1,5 @@
 Mailboxer.setup do |config|
-  config.message_mailer = AsyncMessageMailer
+  
   #Configures if you applications uses or no the email sending for Notifications and Messages
   config.uses_emails = true
 
@@ -9,7 +9,8 @@ Mailboxer.setup do |config|
   #Configures the methods needed by mailboxer
   config.email_method = :mailboxer_email
   config.name_method = :name
-
+  
+  config.message_mailer = AsyncMessageMailer
   #Configures if you use or not a search engine and wich one are you using
   #Supported enignes: [:solr,:sphinx]
   config.search_enabled = false

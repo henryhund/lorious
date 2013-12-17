@@ -19,7 +19,11 @@ $ ->
       data: 
         "_method": "delete"
       success: (response)->
-        element.closest(".social_medium").fadeOut(300)
+        element.hide()
+        replaceable_link = element.parent().find('.replaceable_link')
+        new_href = replaceable_link.attr('data-href')
+        replaceable_link.attr('href', new_href).removeAttr('target')
+        replaceable_link.find("i").addClass("disabled").html("&nbsp;Add")
     false
   
   $("a[href*='#credit']").on 'click', (e)->

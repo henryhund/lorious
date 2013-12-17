@@ -1,0 +1,15 @@
+!!!
+%html
+  %head
+    = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => false
+    = stylesheet_link_tag "//cloud.typography.com/7516432/790802/css/fonts.css"
+    = javascript_include_tag "application", "data-turbolinks-track" => false
+    = csrf_meta_tags
+    = metamagic :description => "Lorious", :keywords => "Lorious"
+  %body{"data-offset" => "60", "data-spy" => "scroll", "data-target" => "#navbar"}
+    .wrapper
+      = render "layouts/nav"
+      .main
+        = render "layouts/notifications"
+        = yield
+    = render "layouts/footer_public"

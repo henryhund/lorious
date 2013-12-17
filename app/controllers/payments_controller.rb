@@ -35,6 +35,12 @@ class PaymentsController < ApplicationController
         @merchant.save
         UserMailer.delay.merchant_account_declined(@merchant, @webhook_notification.message)
       end
+    elsif @webhook_notification.kind == "transaction_disbursed"
+      @transaction = CreditTransaction.find_by(transaction_id: @webhook_notification.transaction.id)
+      if @transaction.present?
+        @transaction.transaction_status = @webhook_notification.transaction.status || "transaction_disbursed"
+        @transaction.save 
+      end
     end
     
     render :text => "OK" #can be anything doesn't matter as webhook doesnt expect response
@@ -73,7 +79,7 @@ class PaymentsController < ApplicationController
       )
     
       if @result.success?
-        flash[:alert] = "Merchant account created successfully."
+        flash[:alert] = I18n.t("user.payment.add_merchant.success")
         current_user.braintree_merchant_id = @result.merchant_account.id 
         current_user.braintree_merchant_status = @result.merchant_account.status
         current_user.save
@@ -91,7 +97,7 @@ class PaymentsController < ApplicationController
         render action: "merchant"
       end
     else
-      flash[:alert] = "Error creating merchant account."
+      flash[:alert] = I18n.t("user.payment.add_merchant.failure")
       render action: "merchant"
     end
   end
@@ -107,7 +113,7 @@ class PaymentsController < ApplicationController
       current_user.braintree_last4 = @result.customer.default_credit_card.last_4
       current_user.braintree_token = @result.customer.default_credit_card.token
       current_user.save validate: false
-      flash[:alert] = "Credit Card updated successfully."
+      flash[:alert] = I18n.t("user.payment.update_credit_card.success")
       redirect_to users_url(anchor: "credit")
     else
       render action: "credit_card"    

@@ -96,7 +96,7 @@ group :test, :development do
   gem 'shoulda-matchers'
   gem 'sunspot_solr'
   gem 'localtunnel'
-  
+  gem "erb2haml"
   gem 'sinatra', require: false
   gem 'slim'
 end

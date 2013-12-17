@@ -1,0 +1,9 @@
+The following requests are recommended for you:
+- @requests.each do |r|
+  %div
+    %h3= r.problem_headline
+    %h5
+      Tags: #{r.skill_list}
+    %p
+      = r.problem_description
+= link_to "Click here to View all Requests", request_latest_url

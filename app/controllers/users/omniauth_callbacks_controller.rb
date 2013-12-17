@@ -13,6 +13,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         session[:current_step] = "profile_info"
         redirect_to edit_users_step_url(@user)
       else
+        if request.env["omniauth.params"]["add_social"].present?
+          @user.social_media.create(name: "google_oauth2", profile: request.env["omniauth.auth"].extra.raw_info.link, data: request.env["omniauth.auth"].to_json) if request.env["omniauth.auth"].extra.raw_info.link
+        end
         redirect_to users_url
       end
     else
@@ -26,7 +29,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def twitter
-    social_media_updated = current_user.update_social_media_for "twitter", request.env["omniauth.auth"].extra.raw_info.link, request.env["omniauth.auth"]
+    social_media_updated = current_user.update_social_media_for "twitter", request.env["omniauth.auth"].info.urls.Twitter, request.env["omniauth.auth"]
     redirect_to users_url, notice: set_notice(social_media_updated, "twitter")
   end
 

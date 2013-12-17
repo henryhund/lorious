@@ -31,16 +31,16 @@
           =@user.name
 
         %h6.job
-          Designation: 
+          Title: 
           =@user.job rescue "Unknown"
         %h6.location
           =@user.location rescue "Unknown"
         // Maybe a modal or something?
-        -if @user.expert? && (@user.availability.nil? ? false : JSON.parse( @user.availability.timespans).length > 0)
+        -if @user.expert? && (@user.availability.nil? ? false : (JSON.parse( @user.availability.timespans).length > 0) rescue false)
           %a{"data-toggle" => "modal", :href => "#calendarModal"} See My Calendar
         %hr
         %p.tagline
-          =@user.tag_line
+          =@user.tag_line rescue "Unknown"
         %br
         -unless @user.id == (current_user.id rescue @user.id)
           %button.message{"data-toggle" => "modal", :href => "#messageModal"}

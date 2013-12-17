@@ -1,0 +1,20 @@
+= form_for @social_media, url: "/users/social_media", role: "form", validate: true do |f|
+  .form-group
+    = f.label :name, "Select social media to link to your account"
+    = f.select :name, options_for_select(@available_media), {}, class: "form-control"
+  %p= f.submit "Link", class: "btn btn-default"
+%table.table
+  %thead
+    %tr
+      %th Social Media
+      %th Profile
+      %th Remove
+  %tbody
+    - @social_media.each do |social_medium|
+      %tr.social_medium
+        %td= social_medium.name
+        %td
+          %a{:href => social_medium.profile, :target => "_blank"}= social_medium.profile
+        %td
+          %a.social_media_remove{"data-id" => social_medium.id, :href => "#"}
+            %span.glyphicon.glyphicon-trash Delete

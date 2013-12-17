@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   acts_as_taggable
   acts_as_taggable_on :skills
   
-  attr_accessor :skills
+  attr_accessor :skills, :hourly_cost
   
   devise :database_authenticatable, :registerable, :lockable,
          :recoverable, :rememberable, :trackable,
@@ -54,8 +54,18 @@ class User < ActiveRecord::Base
   
   with_options if: :profile_info_step_validation_required do |user|
     user.validates :bio, :job, presence: true
+    user.validates :job, length: { in: 5..30 }
   end
 
+  @disallowed_usernames = [
+    "admin",
+    "legal",
+    "user",
+    "careers"
+  ]
+  
+  validates :username, :exclusion=> { :in => @disallowed_usernames }
+  
   validates_format_of :website, 
           :with => /\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/ix,
           :message => "not a valid url", allow_blank: true
@@ -156,6 +166,10 @@ class User < ActiveRecord::Base
     }
   end
 
+  def upcoming_appointment_count
+    Appointment.upcoming.where("user_id = ? OR expert_id = ?", self.id, self.id).order(:created_at => :desc).size rescue 0
+  end
+
   def profile_link_for social_medium
     self.social_media.find_by_name(social_medium).try(:profile)
   end
@@ -178,6 +192,12 @@ class User < ActiveRecord::Base
     end
   end
   
+  after_save do
+    if self.delete_record?
+      self.destroy
+    end
+  end
+
   private
 
   def user_params

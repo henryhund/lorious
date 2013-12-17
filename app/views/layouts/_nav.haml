@@ -50,8 +50,7 @@
           %ul.dropdown-menu
             %li= link_to "View Profile", profile_url(current_user.username)
             %li= link_to "Manage Profile", users_url(anchor: "profile")
-            -if !current_user.expert?
-              %li= link_to "Requests", users_url(anchor: "request")
+            %li= link_to "Requests", users_url(anchor: "request")
             %li= link_to "Transactions", users_url(anchor: "credit")
             %li= link_to "Mailbox", conversations_url
             %li= link_to "Appointments", users_url(anchor: "appointment")
@@ -67,7 +66,7 @@
           =link_to(users_url(anchor: "appointment"), style:"padding-left:0px;padding-right:0px;") do
             %span.label.label-danger
               %i.icon-calendar
-              = current_user.appointments.upcoming.size rescue 0
+              = current_user.upcoming_appointment_count
         %li 
           =link_to(users_url(anchor: "credit"), style:"padding-left:0px;padding-right:0px;") do
             %span.label.label-info

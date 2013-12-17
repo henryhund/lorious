@@ -1,0 +1,41 @@
+%table.table
+  %tbody
+    %tr
+      %td= "email".humanize
+      %td= placeholder_for_blank @user.email
+    %tr
+      %td= "first_name".humanize
+      %td= placeholder_for_blank @user.first_name
+    %tr
+      %td= "last_name".humanize
+      %td= placeholder_for_blank @user.last_name
+    %tr
+      %td= "username".humanize
+      %td= placeholder_for_blank @user.username
+    - if false
+      %tr
+        %td= "zip_code".humanize
+        %td= placeholder_for_blank @user.zip_code
+    %tr
+      %td= "website".humanize
+      %td= placeholder_for_blank @user.website
+    %tr
+      %td= "tag_line".humanize
+      %td= placeholder_for_blank @user.tag_line
+    %tr
+      %td= "bio".humanize
+      %td= placeholder_for_blank @user.bio
+    %tr
+      %td= "job".humanize
+      %td= placeholder_for_blank @user.job
+    - if current_user.expert? && current_user.availability.present?
+      %tr
+        %td= "Hourly Cost".humanize
+        %td= placeholder_for_blank @user.availability.hourly_cost rescue 0
+- unless @user.expert?
+  - if @user.is_expert_applied?
+    = button_to 'Cancel Application to be an Expert', users_cancel_application_path(id: @user.id), :method => :put, class: 'btn btn-danger'
+  - else
+    = button_to 'Apply to be an Expert', users_step_path(id: @user.id, current_step_index: 1, user: @user.attributes, apply_to_be_an_expert: true ), :method => :put, class: 'btn btn-primary'
+%br/
+%br/

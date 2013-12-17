@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   def cancel_application
     if params[:id].present?
       User.find(params[:id]).update_attributes(:is_expert_applied => false)
-      flash[:notice] = "Succesfully cancelled Expert application."  
+      flash[:notice] = I18n.t("user.expert.application.cancel")  
     end
     redirect_to users_path
   end

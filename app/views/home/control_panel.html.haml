@@ -1,0 +1,173 @@
+.container-search
+  %h1.text-center Control Panel
+  .row{:style => "margin-bottom: 15px;"}
+    .col-xs-3.col-md-2
+    .col-xs-12.col-md-6
+      %h2 Settings
+      = form_tag update_multiple_settings_path, method: :put do
+        - @settings.each do |setting|
+          = fields_for "settings[]", setting do |f|
+            - if setting.errors.any?
+              #error_explanation
+                %h2
+                  = pluralize(setting.errors.count, "error")
+                  prohibited this setting from being saved:
+                %ul
+                  - setting.errors.full_messages.each do |msg|
+                    %li
+                      = msg
+            .form-group.string.optional.request_company_name
+              %label.string.optional.col-md-7.control-label{:for => "request_company_name"}= setting.name
+              .col-md-5
+                = f.text_field :value
+        %div
+          = submit_tag "Update Settings"
+    .col-xs-6.col-md-4
+  .row{:style => "margin: 1px;"}
+    .col-xs-12
+      %h2 Transactions in Escrow
+      = form_tag update_multiple_transactions_path, method: :put do
+        %table.data-table.display.table.table-condensed
+          %thead
+            %tr
+              %th Hold
+              %th Refund
+              %th Release
+              %th N/A
+              %th Transaction
+              %th Tr. ID
+              %th Escrow Status
+              %th Amt.
+              %th User
+              %th Expert
+              %th Hold
+              %th Cancel
+              %th Detail
+          %tbody
+            - @transactions.each do |transaction|
+              = fields_for "transactions[]", transaction do |f|
+                - if transaction.errors.any?
+                  %tr.danger
+                    %td{:colspan => "12"}
+                      %h2
+                        = pluralize(transaction.errors.count, "error")
+                        prohibited this transaction from being saved:
+                      %ul
+                        - transaction.errors.full_messages.each do |msg|
+                          %li
+                            = msg
+                %tr
+                  %td
+                    = f.radio_button(:state_change, "hold")
+                  %td
+                    = f.radio_button(:state_change, "refund")
+                  %td
+                    = f.radio_button(:state_change, "release")
+                  %td
+                    = f.radio_button(:state_change, "nothing")
+                  %td
+                    = transaction.transaction_status.to_s[0,9]
+                  %td
+                    = transaction.transaction_id
+                  %td
+                    = transaction.transaction_escrow_status
+                  %td
+                    = transaction.amount
+                  %td
+                    = transaction.appointment.user.name rescue "Unknown"
+                  %td
+                    = transaction.appointment.expert.name rescue "Unknown"
+                  %td
+                    = transaction.is_request_hold
+                  %td
+                    = transaction.is_request_cancel
+                  %td
+                    %button{"data-toggle" => "modal", :href => "#transactionModal#{transaction.id}"} Details
+        %div
+          = will_paginate @transactions
+          = submit_tag "Update Transactions"
+  .row{:style => "width: 80%; margin-bottom: 55px;"}
+    .col-xs-1
+    .col-xs-11
+      %h2 Expert Approvals
+      = form_tag update_multiple_experts_path, method: :put do
+        %table.data-table.display.table.table-condensed
+          %thead
+            %tr
+              %th Name
+              %th Email
+              %th Loc.
+              %th Details
+              %th Created
+              %th Apprv?
+          - @experts.each do |expert|
+            %tbody
+              = fields_for "experts[]", expert do |f|
+                - if expert.errors.any?
+                  %tr.danger
+                    %td{:colspan => "2"}
+                      %h2
+                        = pluralize(experts.errors.count, "error")
+                        prohibited this setting from being saved:
+                      %ul
+                        - expert.errors.full_messages.each do |msg|
+                          %li
+                            = msg
+                %tr
+                  %td= expert.name
+                  %td= expert.email
+                  %td= expert.location
+                  %td
+                    %button{"data-toggle" => "modal", :href => "#expertModal#{expert.id}"} Details
+                  %td= expert.created_at
+                  %td= check_box_tag "expert_ids[]", expert.id
+        %div
+          = submit_tag "Approve Expert"
+  / Generate Modals
+  - @transactions.each do |transaction|
+    .modal.fade.modalmessage{"aria-hidden" => "true", :id => "transactionModal#{transaction.id}", "on-show" => "", :role => "dialog", :tabindex => "-1"}
+      .modal-dialog
+        .modal-content
+          .modal-header
+            %h4.modal-title Transaction Details
+          .modal-body
+            .row
+              %h3 Time
+              = transaction.appointment.time rescue "Unknown"
+            .row
+              %h3 Subject
+              = transaction.appointment.subject rescue "Unknown"
+            .row
+              %h3 Cancellation Reason
+              = transaction.request_cancel_reason
+          .modal-footer
+            %p
+              Press ESC to Exit
+  - @experts.each do |expert|
+    .modal.fade.modalmessage{"aria-hidden" => "true", :id => "expertModal#{expert.id}", "on-show" => "", :role => "dialog", :tabindex => "-1"}
+      .modal-dialog
+        .modal-content
+          .modal-header
+            %h4.modal-title Expert Details
+          .modal-body
+            .row
+              %h3 Skills
+              = expert.skill_list rescue "Unknown"
+            .row
+              %h3 stackoverflow
+              = expert.stack_overflow_url
+            .row
+              %h3 github
+              = expert.github_url
+            .row
+              %h3 linked in
+              = expert.linked_in_url
+            .row
+              %h3 website
+              = expert.personal_website
+            .row
+              %h3 Description
+              = expert.about_description rescue "Unknown"
+          .modal-footer
+            %p
+              Press ESC to Exit

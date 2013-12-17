@@ -1,4 +1,5 @@
 class AsyncMessageMailer < MessageMailer
+  default from: "no-reply@lorious.com"
   def send_email(message, receiver)
     if message.conversation.messages.size > 1
       MessageMailer.delay.reply_message_email(message,receiver)

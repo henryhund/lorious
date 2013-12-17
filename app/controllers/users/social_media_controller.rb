@@ -4,6 +4,7 @@ class Users::SocialMediaController < ApplicationController
 
   def index
     @social_media = current_user.social_media
+    @social_links = current_user.social_links
   end
 
   def new
