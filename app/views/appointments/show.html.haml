@@ -124,7 +124,7 @@
               - if @appointment.is_hangout_active?
                 %a#hangout_link.btn.btn-success{:href => @appointment.hangout_url, :target => "_blank"} Join Hangout
               - else
-                %button.btn.btn-warning
+                %button#no_hangout.btn.btn-warning
                   No active Hangouts
           - else
             - if Time.now > (@appointment.time + 24.hours)
@@ -132,8 +132,6 @@
                 Appointment Completed
         - if @appointment.appt_state == "cancelled"
           %h3 This Appointment is Cancelled
-        %button#no_hangout.btn.btn-warning
-          No active Hangouts  
 :javascript
   var HangoutPoller;
   
