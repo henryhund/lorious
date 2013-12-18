@@ -16,14 +16,11 @@ var start_hangout_link = $('#start_hangout_link');
   }
 <% end %>
 
-<% if @appointment.is_hangout_active? && current_user == @appointment.user %>
-  if( typeof(hangout_link) != 'undefined'){
+<% if true || (@appointment.is_hangout_active? && current_user == @appointment.user) %>
+  if( hangout_link.length == 0){
     $('#hangout_panel').append( '<a id="hangout_link" class="btn btn-success" href= "<%= @appointment.hangout_url %>" target = "_blank"> Join Hangout</a>');
+    $('#no_hangout').remove();
   }
 <% end %>
-/*if( typeof(hangout_link) != 'undefined'){
-    $('#hangout_panel').append( '<a id="hangout_link" class="btn btn-success" href= "<%= @appointment.hangout_url %>" target = "_blank"> Join Hangout</a>');
-  }*/
-//$('#hangout_panel').append( '<a id="hangout_link" class="btn btn-success" href= "<%= @appointment.hangout_url %>" target = "_blank"> Join Hangout</a>');
-//console.log("hello");
+
 HangoutPoller.poll();
