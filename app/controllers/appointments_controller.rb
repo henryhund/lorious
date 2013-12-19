@@ -1,6 +1,6 @@
 class AppointmentsController < ApplicationController
   load_and_authorize_resource
-  skip_authorize_resource :only => [:new, :create]
+  skip_load_and_authorize_resource :only => [:new, :create]
 
   before_filter :authenticate_user!, except: [:new_hangout]
   around_filter :time_zone, only: [:create, :update]

@@ -1,6 +1,6 @@
 class RequestsController < ApplicationController
   load_and_authorize_resource
-  skip_load_and_authorize_resource :only => [:latest, :index]
+  skip_load_and_authorize_resource :only => [:latest, :index, :new, :create]
   before_filter :authenticate_user!, except: [:index]
   
   def new 
