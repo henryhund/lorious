@@ -8,7 +8,8 @@ class DisburseFunds
   def perform
     @released_success=[]
     @released_failed=[]
-    Appointment.find(:all, :conditions => ["time < ? AND appt_state = ?", 2.days.ago, "completed"]).each do |appointment|
+    
+    Appointment.find(:all, :conditions => ["time < ? AND time > ? AND appt_state = ?", 2.days.ago, 30.days.ago, "completed"]).each do |appointment|
       
       if appointment.credit_transaction.present? && !appointment.credit_transaction.is_request_hold?
         begin
@@ -45,7 +46,6 @@ class DisburseFunds
       end
   
     end
-
-    UserMailer.daily_disbursement_batch_report(@released_failed, @released_success)
+    UserMailer.daily_disbursement_batch_report(@released_failed, @released_success).deliver
   end
 end

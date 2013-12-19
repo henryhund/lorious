@@ -11,7 +11,7 @@ class AppointmentsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:new_hangout]
   
   def new
-    if (@expert.availability.hourly_cost rescue 0) <= 0 
+    if (@expert.availability.hourly_cost || 0 rescue 0) <= 0 
       flash[:alert] = I18n.t("user.expert.hourly_cost.failure", expert: @expert.name)
       return redirect_to profile_url(@expert.username) 
     end
