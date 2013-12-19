@@ -6,6 +6,8 @@ class DisburseFunds
   #Task to disburse funds 48 hours after appointment has been completed, Note: if trasaction has been put on hold
   #from the control_panel funds will not be automatically disbursed
   def perform
+    @released_success=[]
+    @released_failed=[]
     Appointment.find(:all, :conditions => ["time < ? AND appt_state = ?", 2.days.ago, "completed"]).each do |appointment|
       
       if appointment.credit_transaction.present? && !appointment.credit_transaction.is_request_hold?
@@ -26,9 +28,11 @@ class DisburseFunds
               @result = Braintree::Transaction.release_from_escrow(@transaction.id)
             rescue Exception => e
               #do nothing, transaction is invalid manual intervention may be required
+              @released_failed.push(@credit_transaction)
             else
               #release successful
               if @result.success?
+                @released_success.push(@credit_transaction)
                 @credit_transaction.transaction_escrow_status = @result.escrow_status #update escrow status to release pending
                 @credit_transaction.save validate: false
               end
@@ -41,5 +45,7 @@ class DisburseFunds
       end
   
     end
+
+    UserMailer.daily_disbursement_batch_report(@released_failed, @released_success)
   end
 end

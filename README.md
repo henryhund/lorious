@@ -74,6 +74,19 @@ rails s
 
 11. Open `http://localhost:3000/admin` and log in with your Admin account credentials to see the Admin dashboard.
 
+## Setting up Google+ Hangout Api
+
+0. Go to [Google API Console](https://code.google.com/apis/console) and create a google developer account. 
+1. Register for a Google + Hangout API and in the Application URL enter the url of the website followed by the Google Hangout App XML file. for eg:  http://lorious-dev.herokuapp.com/ExpertHangout.xml.
+2. Make the application type an Extension.
+3. Enter a nage for the Application and enter urls for the Terms of Service, Policy etc.
+4. Check "Make you app public" to make the application public. (Note: a web developer charge of $5 is required) .
+
+
+## Setting up an OAuth account for social media.
+0. These steps are common accross all the platforms. Please read this to get detail information on how to setup an app using social media site's developer portal and obtain the api keys to enter in the application.yml file.
+http://railscasts.com/episodes/360-facebook-authentication?view=asciicast
+
 
 
 

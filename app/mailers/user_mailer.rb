@@ -1,6 +1,7 @@
 class UserMailer < ActionMailer::Base
   default from: "no-reply@lorious.com"
   layout 'mail_layout'
+  layout false, only: [:daily_disbursement_batch_report]
    
   @@base_url = "http://" + Rails.configuration.action_mailer.default_url_options[:host]
 
@@ -42,6 +43,11 @@ class UserMailer < ActionMailer::Base
          subject: appointment.user.name + " has requested cancellation")
   end
   
+  def daily_disbursement_batch_report failed_tr, success_tr
+    @support_mail, @failed_tr, @success_tr = (Setting.find_by(name: "support_email_id").value rescue "support@lorious.com"), failed_tr, success_tr
+    mail(to: @support_mail, subject: "Daily Disbursal Batch Statement")
+  end
+
   def auto_cancel_appointment appointment, to
     @appointment, @to, @appointment_with = appointment, to, appointment.appointment_with_for_user(to)
     @heading = "Appointment Cancelled."

@@ -1,0 +1,11 @@
+The following transactions have failed:
+- @failed_tr.each do |r|
+  %div
+    %h3= r.transaction_id
+    %p= r.amount
+
+The following transactions are succesfully disbursed:
+- @success_tr.each do |r|
+  %div
+    %h3= r.transaction_id
+    %p= r.amount

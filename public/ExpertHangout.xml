@@ -20,31 +20,12 @@
 ﻿  <Content type="html"><![CDATA[     
 
 <html>
-<style type="text/css">
-<!--
-.button {
-  border-radius: 3px;
-  -moz-border-radius: 3px;
-  background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ddd));
-  background: -moz-linear-gradient(top, #fff, #ddd);  
-  border: 1px solid #bbb;
-}
 
-.button:active {
-﻿  background: -webkit-gradient(linear, left top, left bottom, from(#aaa), to(#333)); 
-﻿  background: -moz-linear-gradient(bottom, #ddd, #aaa); }
-
--->
-</style>
 <body>
 
 
-<script src="https://plus.google.com/hangouts/_/api/v1/hangout.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.0-beta2.js"></script>
-<!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
-
-<!--script type="text/javascript" src="//www.google.com/jsapi"></script-->
-<!--script type="text/javascript">google.load("jquery","1.7.1");</script-->
+<script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
+<script src="//code.jquery.com/jquery-1.11.0-beta2.js"></script>
 
 <h3>Lorious Hangout</h3>
 
@@ -57,8 +38,6 @@
 <div id="participantsDiv"></div>
 
 <hr>
-
-<!--p><a href="http://developers.google.com/+/hangouts/getting-started">Read the docs</a> to learn more about developing hangouts!</a></p-->
 
 <script>
 function showParticipants() {
@@ -89,12 +68,8 @@ function init() {
         if (eventObj.isApiReady) {
           document.getElementById('showParticipants').style.visibility = 'visible';
           // Need to return the Hangout URL to the server
-          
           var appData = gadgets.views.getParams()['appData'];
-		  //console.log(appData);
-          
           var hangoutURL = gapi.hangout.getHangoutUrl();
-          //var callbackUrl = "http://3bdb6ebd.ngrok.com/hangout/request.json";
           var callbackUrl = "//lorious-dev.herokuapp.com/hangout/request.json";
           
           $.ajax({
@@ -107,10 +82,9 @@ function init() {
       		cache: false
           }).done( function(data, status, xhr){
           	console.log("done");
-          
           }).fail( function(data, status, error){
           	global_xhr = data;
-          	console.log("error" + error + status + data);
+            console.log("error");
           });
  
         }
