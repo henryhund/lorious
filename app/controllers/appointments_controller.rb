@@ -1,4 +1,5 @@
 class AppointmentsController < ApplicationController
+  load_and_authorize_resource
   before_filter :authenticate_user!, except: [:new_hangout]
   around_filter :time_zone, only: [:create, :update]
   

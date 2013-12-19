@@ -5,6 +5,9 @@ class HomeController < ApplicationController
   end
 
   def dashboard
+    @expertise = Expert.order("RANDOM()").all(:limit => 4)
+    @featured_experts = Expert.where(is_featured: true).limit(3).order("created_at DESC")
+    @requests = Request.all(:limit => 3)
   end
   
   def search
@@ -106,7 +109,6 @@ class HomeController < ApplicationController
   end
   
   def update_transactions
-    #CreditTransaction.update(params[:transactions].keys, params[:transactions].values)
     @settings = Setting.all
     @experts = User.where(is_expert_applied: true).where(expert_approved: [false, nil])
     begin

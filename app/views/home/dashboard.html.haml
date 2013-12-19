@@ -7,7 +7,7 @@
     .col-md-1
   .row{:style => "margin-top: 10px;"}
     .col-xs-1
-    - Expert.order("RANDOM()").all(:limit => 4).each do |expertise|
+    - @expertise.each do |expertise|
       .col-xs-2.well.pull-left{:style => "margin-right: 20px; margin-left: 20px; min-height: 300px;"}
         = link_to image_tag(expertise.image.url, class: "img-circle search-avatar-small no-margin"), profile_path(expertise.username)
         %h3.text-center= expertise.name
@@ -38,7 +38,7 @@
   .marketing{:style => "margin-bottom: 10px;"}
     / Three columns of text below the carousel
     .row
-      - Expert.where(is_featured: true).limit(3).order("created_at DESC").each do |expert|
+      - @featured_experts.each do |expert|
         .col-xs-4{:style => "margin-bottom: 40px;"}
           = link_to image_tag(expert.image.url, class: "img-circle search-avatar no-margin"), profile_path(expert.username)
           %h2= expert.name
@@ -55,7 +55,7 @@
     .col-xs-1
   .row{:style => "margin-bottom: 50px;"}
     .col-md-8
-      - Request.all(:limit => 3).each do |request|
+      - @requests.each do |request|
         .well
           .row
             .col-md-4

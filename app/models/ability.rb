@@ -16,7 +16,10 @@ class Ability
       can :manage, User do |user_object|
         user_object.id == user.id
       end
-      
+
+      can :manage, Appointment do |appt_object|
+        appt_object.expert == user || appt_object.user == user
+      end
     end
     
   end
