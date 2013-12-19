@@ -1,4 +1,6 @@
 class RequestsController < ApplicationController
+  load_and_authorize_resource
+  skip_load_and_authorize_resource :only => [:latest, :index]
   before_filter :authenticate_user!, except: [:index]
   
   def new 
@@ -77,7 +79,7 @@ class RequestsController < ApplicationController
   end
   
   def latest
-    
+
     @request = Request.search do
       paginate(:per_page => 15, :page => params[:page])
       facet :skill_list

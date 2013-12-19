@@ -25,7 +25,7 @@
   #user-overview.row
     .container
       .col-md-2.col-xs-12
-        =image_tag(@user.image.url, class: "img-circle avatar")
+        .img-circle.avatar{style: "background: url(#{@user.image.url}) no-repeat; height: 200px; background-position: center center; background-size: cover!important;"}
       .col-md-8.col-md-offset-1.col-xs-12
         %h1.name
           =@user.name

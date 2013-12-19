@@ -20,6 +20,11 @@ class Ability
       can :manage, Appointment do |appt_object|
         appt_object.expert == user || appt_object.user == user
       end
+
+      can :manage, Request do |req_obj|
+        req_obj.requester == user
+      end
+
     end
     
   end
