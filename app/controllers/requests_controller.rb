@@ -81,6 +81,7 @@ class RequestsController < ApplicationController
   def latest
 
     @request = Request.search do
+      with(:request_state).any_of(['new', 'completed'])
       paginate(:per_page => 15, :page => params[:page])
       facet :skill_list
       
