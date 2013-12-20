@@ -121,7 +121,7 @@
                 %i.icon-github.disabled  
           %li
             -if @social_links[:personal]
-              =link_to @user.personal_website, target: "_blank" do
+              =link_to "http://#{@user.website}" , target: "_blank" do
                 %i.icon-link
             -else
               -if current_user == @user

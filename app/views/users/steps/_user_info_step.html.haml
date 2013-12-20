@@ -36,16 +36,7 @@
   	});
   	// When the user selects an address from the dropdown,
   	// populate the address fields in the form.
-  	google.maps.event.addListener(autocomplete, 'place_changed', function() {
-  		try {
-  			angular.element(document.getElementById('AngularCtrl')).scope().$apply(function(scope) {
-  				scope.query.location = autocomplete.getPlace().formatted_address;
-  				scope.getFilteredValues();
-  			});
-  		} catch(e) {
-  			//do nothing
-  		}
-  	});
+  	
   }
   function geolocate() {
   	if (navigator.geolocation) {
@@ -55,6 +46,14 @@
   		});
   	}
   }
+  $(function(){
+     $("input#autocomplete").keypress(function(e){
+         var k=e.keyCode || e.which;
+         if(k==13){
+             e.preventDefault();
+         }
+     });
+  });
 .form-group.row
   = f.label :location, class: "col-xs-2 control-label"
   .col-xs-10
