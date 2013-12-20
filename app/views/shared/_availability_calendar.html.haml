@@ -36,7 +36,7 @@
       -(0..6).to_a.each do |day_index|
         -day_start_minute = day_index * 24 * 60
         %tr{ :id => "day_#{day_index}" }
-          %th.normalWeight{:align => "left", :style => "padding-right: 10px;"} 
+          %th.normalWeight{:align => "left", :style => "padding-right: 10px;"}
             =Date::DAYNAMES[day_index]
           -(0..23).to_a.each do |hour_index|
             -hour_start_minute = day_start_minute + hour_index * 60
@@ -50,3 +50,4 @@
       var availability_list = #{raw @availability.timespans};
       lorious.fn.highlight_availability_list(availability_list);
     })
+

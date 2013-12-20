@@ -31,7 +31,7 @@
           =@user.name
 
         %h6.job
-          Title: 
+          Title:
           =@user.job rescue "Unknown"
         %h6.location
           =@user.location rescue "Unknown"
@@ -54,7 +54,7 @@
               %button.appointment
                 %i.icon-calendar
                 Make Appointment
-              
+
         &nbsp;
       .col-md-1.col-xs-12
         %ul.list-unstyled.links
@@ -67,7 +67,7 @@
                 =link_to "/users/auth/facebook" do
                   %i.icon-facebook.disabled &nbsp;Add
               -else
-                %i.icon-facebook.disabled 
+                %i.icon-facebook.disabled
           %li
             -if @social_links[:linkedin]
               =link_to @social_links[:linkedin], target: "_blank" do
@@ -77,8 +77,8 @@
                 =link_to "/users/auth/linkedin" do
                   %i.icon-linkedin.disabled &nbsp;Add
               -else
-                %i.icon-linkedin.disabled 
-                
+                %i.icon-linkedin.disabled
+
           %li
             -if @social_links[:twitter]
               =link_to @social_links[:twitter], target: "_blank" do
@@ -88,7 +88,7 @@
                 =link_to "/users/auth/twitter" do
                   %i.icon-twitter.disabled Add
               -else
-                %i.icon-twitter.disabled 
+                %i.icon-twitter.disabled
           %li
             -if @social_links[:google]
               =link_to @social_links[:google], target: "_blank" do
@@ -98,7 +98,7 @@
                 =link_to "/users/auth/google_oauth2" do
                   %i.icon-google-plus.disabled &nbsp;Add
               -else
-                %i.icon-google-plus.disabled 
+                %i.icon-google-plus.disabled
           %li
             -if @social_links[:stackexchange]
               =link_to @social_links[:stackexchange], target: "_blank" do
@@ -108,17 +108,17 @@
                 =link_to "/users/auth/stackexchange" do
                   %i.icon-stackexchange.disabled &nbsp;Add
               -else
-                %i.icon-stackexchange.disabled 
+                %i.icon-stackexchange.disabled
           %li
             -if @social_links[:github]
               =link_to "http://www.github.com", target: "_blank" do
-                %i.icon-github 
+                %i.icon-github
             -else
               -if current_user == @user
                 =link_to "/users/auth/github" do
                   %i.icon-github.disabled &nbsp;Add
               -else
-                %i.icon-github.disabled  
+                %i.icon-github.disabled
           %li
             -if @social_links[:personal]
               =link_to @user.personal_website, target: "_blank" do
@@ -138,11 +138,11 @@
             .star{id: "star-average", "data-score" => @user.get_average_rating}
         .col-md-4.center
           %p.detail-label I've had
-          %p.detail-content 
+          %p.detail-content
             =@user.appointments.history.size.to_s + " conversations" rescue "0 conversations"
         .col-md-4.right
           %p.detail-label My hourly rate is
-          %p.detail-content 
+          %p.detail-content
             =number_to_currency(@user.hourly_rate_in_credit) + "/ hour"
     #expertise.row
       .container
@@ -167,7 +167,7 @@
           %p.body-container
             =expertise.description
 
-  
+
     #expertise-detail.row
     .container{ style: "margin-bottom: 50px;"}
       .col-md-12
@@ -191,34 +191,33 @@
         %span.body-container
           %p
             =@user.bio
-            
-  #messageModal.modal.modalmessage.fade{"aria-hidden" => "true", "aria-labelledby" => "calendarModalLabel", :role => "dialog", :tabindex => "-1"}
+
+  #messageModal.modalmessage.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "calendarModalLabel", :role => "dialog", :tabindex => "-1"}
     .modal-dialog
       .modal-content
         .modal-header
-          / %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} x
-          %h4.modal-title 
+          %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} x
+          %h4.modal-title
             = "Message " + @user.name
         .modal-body
-          =render "message" 
+          =render "message"
         .modal-footer
-          %p Press ESC to Exit
-        
+
   -if @user.expert?
     #reviews.row
       .container
         .col-md-12
-        
+
           %span.title
             %h1 Reviews
             %hr
-          -if false 
+          -if false
             .text-center
               %button{"data-toggle" => "modal", :href => "#reviewModal"}
                 %i.icon-envelope
                   Write a Review
-                
-          %hr  
+
+          %hr
           %ul.list-unstyled
             -@reviews.each do |review|
               %li
@@ -228,9 +227,9 @@
                     =image_tag(reviewer.image.url, class: "img-circle review-image")
                     %p.review-name
                       =reviewer.name
-                  %p 
+                  %p
                     =review.created_at.strftime("%m/%d/%Y")
-                  .star{"data-score" => review.rating }  
+                  .star{"data-score" => review.rating }
                 .review-detail-div
                   %p.more
                     =review.content
@@ -242,31 +241,37 @@
                       %span.highlighted
                         =tag
               %hr.divider
-            
+
     #calendarModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "calendarModalLabel", :role => "dialog", :tabindex => "-1"}
       .modal-dialog
         .modal-content
           .modal-header
             %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} &times;
-            %h4.modal-title 
+            %h4.modal-title
               =@user.name + "'s Calendar" rescue "Calendar"
           .modal-body
             #time_zone_selector.mg-20
-              =time_zone_select(:availability, :time_zone, nil, default: "UTC")
+              = simple_form_for "" do |f|
+                = f.input :time_zone, priority: /US/, default: 'Eastern Time (US & Canada)', input_html: { class: "form-control"}
             =render "shared/availability_calendar"
           .modal-footer
             %p Press ESC to Exit
-            
-    -if current_user        
+
+    -if current_user
       #reviewModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "calendarModalLabel", :role => "dialog", :tabindex => "-1"}
         .modal-dialog
           .modal-content
             .modal-header
               / %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} x
-              %h4.modal-title 
+              %h4.modal-title
                 = "Write a review for " + @user.name.capitalize
             .modal-body
-              =render "review" 
+              =render "review"
             .modal-footer
               %p Press ESC to Exit
 = render "shared/modal"
+
+:javascript
+    $(document).ready(function(){
+      lorious.fn.reset_calendar_with_new_timezone($("#time_zone_selector option:selected").text());
+    })

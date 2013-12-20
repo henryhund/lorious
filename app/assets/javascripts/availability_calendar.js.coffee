@@ -1,5 +1,4 @@
 $ ->
-  $("#time_zone_selector select").val("UTC")
 
   lorious.fn.highlight_availability_list = (availability_list)->
     lorious.data.availability_list = availability_list

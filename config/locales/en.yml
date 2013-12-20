@@ -23,24 +23,27 @@ en:
   errors:
     format: "%{message}"
   user:
+    no_credit_card:
+      failure: "Cannot create appointment, need to have credit card on file"
+
     admin:
       access:
         failure: "You do not have access to this page."
     control_panel:
       expert:
-        success: 
+        success:
         failure: "Error approving experts"
       transaction:
         success: "Successfully updated transactions"
         failure: "Error updating transactions"
       settings:
         success: "Successfully updated settings"
-        failure: "Error updating settings"     
+        failure: "Error updating settings"
     expert:
       application:
         cancel:  "Succesfully cancelled Expert application."
-      hourly_cost: 
-        failure: "%{expert}'s hourly rate is not set."  
+      hourly_cost:
+        failure: "%{expert}'s hourly rate is not set."
     profile:
       failure: "Please complete your profile information before using the application."
     update:
@@ -63,34 +66,34 @@ en:
         success: "successfully linked bank account"
         failure: "failed to link bank account"
       no_credit_card:
-        failure: "Cannot create appointment, need to have credit card on file"  
+        failure: "Cannot create appointment, need to have credit card on file"
       no_merchant_account:
-        failure: "Cannot create appointment, need to have and active merchant account on file" 
+        failure: "Cannot create appointment, need to have and active merchant account on file"
       add_merchant:
         success: "Merchant account created successfully."
         failure: "Error creating merchant account."
       update_credit_card:
-        success: "Credit Card updated successfully."   
+        success: "Credit Card updated successfully."
   mailboxer:
     message_mailer:
       subject_new: 'Lorious, new message about %{subject}'
       subject_reply: 'Lorious, new reply about %{subject}'
     permission:
-      failure: "You do not have permission to view that conversation."  
+      failure: "You do not have permission to view that conversation."
     sent:
-      success: "Message Sent"  
+      success: "Message Sent"
     trash:
-      success: "Message Trashed"  
+      success: "Message Trashed"
     untrash:
-      success: "Message Untrashed"  
+      success: "Message Untrashed"
   review:
     update:
       success: "successfully updated appointment review"
-      failure: "there was an error updating the appointment review" 
+      failure: "there was an error updating the appointment review"
     created:
-      failure: "Review already created. To edit go to Appointment History."  
+      failure: "Review already created. To edit go to Appointment History."
     cancel:
-      success: "Cancellation request submitted."  
+      success: "Cancellation request submitted."
   credits:
     purchase:
       success: "successfully purchased %{amount} credits!"
@@ -106,13 +109,13 @@ en:
     review:
       create:
         success: "successfully added appointment review"
-        failure: "there was an error adding the appointment review" 
+        failure: "there was an error adding the appointment review"
     payment:
       failure: "Cannot confirm appointment, payment unsuccesful."
     edit:
-      failure: "Cannot edit appointment %{hours} hours before scheduled time. "    
+      failure: "Cannot edit appointment %{hours} hours before scheduled time. "
     cancel:
-      failure: "Cannot cancel appointment %{hours} hours before scheduled time. "      
+      failure: "Cannot cancel appointment %{hours} hours before scheduled time. "
   message:
     on_appointment:
       create:
@@ -178,7 +181,7 @@ en:
       failure: "Failed to delete interest from your profile"
     update:
       success: "Updated interest to your profile"
-      failure: "Failed to update interest to your profile"  
+      failure: "Failed to update interest to your profile"
   expertise:
     create:
       success: "Added expertise to your profile"
@@ -205,7 +208,7 @@ en:
     create:
       success: "Request was successfully created."
     update:
-      success:  'Request was successfully updated.'    
+      success:  'Request was successfully updated.'
   appointment:
     create:
       success: "Successfully created appointment, pending to be accepted."

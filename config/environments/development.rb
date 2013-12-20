@@ -6,6 +6,8 @@ Lorious::Application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
+
+
   # Do not eager load code on boot.
   config.eager_load = true
 
@@ -26,6 +28,7 @@ Lorious::Application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
+  # config.assets.compress = true
 
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
   config.google_app_id = ENV['GOOGLE_OAUTH2_CLIENT_ID']
@@ -40,7 +43,7 @@ Lorious::Application.configure do
     :password             => 'devbrother',
     :authentication       => 'plain',
     :enable_starttls_auto => true  }
-  
+
   #config.action_mailer.smtp_settings = {
   #  :address              => "smtp.mandrillapp.com",
   #  :port                 => 587,

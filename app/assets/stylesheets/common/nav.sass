@@ -1,87 +1,115 @@
-@import "mixins/colors"
-@import "mixins/fonts"
-
-.navbar
-  background-color: #32494c
-  font-size: 18px
-  margin-bottom: 10px
+#main-nav
+  height: 100%
   position: fixed
-  padding-top: 10px
+  top: 0%
+  left: 0%
+  border-radius: 0
+  z-index: 1000
 
   ul
-    li
-      font-family: 'Gotham A', 'Gotham B', 'Roboto Condensed'
-      font-weight: 700
-      font-size: 14px
-      display: inline
-      a
-        padding-top: 11px
-        color: #ffffff
-      a:hover
-        text-decoration: none
-        color: #fafafa
-    span.label
-      font-size: 85%
+    li:nth-last-child(2)
+      position: absolute
+      bottom: 64px
+      left: 0
+    li:last-child
+      position: absolute
+      bottom: 0
+      left: 0
 
-  li.dropdown > a
-    padding-bottom: 10px
+#main-header
+  // border-bottom: 1px solid black
+  top: 0
+  left: 84px
+  position: fixed
+  z-index: 10
+  height: 60px
+  width: 90%
+  background-color: #fff
 
-  .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus
-    height: 100%
-    background-color: rgba(158, 185, 189, 0.75)
-    color: #ffffff
 
-  .navbar-nav > .open > a, .navbar-nav > .open > a:hover, .navbar-nav > .open > a:focus, .navbar-nav > a:focus
-    color: #ffffff
-
-  .navbar-nav > li > a:hover, .navbar-nav > li > a:focus
-    background-color: $lorious-dark-grey
-    color: #ffffff
-
-  .navbar-brand
-    padding-top: 0
-
-  .navbar-nav > .dropdown > a .caret
-    border-top: 4px solid white
-
-  .dropdown-menu > li > a
-    color: #000000
-
-  .navbar-text
-    p
-      color: #fff
-      font-size: 14px
-  .icon-bar
+  .header-lg-center
+    margin-left: 40px
     background-color: #fff
-  // / .navbar .navbar-inner
-  // / background-color: #32494c !important /* fallback color, place your own */
-  // / background-image: none
-  // / border-radius: 0px
-  // / -webkit-border-radius: 0px
-  // / -moz-border-radius: 0px
+    position: fixed
+    display: inline
+    min-width: 767px
+    max-width: 1200px
+    width: 75%
+    overflow: hidden
+    height: 60px
 
-  // / .btn-navbar
-  // /   background-color: #32494c !important /* fallback color, place your own */
-  // /   background-image: none
+  .header-lg-logo
+    padding: 10px 0 0 0
 
-  // / .navbar .nav > li > a
-  // /   float: none
-  // /   padding: 20px 15px 20px
-  // /   font-family: 'Gotham A', 'Gotham B', 'Roboto Condensed'
-  // /   color: #ffffff
-  // /   font-size: 14px
-  // /   font-weight: 700
-  // /   text-shadow: none
-  // /   //text-transform: uppercase
+  .header-lg-links
+    padding-top: 12px
 
-  // / .navbar .nav > li > a:focus, .navbar .nav > li > a:hover
-  // /   color: #ffffff
+    ul > li
+      text-transform: uppercase
+      padding-left: 25px
+      font-size: 16px
+
+  .smoke-break
+    -webkit-box-shadow: 0 4px 4px -4px #232323
+    -moz-box-shadow: 0 4px 4px -4px #232323
+    -box-shadow: 0 4px 4px -4px #232323
+    -webkit-transition-duration: 0.2s
+    -moz-transition-duration: 0.2s
+    -o-transition-duration: 0.2s
+    transition-duration: 0.2s
+
+#main-header-xs
+  .header-xs-links
+    text-align: right
+
+#side-searchbar
+  position: fixed
+  top: 9px
+  right: 0px
+  width: 200px
+  z-index: 10
+
+  .form-group
+    margin-bottom: 5px
+
+  .side-header
+    text-align: center
+
+  .request-detail
+    font-size: 12px
+
+@media (max-width: 1245px)
+  #side-searchbar
+    display: none !important
 
 
+// #navbar
+//   background-color: white
+//   height: 40px
+//   box-shadow: 0px 2px 2px rgba(34,34,34,0.6)
+//   border-radius: 0px
 
-// If screen is narrow, override JS for setting navbar height (otherwise will not allow responsive dropdown)
-@media (max-width: 767px) // should be 767
-  .navbar
-    height: auto !important
-  .navbar-nav .open .dropdown-menu > li > a
-    color: white  
+//   .search-box
+//     margin-left: 20%
+
+//     .btn
+//       margin-left: -23px
+//       font-size: 14px
+//       border: 0
+//       background-color: transparent
+
+//   .navbar-form
+//     padding: 8px 0 0 0
+
+//   .navbar-brand
+//     padding: 5px 0 0 10px
+
+//   .links
+//     padding: 8px 0 0 0
+
+
+//   button
+//     padding: 0
+
+//   input
+//     border-radius: 6px

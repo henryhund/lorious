@@ -1,81 +1,133 @@
 - meta :title => "Lorious | Dashboard"
-.container.wrapper
-  .row{:style => "margin-top:20px;"}
-    .col-md-1
-    .col-md-10
-      %h1 Browse Expertises
-    .col-md-1
-  .row{:style => "margin-top: 10px;"}
-    .col-xs-1
-    - Expert.order("RANDOM()").all(:limit => 4).each do |expertise|
-      .col-xs-2.well.pull-left{:style => "margin-right: 20px; margin-left: 20px; min-height: 300px;"}
-        = link_to image_tag(expertise.image.url, class: "img-circle search-avatar-small no-margin"), profile_path(expertise.username)
-        %h3.text-center= expertise.name
-        .text-center{:style => "margin-top: 15px;"}
-          %ul.list-unstyled.tags
-            - expertise.skill_list.first(2).each do |skill|
-              %li.highlighted.smallest
-                %a{:href => "/search?keyword=#{skill}", :style => "color: inherit; text-decoration: none;"}
-                  = skill
-    .col-xs-3
-  .row
-    %form{:action => search_path, :method => "get"}
-      .col-xs-3
-      .col-xs-5
-        .input-group.merged
-          %span.input-group-addon
-            %i.icon-search
-          = search_field_tag :keyword ,nil, :class => 'form-control', :placeholder => 'Enter Keyword'
-      .col-xs-1
-        = submit_tag "Search", :class => 'btn btn-primary', :style => 'margin-top: 9px; padding: 13px;'
-      .col-xs-3
-  %hr/
-  .row{:style => "margin-top:0px;"}
-    .col-xs-1
-    .col-xs-10
-      %h1 Featured Experts
-    .col-xs-1
-  .marketing{:style => "margin-bottom: 10px;"}
-    / Three columns of text below the carousel
+#dashboard-body.container
+  -if current_user.braintree_last4.blank?
     .row
-      - Expert.where(is_featured: true).limit(3).order("created_at DESC").each do |expert|
-        .col-xs-4{:style => "margin-bottom: 40px;"}
-          = link_to image_tag(expert.image.url, class: "img-circle search-avatar no-margin"), profile_path(expert.username)
-          %h2= expert.name
-          %p
-            = expert.bio
-          %p
-            = link_to "View Details", profile_url(expert.username), class: "btn btn-primary"
-    / /.row
-  %hr/
-  .row{:style => "margin-top:0px;"}
-    .col-xs-1
-    .col-xs-10
-      %h1 Latest Requests
-    .col-xs-1
-  .row{:style => "margin-bottom: 50px;"}
-    .col-md-8
-      - Request.all(:limit => 3).each do |request|
-        .well
+      .alert
+        %button.close.fui-cross{"data-dismiss" => "alert"}
+        %h4 Welcome to Lorious!
+        %h6 Please update your profile to get started!
+        %p
+          Before you can book your first appointment, you must add a credit card to your file. You won't be charged until you actually have an appointment, and all your information will be stored conveniently and securely by
+          =link_to "Braintree", "http://www.braintreepayments.com", target: "_blank"
+          until then.
+        %button.btn.btn-primary Add Credit Card
+  -if current_user.braintree_merchant_id.blank? && current_user.expert_approved
+    .row
+      .alert
+        %button.close.fui-cross{"data-dismiss" => "alert"}
+        %h4 Congrats on being named the newest Lorious expert!
+        %h6 Please update your profile to get started!
+        %p
+          Before you can accept your first appointment, you must have a payment account on file. It will take some time for your account to be approved by our processor, so get started now! As always,
+          =link_to "Braintree", "http://www.braintreepayments.com", target: "_blank"
+          will store all of your information will be stored conveniently and securely.
+        %button.btn.btn-primary Add Merchant Account
+  .row
+    .col-md-10
+      %p
+        %h4{style: "display: inline"} Featured Experts
+        %span.small{style: "display: inline"}
+          &nbsp; &nbsp; &nbsp;
+          =link_to "or search for another to get started >>>",search_path
+    .col-md-1
+  - Expert.where(is_featured: true).limit(5).order("RANDOM()").each do |expert|
+    .row
+      .col-md-12
+        .well.well-sm
           .row
-            .col-md-4
-              %br/
-              %a{:href => "/#{request.requester.username rescue '#'}"}
-                = image_tag(request.requester.image.url , class: "img-circle search-avatar")
-            .col-md-8
-              %h2{:style => "margin-top: 22px;"}
-                = request.problem_headline
-              %div{:style => "margin-top:10px; text-overflow:ellipsis; overflow:hidden; height: 65px;"}
-                = request.problem_description
-              - if request.requester_id != current_user.id
-                %div{:style => "margin-top: 15px;"}
-                  - if current_user.expert?
-                    %a{:href => "/experts/#{current_user.id}/appointments/new?request_id=#{request.id}&user_id=#{request.requester_id}&duration=#{request.appt_length}", :style => "color: inherit;"}
-                      %button.btn.btn-default.btn-xs.pull-right
-                        %i.icon-calendar
-                        Request new appointment
-    .col-md-4
-      .row{:style => "margin-bottom: 40px;"}
-        = link_to "View More Requests", request_latest_url, class: "btn-lg btn-primary"
-      .row
-        = link_to "Post Requests", new_request_url, class: "btn-lg btn-primary"
+            .col-xs-3.col-md-3.text-center
+              = link_to profile_path(expert.username) do
+                = image_tag(expert.image.url, class: "img-circle search-avatar no-margin", style: "width: 100px; height: 100px;")
+                %h6= expert.name
+            .col-xs-9.col-md-9.section-box
+              %p
+                %strong Tagline:&nbsp;
+                = truncate(expert.tag_line, length: 80, separator: " ")
+              %p
+                %strong About:&nbsp;
+                = truncate(expert.bio, length: 80, separator: " ")
+              %ul.list-unstyled
+                - expert.skill_list.first(5).each do |skill|
+                  %li.label.label-primary{style:"margin-right:2px"}
+                    %a{:href => "/search?keyword=#{skill}", :style => "color: inherit; text-decoration: none;"}
+                      = skill
+              .row.rating-desc
+                .col-md-12
+                  .star{id: "star-average", "data-score" => expert.get_average_rating, style: "display:inline"}
+                  %span.small
+                    = "|"
+                    = "(" + expert.appointments.history.size.to_s + ")"
+
+/ .col-xs-1
+/   -# Expert.order("RANDOM()").all(:limit => 4).each do |expertise|
+/     .col-xs-2.well.pull-left{:style => "margin-right: 20px; min-height: 300px;"}
+/       =# link_to image_tag(expertise.image.url, class: "img-circle search-avatar-small no-margin"), profile_path(expertise.username)
+/       %h6.text-center= expertise.name
+/       .text-center{:style => "margin-top: 15px;"}
+/         %ul.list-unstyled.tags
+/           -# expertise.skill_list.first(2).each do |skill|
+/             %li.highlighted.smallest
+/               %a{:href => "/search?keyword=#{skill}", :style => "color: inherit; text-decoration: none;"}
+/                 =# skill
+/ .col-xs-3
+/   .row
+/     %form{:action => search_path, :method => "get"}
+/       .col-xs-3
+/       .col-xs-5
+/         .input-group.merged
+/           %span.input-group-addon
+/             %i.icon-search
+/           =# search_field_tag :keyword ,nil, :class => 'form-control', :placeholder => 'Enter Keyword'
+/       .col-xs-1
+/         =# submit_tag "Search", :class => 'btn btn-primary', :style => 'margin-top: 9px; padding: 13px;'
+/       .col-xs-3
+/   %hr/
+/   .row{:style => "margin-top:0px;"}
+/     .col-xs-1
+/     .col-xs-10
+/       %h3 Featured Experts
+/     .col-xs-1
+/   .marketing{:style => "margin-bottom: 10px;"}
+/     / Three columns of text below the carousel
+/     .row
+/       -# Expert.where(is_featured: true).limit(3).order("created_at DESC").each do |expert|
+/         .col-xs-4{:style => "margin-bottom: 40px;"}
+/           =# link_to image_tag(expert.image.url, class: "img-circle search-avatar no-margin"), profile_path(expert.username)
+/           %h2=# expert.name
+/           %p
+/             =# expert.bio
+/           %p
+/             =# link_to "View Details", profile_url(expert.username), class: "btn btn-primary"
+/     / /.row
+/   %hr/
+/   .row{:style => "margin-top:0px;"}
+/     .col-xs-1
+/     .col-xs-10
+/       %h1 Latest Requests
+/     .col-xs-1
+/   .row{:style => "margin-bottom: 50px;"}
+/     .col-md-8
+/       -# Request.all(:limit => 3).each do |request|
+/         .well
+/           .row
+/             .col-md-4
+/               %br/
+/               %a{:href => "/#{request.requester.username rescue '#'}"}
+/                 =# image_tag(request.requester.image.url , class: "img-circle search-avatar")
+/             .col-md-8
+/               %h2{:style => "margin-top: 22px;"}
+/                 =# request.problem_headline
+/               %div{:style => "margin-top:10px; text-overflow:ellipsis; overflow:hidden; height: 65px;"}
+/                 =# request.problem_description
+/               -# if request.requester_id != current_user.id
+/                 %div{:style => "margin-top: 15px;"}
+/                   -# if current_user.expert?
+/                     %a{:href => "/experts/#{current_user.id}/appointments/new?request_id=#{request.id}&user_id=#{request.requester_id}&duration=#{request.appt_length}", :style => "color: inherit;"}
+/                       %button.btn.btn-default.btn-xs.pull-right
+/                         %i.icon-calendar
+/                         Request new appointment
+/     .col-md-4
+/       .row{:style => "margin-bottom: 40px;"}
+/         =# link_to "View More Requests", request_latest_url, class: "btn-lg btn-primary"
+/       .row
+/         =# link_to "Post Requests", new_request_url, class: "btn-lg btn-primary"
