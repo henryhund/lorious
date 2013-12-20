@@ -19,19 +19,19 @@ class AppointmentsController < ApplicationController
       unless (params[:expert_id].to_i == current_user.id) 
         unless current_user.braintree_id.present? && current_user.braintree_token.present?
           flash[:alert] = I18n.t("user.payment.no_credit_card.failure")
-          return redirect_to users_url(anchor: "credit")
+          return redirect_to users_url(anchor: "manage_card")
         end   
       else
         #Check that hourly rate is present
         unless current_user.braintree_merchant_id.present? && ( current_user.braintree_merchant_status.present? && current_user.braintree_merchant_status == "active")
           flash[:alert] = I18n.t("user.payment.no_merchant_account.failure")
-          return redirect_to users_url(anchor: "credit") 
+          return redirect_to users_url(anchor: "manage_card")
         end   
       end
     else
       unless current_user.braintree_id.present? && current_user.braintree_token.present?
         flash[:alert] = I18n.t("user.payment.no_credit_card.failure")
-        return redirect_to users_url(anchor: "credit")  
+        return redirect_to users_url(anchor: "manage_card")
       end
     end
   end
@@ -204,14 +204,14 @@ class AppointmentsController < ApplicationController
         @appointment.expert_confirmed = true
       else
         flash[:alert] = I18n.t("user.payment.no_merchant_account.failure")
-        return redirect_to users_url(anchor: "credit") 
+        return redirect_to users_url(anchor: "manage_card")
       end
     elsif current_user.id == @appointment.user.id
       if current_user.braintree_id.present? && current_user.braintree_token.present?
         @appointment.user_confirmed = true
       else
         flash[:alert] = I18n.t("user.payment.no_credit_card.failure")
-        return redirect_to users_url(anchor: "credit")  
+        return redirect_to users_url(anchor: "manage_card")
       end
     end
     

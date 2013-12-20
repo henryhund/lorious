@@ -58,7 +58,14 @@ $ ->
             
   hash = window.location.hash
   switch hash 
-    when "#credit"  
+    when "#manage_card"
+      $(".xpanel.in").collapse('hide')
+      element = $("#collapseFour")
+      element.collapse('show')
+      $(".profile_tabs").parent().removeClass "active"
+      first_tab_button = element.find(".profile_tabs").eq(0)
+      $(first_tab_button).trigger('click')
+    when "#credit"
       $(".xpanel.in").collapse('hide')
       element = $("#collapseFour")
       element.collapse('show')
