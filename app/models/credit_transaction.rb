@@ -63,7 +63,7 @@ class CreditTransaction < ActiveRecord::Base
         
         if @result.success?
           self.transaction_status = @result.transaction.status
-          self.transaction_escrow_status = @result.transaction.escrow_status
+          self.transaction_escrow_status = @result.transaction.escrow_status rescue "release_pending"
         else
           @trasact_errors = @result.errors.map { |a| a.message} 
           @trasact_errors.each do |e|

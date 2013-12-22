@@ -29,7 +29,7 @@ class DisburseFunds
                 #release successful
                 if @result.success?
                   @released_success.push(@credit_transaction)
-                  @credit_transaction.transaction_escrow_status = @result.escrow_status #update escrow status to release pending
+                  @credit_transaction.transaction_escrow_status = @result.escrow_status rescue "release_pending" #update escrow status to release pending
                   @credit_transaction.save validate: false
                 else
                   @error_string = ""
