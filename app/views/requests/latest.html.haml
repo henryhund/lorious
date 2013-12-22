@@ -33,7 +33,8 @@
           .row
             .col-xs-4
               %br/
-              %img.img-circle.search-avatar-small{:alt => "...", "ng-src" => "{{request.requester_image.image.url}}"}/
+              %img.img-circle.search-avatar-small{:alt => "...", "ng-src" => "{{request.requester_image.image.url}}", style: "min-height: 200px;"}
+
               %h4.text-center {{request.requester_name}}
               %h4.text-center
                 %a{"ng-href" => "http://{{request.company_url}}", :target => "_blank"} {{request.company_url | characters:20 :true}}

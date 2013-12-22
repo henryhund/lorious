@@ -9,7 +9,8 @@
     .col-xs-1
     - @expertise.each do |expertise|
       .col-xs-2.well.pull-left{:style => "margin-right: 20px; margin-left: 20px; min-height: 300px;"}
-        = link_to image_tag(expertise.image.url, class: "img-circle search-avatar-small no-margin"), profile_path(expertise.username)
+        = link_to profile_path(expertise.username) do
+          .img-circle.search-avatar-small.no-margin{style: "background: url(#{expertise.image.url}) no-repeat; background-position: center center; background-size: cover!important; min-height: 120px;"}
         %h3.text-center= expertise.name
         .text-center{:style => "margin-top: 15px;"}
           %ul.list-unstyled.tags
