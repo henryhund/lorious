@@ -6,11 +6,8 @@
         %a.social_media_remove{"data-id" => @social_media.find_by(name: "facebook").id, href: "#"}
           %span.glyphicon.glyphicon-trash Delete
     - else
-      -if current_user == current_user
-        =link_to "/users/auth/facebook" do
-          %i.icon-facebook.disabled &nbsp;Add
-      -else
-        %i.icon-facebook.disabled 
+      =link_to "/users/auth/facebook" do
+        %i.icon-facebook.disabled &nbsp;Add
   %li
     -if @social_links[:linkedin]
       =link_to @social_links[:linkedin], "data-href" => "/users/auth/linkedin", class: "replaceable_link", target: "_blank" do
@@ -18,12 +15,8 @@
         %a.social_media_remove{"data-id" => @social_media.find_by(name: "linkedin").id, href: "#"}
           %span.glyphicon.glyphicon-trash Delete
     -else
-      -if current_user == current_user
-        =link_to "/users/auth/linkedin" do
-          %i.icon-linkedin.disabled &nbsp;Add
-      -else
-        %i.icon-linkedin.disabled 
-        
+      =link_to "/users/auth/linkedin" do
+        %i.icon-linkedin.disabled &nbsp;Add
   %li
     -if @social_links[:twitter]
       =link_to @social_links[:twitter], "data-href" => "/users/auth/twitter", class: "replaceable_link", target: "_blank" do
@@ -31,11 +24,8 @@
         %a.social_media_remove{"data-id" => @social_media.find_by(name: "twitter").id, href: "#"}
           %span.glyphicon.glyphicon-trash Delete
     -else
-      -if current_user == current_user
-        =link_to "/users/auth/twitter" do
-          %i.icon-twitter.disabled Add
-      -else
-        %i.icon-twitter.disabled 
+      =link_to "/users/auth/twitter" do
+        %i.icon-twitter.disabled Add
   %li
     -if @social_links[:google]
       =link_to @social_links[:google], "data-href" => "/users/auth/google_oauth2?add_social=true", class: "replaceable_link", target: "_blank" do
@@ -43,11 +33,8 @@
         %a.social_media_remove{"data-id" => @social_media.find_by(name: "google_oauth2").id, href: "#"}
           %span.glyphicon.glyphicon-trash Delete
     -else
-      -if current_user == current_user
-        =link_to "/users/auth/google_oauth2?add_social=true" do
-          %i.icon-google-plus.disabled &nbsp;Add
-      -else
-        %i.icon-google-plus.disabled 
+      =link_to "/users/auth/google_oauth2?add_social=true" do
+        %i.icon-google-plus.disabled &nbsp;Add
   %li
     -if @social_links[:stackexchange]
       =link_to @social_links[:stackexchange], "data-href" => "/users/auth/stackexchange", class: "replaceable_link", target: "_blank" do
@@ -55,11 +42,8 @@
         %a.social_media_remove{"data-id" => @social_media.find_by(name: "stackexchange").id, href: "#"}
           %span.glyphicon.glyphicon-trash Delete
     -else
-      -if current_user == current_user
-        =link_to "/users/auth/stackexchange" do
-          %i.icon-stackexchange.disabled &nbsp;Add
-      -else
-        %i.icon-stackexchange.disabled 
+      =link_to "/users/auth/stackexchange" do
+        %i.icon-stackexchange.disabled &nbsp;Add
   %li
     -if @social_links[:github]
       =link_to "http://www.github.com", "data-href" => "/users/auth/github", class: "replaceable_link", target: "_blank" do
@@ -67,18 +51,12 @@
         %a.social_media_remove{"data-id" => @social_media.find_by(name: "github").id, href: "#"}
           %span.glyphicon.glyphicon-trash Delete
     -else
-      -if current_user == current_user
-        =link_to "/users/auth/github" do
-          %i.icon-github.disabled &nbsp;Add
-      -else
-        %i.icon-github.disabled  
+      =link_to "/users/auth/github" do
+        %i.icon-github.disabled &nbsp;Add
   %li
     -if @social_links[:personal]
-      =link_to "http://#{current_user.website}", target: "_blank" do
+      =link_to current_user.website, target: "_blank" do
         %i.icon-link
     -else
-      -if current_user == current_user
-        =link_to users_url(anchor: "profile") do
-          %i.icon-link.disabled &nbsp;Add
-      -else
-        %i.icon-link.disabled
+      =link_to users_url(anchor: "profile") do
+        %i.icon-link.disabled &nbsp;Add

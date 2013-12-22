@@ -1,11 +1,26 @@
 The following transactions have failed:
+%br
 - @failed_tr.each do |r|
   %div
     %h3= r.transaction_id
     %p= r.amount
-
+- if @failed_tr.empty?
+  %div No tr's failed.
+%br
 The following transactions are succesfully disbursed:
+%br
 - @success_tr.each do |r|
   %div
     %h3= r.transaction_id
     %p= r.amount
+- if @success_tr.empty?
+  %div No tr's disbursed/released.
+%br
+The following exceptions occurred:
+%br
+- @exceptions.each do |r|
+  %div
+    %h3= r
+- if @exceptions.empty?
+  %div No Exceptions.    
+%br   

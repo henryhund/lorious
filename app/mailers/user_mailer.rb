@@ -43,8 +43,8 @@ class UserMailer < ActionMailer::Base
          subject: appointment.user.name + " has requested cancellation")
   end
   
-  def daily_disbursement_batch_report failed_tr, success_tr
-    @support_mail, @failed_tr, @success_tr = (Setting.find_by(name: "support_email_id").value rescue "support@lorious.com"), failed_tr, success_tr
+  def daily_disbursement_batch_report failed_tr, success_tr, exceptions
+    @support_mail, @failed_tr, @success_tr, @exceptions = (Setting.find_by(name: "support_email_id").value rescue "support@lorious.com"), failed_tr, success_tr, exceptions
     mail(to: @support_mail, subject: "Daily Disbursal Batch Statement")
   end
 
