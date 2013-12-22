@@ -29,6 +29,7 @@ class Request < ActiveRecord::Base
     end
     
     time :created_at
+    string :request_state
   end
   
   def attributes

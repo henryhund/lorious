@@ -26,7 +26,7 @@
     .container
       .col-md-2.col-xs-12
         .img-circle.avatar{style: "background: url(#{@user.image.url}) no-repeat; height: 200px; background-position: center center; background-size: cover!important;"}
-      .col-md-8.col-md-offset-1.col-xs-12
+      .col-md-7.col-md-offset-1.col-xs-12
         %h1.name
           =@user.name
 
@@ -56,7 +56,7 @@
                 Make Appointment
               
         &nbsp;
-      .col-md-1.col-xs-12
+      .col-md-2.col-xs-12
         %ul.list-unstyled.links
           %li
             -if @social_links[:facebook]
@@ -111,7 +111,7 @@
                 %i.icon-stackexchange.disabled 
           %li
             -if @social_links[:github]
-              =link_to "http://www.github.com", target: "_blank" do
+              =link_to @social_links[:github], target: "_blank" do
                 %i.icon-github 
             -else
               -if current_user == @user

@@ -7,7 +7,7 @@ class HomeController < ApplicationController
   def dashboard
     @expertise = Expert.order("RANDOM()").all(:limit => 4)
     @featured_experts = Expert.where(is_featured: true).limit(3).order("created_at DESC")
-    @requests = Request.all(:limit => 3)
+    @requests = Request.where("request_state != 'withdraw'").first(3)
   end
   
   def search
