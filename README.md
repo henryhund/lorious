@@ -48,7 +48,6 @@ rake db:seed
 ```
 
 9. Open the Rails console and create yourself a regular user and an admin user.
-
 ```bash
 rails c
 ```
@@ -100,19 +99,19 @@ heroku run rake sunspot:reindex
 
 ## Braintree Setup 
 0. Once you obtain the necessary keys from braintree they must be populated in the following initializer file: initializers/braintree.rb as follows - 
-
 ```ruby
 Braintree::Configuration.environment = :sandbox #or production once deployed
 Braintree::Configuration.merchant_id = "<insert master merchant account id, service fee will be disbursed here>"
 Braintree::Configuration.public_key = "< public key >"
 Braintree::Configuration.private_key = "< private key >"
 ```
-1. In addition to the keys above, in the merchant creation form("payments/merchant.html.haml") insert the braintree javascript keys:
 
+1. In addition to the keys above, in the merchant creation form("payments/merchant.html.haml") insert the braintree javascript keys:
 ```javascript
 var braintree = Braintree.create("this_is_the_key_value");
   braintree.onSubmitEncryptForm('new_merchant');
 ```
+
 2. Note that Braintree's js encryption is only required for merchant creation, in all other instances the information is encrypted using TransparentRedirect.
 
 
