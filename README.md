@@ -109,12 +109,14 @@ Braintree::Configuration.public_key = "< public key >"
 Braintree::Configuration.private_key = "< private key >"
 ```
 
-1. In addition to the keys above, in the merchant creation for insert the braintree javascript keys:
+1. In addition to the keys above, in the merchant creation form("payments/merchant.html.haml") insert the braintree javascript keys:
 
 ```javascript
 var braintree = Braintree.create("this_is_the_key_value");
   braintree.onSubmitEncryptForm('new_merchant');
 ```
+
+2. Note that Braintree's js encryption is only required for merchant creation, in all other instances the information is encrypted using TransparentRedirect.
 
 
 
