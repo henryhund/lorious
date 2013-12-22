@@ -60,6 +60,7 @@ User.create!(
   email: 'admin@example.com', first_name: 'Mister', last_name: 'Admin', password: '12345678', admin: true)
 ```
 
+additional fields to be added to above command to complete creation of user account.
 or Create an invite and using the generated oauth token paste the following url into the browser to get redirected to 
 a user creation wizard. 
 
@@ -79,7 +80,7 @@ rails s
 0. Go to [Google API Console](https://code.google.com/apis/console) and create a google developer account. 
 1. Register for a Google + Hangout API and in the Application URL enter the url of the website followed by the Google Hangout App XML file. for eg:  http://lorious-dev.herokuapp.com/ExpertHangout.xml.
 2. Make the application type an Extension.
-3. Enter a nage for the Application and enter urls for the Terms of Service, Policy etc.
+3. Enter a name for the Application and enter urls for the Terms of Service, Policy etc.
 4. Check "Make you app public" to make the application public. (Note: a web developer charge of $5 is required) .
 
 
@@ -87,6 +88,33 @@ rails s
 0. These steps are common accross all the platforms. Please read this to get detail information on how to setup an app using social media site's developer portal and obtain the api keys to enter in the application.yml file.
 http://railscasts.com/episodes/360-facebook-authentication?view=asciicast
 
+## Setting up Solr on Heroku
+
+0. Goto the following link and complete the steps described: https://devcenter.heroku.com/articles/websolr
+1. Remember that the records are automatically reindex whenever a insertion or deletion takes place, however if the schema of the model is changed ie. a new search field is introduced the following command needs to be run. 
+
+```bash
+heroku run rake sunspot:reindex
+```
+2. After deploying the application for the first time, go to your Websolr Addon and select your default index. 
+3. Click on the advanced configuration tab and paste the code from the file solr/conf/schema.xml to update the index on the heroku web solr instance. Note: that after updating the schema you must run the reindex command again.
+
+## Braintree Setup 
+0. Once you obtain the necessary keys from braintree they must be populated in the following initializer file: initializers/braintree.rb as follows - 
+
+```ruby
+Braintree::Configuration.environment = :sandbox #or production once deployed
+Braintree::Configuration.merchant_id = "<insert master merchant account id, service fee will be disbursed here>"
+Braintree::Configuration.public_key = "< public key >"
+Braintree::Configuration.private_key = "< private key >"
+```
+
+1. In addition to the keys above, in the merchant creation for insert the braintree javascript keys:
+
+```javascript
+var braintree = Braintree.create("this_is_the_key_value");
+  braintree.onSubmitEncryptForm('new_merchant');
+```
 
 
 
