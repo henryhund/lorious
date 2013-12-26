@@ -1,35 +1,34 @@
-- meta :title => "Lorious | Control Panel"
+- meta :title => "Lorious | Manage Settings"
 = stylesheet_link_tag "users/show"
 = javascript_include_tag "users/manifest"
 #settings.container
   #settings-nav.row
-    .col-xs-12.settings-nav
+    .col-xs-12
       %ul.nav.nav-pills.tab-options
         %li
-          %a{"data-toggle" => "tab", :href => "#edit_profile"} Basic Info
+          %a{"data-toggle" => "tab", :href => "#pending_appointments"} Appointments Waiting
         %li
-          %a{"data-toggle" => "tab", :href => "#edit_profile"} Detailed Profile
+          %a{"data-toggle" => "tab", :href => "#upcoming_appointments"} Upcoming Appointments
         %li
-          %a.content-load.profile_tabs{"data-content-handler" => "#manage_account", "data-content-url" => "/users/credit_transaction/accounts", "data-toggle" => "tab", :href => "#manage_account"} Payment Accounts
-        %li
-          - if @user.expert?
-            %a.content-load.profile_tabs{"data-content-handler" => "#edit_availability", "data-content-url" => "/experts/availabilities/#{@user.availability.id}/edit", "data-toggle" => "tab", :href => "#edit_availability"} Expert Settings
-          - else
-            - if @user.is_expert_applied?
-              = link_to 'Cancel Application to be an Expert', users_cancel_application_path(id: @user.id), :method => :put
-            - else
-              =link_to 'Apply to be an Expert', users_step_path(id: @user.id, current_step_index: 1, user: @user.attributes, apply_to_be_an_expert: true ), :method => :put
-    .col-xs-12.appointments-nav{style: "display: none;"}
-      %ul.nav.nav-pills.tab-options
-        %li
-          %a.content-load.profile_tabs{"data-content-handler" => "#pending_appointments", "data-content-url" => "/users/appointments/pending", "data-toggle" => "tab", :href => "#pending_appointments"} Pending Appointments
-        %li
-          %a.content-load.profile_tabs{"data-content-handler" => "#upcoming_appointments", "data-content-url" => "/users/appointments/upcoming", "data-toggle" => "tab", :href => "#upcoming_appointments"} Upcoming Appointments
-        %li
-          %a.content-load.profile_tabs{"data-content-handler" => "#history_appointments", "data-content-url" => "/users/appointments/history", "data-toggle" => "tab", :href => "#history_appointments"} Appointments History
+          %a{"data-toggle" => "tab", :href => "#history_appointments"} Appointment History
+        / %li
+        /   %a.content-load.profile_tabs{"data-content-handler" => "#pending_appointments", "data-content-url" => "/users/appointments/pending", "data-toggle" => "tab", :href => "#pending_appointments"} Pending Appointments
+        / %li
+        /   %a.content-load.profile_tabs{"data-content-handler" => "#upcoming_appointments", "data-content-url" => "/users/appointments/upcoming", "data-toggle" => "tab", :href => "#upcoming_appointments"} Upcoming Appointments
+        / %li
+        /   %a.content-load.profile_tabs{"data-content-handler" => "#history_appointments", "data-content-url" => "/users/appointments/history", "data-toggle" => "tab", :href => "#history_appointments"} Appointments History
+        / %li
+        /   - if @user.expert?
+        /     %a.content-load.profile_tabs{"data-content-handler" => "#edit_availability", "data-content-url" => "/experts/availabilities/#{@user.availability.id}/edit", "data-toggle" => "tab", :href => "#edit_availability"} Expert Settings
+        /   - else
+        /     - if @user.is_expert_applied?
+        /       = link_to 'Cancel Application to be an Expert', users_cancel_application_path(id: @user.id), :method => :put
+        /     - else
+        /       =link_to 'Apply to be an Expert', users_step_path(id: @user.id, current_step_index: 1, user: @user.attributes, apply_to_be_an_expert: true ), :method => :put
 
-      / %li
-      /   %a.content-load.profile_tabs{"data-content-handler" => "#pending_appointments", "data-content-url" => "/users/appointments/pending", "data-toggle" => "tab", :href => "#pending_appointments"} Pending Appointments
+
+        / %li
+        /   %a.content-load.profile_tabs{"data-content-handler" => "#pending_appointments", "data-content-url" => "/users/appointments/pending", "data-toggle" => "tab", :href => "#pending_appointments"} Pending Appointments
     / #sidebar_accordion.panel-group.col-xs-12
     /   .panel.panel-default
     /     .panel-heading
@@ -126,17 +125,20 @@
   .row
     .tab-content.col-xs-11
       #view_profile.tab-pane.active
-        = render "users/info"
+        =#render "users/info"
       #edit_profile.tab-pane
-        = render "users/form"
+        =#render "users/form"
       #social_media_list.tab-pane
       #add_social_media.tab-pane
       #add_interests.tab-pane
       #add_expertise.tab-pane
       #edit_availability.tab-pane
       #pending_appointments.tab-pane
+        =render "users/appointments/pending"
       #upcoming_appointments.tab-pane
+        =render "users/appointments/upcoming"
       #history_appointments.tab-pane
+        =render "users/appointments/history"
       #new_requests.tab-pane
       #withdrawn_requests.tab-pane
       #completed_requests.tab-pane
@@ -144,3 +146,6 @@
       #manage_credit.tab-pane
       #manage_account.tab-pane
   %br/
+
+  :javascript
+

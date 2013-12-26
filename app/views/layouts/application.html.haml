@@ -2,14 +2,22 @@
 %html
   %head
     = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => false
-    = stylesheet_link_tag "//cloud.typography.com/7516432/790802/css/fonts.css"
+    / = stylesheet_link_tag "//cloud.typography.com/7516432/790802/css/fonts.css"
     = javascript_include_tag "application", "data-turbolinks-track" => false
     = csrf_meta_tags
     = metamagic :description => "Lorious", :keywords => "Lorious"
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}
+    =yield :head
   %body
-    .wrapper
-      = render "layouts/nav"
-      .main
-        = render "layouts/notifications"
-        = yield
-    = render "layouts/footer_public"
+    -if !(controller_name == "home" && action_name == "index")
+      .wrapper
+        = render "layouts/nav"
+        .main
+          = render "layouts/notifications"
+          = content_for?(:body) ? yield(:body) : yield
+      %footer#private
+        = render "layouts/footer"
+    -else
+      = content_for?(:body) ? yield(:body) : yield
+      %footer#public
+        = render "layouts/footer"

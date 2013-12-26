@@ -3,26 +3,35 @@
 .iconbar#main-nav.hidden-xs
   %ul
     %li.active
-      %a#home-button.fui-home{href: root_url, "data-toggle"=>"tooltip", "title"=>"Home", "data-placement"=>"right", "data-container"=>"body"}
+      %a#home-button.fui-home{href: root_url, "data-toggle"=>"tooltip", "title"=>"Home", "data-placement"=>"right", "data-container"=>"body", "data-trigger"=>"hover"}
     %li
       %a#search-button.fui-search{href: search_path, "data-toggle"=>"tooltip", "title"=>"Search", "data-placement"=>"right", "data-container"=>"body"}
     %li
       %a#requests-button.fui-document{href: request_latest_path, "data-toggle"=>"tooltip", "title"=>"Requests", "data-placement"=>"right", "data-container"=>"body"}
-    %li
-      %a#calendar-button.fui-calendar{href: users_url(anchor: "appointment"), "data-toggle"=>"tooltip", "title"=>"Your Calendar", "data-placement"=>"right", "data-container"=>"body"}
-        %span.iconbar-unread
-          = current_user.upcoming_appointment_count
-    %li
-      %a#messages-button.fui-mail{href: conversations_url, "data-toggle"=>"tooltip", "title"=>"Your Messages", "data-placement"=>"right", "data-container"=>"body"}
-        %span.iconbar-unread
-          = current_user.mailbox.inbox(:read => false).count(:id, :distinct => true).to_s rescue "0"
-    %li
-      %a#gear-button.fui-gear{href: users_url, "data-toggle"=>"tooltip", "title"=>"Your Info and Settings", "data-placement"=>"right", "data-container"=>"body"}
+    -if current_user
+      %li
+        %a#calendar-button.fui-calendar{href: users_url(anchor: "appointment"), "data-toggle"=>"tooltip", "title"=>"Your Calendar", "data-placement"=>"right", "data-container"=>"body"}
+          %span.iconbar-unread
+            = current_user.pending_appointment_count.to_s rescue "0"
+      %li
+        %a#messages-button.fui-mail{href: conversations_url, "data-toggle"=>"tooltip", "title"=>"Your Messages", "data-placement"=>"right", "data-container"=>"body"}
+          %span.iconbar-unread
+            = current_user.mailbox.inbox(:read => false).count(:id, :distinct => true).to_s rescue "0"
+      %li
+        %a#gear-button.fui-gear{href: users_url, "data-toggle"=>"tooltip", "title"=>"Your Info and Settings", "data-placement"=>"right", "data-container"=>"body"}
     %li
       %a#help-button.fui-question{href: "#fakelink", "data-toggle"=>"tooltip", "title"=>"Help", "data-placement"=>"right", "data-container"=>"body"}
-    %li
-      =link_to destroy_user_session_path, method: :delete, "data-toggle"=>"tooltip", "title"=>"Logout", "data-placement"=>"right", "data-container"=>"body", id: "logout-button" do
-        %i.fui-power
+    -if current_user
+      %li
+        =link_to destroy_user_session_path, method: :delete, "data-toggle"=>"tooltip", "title"=>"Logout", "data-placement"=>"right", "data-container"=>"body", id: "logout-button" do
+          %i.fui-power
+    -else
+      %li
+        =link_to user_omniauth_authorize_url(:google_oauth2), "data-toggle"=>"tooltip", "title"=>"Sign In", "data-placement"=>"right", "data-container"=>"body", id: "signin-button" do
+          %i.fui-user
+      %li
+        =link_to root_url, "data-toggle"=>"tooltip", "title"=>"Get Started", "data-placement"=>"right", "data-container"=>"body", id: "signup-button" do
+          %i.fui-new
 
 .container
   #main-header-xs.row.visible-xs
@@ -84,10 +93,10 @@
 #side-searchbar.btn-group-vertical.hidden-xs.hidden-sm
   .form-group
     .input-group
-      %input#search-query-2.form-control{placeholder: "Search", type: "text"}/
-      %span.input-group-btn
-        %button.btn{type: "submit"}
-          %span.fui-search
+      %input.form-control{:placeholder => "Search", :type => "text"}
+        %span.input-group-btn
+          %button.btn{:type => "submit"}
+            %span.fui-search
   %br
   %h6.side-header Popular Topics
   %button.btn.btn-sm.btn-primary{type: "button"} Business Dev
@@ -134,17 +143,6 @@
 
 
 
-:javascript
-  $('#home-button').tooltip()
-  $('#search-button').tooltip()
-  $('#requests-button').tooltip()
-  $('#calendar-button').tooltip()
-  $('#messages-button').tooltip()
-  $('#gear-button').tooltip()
-  $('#help-button').tooltip()
-  $('#logout-button').tooltip()
-
-  $('.dropdown').dropdown()
 
 / %nav.navbar.navbar-fixed-top#navbar{role: "navigation"}
 /   .navbar-header

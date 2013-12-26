@@ -76,8 +76,8 @@ en:
         success: "Credit Card updated successfully."
   mailboxer:
     message_mailer:
-      subject_new: 'Lorious, new message about %{subject}'
-      subject_reply: 'Lorious, new reply about %{subject}'
+      subject_new: 'Lorious | New Message - %{subject}'
+      subject_reply: 'Lorious | Reply to Message -  %{subject}'
     permission:
       failure: "You do not have permission to view that conversation."
     sent:

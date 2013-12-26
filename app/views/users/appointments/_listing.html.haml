@@ -13,7 +13,7 @@
         %td= appointment.appointment_with_for_user(current_user).name rescue "Unknown"
         %td
           = link_to appointment.subject, expert_appointment_url(appointment.expert.id, appointment.id), target: "_blank"
-        %td= appointment.time.in_time_zone(appointment.time_zone).strftime "%-d %b %Y, %H:%M %Z"
+        %td= @appointment.time.in_time_zone(@appointment.time_zone).strftime("%A, %m/%d/%Y %I:%M %p %Z")
         %td= appointment.appt_state
         %td
           - if appointment.user == current_user

@@ -16,7 +16,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         if request.env["omniauth.params"]["add_social"].present?
           @user.social_media.create(name: "google_oauth2", profile: request.env["omniauth.auth"].extra.raw_info.link, data: request.env["omniauth.auth"].to_json) if request.env["omniauth.auth"].extra.raw_info.link
         end
-        redirect_to users_url
+        redirect_to authenticated_root_url
       end
     else
       redirect_to root_url, notice: I18n.t("devise.omniauth_callbacks.failure")

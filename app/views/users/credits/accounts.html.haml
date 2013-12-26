@@ -1,29 +1,58 @@
 .row
-  %h1 Account
-  %p
-    - if current_user.expert?
-      - if current_user.braintree_merchant_id.present?
-        %div
-          Merchant account id: #{current_user.braintree_merchant_id}
-        %div
-          Account status: #{current_user.braintree_merchant_status}
-        - if current_user.braintree_merchant_status_message.present?
+  .container
+    %h1 Account
+    %p
+      - if current_user.expert?
+        - if current_user.braintree_merchant_id.present?
           %div
-            Message: #{current_user.braintree_merchant_status_message}
+            Merchant account id: #{current_user.braintree_merchant_id}
+          %div
+            Account status: #{current_user.braintree_merchant_status}
+          - if current_user.braintree_merchant_status_message.present?
+            %div
+              Message: #{current_user.braintree_merchant_status_message}
+        - else
+          %div
+            No merchant account in system. #{link_to "Click here to add one", merchant_url, :class => "btn btn-default"}
+        %br/
+        - if current_user.braintree_token.present?
+          Credit Card Present with last 4 digits - #{current_user.braintree_last4}
+          \#{link_to "Change card details", credit_card_url, :class => "btn btn-default"}
+        - else
+          You do not have a credit card linked to your account.
+          \#{link_to "Click here to add one", credit_card_url, :class => "btn btn-default"}
       - else
-        %div
-          No merchant account in system. #{link_to "Click here to add one", merchant_url, :class => "btn btn-default"}
-      %br/
-      - if current_user.braintree_token.present?
-        Credit Card Present with last 4 digits - #{current_user.braintree_last4}
-        \#{link_to "Change card details", credit_card_url, :class => "btn btn-default"}
-      - else
-        You do not have a credit card linked to your account.
-        \#{link_to "Click here to add one", credit_card_url, :class => "btn btn-default"}
-    - else
-      - if current_user.braintree_token.present?
-        Credit Card Present with last 4 digits - #{current_user.braintree_last4}
-        \#{link_to "Change card details", credit_card_url, :class => "btn btn-default"}
-      - else
-        You do not have a credit card linked to your account.
-        \#{link_to "Click here to add one", credit_card_url, :class => "btn btn-default"}
+        - if current_user.braintree_token.present?
+          Credit Card Present with last 4 digits - #{current_user.braintree_last4}
+          \#{link_to "Change card details", credit_card_url, :class => "btn btn-default"}
+        - else
+          You do not have a credit card linked to your account.
+          \#{link_to "Click here to add one", credit_card_url, :class => "btn btn-default"}
+.row
+  .container
+    %a{"data-toggle" => "modal", :href => "#transactionModal"} See Transaction History
+
+#transactionModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "transactionModalLabel", :role => "dialog"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} x
+        %h4.modal-title
+          = "Transaction History"
+      .modal-body
+        #transactions-table
+          = render "transaction"
+      .modal-footer
+
+:javascript
+  $('#transactionModal').on('show.bs.modal', function (e) {
+    $('#transactionModal').appendTo("body");
+  });
+
+  $(document).ready( function() {
+      $('body').on('click', '#collection_paginator a', function(){
+        $.get(this.href, null, null, 'script');
+      return false;
+      })
+    })
+

@@ -32,31 +32,30 @@
     .col-md-1
   - Expert.where(is_featured: true).limit(5).order("RANDOM()").each do |expert|
     .row
-      .col-md-12
-        .well.well-sm
-          .row
-            .col-xs-3.col-md-3.text-center
-              = link_to profile_path(expert.username) do
-                = image_tag(expert.image.url, class: "img-circle search-avatar no-margin", style: "width: 100px; height: 100px;")
-                %h6= expert.name
-            .col-xs-9.col-md-9.section-box
-              %p
-                %strong Tagline:&nbsp;
-                = truncate(expert.tag_line, length: 80, separator: " ")
-              %p
-                %strong About:&nbsp;
-                = truncate(expert.bio, length: 80, separator: " ")
-              %ul.list-unstyled
-                - expert.skill_list.first(5).each do |skill|
-                  %li.label.label-primary{style:"margin-right:2px"}
-                    %a{:href => "/search?keyword=#{skill}", :style => "color: inherit; text-decoration: none;"}
-                      = skill
-              .row.rating-desc
-                .col-md-12
-                  .star{id: "star-average", "data-score" => expert.get_average_rating, style: "display:inline"}
-                  %span.small
-                    = "|"
-                    = "(" + expert.appointments.history.size.to_s + ")"
+      .container
+        .col-md-9.col-xs-12.col-sm-12.well
+          .col-xs-3.col-md-3.text-center{class: "#{cycle('odd','even')== "odd"? "" : 'pull-right'}"}
+            = link_to profile_path(expert.username) do
+              = image_tag(expert.image.url, class: "img-circle search-avatar no-margin", style: "width: 100px; height: 100px;")
+              %h6= expert.name
+          .col-xs-9.col-md-9.section-box
+            %p
+              %strong Tagline:&nbsp;
+              = truncate(expert.tag_line, length: 80, separator: " ")
+            %p
+              %strong About:&nbsp;
+              = truncate(expert.bio, length: 80, separator: " ")
+            %ul.list-unstyled
+              - expert.skill_list.first(5).each do |skill|
+                %li.label.label-primary{style:"margin-right:2px"}
+                  %a{:href => "/search?keyword=#{skill}", :style => "color: inherit; text-decoration: none;"}
+                    = skill
+            .row.rating-desc
+              .col-md-12
+                .star{id: "star-average", "data-score" => expert.get_average_rating, style: "display:inline"}
+                %span.small
+                  = "|"
+                  = "(" + expert.appointments.history.size.to_s + ")"
 
 / .col-xs-1
 /   -# Expert.order("RANDOM()").all(:limit => 4).each do |expertise|

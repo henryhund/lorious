@@ -1,7 +1,7 @@
 %p
   Hi #{@to.name},
 %p
-  Your appointment with #{@appointment_with.name} has been confirmed for #{@appointment.time.to_formatted_s(:long)}.
+  Your appointment with #{@appointment_with.name} has been confirmed for #{@appointment.time.in_time_zone(@appointment.time_zone).strftime("%A, %m/%d/%Y %I:%M %p %Z")}.
 %p
   Please view the details of your appointment #{link_to "here", expert_appointment_url(@appointment.expert.id, @appointment.id)}.
   You can edit or cancel your appointment up to 8 hours before the scheduled start time.

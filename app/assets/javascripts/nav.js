@@ -4,14 +4,14 @@ $(window).scroll(function(){
   } else {
     $('.header-lg-center').removeClass("smoke-break");
   }
-})
-$(function() {
-  $('.input-group').on('focus', '.form-control', function () {
-      $(this).closest('.form-group, .navbar-search').addClass('focus');
-    }).on('blur', '.form-control', function () {
-      $(this).closest('.form-group, .navbar-search').removeClass('focus');
-    });
 });
+// $(function() {
+//   $('.input-group').on('focus', '.form-control', function () {
+//       $(this).closest('.form-group, .navbar-search').addClass('focus');
+//     }).on('blur', '.form-control', function () {
+//       $(this).closest('.form-group, .navbar-search').removeClass('focus');
+//     });
+// });
 
 // $(function() {
 // $('.header-lg-center')

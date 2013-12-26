@@ -12,12 +12,12 @@ class UserMailer < ActionMailer::Base
 
   def new_expert_request expert
     @expert = expert
-    mail(to: @expert.email, subject: 'Expert Application Aprroved')
+    mail(to: @expert.email, subject: 'Expert Application Approved')
   end
 
   def merchant_account_approved expert
     @expert = expert
-    mail(to: @expert.email, subject: 'Merchant Account Aprroved')
+    mail(to: @expert.email, subject: 'Merchant Account Approved')
   end
 
   def merchant_account_declined expert, reason
