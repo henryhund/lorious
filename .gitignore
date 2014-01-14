@@ -15,4 +15,11 @@
 /log/*.log
 /tmp
 config/database.yml
+config/application.yml
 *.DS_Store
+public/uploads/
+
+solr/data
+dump.rdb
+
+config/initializers/google_calendar.temp

@@ -1,0 +1,178 @@
+var app;
+
+app = angular.module("search", ["ngResource", "ui.bootstrap","truncate","ui.slider","localytics.directives","searchFilters"]).config([
+  "$routeProvider", "$httpProvider", function($routeProvider, $httpProvider) {
+    return $routeProvider.when("/", {
+      templateUrl: '<%= asset_path("search-list.html") %>',
+      controller: SearchCtrl
+    }).otherwise({
+      redirectTo: "/"
+    }, function($httpProvider) {
+      return $httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+    });
+  }
+]).
+// Infinite scroll/pagination, this "directive" binds to the view
+// in the application HTML, "when-scrolled" is hooked up to "whenScrolled" here
+directive('whenScrolled', function() {
+	
+	return function(scope, elm, attr) {
+      var raw = elm[0];
+ 
+      // bind function to the 'scroll' event
+      // we listen to the 'scroll' event and calculate when to call the method attached to "when-scrolled"
+      // if you recall our HTML page, we have: when-scrolled="load_data()"
+      // in our application script we defined "load_data()"
+      elm.bind('scroll', function() {
+        // calculating the time/space continuum needed to trigger the loading of the next pagination
+        if (raw.scrollTop + raw.offsetHeight >= raw.scrollHeight) {
+          // from the AngularJS documentation:
+          // http://docs.angularjs.org/api/ng.$rootScope.Scope#$apply
+          // $apply() is used to execute an expression in angular from outside 
+          // of the angular framework. (For example from browser DOM events, setTimeout, 
+          // XHR or third party libraries). Because we are calling into the angular 
+          // framework we need to perform proper scope life-cycle of 
+          // exception handling, executing watches.
+          scope.$apply(attr.whenScrolled);
+        }
+      });
+    };
+});
+
+app.factory("Search", [
+  "$resource", function($resource) {
+    return $resource("/search/page/:id", 
+	    { id: "@id" }, 
+	    { update: { method: "PUT" }}
+    );
+  }
+]);
+
+this.SearchCtrl = [
+  "$scope", "$resource", "$route", "$routeParams", "$location", "Search", function($scope, $resource, $route, $routeParams, $location, Search) {
+    $scope.loading = true;
+    $scope.model = {facets: [] };
+    
+    parameter = getUrlParameters("keyword", "", true)
+    if (parameter){
+    	parameter = parameter.replace(/\+/g," ");
+	    Search.get({id: 1, keyword: parameter}, function (new_experts) {
+		    $scope.experts = new_experts.results;
+		    $scope.model.facets = new_experts.facets;
+		    $scope.loading = false;
+	    });	
+	    $scope.default_keyword = parameter;
+    }else{
+    	Search.get({id: 1}, function (new_experts) {
+		    $scope.experts = new_experts.results;
+		    $scope.model.facets = new_experts.facets;
+		    $scope.loading = false;
+	    });	
+	    $scope.default_keyword = "";
+    }
+	
+    //Initializing rating elements
+    $scope.rate = 2.5;
+	$scope.max = 5;
+	$scope.isReadonly = true;
+	
+	$scope.hoveringOver = function(value) {
+	  $scope.overStar = value;
+	  $scope.percent = 100 * (value / $scope.max);
+	};
+	
+	$scope.ratingStates = [
+	  {stateOn: 'icon-ok-sign', stateOff: 'icon-ok-circle'},
+	  {stateOn: 'icon-star', stateOff: 'icon-star-empty'},
+	  {stateOn: 'icon-heart', stateOff: 'icon-ban-circle'},
+	  {stateOn: 'icon-heart'},
+	  {stateOff: 'icon-off'}
+	];
+		 
+	
+  }
+];
+
+this.SearchDetailCtrl = [
+  "$scope", "$resource", "$route", "$routeParams", "$location", "Search", function($scope, $resource, $route, $routeParams, $location, Search) {
+    
+    $scope.pg_counter = 1;
+    $scope.loading = false;
+	$scope.update = function(value) {
+	    $scope.model.facets = value;
+	};
+	  
+	$scope.generateSearchParams = function(pageId) {
+	  var keyword = "", tag_list = [], location = "";
+	  tag_list = $scope.getTagsFilterList();		
+      
+      if( typeof $scope.query !== 'undefined' ) {
+      	  if( typeof $scope.query.$ !== 'undefined' ) 
+			keyword = $scope.query.$;
+		  	 	
+		  if( typeof $scope.query.skill_list !== 'undefined' ) 
+			skill_list = $scope.query.skill_list;
+			
+		  if( typeof $scope.query.location !== 'undefined' ) 
+			location = $scope.query.location;
+      }	
+      
+      $scope.params = {};
+      $scope.params.id = pageId;
+      $scope.params.keyword = keyword;
+      $scope.params.tag = tag_list;
+      $scope.params.location = location;
+      return $scope.params;
+      
+	};
+	 
+    $scope.load_data = function() {
+      if($scope.experts.length < 15){
+      	return;
+      }
+      else{
+      	$scope.loading = true;
+	    Search.get($scope.generateSearchParams(++$scope.pg_counter), function (new_experts) {
+          //new data is available in the callback to insert to the experts ng-model
+          $scope.experts.push.apply($scope.experts, new_experts.results);
+          $scope.loading = false;
+        });	
+      }
+	  
+    };
+    
+    $scope.load_data_with_params = function(params) {
+	  $scope.experts = []; //clear old search results
+	  $scope.loading = true;
+	  Search.get(params, function (new_experts) {
+        $scope.experts = new_experts.results;
+        $scope.loading = false;
+      });
+    };
+    
+	$scope.getFilteredValues = function() {
+	  $scope.pg_counter = 1; //reset page count to 1 as new search is performed		
+	  $scope.load_data_with_params($scope.generateSearchParams($scope.pg_counter));
+	};
+	
+	$scope.getTagsFilterList = function() {
+		var tags = [];
+		angular.forEach($scope.selectedTags, function (selectedTag) {
+			tags.push(selectedTag.tag);
+		}, tags);
+		return tags;
+	};
+	
+	//Create a watch to filter search 
+	$scope.$watch('selectedTags', function() { 
+		if(typeof($scope.selectedTags) != 'undefined') {	
+			//Tags have changed need to get new filtered search result
+			$scope.getFilteredValues();
+		}
+	}, true);
+	
+  }
+];
+
+
+	

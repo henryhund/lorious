@@ -1,0 +1,16 @@
+= simple_form_for(MessagePost.new, url: new_conversation_expert_appointment_path, method: :post, remote: false, multipart: true, validate: true) do |f|
+  #modal_notice.alert.alert-danger.fade{:style => "margin-bottom: 1px;"}
+  = f.hidden_field :recipient_id, value: @message_to.id
+  = f.hidden_field :subject, value: @appointment.subject
+  %p * Your Message
+  = f.input :body, as: :text, :input_html => { :cols => 150, :rows => 3, class: "pull-left" }, label: false
+  = f.button :submit, "Send message", class: "btn btn-primary pull-left"
+%br/
+%br/
+:javascript
+  $(document).ready(function() {
+      $('#messageModal').on('shown.bs.modal', function() {
+          $('#new_message_post').enableClientSideValidations();
+          $('#new_message_post').resetClientSideValidations();
+      })
+  });

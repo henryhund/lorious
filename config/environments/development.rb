@@ -1,13 +1,13 @@
 Lorious::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-
+  config.time_zone = "Kolkata"
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
   # Do not eager load code on boot.
-  config.eager_load = false
+  config.eager_load = true
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
@@ -28,6 +28,24 @@ Lorious::Application.configure do
   config.assets.debug = true
 
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
-  config.google_app_id = "676252516488.apps.googleusercontent.com"
-  config.google_secret = "LToBuUhKdSpW9axKJ8_3Aadx"
+  config.google_app_id = ENV['GOOGLE_OAUTH2_CLIENT_ID']
+  config.google_secret = ENV['GOOGLE_OAUTH2_CLIENT_SECRET']
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :domain               => 'devbrother.com',
+    :user_name            => 'testing@devbrother.com',
+    :password             => 'devbrother',
+    :authentication       => 'plain',
+    :enable_starttls_auto => true  }
+  
+  #config.action_mailer.smtp_settings = {
+  #  :address              => "smtp.mandrillapp.com",
+  #  :port                 => 587,
+  #  :user_name            => ENV['MANDRILL_USERNAME'],
+  #  :password             => ENV['MANDRILL_API_KEY'],
+  #  :authentication       => 'plain',
+  #  :enable_starttls_auto => true  }
 end

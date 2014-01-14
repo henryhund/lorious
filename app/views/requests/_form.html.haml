@@ -1,0 +1,48 @@
+:css
+  .chosen-container-multi .chosen-choices {
+    border: 1px solid #cccccc !important;
+    border-top-left-radius: 4px !important;
+    border-bottom-left-radius: 4px !important;
+  }
+.row{:style => "margin-bottom: 150px;"}
+  .col-xs-3
+  .col-xs-6
+    %h1.text-center= @header
+    = simple_form_for @request, validate: true do |f|
+      = f.error_notification
+      #content{:style => "margin-top: 25px;"}
+        .form-inputs
+          - if user_signed_in?
+            .form-group.string.optional.request_company_name
+              %label.string.optional.col-md-5.control-label{:for => "request_company_name"} Name
+              .col-md-7
+                %input.form-control{:readonly => "true", :type => "text", :value => current_user.name}/
+            .form-group.string.optional.request_company_name
+              %label.string.optional.col-md-5.control-label{:for => "request_company_name"} Email
+              .col-xs-7
+                %input.form-control{:readonly => "true", :type => "text", :value => current_user.email}/
+                your email will not be shared publicly
+            = f.hidden_field :requester_id, :value => current_user.id
+          = f.input :company_name, label: 'Company/App Name'
+          = f.input :company_url, label: 'Company URL'
+          = f.input :company_description, label: 'What does your Company Do?', :as => :text, :input_html => { :cols => 50, :rows => 3 }
+          .form-group.text
+            %label.text.col-xs-5.control-label{:for => "review_content"} Problem Type
+            .col-xs-7
+              = f.select :problem_list, options_for_select(@available_problems, (@request.problem_list.split(",").first rescue [""]) ), {}, multiple: "multiple", class: "chosen", "data-placeholder" => "Select your problem type"
+          = f.input :problem_headline, label: 'Problem Headline', :as => :string
+          = f.input :problem_description, label: 'Problem Description', :as => :text, :input_html => { :cols => 50, :rows => 3 }
+          .form-group.text
+            %label.text.col-xs-5.control-label{:for => "review_content"} Tags
+            .col-xs-7
+              = f.select :skill_list, options_for_select(@available_skills, (@request.skill_list.split(",").first rescue [""]) ), {}, multiple: "multiple", class: "chosen", "data-placeholder" => "Select your skills"
+          = f.input :appt_length, label: 'Appt Length', collection: Request.APPT_LENGTH, selected: @request.appt_length, style: "vertical-align: middle;"
+          - if(false)
+            .well{:style => "margin-top: 50px; margin-bottom: 20px;"}
+              %h3.text-center I want to talk to someone
+              = f.input :is_local, label: 'Local'
+              = f.input :local_zip, label: 'ZIP'
+              = f.input :is_online, label: 'Online'
+        .form-actions{:style => "margin-top: 70px;"}
+          = f.button :submit, 'Submit Request' , :class => "btn btn-primary pull-right col-lg-offset-10"
+  .col-xs-3

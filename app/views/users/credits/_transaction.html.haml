@@ -1,0 +1,21 @@
+.row
+  %h1 Transaction History
+  %table.table
+    %thead
+      %tr
+        %th Amount
+        %th Date
+        %th Details
+        %th Status
+    %tbody
+      - @transactions.each do |transaction|
+        %tr
+          %td= number_to_currency(transaction.amount_with_sign)
+          %td= transaction.created_at.to_formatted_s(:long)
+          %td= transaction.description
+          %td= transaction.transaction_status
+  - if @transactions.empty?
+    %div No Transactions.
+  - else
+    #collection_paginator
+      = will_paginate @transactions

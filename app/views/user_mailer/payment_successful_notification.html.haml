@@ -1,0 +1,21 @@
+%h1 Payment Result
+%div
+  Thank you for your payment. #{@to.name}
+%h2 Transaction Details
+%table
+  %tr
+    %td Amount
+    %td
+      $#{@result.amount}
+  %tr
+    %td Transaction ID:
+    %td= @result.transaction_id
+  %tr
+    %td First Name:
+    %td= @to.first_name
+  %tr
+    %td Last Name:
+    %td= @to.last_name
+  %tr
+    %td Email:
+    %td= @to.email

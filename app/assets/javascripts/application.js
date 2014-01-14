@@ -12,5 +12,18 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
-//= require_tree .
+//= require jquery.ui.all
+//= require angular
+//= require angular-resource
+//= require angular-bootstrap
+//= require angular-ratings
+//= require angular-ratings-tpls
+//= require search-filters
+//= require search
+//= require search-ui
+//= require requests
+//= require dataTables/jquery.dataTables
+//= require control_panel
+//= require_directory ./angular
+//= require_directory ./common
+//= require availability_calendar

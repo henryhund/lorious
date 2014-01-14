@@ -1,0 +1,5 @@
+.container
+  .row
+    .col-xs-12
+      = form_for @user, url: url_for(controller: 'steps', action: 'update'), role: "form", class: "form-horizontal", method: "PUT", validate: true do |f|
+        = render "#{@user.current_step}_step", f: f

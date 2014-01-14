@@ -1,0 +1,37 @@
+-meta :title => "Lorious | View Conversation" 
+.row
+  .col-md-1
+  .col-md-3  
+    = render 'messagenav'
+  .col-md-7
+    #actions
+      - if @conversation.is_trashed?(current_user)
+        = link_to "Untrash this conversation", untrash_conversation_path(@conversation), class: "btn btn-success pull-right", method: :post
+      - else
+        = link_to "Trash this conversation", trash_conversation_path(@conversation), class: "btn btn-danger pull-right", method: :delete
+        
+    %h2.subject= "Subject: " + @conversation.subject
+    .well
+      
+      %p Message History
+      - @conversation.messages.each do |message|
+        .panel.panel-default
+          .panel-heading.strong
+            %img{src: message.sender.nil? ? "" : message.sender.image_url, width: '25px', class: "img-rounded"}
+            #{message.created_at.to_s(:short)} (#{time_ago_in_words(message.created_at)} ago)
+            - if message.sender == current_user
+              You said
+            - else
+              = message.sender.name rescue 'Unknown'
+          .panel-body= message.body
+  
+    #reply
+      = simple_form_for @message  do |f|
+        = f.input :conversation_id, as: :hidden
+        %h2 Reply
+        = f.input_field :body, as: :text, label: 'Reply', style: "margin-bottom: 10px;"
+        = f.button :submit, 'Reply to conversation' ,:class => "btn btn-primary pull-right"
+    
+        
+%br
+%br

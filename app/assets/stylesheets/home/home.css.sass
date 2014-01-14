@@ -1,0 +1,240 @@
+@import "mixins/colors"
+@import "mixins/fonts"
+
+h1
+  font-family: $header-font-family
+  color: $lorious-blue-green
+  font-size: 37px
+  text-transform: uppercase
+  font-weight: 500
+  letter-spacing: 1.2px
+h3
+  font-family: $subtitle-font-family
+  color: $lorious-dark-grey
+  text-transform: uppercase
+  font-size: 14px
+  font-weight: 500
+  letter-spacing: 1.2px
+h4
+  font-family: $subtitle-font-family
+  color: $lorious-dark-grey
+  font-size: 14px
+  font-weight: 500
+  letter-spacing: 1.2px
+p
+  font-family: $subtitle-font-family
+  color: $light-grey
+  font-size: 12px
+  font-weight: 500
+  letter-spacing: 1.2px
+
+#home
+  background-color: $lorious-dark-grey
+  opacity: .75
+  color: #fff
+  padding-top: 40px
+  padding-bottom: 40px
+
+  .left-picture
+    padding-top: 0
+    margin-top: 0
+    margin-left: 0
+    padding-left: 0
+
+    .laptop-image
+      width: 900px
+
+  .right-signup
+    .title
+      font-family: $header-font-family
+      font-size: 35pt
+      text-transform: uppercase
+      font-weight: 500
+      letter-spacing: 1.2px
+    .subtitle
+      font-family: $subtitle-font-family
+      color: $lorious-blue-green
+      font-size: 14pt
+      margin-top: -10px
+      letter-spacing: 1px
+      margin-bottom: 25px
+
+    input.text
+      background: none
+      border: 1px solid #fff
+      width: 60%
+      height: 40px
+      text-indent: 5px
+      padding: 5px
+      font-family: $subtitle-font-family
+      color: #fff
+      font-size: 12px
+      margin-bottom: 20px
+    input.submit
+      background-color: $lorious-blue-green
+      -webkit-appearance: none
+      border: none
+      text-transform: uppercase
+      width: 50%
+      height: 40px
+      text-indent: 5px
+      padding: 5px
+      font-family: $subtitle-font-family
+      color: #fff
+      font-size: 14px
+      letter-spacing: 1px
+      margin-bottom: 20px
+      margin-top: 15px
+
+    input.submit:hover
+      opacity: 0.75
+
+#home-border
+  height: 80px
+  background-color: $lorious-dark-grey
+#about
+  text-align: center
+
+  .title
+    margin-top: 50px
+
+  .subtitle
+    margin-bottom: 50px
+
+  .detail
+    margin-bottom: 40px
+
+  .icon-large
+    font-size: 45px
+    color: $lorious-blue-green
+
+  .icon-large-fast-forward
+    font-size: 39px
+
+  .li-large-fast-forward
+    padding-top: 9px
+
+  .left-column
+    border-right: 1px solid #eeeeee
+
+
+#how-it-works
+  padding-top: 40px
+  padding-bottom: 40px
+  background-color: $lorious-dark-grey
+  color: #fff
+  h3
+    color: #fff
+  p
+    color: #fff
+  ul
+    margin-top: 20px
+
+    hr
+      border-top: 1px solid #fff
+      margin-top: 30px
+      margin-bottom: 30px
+
+    .list-number
+      width: 60px
+      color: #fff
+      float: left
+      margin-right: 20px
+
+#satisfaction
+  background-color: $lorious-dark-grey
+  opacity: .75
+  text-align: center
+  color: #ffffff
+  padding-top: 100px
+  padding-bottom: 100px
+
+  .onehundredpct
+    font-family: $header-font-family
+    color: $lorious-blue-green
+
+    font-size: 75px
+    -webkit-border-radius: 999px
+    -moz-border-radius: 999px
+    border-radius: 999px
+    behavior: url(PIE.htc)
+
+    width: 300px
+    height: 300px
+    padding-top: 80px
+    border: 4px solid $lorious-light-green
+    // display: table-cell
+    // vertical-align: middle
+    text-align: center
+    margin: 0 auto
+    p
+      color: white
+      font-size: 18px
+      text-transform: uppercase
+      padding: 0
+      margin: 0
+
+
+#get-started
+  text-align: center
+  padding-top: 40px
+
+  .title
+    margin-bottom: 40px
+
+#get-started-form
+  text-align: center
+  input.text
+    background: none
+    border: 1px solid #aaa
+    width: 100%
+    height: 40px
+    text-indent: 5px
+    padding: 5px
+    font-family: $subtitle-font-family
+    color: #aaa
+    font-size: 12px
+    margin-bottom: 20px
+
+  .first-input
+    margin-right: 25px
+
+  input.submit
+    background-color: $lorious-blue-green
+    -webkit-appearance: none
+    border: none
+    text-transform: uppercase
+    width: 220px
+    height: 40px
+    text-indent: 5px
+    padding: 5px
+    font-family: $subtitle-font-family
+    color: #fff
+    font-size: 14px
+    letter-spacing: 1px
+    margin-bottom: 20px
+    margin-top: 15px
+
+  input.submit:hover
+    opacity: 0.75
+
+@media (max-width: 767px) // should be 767
+  #home
+    height: auto !important
+
+    .left-picture
+      margin-left: 0
+      padding-left: 0
+
+      .laptop-image
+        width: 400px !important
+        margin-bottom: 40px
+
+@media (max-width: 765px)
+  #get-started-form
+    input.text
+      width: 60%
+  #about
+    .right
+      border-top: 10px dashed black
+

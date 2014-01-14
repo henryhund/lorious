@@ -1,0 +1,87 @@
+@import "mixins/colors"
+@import "mixins/fonts"
+
+.navbar
+  background-color: #32494c
+  font-size: 18px
+  margin-bottom: 10px
+  position: fixed
+  padding-top: 10px
+
+  ul
+    li
+      font-family: 'Gotham A', 'Gotham B', 'Roboto Condensed'
+      font-weight: 700
+      font-size: 14px
+      display: inline
+      a
+        padding-top: 11px
+        color: #ffffff
+      a:hover
+        text-decoration: none
+        color: #fafafa
+    span.label
+      font-size: 85%
+
+  li.dropdown > a
+    padding-bottom: 10px
+
+  .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus
+    height: 100%
+    background-color: rgba(158, 185, 189, 0.75)
+    color: #ffffff
+
+  .navbar-nav > .open > a, .navbar-nav > .open > a:hover, .navbar-nav > .open > a:focus, .navbar-nav > a:focus
+    color: #ffffff
+
+  .navbar-nav > li > a:hover, .navbar-nav > li > a:focus
+    background-color: $lorious-dark-grey
+    color: #ffffff
+
+  .navbar-brand
+    padding-top: 0
+
+  .navbar-nav > .dropdown > a .caret
+    border-top: 4px solid white
+
+  .dropdown-menu > li > a
+    color: #000000
+
+  .navbar-text
+    p
+      color: #fff
+      font-size: 14px
+  .icon-bar
+    background-color: #fff
+  // / .navbar .navbar-inner
+  // / background-color: #32494c !important /* fallback color, place your own */
+  // / background-image: none
+  // / border-radius: 0px
+  // / -webkit-border-radius: 0px
+  // / -moz-border-radius: 0px
+
+  // / .btn-navbar
+  // /   background-color: #32494c !important /* fallback color, place your own */
+  // /   background-image: none
+
+  // / .navbar .nav > li > a
+  // /   float: none
+  // /   padding: 20px 15px 20px
+  // /   font-family: 'Gotham A', 'Gotham B', 'Roboto Condensed'
+  // /   color: #ffffff
+  // /   font-size: 14px
+  // /   font-weight: 700
+  // /   text-shadow: none
+  // /   //text-transform: uppercase
+
+  // / .navbar .nav > li > a:focus, .navbar .nav > li > a:hover
+  // /   color: #ffffff
+
+
+
+// If screen is narrow, override JS for setting navbar height (otherwise will not allow responsive dropdown)
+@media (max-width: 767px) // should be 767
+  .navbar
+    height: auto !important
+  .navbar-nav .open .dropdown-menu > li > a
+    color: white  

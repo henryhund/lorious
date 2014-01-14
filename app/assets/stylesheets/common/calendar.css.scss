@@ -1,0 +1,66 @@
+@import "mixins/colors";
+@import "mixins/fonts";
+
+#tbl_hours {
+  width: 99%;
+  .time-header {
+   vertical-align:center;
+   height: 35px;
+  }
+  tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: black;
+    background-color: white;
+    font-family: $body-font-family;
+    tr {
+      display: table-row;
+      vertical-align: inherit;
+      border-color: inherit;
+    }
+    th {
+      border: none;
+      font-weight: normal;
+      width: 24px;
+    }
+    th.hrd_am, th.hrd_pm {
+      border-bottom: 1px solid #ccc;
+      font-weight: bold;
+
+    }
+  }
+
+  td {
+    width: 24px;
+    height: 24px;
+    background-color: white;
+    border: 1px solid #aaa;
+    border-collapse: collapse;
+    .leftDiv, .rightDiv {
+      float:left;
+      margin: 0;
+      padding: 0;
+      height: 24px;
+      width: 50%;
+    }
+    .available {
+      background-color: $lorious-blue-green;
+    }
+  }
+}
+
+#edit_calendar{
+  .leftDiv {
+    border-right: 1px solid #ccc;
+  }
+  .leftDiv, .rightDiv {
+    cursor: pointer;
+  }
+}
+
+#time_zone_selector {
+  select {
+    width: 83%;
+    margin-left: 16%;
+  }
+}

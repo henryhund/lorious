@@ -1,0 +1,77 @@
+= javascript_include_tag "nav"
+
+%nav.navbar.navbar-fixed-top#navbar{role: "navigation"}
+  .navbar-header
+    %button.navbar-toggle{"data-target" => ".navbar-responsive-collapse", "data-toggle" => "collapse", :type => "button"}
+      %span.icon-bar
+      %span.icon-bar
+      %span.icon-bar
+    %a.navbar-brand{:href => "/"}
+      =image_tag "https://s3.amazonaws.com/lorious/layout/lorious_2color_beta.svg", width: "110px"
+
+  .collapse.navbar-collapse.navbar-responsive-collapse
+    %ul.nav.navbar-nav
+      -if current_user
+        %li.visible-lg
+          =link_to "Search for Experts", search_path
+        %li.visible-lg
+          =link_to "Recent Requests", request_latest_path
+        %li.hidden-lg
+          =link_to "Search", search_path
+        %li.hidden-lg
+          =link_to "Requests", request_latest_path
+      -elsif true
+        %li
+          %a{:href => "#home"} Home
+        %li
+          %a{:href => "#about"} About
+        %li
+          %a{:href => "#how-it-works"} How it works
+        %li
+          %a{:href => "#get-started"} Get started
+        %li
+      -elsif
+        .navbar-text
+          %p{"data-no-turbolink"=>""}
+            Welcome guest. Please click
+            =link_to "here", root_url
+            to learn more about Lorious.
+    %ul.nav.navbar-nav.navbar-right
+      - if current_user
+        %li.dropdown
+          %a{"data-toggle" => "dropdown", :href => "#"}
+            ="Welcome #{current_user.name}"
+            &nbsp;
+            - if current_user.image_url.present?
+              %img{src: current_user.image_url, width: '25px', class: "img-rounded"}
+            - else
+              =image_tag("https://s3.amazonaws.com/lorious/layout/elements/placeholders/image_placeholder.jpg", width: "25px", class: "img-rounded")
+            %b.caret
+          %ul.dropdown-menu
+            %li= link_to "View Profile", profile_url(current_user.username)
+            %li= link_to "Manage Profile", users_url(anchor: "profile")
+            %li= link_to "Requests", users_url(anchor: "request")
+            %li= link_to "Transactions", users_url(anchor: "credit")
+            %li= link_to "Mailbox", conversations_url
+            %li= link_to "Appointments", users_url(anchor: "appointment")
+            %li= link_to "Settings", users_url
+            %li.divider= ""
+            %li= link_to "Sign out", destroy_user_session_path, method: :delete
+        %li
+          =link_to(conversations_url, style:"padding-left:0px;padding-right:0px;") do
+            %span.label.label-default
+              %i.icon-envelope.icon-white
+              = current_user.mailbox.inbox(:read => false).count(:id, :distinct => true).to_s rescue "0"
+        %li
+          =link_to(users_url(anchor: "appointment"), style:"padding-left:0px;padding-right:0px;") do
+            %span.label.label-danger
+              %i.icon-calendar
+              = current_user.upcoming_appointment_count
+        %li 
+          =link_to(users_url(anchor: "credit"), style:"padding-left:0px;padding-right:0px;") do
+            %span.label.label-info
+              %i.icon-asterisk
+      -else 
+        %li 
+          = link_to "Sign in", user_omniauth_authorize_url(:google_oauth2)
+

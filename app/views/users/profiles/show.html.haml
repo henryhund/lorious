@@ -1,0 +1,272 @@
+= stylesheet_link_tag "users/profile"
+= javascript_include_tag "users/manifest"
+
+- content_for :head do
+  -meta :title => "Lorious | " + @user.name + " " + @user.location + " " + @user.skill_list.to_s, :description => @user.job + " " + @user.bio, :keywords => @user.skill_list.to_s
+  :javascript
+    $(function() {
+      console.log('raty');
+      $('#star-average').raty({ readOnly: true, score: 4.5 });
+    });
+    $(function() {
+      $('#star-average1').raty({ readOnly: true, score: 3 });
+    });
+    $(function() {
+      $('#star-average2').raty({ readOnly: true, score: 5 });
+    });
+  / Old code for generating each review's rating
+  / -@profile.user.reviews.each do |review|
+  /   :javascript
+  /     $(function() {
+  /       $('#star#{review.id}').raty({ readOnly: true, score: #{review.rating} });
+  /     });
+
+#profile
+  #user-overview.row
+    .container
+      .col-md-2.col-xs-12
+        .img-circle.avatar{style: "background: url(#{@user.image.url}) no-repeat; height: 200px; background-position: center center; background-size: cover!important;"}
+      .col-md-7.col-md-offset-1.col-xs-12
+        %h1.name
+          =@user.name
+
+        %h6.job
+          Title: 
+          =@user.job rescue "Unknown"
+        %h6.location
+          =@user.location rescue "Unknown"
+        // Maybe a modal or something?
+        -if @user.expert? && (@user.availability.nil? ? false : (JSON.parse( @user.availability.timespans).length > 0) rescue false)
+          %a{"data-toggle" => "modal", :href => "#calendarModal"} See My Calendar
+        %hr
+        %p.tagline
+          =@user.tag_line rescue "Unknown"
+        %br
+        -unless @user.id == (current_user.id rescue @user.id)
+          %button.message{"data-toggle" => "modal", :href => "#messageModal"}
+            %i.icon-envelope
+            Message me
+          &nbsp;
+          %span.visible-sm
+            %br
+          -if @user.expert?
+            %a.login_check{href: "/experts/#{@user.id}/appointments/new"}
+              %button.appointment
+                %i.icon-calendar
+                Make Appointment
+              
+        &nbsp;
+      .col-md-2.col-xs-12
+        %ul.list-unstyled.links
+          %li
+            -if @social_links[:facebook]
+              =link_to @social_links[:facebook], target: "_blank" do
+                %i.icon-facebook
+            - else
+              -if current_user == @user
+                =link_to "/users/auth/facebook" do
+                  %i.icon-facebook.disabled &nbsp;Add
+              -else
+                %i.icon-facebook.disabled 
+          %li
+            -if @social_links[:linkedin]
+              =link_to @social_links[:linkedin], target: "_blank" do
+                %i.icon-linkedin
+            -else
+              -if current_user == @user
+                =link_to "/users/auth/linkedin" do
+                  %i.icon-linkedin.disabled &nbsp;Add
+              -else
+                %i.icon-linkedin.disabled 
+                
+          %li
+            -if @social_links[:twitter]
+              =link_to @social_links[:twitter], target: "_blank" do
+                %i.icon-twitter
+            -else
+              -if current_user == @user
+                =link_to "/users/auth/twitter" do
+                  %i.icon-twitter.disabled Add
+              -else
+                %i.icon-twitter.disabled 
+          %li
+            -if @social_links[:google]
+              =link_to @social_links[:google], target: "_blank" do
+                %i.icon-google-plus
+            -else
+              -if current_user == @user
+                =link_to "/users/auth/google_oauth2" do
+                  %i.icon-google-plus.disabled &nbsp;Add
+              -else
+                %i.icon-google-plus.disabled 
+          %li
+            -if @social_links[:stackexchange]
+              =link_to @social_links[:stackexchange], target: "_blank" do
+                %i.icon-stackexchange
+            -else
+              -if current_user == @user
+                =link_to "/users/auth/stackexchange" do
+                  %i.icon-stackexchange.disabled &nbsp;Add
+              -else
+                %i.icon-stackexchange.disabled 
+          %li
+            -if @social_links[:github]
+              =link_to @social_links[:github], target: "_blank" do
+                %i.icon-github 
+            -else
+              -if current_user == @user
+                =link_to "/users/auth/github" do
+                  %i.icon-github.disabled &nbsp;Add
+              -else
+                %i.icon-github.disabled  
+          %li
+            -if @social_links[:personal]
+              =link_to @user.website, target: "_blank" do
+                %i.icon-link
+            -else
+              -if current_user == @user
+                =link_to users_url(anchor: "profile") do
+                  %i.icon-link.disabled &nbsp;Add
+              -else
+                %i.icon-link.disabled
+  -if @user.expert?
+    #user-detail.row
+      .container
+        .col-md-4.left
+          %p.detail-label My rating is
+          .detail-content
+            .star{id: "star-average", "data-score" => @user.get_average_rating}
+        .col-md-4.center
+          %p.detail-label I've had
+          %p.detail-content 
+            =@user.appointments.history.size.to_s + " conversations" rescue "0 conversations"
+        .col-md-4.right
+          %p.detail-label My hourly rate is
+          %p.detail-content 
+            =number_to_currency(@user.hourly_rate_in_credit) + "/ hour"
+    #expertise.row
+      .container
+        .col-md-12
+          %h1 I'm an expert with
+          %ul.list-unstyled.tags
+            -@user.skill_list.each do |skill|
+              =link_to "/search?keyword=#{skill}" do
+                %li.highlighted
+                  =skill
+    #expertise-detail.row
+    .container{style: "margin-bottom: 50px;"}
+      .col-md-12
+        %span.title
+          %h1 I can also help with
+        %hr
+        -if @expertise.count == 0
+          ="No expertise added by #{@user.name} yet."
+        -@expertise.each do |expertise|
+          %h2
+            =expertise.title
+          %p.body-container
+            =expertise.description
+
+  
+    #expertise-detail.row
+    .container{ style: "margin-bottom: 50px;"}
+      .col-md-12
+        %span.title
+          %h1 I am interested in
+        %hr
+        -if @interests.count == 0
+          ="No interests added by #{@user.name} yet."
+        -@interests.each do |interest|
+          %h2
+            =interest.title
+          %p.body-container
+            =interest.description
+
+  #bio.row
+    .container
+      .col-md-12
+        %span.title
+          %h1 About me
+        %hr
+        %span.body-container
+          %p
+            =@user.bio
+            
+  #messageModal.modal.modalmessage.fade{"aria-hidden" => "true", "aria-labelledby" => "calendarModalLabel", :role => "dialog", :tabindex => "-1"}
+    .modal-dialog
+      .modal-content
+        .modal-header
+          / %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} x
+          %h4.modal-title 
+            = "Message " + @user.name
+        .modal-body
+          =render "message" 
+        .modal-footer
+          %p Press ESC to Exit
+        
+  -if @user.expert?
+    #reviews.row
+      .container
+        .col-md-12
+        
+          %span.title
+            %h1 Reviews
+            %hr
+          -if false 
+            .text-center
+              %button{"data-toggle" => "modal", :href => "#reviewModal"}
+                %i.icon-envelope
+                  Write a Review
+                
+          %hr  
+          %ul.list-unstyled
+            -@reviews.each do |review|
+              %li
+                -reviewer = review.reviewer
+                .review-picture-div
+                  =link_to "#", class: "review-name-link" do
+                    =image_tag(reviewer.image.url, class: "img-circle review-image")
+                    %p.review-name
+                      =reviewer.name
+                  %p 
+                    =review.created_at.strftime("%m/%d/%Y")
+                  .star{"data-score" => review.rating }  
+                .review-detail-div
+                  %p.more
+                    =review.content
+                  %hr
+                  %span.strong
+                    Topics:&nbsp;&nbsp;
+                  -review.tags.each do |tag|
+                    =link_to "/search?keyword=#{tag}" do
+                      %span.highlighted
+                        =tag
+              %hr.divider
+            
+    #calendarModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "calendarModalLabel", :role => "dialog", :tabindex => "-1"}
+      .modal-dialog
+        .modal-content
+          .modal-header
+            %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} &times;
+            %h4.modal-title 
+              =@user.name + "'s Calendar" rescue "Calendar"
+          .modal-body
+            #time_zone_selector.mg-20
+              =time_zone_select(:availability, :time_zone, nil, default: "UTC")
+            =render "shared/availability_calendar"
+          .modal-footer
+            %p Press ESC to Exit
+            
+    -if current_user        
+      #reviewModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "calendarModalLabel", :role => "dialog", :tabindex => "-1"}
+        .modal-dialog
+          .modal-content
+            .modal-header
+              / %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} x
+              %h4.modal-title 
+                = "Write a review for " + @user.name.capitalize
+            .modal-body
+              =render "review" 
+            .modal-footer
+              %p Press ESC to Exit
+= render "shared/modal"

@@ -1,0 +1,96 @@
+.container{:style => "margin-top: 10px; margin-bottom: 155px;"}
+  .row
+    %h2.text-center Appointment
+    .col-md-10
+      = simple_form_for [@expert, @appointment], validate: true do |f|
+        = f.error_notification
+        = f.input :subject
+        .col-md-offset-4.col-md-7
+          %h3 When:
+        = f.input :time_zone, priority: /US/, default: 'Eastern Time (US & Canada)', :input_html => { :style => "margin-top: 7px;"}
+        = f.input :time, as: :string
+        .col-md-offset-4.col-md-12{:style => "margin-top: 15px;"}
+          %h3 What:
+          - if @edit
+            = f.hidden_field :what_message, label: false, as: :text, value: "skip"
+            = f.input :description, label: false, as: :text
+          - else
+            = f.input :what_message, label: false, as: :text
+        .form-group.text
+          %label.text.col-md-5.control-label{:for => "review_content"} Tags
+          .col-md-7
+            = f.select :skill_list, options_for_select(@available_skills, (@appointment.skill_list.split(",").first rescue [""]) ), {}, multiple: "multiple", class: "chosen", "data-placeholder" => "Select your tags"
+        .col-md-offset-4.col-md-12{:style => "margin-top: 15px;"}
+          %h3 Length:
+          = f.input :duration, collection: @duration_options, selected: @default_duration, label: false
+        .col-md-offset-4.col-md-12
+          %h3 Total:
+          %div
+            %b $
+            %span#total.strong= (@hourly_rate_in_credit * @default_duration / 60.to_f).ceil.to_i rescue 0
+            (#{number_to_currency(@hourly_rate_in_credit)}
+            %i (hourly rate)
+            \&times;
+            = succeed ")" do
+              %span#duration_info
+                = @default_duration
+                minutes
+        .col-md-offset-3.col-md-12{:style => "margin-top: 15px;"}
+          = f.input :tos_accepted, label: 'I have read and agree to the Lorious terms, conditions and policies.', as: :boolean, :input_html => { :style => ""}
+        .col-md-offset-4.col-md-12{:style => "margin-top: 15px;"}
+          %a{:href => "http://www.lorious.com/legal", :target => "_blank"} View terms and conditions
+        .col-md-offset-3.col-md-7{:style => "margin-top: 15px;"}
+          - if !@edit
+            = f.button :submit, @request_id.present? ? 'Request Appointment' : 'Request Appointment & Agree to Pay' , :class => "btn btn-primary text-right col-lg-offset-8"
+          - else
+            = f.button :submit, 'Update Appointment' , :class => "btn btn-primary text-right col-lg-offset-8"
+        - if @request_id.nil? && @edit.nil?
+          .col-md-offset-4.col-md-10{:style => "margin-top: 15px;"}
+            %span.text-right
+              %i The user will be charged the amount listed above once the appointment is confirmed.
+        = f.hidden_field :hourly_rate, value: @hourly_rate_in_credit
+        = f.hidden_field :user_id, value: @user_id
+        = f.hidden_field :request_id, value: @request_id
+:javascript
+  $(function() {
+  		var date = new Date();
+  		date.setDate(date.getDate());
+      date.setMinutes(date.getMinutes() + 90); //made this 1.5 hrs as auto cancel happens at 1 hour from appt.
+
+  		$('#appointment_time').datetimepicker({
+  			format : "MM dd, yyyy - HH:ii p",
+  			maxView : 3,
+  			minView : 0,
+  			startView : 2,
+  			minuteStep : 15,
+  			viewSelect : 0,
+  			weekStart : 1,
+  			todayBtn : 0,
+  			autoclose : 1,
+  			todayHighlight : 1,
+  			forceParse : 0,
+  			showMeridian : 1,
+  			pickerPosition : 'bottom-left',
+  			startDate : date
+  		});
+  	});
+  
+  	var hourly_rate_in_credit =  
+   #{raw @hourly_rate_in_credit}
+  	;
+  
+  	$('#appointment_duration').change(function(event) {
+  		var text = $('#appointment_duration option:selected').text();
+  		var value = $(this).val();
+  		$("#duration_info").html(text);
+  		$('#total').html(Math.ceil(hourly_rate_in_credit / 60 * value));
+  	});
+  
+  	$('input[name="appointment[online]"]').change(function(event) {
+  		var value = $(this).val();
+  		if (value == "true") {
+  			$("#appointment_place").attr("disabled", true);
+  		} else {
+  			$("#appointment_place").attr("disabled", false);
+  		}
+  	});

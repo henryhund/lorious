@@ -1,6 +1,7 @@
 Lorious::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-
+  
+  config.time_zone = "Eastern Time (US & Canada)"
   # Code is not reloaded between requests.
   config.cache_classes = true
 
@@ -59,7 +60,8 @@ Lorious::Application.configure do
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-  # config.assets.precompile += %w( search.js )
+  config.assets.precompile += %w( application.js home.js users/manifest.js nav.js users/manifest.js )
+  config.assets.precompile += %w( application.css home/manifest.css users/show.css users/profile.css )
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -77,4 +79,16 @@ Lorious::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  config.google_app_id = ENV['GOOGLE_OAUTH2_CLIENT_ID']
+  config.google_secret = ENV['GOOGLE_OAUTH2_CLIENT_SECRET']
+
+  config.action_mailer.default_url_options = { :host => 'lorious-dev.herokuapp.com' }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address              => "smtp.mandrillapp.com",
+    :port                 => 587,
+    :user_name            => ENV['MANDRILL_USERNAME'],
+    :password             => ENV['MANDRILL_API_KEY']
+  }
 end

@@ -1,0 +1,58 @@
+<br />
+
+
+
+<p class="text-right">Sort by:
+	<select ng-model="orderProp">
+	  <option value="">None</option>
+	  <option value="first_name">Alphabetical</option>
+	</select>	
+</p>
+
+<div when-scrolled="load_data()" id="AngularCtrl" ng-controller="SearchDetailCtrl" style="height: 550px; width:100%; overflow-y: scroll;">
+	
+	<div ng-show="loading" class="cropcontainer" style="background-image:url('486.GIF'); " >&nbsp;</div>
+	
+	<div class="well" ng:repeat="expert in experts | rating_filter:ratings | slider_filter:slider | orderBy:orderProp"> 
+		<div class="row">
+			<div class="col-xs-4">
+				<br />
+					<a ng-href="/{{expert.username}}">
+						<img ng-src="{{expert.image.url}}" alt="..." class='img-circle search-avatar-small' , style: "min-height: 200px;">	
+					</a>
+			    <h4 class="text-center">{{expert.hourly_rate | currency:"$"}}/hr.</h4>
+			</div>
+  			<div class="col-xs-8">
+  				<h2><a style="color: inherit; text-decoration: none;" ng-href="/{{expert.username}}">{{expert.name}}</a> </h2>
+  				<div>
+				    <rating value="expert.average_rating" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+				    <span class="badge" ng-class="{'badge-warning': percent<30, 'badge-info': percent>=30 && percent<70, 'badge-success': percent>=70}" ng-show="overStar && !isReadonly">{{percent}}%</span>
+				</div>	
+				
+  				<h4> {{expert.location}}</h4>
+  				<ul class="list-unstyled tags" >
+					<a ng-href="/search?keyword={{skill}}" ng-repeat="skill in expert.skill_list">
+						<li class="highlighted small">
+							{{skill}}
+						</li> 
+					</a>
+				</ul>
+  				<br />
+  				<div tooltip="{{expert.bio}}" style="margin-top:10px;">{{expert.bio | characters:180 :true}}</div>
+  				
+  				<a class="btn btn-default btn-xs pull-right" ng-href="/{{expert.username}}">More</a>	
+  				
+			</div>
+		</div>
+	</div>
+	
+	<!--div ng-cloak>
+		<div ng-show="filteredExperts.length == 0" class="jumbotron">
+		  <div class="container">
+		    <h3 class="text-center">No Search Results</h3>
+		  </div>
+		</div>
+	</div-->
+		
+</div>
+

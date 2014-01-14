@@ -4,7 +4,7 @@ Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  config.mailer_sender = "please-change-me-at-config-initializers-devise@example.com"
+  config.mailer_sender = "testing@devbrother.com"
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
@@ -250,6 +250,19 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = "/my_engine/users/auth"
 
+  Warden::Manager.after_set_user do |user,auth,opts|
+    auth.cookies[:signed_in] = 1
+  end
+
+  Warden::Manager.before_logout do |user,auth,opts|
+    auth.cookies.delete :signed_in
+  end
+
   require "omniauth-google-oauth2"
-  config.omniauth :google_oauth2, Rails.configuration.google_app_id, Rails.configuration.google_secret, { access_type: "offline", approval_prompt: "" }
+  config.omniauth :google_oauth2, Rails.configuration.google_app_id, Rails.configuration.google_secret, { access_type: "offline", approval_prompt: "", scope: 'userinfo.email,userinfo.profile' }
+  config.omniauth :twitter, ENV['TWITTER_CONSUMER_KEY'], ENV['TWITTER_CONSUMER_SECRET']
+  config.omniauth :facebook, ENV['FACEBOOK_APP_ID'], ENV['FACEBOOK_SECRET']
+  config.omniauth :linkedin, ENV['LINKEDIN_API_KEY'], ENV['LINKEDIN_SECRET_KEY'], :scope => 'r_fullprofile r_emailaddress r_network'
+  config.omniauth :stackexchange, ENV['STACKEXCHANGE_CLIENT_ID'], ENV["STACKEXCHANGE_CLIENT_SECRET"], public_key: ENV["STACKEXCHANGE_KEY"], site: 'stackoverflow'
+  config.omniauth :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET']
 end

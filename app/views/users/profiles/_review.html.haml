@@ -1,0 +1,34 @@
+:css
+  .chosen-container-multi .chosen-choices {
+    border: 1px solid #cccccc !important;
+    border-top-left-radius: 4px !important;
+    border-bottom-left-radius: 4px !important;
+  }
+= simple_form_for(Review.new, url: new_review_path, method: :post, remote: false, multipart: true, validate: true) do |f|
+  #modal_notice.alert.alert-danger.fade{:style => "margin-bottom: 5px;"}
+  = f.hidden_field :reviewer_id, value: current_user.id
+  = f.hidden_field :reviewed_id, value: @user.id
+  = f.input :content, :input_html => { :cols => 50, :rows => 3 }
+  .form-group
+    %label.string.optional.col-md-5.control-label{:for => "request_company_name"} Rating
+    %span#s1{:style => "margin-top: 7px; margin-left: 12px;"}
+  .form-group.text.required.review_content
+    %label.text.required.col-md-5.control-label{:for => "review_content"}
+      %abbr{:title => "required"} *
+      Skills
+    .col-md-7
+      = f.select :tags, options_for_select(@available_skills, @user.skill_list.split(",").first ), {} ,  multiple: "multiple", class: "chosen", "data-placeholder" => "Select your skills"
+  = f.button :submit, "Submit review", class: "btn btn-default pull-right"
+%br/
+%br/
+:javascript
+  $(document).ready(function() {
+        $('#reviewModal').on('shown.bs.modal', function() {
+            $('#new_review').enableClientSideValidations();
+        });
+        
+        $('#s1').raty({
+  		scoreName : 'review[rating]',
+  		scoreId : 'review_rating'
+  	  });
+    });

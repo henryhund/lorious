@@ -35,4 +35,8 @@ Lorious::Application.configure do
   config.active_support.deprecation = :stderr
   config.google_app_id = "676252516488.apps.googleusercontent.com"
   config.google_secret = "LToBuUhKdSpW9axKJ8_3Aadx"
+
+  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.google_app_id = ENV['GOOGLE_OAUTH2_CLIENT_ID']
+  config.google_secret = ENV['GOOGLE_OAUTH2_CLIENT_SECRET']
 end

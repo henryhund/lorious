@@ -1,0 +1,9 @@
+#collection_index
+  = render "transaction"
+:javascript
+  $(document).ready( function() {
+    	$('body').on('click', '#collection_paginator a', function(){
+        $.get(this.href, null, null, 'script');
+  	  return false;
+      }) 
+    })

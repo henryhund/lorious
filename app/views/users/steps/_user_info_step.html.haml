@@ -1,0 +1,63 @@
+.form-group.row{:style => "margin-top: 50px;"}
+  = hidden_field_tag :current_step_index, 0
+  = f.hidden_field :step_1_complete, value: true
+  = f.label :username, class: "col-xs-2 control-label"
+  .col-xs-10
+    = f.text_field :username, class: "form-control", placeholder: "User name", validate: true
+.form-group.row
+  = f.label :first_name, class: "col-xs-2 control-label"
+  .col-xs-10
+    = f.text_field :first_name, class: "form-control", placeholder: "First name", validate: true
+.form-group.row
+  = f.label :last_name, class: "col-xs-2 control-label"
+  .col-xs-10
+    = f.text_field :last_name, class: "form-control", placeholder: "Last name", validate: true, validate: true
+.form-group.row
+  = f.label :tag_line, class: "col-xs-2 control-label"
+  .col-xs-10
+    = f.text_field :tag_line, class: "form-control", placeholder: "Tag line", validate: true
+.row
+  .col-xs-2
+  .col-xs-2
+    %img.thumbnail{:src => @user.image.url}/
+.form-group.row
+  = f.label :image, class: "col-xs-2 control-label"
+  .col-xs-10
+    = f.file_field :image, class: "form-control", placeholder: "Image", validate: true
+%script{:src => "https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"}
+:javascript
+  var placeSearch, autocomplete;
+  window.onload = function initialize() {
+  	// Create the autocomplete object, restricting the search
+  	// to geographical location types.
+  	autocomplete = new google.maps.places.Autocomplete(
+  	/** @type {HTMLInputElement} */(document.getElementById('autocomplete')), {
+  		types : ['(cities)']/*, componentRestrictions: {country: "us"} */
+  	});
+  	// When the user selects an address from the dropdown,
+  	// populate the address fields in the form.
+  	
+  }
+  function geolocate() {
+  	if (navigator.geolocation) {
+  		navigator.geolocation.getCurrentPosition(function(position) {
+  			var geolocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+  			autocomplete.setBounds(new google.maps.LatLngBounds(geolocation, geolocation));
+  		});
+  	}
+  }
+  $(function(){
+     $("input#autocomplete").keypress(function(e){
+         var k=e.keyCode || e.which;
+         if(k==13){
+             e.preventDefault();
+         }
+     });
+  });
+.form-group.row
+  = f.label :location, class: "col-xs-2 control-label"
+  .col-xs-10
+    = f.text_field :location, class: "form-control", placeholder: "Location", validate: true, id: "autocomplete"
+.form-group.row{:style => "margin-bottom: 150px;"}
+  .col-lg-offset-2.col-lg-10
+    = f.submit "Update Info", class: "btn btn-default"

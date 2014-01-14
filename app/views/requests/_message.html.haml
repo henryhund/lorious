@@ -1,0 +1,8 @@
+= simple_form_for(MessagePost.new, url: new_conversation_path, method: :post, remote: true, multipart: true, validate: true) do |f|
+  #modal_notice.alert.alert-danger.fade{:style => "margin-bottom: 5px;"}
+  = f.hidden_field :recipient_id, value: "{{request.requester_id}}"
+  = f.input :subject
+  = f.input :body, as: :text, :input_html => { :cols => 50, :rows => 3 }
+  = f.button :submit, "Send message", class: "btn btn-default pull-right"
+%br
+%br  
