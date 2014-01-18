@@ -62,6 +62,7 @@ Lorious::Application.configure do
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
   config.assets.precompile += %w( application.js home.js users/manifest.js nav.js users/manifest.js )
   config.assets.precompile += %w( application.css home/manifest.css users/show.css users/profile.css )
+  config.assets.precompile += %w( landing_page/main.css )
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
