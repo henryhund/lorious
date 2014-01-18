@@ -13,7 +13,7 @@
         %td= appointment.appointment_with_for_user(current_user).name rescue "Unknown"
         %td
           = link_to appointment.subject, expert_appointment_url(appointment.expert.id, appointment.id), target: "_blank"
-        %td= appointment.time.in_time_zone(appointment.time_zone).strftime "%-d %b %Y, %H:%M %Z"
+        %td=  appointment.time.in_time_zone(appointment.time_zone).strftime("%A, %m/%d/%Y %I:%M %p %Z") rescue "N/A"
         %td= link_to "Edit", edit_expert_appointment_url(appointment.expert.id, appointment.id), target: "_blank"
         %td
           - if (current_user == appointment.expert && !appointment.expert_confirmed) || (current_user == appointment.user && !appointment.user_confirmed)
