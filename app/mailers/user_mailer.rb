@@ -56,7 +56,6 @@ class UserMailer < ActionMailer::Base
          content_type: "text/html",
          subject: appointment.user.name + " has requested cancellation")
   end
-<<<<<<< HEAD
 
   def daily_disbursement_batch_report failed_tr, success_tr, exceptions
     @support_mail, @failed_tr, @success_tr, @exceptions = (Setting.find_by(name: "support_email_id").value rescue "support@lorious.com"), failed_tr, success_tr, exceptions
@@ -68,8 +67,6 @@ class UserMailer < ActionMailer::Base
     @heading = "Appointment Cancelled."
     mail(to: @to.email, subject: 'Appointment Cancelled')
   end
-=======
->>>>>>> design
 
   def request_created_suggest_experts requests, to
      @requests, @to = requests, to
