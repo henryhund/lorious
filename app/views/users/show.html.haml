@@ -1,102 +1,130 @@
-- meta :title => "Lorious | Manage Settings"
+- meta :title => "Lorious | Control Panel"
 = stylesheet_link_tag "users/show"
 = javascript_include_tag "users/manifest"
-#profile_body.container
+#settings.container
+  #settings-nav.row
+    .col-xs-12.settings-nav
+      %ul.nav.nav-pills.tab-options
+        %li
+          %a{"data-toggle" => "tab", :href => "#edit_profile"} Basic Info
+        %li
+          %a{"data-toggle" => "tab", :href => "#edit_profile"} Detailed Profile
+        %li
+          %a.content-load.profile_tabs{"data-content-handler" => "#manage_account", "data-content-url" => "/users/credit_transaction/accounts", "data-toggle" => "tab", :href => "#manage_account"} Payment Accounts
+        %li
+          - if @user.expert?
+            %a.content-load.profile_tabs{"data-content-handler" => "#edit_availability", "data-content-url" => "/experts/availabilities/#{@user.availability.id}/edit", "data-toggle" => "tab", :href => "#edit_availability"} Expert Settings
+          - else
+            - if @user.is_expert_applied?
+              = link_to 'Cancel Application to be an Expert', users_cancel_application_path(id: @user.id), :method => :put
+            - else
+              =link_to 'Apply to be an Expert', users_step_path(id: @user.id, current_step_index: 1, user: @user.attributes, apply_to_be_an_expert: true ), :method => :put
+    .col-xs-12.appointments-nav{style: "display: none;"}
+      %ul.nav.nav-pills.tab-options
+        %li
+          %a.content-load.profile_tabs{"data-content-handler" => "#pending_appointments", "data-content-url" => "/users/appointments/pending", "data-toggle" => "tab", :href => "#pending_appointments"} Pending Appointments
+        %li
+          %a.content-load.profile_tabs{"data-content-handler" => "#upcoming_appointments", "data-content-url" => "/users/appointments/upcoming", "data-toggle" => "tab", :href => "#upcoming_appointments"} Upcoming Appointments
+        %li
+          %a.content-load.profile_tabs{"data-content-handler" => "#history_appointments", "data-content-url" => "/users/appointments/history", "data-toggle" => "tab", :href => "#history_appointments"} Appointments History
+
+      / %li
+      /   %a.content-load.profile_tabs{"data-content-handler" => "#pending_appointments", "data-content-url" => "/users/appointments/pending", "data-toggle" => "tab", :href => "#pending_appointments"} Pending Appointments
+    / #sidebar_accordion.panel-group.col-xs-12
+    /   .panel.panel-default
+    /     .panel-heading
+    /       %h4.panel-title
+    /         %a.accordion-toggle{"data-parent" => "#sidebar_accordion", "data-toggle" => "collapse", :href => "#manage_profile"}
+    /           Manage Profile
+    /     #manage_profile.xpanel.panel-collapse.collapse
+    /       .panel-body
+    /         %ul.nav.nav-pills.nav-stacked
+    /           %li.active
+    /             %a.profile_tabs{"data-toggle" => "tab", :href => "#view_profile"} View Profile
+    /           %li
+    /             %a.profile_tabs{"data-toggle" => "tab", :href => "#edit_profile"} Edit Profile
+    /           %li
+    /             %a.content-load.profile_tabs{"data-content-handler" => "#add_interests", "data-content-url" => "/users/interests/new", "data-toggle" => "tab", :href => "#add_interests"} Add your Interests
+    /           - if @user.expert?
+    /             %li
+    /               %a.content-load.profile_tabs{"data-content-handler" => "#add_expertise", "data-content-url" => "/experts/expertise/new", "data-toggle" => "tab", :href => "#add_expertise"} Add your Expertise
+    /   .panel.panel-default
+    /     .panel-heading
+    /       %h4.panel-title
+    /         %a.accordion-toggle{"data-parent" => "#sidebar_accordion", "data-toggle" => "collapse", :href => "#collapseTwo"}
+    /           View Appointments
+    /     #collapseTwo.xpanel.panel-collapse.collapse
+    /       .panel-body
+    /         %ul.nav.nav-pills.nav-stacked
+    /           %li
+    /             %a.content-load.profile_tabs{"data-content-handler" => "#pending_appointments", "data-content-url" => "/users/appointments/pending", "data-toggle" => "tab", :href => "#pending_appointments"} Pending Appointments
+    /           %li
+    /             %a.content-load.profile_tabs{"data-content-handler" => "#upcoming_appointments", "data-content-url" => "/users/appointments/upcoming", "data-toggle" => "tab", :href => "#upcoming_appointments"} Upcoming Appointments
+    /           %li
+    /             %a.content-load.profile_tabs{"data-content-handler" => "#history_appointments", "data-content-url" => "/users/appointments/history", "data-toggle" => "tab", :href => "#history_appointments"} Appointments History
+    /   .panel.panel-default
+    /     .panel-heading
+    /       %h4.panel-title
+    /         %a.accordion-toggle{"data-parent" => "#sidebar_accordion", "data-toggle" => "collapse", :href => "#collapseThree"}
+    /           View Requests
+    /     #collapseThree.xpanel.panel-collapse.collapse
+    /       .panel-body
+    /         %ul.nav.nav-pills.nav-stacked
+    /           %li
+    /             %a.content-load.profile_tabs{"data-content-handler" => "#new_requests", "data-content-url" => "/users/requests_made/new_request", "data-toggle" => "tab", :href => "#new_requests"} New Requests
+    /           %li
+    /             %a.content-load.profile_tabs{"data-content-handler" => "#withdrawn_requests", "data-content-url" => "/users/requests_made/withdrawn", "data-toggle" => "tab", :href => "#withdrawn_requests"} Withdrawn Requests
+    /           %li
+    /             %a.content-load.profile_tabs{"data-content-handler" => "#completed_requests", "data-content-url" => "/users/requests_made/completed", "data-toggle" => "tab", :href => "#completed_requests"} Completed Requests
+    /   .panel.panel-default
+    /     .panel-heading
+    /       %h4.panel-title
+    /         %a.accordion-toggle{"data-parent" => "#sidebar_accordion", "data-toggle" => "collapse", :href => "#collapseFour"}
+    /           Transactions
+    /     #collapseFour.xpanel.panel-collapse.collapse
+    /       .panel-body
+    /         %ul.nav.nav-pills.nav-stacked
+    /           %li
+    /             %a.content-load.profile_tabs{"data-content-handler" => "#manage_account", "data-content-url" => "/users/credit_transaction/accounts", "data-toggle" => "tab", :href => "#manage_account"} Accounts
+    /           %li
+    /             %a.content-load.profile_tabs{"data-content-handler" => "#manage_credit", "data-content-url" => "/users/credit_transaction/transactions", "data-toggle" => "tab", :href => "#manage_credit"} Transaction History
+    /   .panel.panel-default
+    /     .panel-heading
+    /       %h4.panel-title
+    /         %a.accordion-toggle{"data-parent" => "#sidebar_accordion", "data-toggle" => "collapse", :href => "#collapseFive"}
+    /           Social Media
+    /     #collapseFive.xpanel.panel-collapse.collapse
+    /       .panel-body
+    /         %ul.nav.nav-pills.nav-stacked
+    /           %li
+    /             %a.content-load.profile_tabs{"data-content-handler" => "#social_media_list", "data-content-url" => "/users/social_media", "data-toggle" => "tab", :href => "#social_media_list"} Manage social media
+    /           /
+    /             li>
+    /             <a href="#add_social_media" data-toggle="tab" class="content-load profile_tabs" data-content-url="/users/social_media/new" data-content-handler="#add_social_media">Add a social media</a>
+    /             </li
+    /   - if @user.expert? && @user.expert_approved?
+    /     .panel.panel-default
+    /       .panel-heading
+    /         %h4.panel-title
+    /           %a.accordion-toggle{"data-parent" => "#sidebar_accordion", "data-toggle" => "collapse", :href => "#collapseSix"}
+    /             Manage Availability
+    /       #collapseSix.xpanel.panel-collapse.collapse
+    /         .panel-body
+    /           %ul.nav.nav-pills.nav-stacked
+    /             %li
+    /               %a.content-load.profile_tabs{"data-content-handler" => "#edit_availability", "data-content-url" => "/experts/availabilities/#{@user.availability.id}/edit", "data-toggle" => "tab", :href => "#edit_availability"} Edit Availability
+    /     .panel.panel-default
+    /       .panel-heading
+    /         %h4.panel-title
+    /           %a.accordion-toggle{"data-parent" => "#sidebar_accordion", "data-toggle" => "collapse", :href => "#collapseSeven"}
+    /             Manage Subscriptions
+    /       #collapseSeven.xpanel.panel-collapse.collapse
+    /         .panel-body
+    /           %ul.nav.nav-pills.nav-stacked
+    /             %li
+    /               %a.content-load.profile_tabs{"data-content-handler" => "#edit_subscriptions", "data-content-url" => "/subscriptions", "data-toggle" => "tab", :href => "#edit_subscriptions"} Edit Subscriptions
   .row
-    #sidebar_accordion.panel-group.col-xs-4
-      .panel.panel-default
-        .panel-heading
-          %h4.panel-title
-            %a.accordion-toggle{"data-parent" => "#sidebar_accordion", "data-toggle" => "collapse", :href => "#manage_profile"}
-              Manage Profile
-        #manage_profile.xpanel.panel-collapse.collapse
-          .panel-body
-            %ul.nav.nav-pills.nav-stacked
-              %li.active
-                %a.profile_tabs{"data-toggle" => "tab", :href => "#view_profile"} View Profile
-              %li
-                %a.profile_tabs{"data-toggle" => "tab", :href => "#edit_profile"} Edit Profile
-              %li
-                %a.content-load.profile_tabs{"data-content-handler" => "#add_interests", "data-content-url" => "/users/interests/new", "data-toggle" => "tab", :href => "#add_interests"} Add your Interests
-              - if @user.expert?
-                %li
-                  %a.content-load.profile_tabs{"data-content-handler" => "#add_expertise", "data-content-url" => "/experts/expertise/new", "data-toggle" => "tab", :href => "#add_expertise"} Add your Expertise
-      .panel.panel-default
-        .panel-heading
-          %h4.panel-title
-            %a.accordion-toggle{"data-parent" => "#sidebar_accordion", "data-toggle" => "collapse", :href => "#collapseTwo"}
-              View Appointments
-        #collapseTwo.xpanel.panel-collapse.collapse
-          .panel-body
-            %ul.nav.nav-pills.nav-stacked
-              %li
-                %a.content-load.profile_tabs{"data-content-handler" => "#pending_appointments", "data-content-url" => "/users/appointments/pending", "data-toggle" => "tab", :href => "#pending_appointments"} Pending Appointments
-              %li
-                %a.content-load.profile_tabs{"data-content-handler" => "#upcoming_appointments", "data-content-url" => "/users/appointments/upcoming", "data-toggle" => "tab", :href => "#upcoming_appointments"} Upcoming Appointments
-              %li
-                %a.content-load.profile_tabs{"data-content-handler" => "#history_appointments", "data-content-url" => "/users/appointments/history", "data-toggle" => "tab", :href => "#history_appointments"} Appointments History
-      .panel.panel-default
-        .panel-heading
-          %h4.panel-title
-            %a.accordion-toggle{"data-parent" => "#sidebar_accordion", "data-toggle" => "collapse", :href => "#collapseThree"}
-              View Requests
-        #collapseThree.xpanel.panel-collapse.collapse
-          .panel-body
-            %ul.nav.nav-pills.nav-stacked
-              %li
-                %a.content-load.profile_tabs{"data-content-handler" => "#new_requests", "data-content-url" => "/users/requests_made/new_request", "data-toggle" => "tab", :href => "#new_requests"} New Requests
-              %li
-                %a.content-load.profile_tabs{"data-content-handler" => "#withdrawn_requests", "data-content-url" => "/users/requests_made/withdrawn", "data-toggle" => "tab", :href => "#withdrawn_requests"} Withdrawn Requests
-              %li
-                %a.content-load.profile_tabs{"data-content-handler" => "#completed_requests", "data-content-url" => "/users/requests_made/completed", "data-toggle" => "tab", :href => "#completed_requests"} Completed Requests
-      .panel.panel-default
-        .panel-heading
-          %h4.panel-title
-            %a.accordion-toggle{"data-parent" => "#sidebar_accordion", "data-toggle" => "collapse", :href => "#collapseFour"}
-              Transactions
-        #collapseFour.xpanel.panel-collapse.collapse
-          .panel-body
-            %ul.nav.nav-pills.nav-stacked
-              %li
-                %a.content-load.profile_tabs{"data-content-handler" => "#manage_account", "data-content-url" => "/users/credit_transaction/accounts", "data-toggle" => "tab", :href => "#manage_account"} Accounts
-              %li
-                %a.content-load.profile_tabs{"data-content-handler" => "#manage_credit", "data-content-url" => "/users/credit_transaction/transactions", "data-toggle" => "tab", :href => "#manage_credit"} Transaction History
-      .panel.panel-default
-        .panel-heading
-          %h4.panel-title
-            %a.accordion-toggle{"data-parent" => "#sidebar_accordion", "data-toggle" => "collapse", :href => "#collapseFive"}
-              Social Media
-        #collapseFive.xpanel.panel-collapse.collapse
-          .panel-body
-            %ul.nav.nav-pills.nav-stacked
-              %li
-                %a.content-load.profile_tabs{"data-content-handler" => "#social_media_list", "data-content-url" => "/users/social_media", "data-toggle" => "tab", :href => "#social_media_list"} Manage social media
-              /
-                li>
-                <a href="#add_social_media" data-toggle="tab" class="content-load profile_tabs" data-content-url="/users/social_media/new" data-content-handler="#add_social_media">Add a social media</a>
-                </li
-      - if @user.expert? && @user.expert_approved?
-        .panel.panel-default
-          .panel-heading
-            %h4.panel-title
-              %a.accordion-toggle{"data-parent" => "#sidebar_accordion", "data-toggle" => "collapse", :href => "#collapseSix"}
-                Manage Availability
-          #collapseSix.xpanel.panel-collapse.collapse
-            .panel-body
-              %ul.nav.nav-pills.nav-stacked
-                %li
-                  %a.content-load.profile_tabs{"data-content-handler" => "#edit_availability", "data-content-url" => "/experts/availabilities/#{@user.availability.id}/edit", "data-toggle" => "tab", :href => "#edit_availability"} Edit Availability
-        .panel.panel-default
-          .panel-heading
-            %h4.panel-title
-              %a.accordion-toggle{"data-parent" => "#sidebar_accordion", "data-toggle" => "collapse", :href => "#collapseSeven"}
-                Manage Subscriptions
-          #collapseSeven.xpanel.panel-collapse.collapse
-            .panel-body
-              %ul.nav.nav-pills.nav-stacked
-                %li
-                  %a.content-load.profile_tabs{"data-content-handler" => "#edit_subscriptions", "data-content-url" => "/subscriptions", "data-toggle" => "tab", :href => "#edit_subscriptions"} Edit Subscriptions
-    .tab-content.col-xs-8
+    .tab-content.col-xs-11
       #view_profile.tab-pane.active
         = render "users/info"
       #edit_profile.tab-pane
@@ -115,4 +143,4 @@
       #edit_subscriptions.tab-pane
       #manage_credit.tab-pane
       #manage_account.tab-pane
-%br/
+  %br/

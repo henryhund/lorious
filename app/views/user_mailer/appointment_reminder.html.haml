@@ -1,7 +1,7 @@
 %p
   Hi #{@to.name},
 %p
-  We just wanted to remind you that you have an upcoming #{link_to "Appointment", expert_appointment_url(@appointment.expert.id, @appointment.id)} with #{@appointment_with.name} at #{@appointment.time.to_formatted_s(:long)}.
+  We just wanted to remind you that you have an upcoming #{link_to "Appointment", expert_appointment_url(@appointment.expert.id, @appointment.id)} with #{@appointment_with.name} at #{@appointment.time.in_time_zone(@appointment.time_zone).strftime("%A, %m/%d/%Y %I:%M %p %Z")}.
 %p
   At this point #{@appointment_with.name} has specially reserved this time just for you, so you cannot update or change the appointment.
 %p

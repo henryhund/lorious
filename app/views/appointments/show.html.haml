@@ -12,14 +12,15 @@
             - Conversation.find(@appointment.message_id).messages.order(:created_at => :desc).each do |message|
               .panel.panel-default
                 .panel-body
-                  %h4
+                  %h6
                     %img.img-rounded{:src => message.sender.image_url, :width => "25px"}/
-                    = message.created_at.to_s(:short)
+
                     (#{time_ago_in_words(message.created_at)} ago)
                     - if message.sender == current_user
-                      You said
+                      You said...
                     - else
                       = message.sender.name
+                      said...
                   = message.body
           - else
             .panel.panel-default
@@ -49,12 +50,12 @@
         .col-xs-4
           Time
         .col-xs-8
-          = @appointment.time.in_time_zone(@appointment.time_zone).to_formatted_s(:long)
-      .row.mg-20
-        .col-xs-4
-          Time Zone
-        .col-xs-8
-          = @appointment.time_zone
+          = @appointment.time.in_time_zone(@appointment.time_zone).strftime("%A, %m/%d/%Y %I:%M %p %Z")
+      / .row.mg-20
+      /   .col-xs-4
+      /     Time Zone
+      /   .col-xs-8
+      /     = @appointment.time_zone
       .row.mg-20
         %h5 What
         .col-xs-4
@@ -135,7 +136,7 @@
           
 :javascript
   var HangoutPoller;
-  
+
   	HangoutPoller = {
   	  poll: function() {
   	    return setTimeout(this.request, 5000);
@@ -144,7 +145,7 @@
   	    return $.get("#{expert_appointment_url(@appointment.expert.id, @appointment.id)}");
   	  }
   	};
-  
+
   	jQuery(function() {
       HangoutPoller.poll();
   	});

@@ -1,7 +1,7 @@
 %p
   Hi #{@to.name},
 %p
-  Your appointment with #{@appointment_with.name} has been modified. #{@edited_by.name} has requested that the appointment be changed to #{@appointment.time.to_formatted_s(:long)}.
+  Your appointment with #{@appointment_with.name} has been modified. #{@edited_by.name} has requested that the appointment be changed to #{@appointment.time.in_time_zone(@appointment.time_zone).strftime("%A, %m/%d/%Y %I:%M %p %Z")}.
 %p
   If you would like to confirm the new appointment details, please click #{link_to "here", expert_appointment_url(@appointment.expert.id, @appointment.id)}.
 %p

@@ -1,77 +1,188 @@
 = javascript_include_tag "nav"
 
-%nav.navbar.navbar-fixed-top#navbar{role: "navigation"}
-  .navbar-header
-    %button.navbar-toggle{"data-target" => ".navbar-responsive-collapse", "data-toggle" => "collapse", :type => "button"}
-      %span.icon-bar
-      %span.icon-bar
-      %span.icon-bar
-    %a.navbar-brand{:href => "/"}
-      =image_tag "https://s3.amazonaws.com/lorious/layout/lorious_2color_beta.svg", width: "110px"
+.iconbar#main-nav.hidden-xs
+  %ul
+    %li.active
+      %a#home-button.fui-home{href: root_url, "data-toggle"=>"tooltip", "title"=>"Home", "data-placement"=>"right", "data-container"=>"body", "data-trigger"=>"hover"}
+    %li
+      %a#search-button.fui-search{href: search_path, "data-toggle"=>"tooltip", "title"=>"Search", "data-placement"=>"right", "data-container"=>"body"}
+    %li
+      %a#requests-button.fui-document{href: request_latest_path, "data-toggle"=>"tooltip", "title"=>"Requests", "data-placement"=>"right", "data-container"=>"body"}
+    -if current_user
+      %li
+        %a#calendar-button.fui-calendar{href: users_url(anchor: "appointment"), "data-toggle"=>"tooltip", "title"=>"Your Calendar", "data-placement"=>"right", "data-container"=>"body"}
+          %span.iconbar-unread
+            = current_user.pending_appointment_count.to_s rescue "0"
+      %li
+        %a#messages-button.fui-mail{href: conversations_url, "data-toggle"=>"tooltip", "title"=>"Your Messages", "data-placement"=>"right", "data-container"=>"body"}
+          %span.iconbar-unread
+            = current_user.mailbox.inbox(:read => false).count(:id, :distinct => true).to_s rescue "0"
+      %li
+        %a#gear-button.fui-gear{href: users_url, "data-toggle"=>"tooltip", "title"=>"Your Info and Settings", "data-placement"=>"right", "data-container"=>"body"}
+    %li
+      %a#help-button.fui-question{href: "#fakelink", "data-toggle"=>"tooltip", "title"=>"Help", "data-placement"=>"right", "data-container"=>"body"}
+    -if current_user
+      %li
+        =link_to destroy_user_session_path, method: :delete, "data-toggle"=>"tooltip", "title"=>"Logout", "data-placement"=>"right", "data-container"=>"body", id: "logout-button" do
+          %i.fui-power
+    -else
+      %li
+        =link_to user_omniauth_authorize_url(:google_oauth2), "data-toggle"=>"tooltip", "title"=>"Sign In", "data-placement"=>"right", "data-container"=>"body", id: "signin-button" do
+          %i.fui-user
+      %li
+        =link_to root_url, "data-toggle"=>"tooltip", "title"=>"Get Started", "data-placement"=>"right", "data-container"=>"body", id: "signup-button" do
+          %i.fui-new
 
-  .collapse.navbar-collapse.navbar-responsive-collapse
-    %ul.nav.navbar-nav
-      -if current_user
-        %li.visible-lg
-          =link_to "Search for Experts", search_path
-        %li.visible-lg
-          =link_to "Recent Requests", request_latest_path
-        %li.hidden-lg
-          =link_to "Search", search_path
-        %li.hidden-lg
-          =link_to "Requests", request_latest_path
-      -elsif true
-        %li
-          %a{:href => "#home"} Home
-        %li
-          %a{:href => "#about"} About
-        %li
-          %a{:href => "#how-it-works"} How it works
-        %li
-          %a{:href => "#get-started"} Get started
-        %li
-      -elsif
-        .navbar-text
-          %p{"data-no-turbolink"=>""}
-            Welcome guest. Please click
-            =link_to "here", root_url
-            to learn more about Lorious.
-    %ul.nav.navbar-nav.navbar-right
-      - if current_user
-        %li.dropdown
-          %a{"data-toggle" => "dropdown", :href => "#"}
-            ="Welcome #{current_user.name}"
-            &nbsp;
-            - if current_user.image_url.present?
-              %img{src: current_user.image_url, width: '25px', class: "img-rounded"}
-            - else
-              =image_tag("https://s3.amazonaws.com/lorious/layout/elements/placeholders/image_placeholder.jpg", width: "25px", class: "img-rounded")
-            %b.caret
-          %ul.dropdown-menu
-            %li= link_to "View Profile", profile_url(current_user.username)
-            %li= link_to "Manage Profile", users_url(anchor: "profile")
-            %li= link_to "Requests", users_url(anchor: "request")
-            %li= link_to "Transactions", users_url(anchor: "credit")
-            %li= link_to "Mailbox", conversations_url
-            %li= link_to "Appointments", users_url(anchor: "appointment")
-            %li= link_to "Settings", users_url
-            %li.divider= ""
-            %li= link_to "Sign out", destroy_user_session_path, method: :delete
-        %li
-          =link_to(conversations_url, style:"padding-left:0px;padding-right:0px;") do
-            %span.label.label-default
-              %i.icon-envelope.icon-white
-              = current_user.mailbox.inbox(:read => false).count(:id, :distinct => true).to_s rescue "0"
-        %li
-          =link_to(users_url(anchor: "appointment"), style:"padding-left:0px;padding-right:0px;") do
-            %span.label.label-danger
-              %i.icon-calendar
-              = current_user.upcoming_appointment_count
-        %li 
-          =link_to(users_url(anchor: "credit"), style:"padding-left:0px;padding-right:0px;") do
-            %span.label.label-info
-              %i.icon-asterisk
-      -else 
-        %li 
-          = link_to "Sign in", user_omniauth_authorize_url(:google_oauth2)
+.container
+  #main-header-xs.row.visible-xs
+    .col-xs-12
+      .col-xs-2.header-xs-logo
+        %a{:href => "/"}
+          =image_tag "https://s3.amazonaws.com/lorious/layout/lorious_logo_dark_grey.png", width: "90px"
+      .col-xs-6.header-xs-links{style: "margin 0 auto;"}
+        .btn-group.select.mbn
+          %button.btn.btn-inverse.btn-sm.dropdown-toggle.clearfix.btn-info{"data-toggle" => "dropdown"}
+            %span.filter-option.pull-left> Navigation
+            \ 
+            %span.caret
+          %i.dropdown-arrow
+          %ul.dropdown-menu{role: "menu", style: "overflow-y: auto; min-height: 108px;"}
+            %li{rel: "0"}
+              =link_to root_url, class: "opt" do
+                %span.pull-left Home
+            %li{rel: "1"}
+              =link_to search_url, class: "opt" do
+                %span.pull-left Search
+            %li{rel: "2"}
+              =link_to request_latest_url, class: "opt" do
+                %span.pull-left Requests
+            .divider
+            %li{rel: "3"}
+              =link_to users_url(anchor: "appointment"), class: "opt" do
+                %span.pull-left Appointments
+            %li{rel: "4"}
+              =link_to conversations_url, class: "opt" do
+                %span.pull-left Messages
+            %li{rel: "5"}
+              =link_to users_url, class: "opt" do
+                %span.pull-left Settings
+            %li{rel: "6"}
+              =link_to destroy_user_session_path, method: :delete, class: "opt" do
+                %span.pull-left Logout
+  #main-header.row.hidden-xs
+    .col-lg-12.header-lg-center
+      .col-sm-6.header-lg-logo
+        %a{:href => "/"}
+          =image_tag "https://s3.amazonaws.com/lorious/layout/lorious_logo_dark_grey.png", width: "110px"
+      .col-sm-6.header-lg-links.pull-right
+        %ul.list-unstyled
+          -if current_user
+            %li.pull-right
+              %button.btn.btn-embossed.btn-primary Help
+            %li.pull-right
+              %button.btn.btn-embossed.btn-default About
+          -else
+            %li.pull-right
+              %button.btn.btn-embossed.btn-primary Start Free
+            %li.pull-right
+              =link_to user_omniauth_authorize_url(:google_oauth2) do
+                %button.btn.btn-embossed.btn-default
+                  Sign In
+
+
+#side-searchbar.btn-group-vertical.hidden-xs.hidden-sm
+  .form-group
+    .input-group
+      %input.form-control{:placeholder => "Search", :type => "text"}
+        %span.input-group-btn
+          %button.btn{:type => "submit"}
+            %span.fui-search
+  %br
+  %h6.side-header Popular Topics
+  %button.btn.btn-sm.btn-primary{type: "button"} Business Dev
+  %button.btn.btn-sm.btn-primary{type: "button"} Web Development
+  %button.btn.btn-sm.btn-primary{type: "button"} Web Design
+  %button.btn.btn-sm.btn-primary{type: "button"} Project Management
+  %button.btn.btn-sm.btn-primary{type: "button"} MVPs
+  %button.btn.btn-sm.btn-primary{type: "button"} Getting Started
+  %button.btn.btn-sm.btn-primary{type: "button"} HTML
+  %button.btn.btn-sm.btn-primary{type: "button"} CSS
+  %button.btn.btn-sm.btn-primary{type: "button"} Ruby on Rails
+  / %button.btn.btn-sm.btn-primary{type: "button"} Django
+  / %button.btn.btn-sm.btn-primary{type: "button"} Javascript
+  / %button.btn.btn-sm.btn-primary{type: "button"} PHP
+  / %button.btn.btn-sm.btn-primary{type: "button"} SQL
+  / %button.btn.btn-sm.btn-primary{type: "button"} HTML
+  / %button.btn.btn-sm.btn-primary{type: "button"} CSS
+  / %button.btn.btn-sm.btn-primary{type: "button"} iOS
+  %br
+  %h6.side-header Latest Requests
+  %ul.list-unstyled.request-detail
+    %li
+      =link_to "#" do
+        %strong Henry H.
+        needs help with
+        %span.label.label-primary Ruby on Rails
+    %li
+      =link_to "#" do
+        %strong Henry H.
+        needs help with
+        %span.label.label-primary Ruby on Rails
+    %li
+      =link_to "#" do
+        %strong Henry H.
+        needs help with
+        %span.label.label-primary Ruby on Rails
+    %li
+      =link_to "#" do
+        %strong Henry H.
+        needs help with
+        %span.label.label-primary Ruby on Rails
+
+
+
+
+
+
+/ %nav.navbar.navbar-fixed-top#navbar{role: "navigation"}
+/   .navbar-header
+/     %button.navbar-toggle{"data-target" => ".navbar-responsive-collapse", "data-toggle" => "collapse", :type => "button"}
+/       %span.icon-bar
+/       %span.icon-bar
+/       %span.icon-bar
+/     %a.navbar-brand{:href => "/"}
+/       =image_tag "https://s3.amazonaws.com/lorious/layout/lorious_logo_dark_grey.png", width: "110px"
+
+/   .collapse.navbar-collapse.navbar-responsive-collapse
+/     %ul.nav.navbar-nav
+/       %li.active
+/         %a{href: "#fakelink"} Products
+/       %li
+/         %a{href: "#fakelink"} Features
+/         / %ul
+/         /   %li
+/         /     %a{href: "#fakelink"} Element One
+/         /   %li
+/         /     %a{href: "#fakelink"} Sub menu
+/         /     %ul
+/         /       %li
+/         /         %a{href: "#fakelink"} Element One
+/         /       %li
+/         /         %a{href: "#fakelink"} Element Two
+/         /       %li
+/         /         %a{href: "#fakelink"} Element Three
+/         /     / /Sub menu
+/         /   %li
+/         /     %a{href: "#fakelink"} Element Three
+/       %li
+/         %form.navbar-form.navbar-right{action: "#"}
+/           .form-group
+/             .input-group.input-group-sm
+/               %input#navbarInput.form-control{placeholder: "Search", type: "search"}/
+/               %span.input-group-btn
+/                 %button.btn{type: "submit"}
+/                   %span.fui-search
+/         / /Sub menu
+/     / /nav
+/   / /.nav-collapse
 

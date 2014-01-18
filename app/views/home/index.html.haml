@@ -1,113 +1,259 @@
--meta :title => "Lorious | Homepage" 
-= stylesheet_link_tag "home/manifest"
-= javascript_include_tag "home"
- 
-#home.row
-  .left-picture.col-lg-6.col-md-6.col-sm-6.col-xs-12
-    =image_tag("https://s3.amazonaws.com/lorious/layout/elements/landing_page/hero-laptop.png", class:"img-responsive laptop-image")
-  .right-signup.col-lg-6.col-md-6.col-sm-6.col-xs-12
-    .title= t("landing_page.home.title")
-    .subtitle= t("landing_page.home.subtitle")
-    = form_for(Invite.new) do |f|
-      = f.text_field :name, placeholder: "NAME", class: "text"
-      = f.text_field :email, placeholder: "EMAIL", class: "text"
-      = f.submit "Request an Invite", class: "submit"
-      #errorContainer1
-        %ul.list-unstyled
-#home-border
-#about.row
-  .container
-    .col-lg-6.col-sm-6.left-column
-      %h1.title= t("landing_page.about.left.title")
-      %h4.subtitle= t("landing_page.about.left.subtitle")
-      %hr
-      %ul.list-unstyled
-        %li
-          %i.icon-rocket.icon-large
-          %h3= t("landing_page.about.left.icon_1.title")
-          %p.detail= t("landing_page.about.left.icon_1.subtitle")
-        %li.li-large-fast-forward
-          %i.icon-fast-forward.icon-large.icon-large-fast-forward
-          %h3= t("landing_page.about.left.icon_2.title")
-          %p.detail= t("landing_page.about.left.icon_2.subtitle")
-        %li
-          %i.icon-user-md.icon-large
-          %h3= t("landing_page.about.left.icon_3.title")
-          %p.detail= t("landing_page.about.left.icon_3.subtitle")
-    .col-lg-6.col-sm-6.right
-      %h1.title= t("landing_page.about.right.title")
-      %h4.subtitle= t("landing_page.about.right.subtitle")
-      %hr
-      %ul.list-unstyled
-        %li
-          %i.icon-key.icon-large
-          %h3= t("landing_page.about.right.icon_1.title")
-          %p.detail= t("landing_page.about.right.icon_1.subtitle")
-        %li
-          %i.icon-lightbulb.icon-large
-          %h3= t("landing_page.about.right.icon_2.title")
-          %p.detail= t("landing_page.about.right.icon_2.subtitle")
-        %li
-          %i.icon-road.icon-large
-          %h3= t("landing_page.about.right.icon_3.title")
-          %p.detail= t("landing_page.about.right.icon_3.subtitle")
-/ #satisfaction.row
-/   .container
-/     .col-lg-12.col-sm-12
-/       Testimonials
+-meta :title => "Lorious | Homepage"
 
-#how-it-works.row
-  .container
-    .col-lg-4.col-sm-4
-      %h1= t("landing_page.how-it-works.title")
-      %p= t("landing_page.how-it-works.subtitle")
+-content_for :head do
+  = stylesheet_link_tag "landing_page/main"
 
-    .col-lg-8.col-sm-8
-      %dl.dl-horizontal
-        %dt
-          =image_tag "https://s3.amazonaws.com/lorious/layout/elements/landing_page/1.svg", class: "list-number"
-        %dd
-          %h3= t("landing_page.how-it-works.step_1.title")
-          %p= t("landing_page.how-it-works.step_1.subtitle")
-        %hr
-        %dt
-          =image_tag "https://s3.amazonaws.com/lorious/layout/elements/landing_page/2.svg", class: "list-number"
-        %dd
-          %h3= t("landing_page.how-it-works.step_2.title")
-          %p= t("landing_page.how-it-works.step_2.subtitle")
-        %hr
-        %dt
-          =image_tag "https://s3.amazonaws.com/lorious/layout/elements/landing_page/3.svg", class: "list-number"
-        %dd
-          %h3= t("landing_page.how-it-works.step_3.title")
-          %p= t("landing_page.how-it-works.step_3.subtitle")
+-content_for :body do
+
+  /
+    1. Menu + Header Panel
+    2. Find an Expert Panel
+    3. Pick a Time Panel
+    4. Connect Panel
+    5. Gaurentee Panel
+    6. Catch Us Panel
+    7. Footer Panel
+  .header
+    %nav#landing_page_nav.navbar.navbar-default{:role => "navigation", style: "border-radius: 0px;"}
+      / Brand and toggle get grouped for better mobile display
+      .navbar-header
+        %button.navbar-toggle{"data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
+          %span.sr-only Toggle navigation
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+        %a.navbar-brand{:href => "http://localhost/~flynic28/lorious/bootstrap/flat-ui-pro/landingpage.html#"}
+          %img{:src => "https://s3.amazonaws.com/lorious/layout/elements/landing_page/lorious_logo.png", :style => "width: 75%;"}/
+      / Collect the nav links, forms, and other content for toggling
+      #bs-example-navbar-collapse-1.collapse.navbar-collapse
+        %ul.nav.navbar-nav.navbar-right
+          %li.pull-right
+            =link_to user_omniauth_authorize_url(:google_oauth2) do
+              %button.btn.btn-embossed.btn-primary
+                Start for Free
+          %li.pull-right
+            =link_to user_omniauth_authorize_url(:google_oauth2) do
+              %button.btn.btn-embossed.btn-default
+                Sign In
+          %li.pull-right
+            =link_to user_omniauth_authorize_url(:google_oauth2), style: "line-height: 45px;" do
+              Teach
+          %li.pull-right
+            =link_to user_omniauth_authorize_url(:google_oauth2), style: "line-height: 45px;" do
+              Learn
 
 
-#satisfaction.row
-  .container
-    .col-lg-12.col-sm-12
-      / =image_tag "https://s3.amazonaws.com/lorious/layout/elements/landing_page/satisfactionseal.png", class: "img-circle", style: "width: 200px"
-      .onehundredpct
-        %p Your Satisfaction
-        100%
-        %p Guaranteed
+      / /.navbar-collapse
+    = render "layouts/notifications"
 
-#get-started.row
-  .container
-    .col-lg-12.col-sm-12
-      %h1.title= t("landing_page.get-started.title")
-= form_for(Invite.new, id: "footer_new_invite") do |f|
-  #get-started-form.row
-    .container
-      .col-lg-5.col-lg-offset-1.col-sm-5.col-sm-offset-1
-        = f.text_field :name, placeholder: "NAME", class: "text"
-      .col-lg-5.col-sm-5
-        = f.text_field :email, placeholder: "EMAIL", class: "text"
-  #get-started-form.row
-    .container
-      .col-lg-12.col-lg-12
-        = f.submit "Request an Invite", class: "submit"
-        #errorContainer2
-          %ul.list-unstyled
+    .header_wrapper
+      .header_info
+        .halfwidth
+          %h3{:style => "color:white"} build amazing products
+          %p{:style => "color:white"} with instant advice from awesome developers
+          .headertwobuttons
+            .header_button
+              %button.btn.btn-primary.btn-default.btn-wide Get Started
+              %p{:style => "color:white"} or be an expert
+            .header_button
+              %button.btn.btn-inverse.btn-default.btn-wide Learn How
+        .halfwidth
+          .form-group
+            .input-group
+              %input.form-control{:placeholder => "Search", :type => "text"}
+                %span.input-group-btn
+                  %button.btn{:type => "submit"}
+                    %span.fui-search
+  .expert
+    .halfwidth
+      %img{:src => "https://s3.amazonaws.com/lorious/layout/elements/landing_page/experts.png"}
+    .halfwidth
+      %h3 Find an Expert
+      %p Search our curated list of experts, or let us know what you're working on and we will find one for you. You can see the expert's background, skills and interests.
+      %il
+        %h6
+          Get great advice &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          %span.fui-triangle-right-large
+          %span.fui-triangle-right-large
+          %span.fui-triangle-right-large
+  .picktime
+    .twothirdswidthleft
+      %h3 Pick a time that works
+      %p Browse availability and find times that work for you and the expert. Our experts tell you list on their profiles when they prefer to meet, so you can confidently suggest a time.
+      %il
+        %h6
+          Find time now &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          %span.fui-triangle-right-large
+          %span.fui-triangle-right-large
+          %span.fui-triangle-right-large
+    .onethirdwidthright
+      %img{:src => "https://s3.amazonaws.com/lorious/layout/elements/landing_page/calender.png"}
+  .connect
+    .onethirdwidthleft
+      %img{:src => "https://s3.amazonaws.com/lorious/layout/elements/landing_page/video.png"}
+    .twothirdswidthright
+      %h3 Connect, Learn, Done.
+      %p Connect with your expert over high definition video chat. Learn, go through your questions and work together until you've found a solution. Afterwards, you will rate the expert and securely pay for their time.
+      %il
+        %h6
+          Start learning free &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          %span.fui-triangle-right-large
+          %span.fui-triangle-right-large
+          %span.fui-triangle-right-large
+  .satisfaction
+    %img{:src => "https://s3.amazonaws.com/lorious/layout/elements/landing_page/satisfactiongaurentee.png"}
+  .catchus
+    %h3{:style => "color:white"} catch us in...
+    %h6 [wharton vip] [crains business] [coolhouse labs] [wharton tech club]
+  / .footer
+  /   .bottom-menu.bottom-menu-large
+  /     <div class="container" style="width:1200px;text-align:right" "="">
+  /     .row{:style => "text-align:right"}
+  /       .col-md-2.navbar-brand
+  /         %img{:src => "https://s3.amazonaws.com/lorious/layout/elements/landing_page/lorious_logo.png", :width => "75%"}
+  /       .col-md-2
+  /         %h5.title About Us
+  /         %ul.bottom-links
+  /       .col-md-2
+  /         %h5.title Products
+  /         %ul.bottom-links
+  /           %li
+  /             %a{:href => "http://localhost/~flynic28/lorious/bootstrap/flat-ui-pro/landingpage.html#fakelink"} Sign Up/ Sign In
+  /           %li
+  /             %a{:href => "http://localhost/~flynic28/lorious/bootstrap/flat-ui-pro/landingpage.html#fakelink"} Privacy
+  /           %li
+  /             %a{:href => "http://localhost/~flynic28/lorious/bootstrap/flat-ui-pro/landingpage.html#fakelink"} Terms of Use
+  /       .col-md-2
+  /         %h5.title Follow Us
+  /         %ul.bottom-links
+  /           %li
+  /             %a{:href => "http://localhost/~flynic28/lorious/bootstrap/flat-ui-pro/landingpage.html#fakelink"} Facebook
+  /           %li
+  /             %a{:href => "http://localhost/~flynic28/lorious/bootstrap/flat-ui-pro/landingpage.html#fakelink"} Twitter
+  /           %li
+  /             %a{:href => "http://localhost/~flynic28/lorious/bootstrap/flat-ui-pro/landingpage.html#fakelink"} Youtube
+  /           %li
+  /             %a{:href => "http://localhost/~flynic28/lorious/bootstrap/flat-ui-pro/landingpage.html#fakelink"} Vimeo
+  /           %li
+  /             %a{:href => "http://localhost/~flynic28/lorious/bootstrap/flat-ui-pro/landingpage.html#fakelink"} Instagram
+  /           %li
+  /             %a{:href => "http://localhost/~flynic28/lorious/bootstrap/flat-ui-pro/landingpage.html#fakelink"}
+  /               Vine
+  /               %span.label.label-small.label-primary New
 
-/ = link_to "Sign in with Google", GOOGLE_OAUTH_PATH
+
+  / = stylesheet_link_tag "home/manifest"
+  / = javascript_include_tag "home"
+
+  / #home.row
+  /   .left-picture.col-lg-6.col-md-6.col-sm-6.col-xs-12
+  /     =image_tag("https://s3.amazonaws.com/lorious/layout/elements/landing_page/hero-laptop.png", class:"img-responsive laptop-image")
+  /   .right-signup.col-lg-6.col-md-6.col-sm-6.col-xs-12
+  /     .title= t("landing_page.home.title")
+  /     .subtitle= t("landing_page.home.subtitle")
+  /     = form_for(Invite.new) do |f|
+  /       = f.text_field :name, placeholder: "NAME", class: "text"
+  /       = f.text_field :email, placeholder: "EMAIL", class: "text"
+  /       = f.submit "Request an Invite", class: "submit"
+  /       #errorContainer1
+  /         %ul.list-unstyled
+  / =link_to user_omniauth_authorize_url(:google_oauth2) do
+  /   %button.btn.btn-embossed.btn-default
+  /     Sign In
+  / #home-border
+  / #about.row
+  /   .container
+  /     .col-lg-6.col-sm-6.left-column
+  /       %h1.title= t("landing_page.about.left.title")
+  /       %h4.subtitle= t("landing_page.about.left.subtitle")
+  /       %hr
+  /       %ul.list-unstyled
+  /         %li
+  /           %i.icon-rocket.icon-large
+  /           %h3= t("landing_page.about.left.icon_1.title")
+  /           %p.detail= t("landing_page.about.left.icon_1.subtitle")
+  /         %li.li-large-fast-forward
+  /           %i.icon-fast-forward.icon-large.icon-large-fast-forward
+  /           %h3= t("landing_page.about.left.icon_2.title")
+  /           %p.detail= t("landing_page.about.left.icon_2.subtitle")
+  /         %li
+  /           %i.icon-user-md.icon-large
+  /           %h3= t("landing_page.about.left.icon_3.title")
+  /           %p.detail= t("landing_page.about.left.icon_3.subtitle")
+  /     .col-lg-6.col-sm-6.right
+  /       %h1.title= t("landing_page.about.right.title")
+  /       %h4.subtitle= t("landing_page.about.right.subtitle")
+  /       %hr
+  /       %ul.list-unstyled
+  /         %li
+  /           %i.icon-key.icon-large
+  /           %h3= t("landing_page.about.right.icon_1.title")
+  /           %p.detail= t("landing_page.about.right.icon_1.subtitle")
+  /         %li
+  /           %i.icon-lightbulb.icon-large
+  /           %h3= t("landing_page.about.right.icon_2.title")
+  /           %p.detail= t("landing_page.about.right.icon_2.subtitle")
+  /         %li
+  /           %i.icon-road.icon-large
+  /           %h3= t("landing_page.about.right.icon_3.title")
+  /           %p.detail= t("landing_page.about.right.icon_3.subtitle")
+  / / #satisfaction.row
+  / /   .container
+  / /     .col-lg-12.col-sm-12
+  / /       Testimonials
+
+  / #how-it-works.row
+  /   .container
+  /     .col-lg-4.col-sm-4
+  /       %h1= t("landing_page.how-it-works.title")
+  /       %p= t("landing_page.how-it-works.subtitle")
+
+  /     .col-lg-8.col-sm-8
+  /       %dl.dl-horizontal
+  /         %dt
+  /           =image_tag "https://s3.amazonaws.com/lorious/layout/elements/landing_page/1.svg", class: "list-number"
+  /         %dd
+  /           %h3= t("landing_page.how-it-works.step_1.title")
+  /           %p= t("landing_page.how-it-works.step_1.subtitle")
+  /         %hr
+  /         %dt
+  /           =image_tag "https://s3.amazonaws.com/lorious/layout/elements/landing_page/2.svg", class: "list-number"
+  /         %dd
+  /           %h3= t("landing_page.how-it-works.step_2.title")
+  /           %p= t("landing_page.how-it-works.step_2.subtitle")
+  /         %hr
+  /         %dt
+  /           =image_tag "https://s3.amazonaws.com/lorious/layout/elements/landing_page/3.svg", class: "list-number"
+  /         %dd
+  /           %h3= t("landing_page.how-it-works.step_3.title")
+  /           %p= t("landing_page.how-it-works.step_3.subtitle")
+
+
+  / #satisfaction.row
+  /   .container
+  /     .col-lg-12.col-sm-12
+  /       / =image_tag "https://s3.amazonaws.com/lorious/layout/elements/landing_page/satisfactionseal.png", class: "img-circle", style: "width: 200px"
+  /       .onehundredpct
+  /         %p Your Satisfaction
+  /         100%
+  /         %p Guaranteed
+
+  / #get-started.row
+  /   .container
+  /     .col-lg-12.col-sm-12
+  /       %h1.title= t("landing_page.get-started.title")
+  / = form_for(Invite.new, id: "footer_new_invite") do |f|
+  /   #get-started-form.row
+  /     .container
+  /       .col-lg-5.col-lg-offset-1.col-sm-5.col-sm-offset-1
+  /         = f.text_field :name, placeholder: "NAME", class: "text"
+  /       .col-lg-5.col-sm-5
+  /         = f.text_field :email, placeholder: "EMAIL", class: "text"
+  /   #get-started-form.row
+  /     .container
+  /       .col-lg-12.col-lg-12
+  /         = f.submit "Request an Invite", class: "submit"
+  /         #errorContainer2
+  /           %ul.list-unstyled
+
+  / / = link_to "Sign in with Google", GOOGLE_OAUTH_PATH

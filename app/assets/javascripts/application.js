@@ -26,4 +26,6 @@
 //= require control_panel
 //= require_directory ./angular
 //= require_directory ./common
+//= require_directory ./flat-ui
 //= require availability_calendar
+

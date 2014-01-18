@@ -1,12 +1,11 @@
 @import "mixins/colors"
 @import "mixins/fonts"
-  
+
 #profile
   h1
     font-family: $header-font-family
     color: $lorious-light-green
     font-size: 39px
-    letter-spacing: 2px
     font-weight: 500
     text-transform: uppercase
   h2
@@ -42,12 +41,16 @@
   #user-overview
     margin-bottom: 40px
     .avatar
+      background-position: center center
+      background-size: cover
+      background-repeat: no-repeat
+
       margin-top: 45px
       border: none !important
       -moz-box-shadow: 0px 0px 0px 6px $light-grey /* Firefox */
       -webkit-box-shadow: 0px 0px 0px 6px $light-grey /* Safari, Chrome */
       box-shadow: 0px 0px 0px 6px $light-grey /* CSS3 */
-      width: 200px 
+      width: 200px
       height: 200px
     .name
       margin-top: 45px
@@ -226,7 +229,7 @@
         margin-bottom: 40px
       li
         margin-bottom: 0
-    
+
     button
       width: 45%
       height: 50px
@@ -241,7 +244,7 @@
       margin-bottom: 15px
     button:hover
       opacity: 0.75
-      
+
 
 @media (max-width: 991px) // should be 767
   #profile

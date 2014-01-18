@@ -4,6 +4,7 @@ class Experts::AvailabilitiesController < ApplicationController
 
   def edit
     @availability = current_user.availability || current_user.create_availability #todo change this when admin panel is done
+    @available_skills = AvailableTag.skills.map { |e| [e.name.downcase, e.name.downcase] }
   end
 
   def update

@@ -4,9 +4,9 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   acts_as_taggable
   acts_as_taggable_on :skills
-  
+
   attr_accessor :hourly_cost, :current_step
-  
+
   devise :database_authenticatable, :registerable, :lockable,
          :recoverable, :rememberable, :trackable,
          :omniauthable, :omniauth_providers => [:google_oauth2, :facebook, :twitter, :github, :stackexchange, :linkedin]
@@ -16,13 +16,13 @@ class User < ActiveRecord::Base
 
   has_many :reviews_made, class_name: "Review", foreign_key: "reviewer_id", dependent: :destroy
   has_many :reviews_received, class_name: "Review", foreign_key: "reviewed_id", dependent: :destroy
-  
+
   has_many :requests_made, class_name: "Request", foreign_key: "requester_id", dependent: :destroy
   has_many :requests_received, class_name: "Request", foreign_key: "requested_id", dependent: :destroy
-  
+
   has_many :transactions_made, class_name: "CreditTransaction", foreign_key: "transacter_id", dependent: :destroy
   has_many :transactions_received, class_name: "CreditTransaction", foreign_key: "transacted_id", dependent: :destroy
-  
+
   has_many :appointments
 
   has_many :social_media, dependent: :destroy
@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
 
   with_options if: :user_info_step_validation_required do |user|
     user.validates :username, uniqueness: true
-    validates_format_of :username, 
+    validates_format_of :username,
           :with => /\A\w+\z/ix,
           :message => "only letters and digits allowed, no spaces"
     user.validates :username, :first_name, :last_name, :tag_line, :location, presence: true
@@ -45,11 +45,11 @@ class User < ActiveRecord::Base
   with_options if: :apply_for_expert_step_validation_required do |user|
     user.validates :job, presence: true
   end
-  
+
   with_options if: :apply_for_expert_page? do |user|
     user.validates :stack_overflow_url, :github_url, :linked_in_url, :personal_website, :about_description, presence: true
   end
-  
+
   with_options if: :profile_info_step_validation_required do |user|
     user.validates :bio, :job, presence: true
     user.validates :job, length: { in: 5..30 }
@@ -61,10 +61,10 @@ class User < ActiveRecord::Base
     "user",
     "careers"
   ]
-  
+
   validates :username, :exclusion=> { :in => @disallowed_usernames }
-  
-  validates_format_of :website, 
+
+  validates_format_of :website,
           :with => /\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/ix,
           :message => "not a valid url", allow_blank: true
 
@@ -78,13 +78,13 @@ class User < ActiveRecord::Base
          last_name: data["last_name"],
          remote_image_url: data["image"]
       )
-      
+
       saved = user.save(validate: false) rescue false
-      
+
       if saved
-        user.social_media.create(name: "google_oauth2", profile: oauth_data.extra.raw_info.link, data: oauth_data.to_json) if oauth_data.extra.raw_info.link  
+        user.social_media.create(name: "google_oauth2", profile: oauth_data.extra.raw_info.link, data: oauth_data.to_json) if oauth_data.extra.raw_info.link
       end
-      
+
     end
     user = User.where(:email => data["email"]).first || User.new
     user
@@ -124,7 +124,7 @@ class User < ActiveRecord::Base
   def apply_for_expert_step_validation_required
     validation_required? "apply_for_expert"
   end
-  
+
   def profile_info_step_validation_required
     validation_required? "profile_info" || (step_1_complete && step_2_complete)
   end
@@ -168,6 +168,11 @@ class User < ActiveRecord::Base
     Appointment.upcoming.where("user_id = ? OR expert_id = ?", self.id, self.id).order(:created_at => :desc).size rescue 0
   end
 
+  def pending_appointment_count
+    Appointment.pending.where("user_id = ? OR expert_id = ?", self.id, self.id).order(:created_at => :desc).size rescue 0
+  end
+
+
   def profile_link_for social_medium
     self.social_media.find_by_name(social_medium).try(:profile)
   end
@@ -175,11 +180,11 @@ class User < ActiveRecord::Base
   def expert?
     self.type == "Expert"
   end
-  
+
   def user?
     self.type == "User"
   end
-  
+
   def credits
     self.transactions_made.inject(0) { |sum, e| sum + e.amount_with_sign }
   end
@@ -195,5 +200,5 @@ class User < ActiveRecord::Base
   def user_params
     params.require(:user).permit(:name)
   end
-  
+
 end

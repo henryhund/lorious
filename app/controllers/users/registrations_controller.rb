@@ -9,21 +9,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
       # doesn't know how to ignore it
       user_params.delete(:current_password)
       @user.update_without_password(user_params)
-      
-      if @user.save! 
+
+      if @user.save!
         if @user.expert?
           if params[:expert][:skills].present?
             @user.skill_list = []
             @user.skill_list.add params[:expert][:skills]
             @user.save validate: false
           end
-          
+
           if params[:expert][:subscriptions].present?
             @user.subscription_list = []
             @user.subscription_list.add params[:expert][:subscriptions]
             @user.save validate: false
           end
-          
+
           if params[:expert][:hourly_cost].present? && @user.availability.present?
             @availability = @user.availability
             @availability.hourly_cost = params[:expert][:hourly_cost]
@@ -32,9 +32,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
         end
         true
       else
-        false      
-      end  
-        
+        false
+      end
+
     end
 
     if successfully_updated
@@ -60,4 +60,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
     require_params = @user.expert? ? params.require(:expert) : params.require(:user)
     require_params.permit(:subscription_list, :first_name, :last_name, :zip_code, :website, :username, :tag_line, :bio, :location, :job, :image)
   end
+
+    def after_update_path_for(resource)
+      users_url
+    end
 end

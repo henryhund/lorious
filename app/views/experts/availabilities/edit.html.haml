@@ -1,4 +1,4 @@
-= form_for @availability, url: "/experts/availabilities/#{@availability.id}", role: "form", validate: true do |f|
+= simple_form_for @availability, url: "/experts/availabilities/#{@availability.id}", role: "form", validate: true do |f|
   .form-group.row
     = f.label :hourly_cost, class: "col-xs-2 control-label"
     .col-xs-10
@@ -6,7 +6,7 @@
   .form-group.row
     = f.label :time_zone, class: "col-xs-2 control-label"
     .col-xs-10
-      = f.time_zone_select :time_zone, nil, priority_zones: /US/, default: 'Eastern Time (US & Canada)', class: "form-control"
+      = f.input :time_zone, priority: /US/, input_html: { class: "form-control"}
   #edit_calendar
     = render "shared/availability_calendar"
   = f.hidden_field :timespans
@@ -14,6 +14,9 @@
     .col-lg-10.mg-20
       = f.submit "Save", class: "btn btn-default"
       %a#clear_availability.btn.btn-default Clear
+
+= render 'home/subscriptions'
+
 :javascript
   $(document).ready(function(){
     lorious.fn.reset_calendar_with_new_timezone($("#availability_time_zone option:selected").text());

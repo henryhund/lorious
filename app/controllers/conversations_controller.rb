@@ -1,6 +1,6 @@
 class ConversationsController < ApplicationController
   before_filter :authenticate_user!
-  
+
   def create
     recipient = User.find(params[:message_post][:recipient_id])
     respond_to do |format|
@@ -11,7 +11,7 @@ class ConversationsController < ApplicationController
       end
     end
   end
-  
+
   def inbox
     @inbox = current_user.mailbox.inbox
     respond_to do |format|
@@ -19,7 +19,7 @@ class ConversationsController < ApplicationController
       format.json { render json: @inbox }
     end
   end
-  
+
   def index
     @box = params[:box] || 'inbox'
     @messages = current_user.mailbox.inbox.paginate(:page => params[:page], :per_page => 10, :count => {:group => 'conversations.id' }) if @box == 'inbox'
@@ -45,7 +45,7 @@ class ConversationsController < ApplicationController
       unless @message.valid?
         return render :new
       end
-      receipt = current_user.send_message(@message.recipients, @message.body, @message.subject, true, @message.attachment)
+      # receipt = current_user.send_message(@message.recipients, @message.body, @message.subject, true, @message.attachment)
     end
     flash[:notice] = I18n.t("mailboxer.sent.sucess")
 
@@ -54,7 +54,7 @@ class ConversationsController < ApplicationController
 
   def show
     @conversation = Conversation.find_by_id(params[:id])
-    # check if appointment present for this conversation 
+    # check if appointment present for this conversation
     @appointment = Appointment.find_by(message_id: @conversation.id)
     if @appointment.present?
       return redirect_to expert_appointment_url(@appointment.expert, @appointment.id)

@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   def not_found
     raise ActionController::RoutingError.new('Not Found')
   end
-  
+
   def controller?(*controller)
     controller.include?(params[:controller])
   end
@@ -21,13 +21,13 @@ class ApplicationController < ActionController::Base
   def action?(*action)
     action.include?(params[:action])
   end
-  
+
   def set_no_cache
     response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
   end
-  
+
   def cors_set_access_control_headers
     headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
@@ -62,6 +62,10 @@ class ApplicationController < ActionController::Base
           flash[:alert] = I18n.t("user.profile.failure")
           redirect_to edit_users_step_url(@user)
         end
-    end 
+    end
+  end
+
+  def after_sign_in_path_for(resource)
+    request.env['omniauth.origin'] || stored_location_for(resource) || authenticated_root_path
   end
 end
