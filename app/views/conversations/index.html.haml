@@ -3,42 +3,47 @@
   - if @search
     %h1 Search results for '#{@search}'
   - if @box == 'inbox'
-    %h1.text-center Inbox
-    -meta :title => "Lorious | Inbox" 
+    / %h1.text-center Inbox
+    -meta :title => "Lorious | Inbox"
   - if @box == 'sent'
-    %h1.text-center Sent
-    -meta :title => "Lorious | Sent" 
+    / %h1.text-center Sent
+    -meta :title => "Lorious | Sent"
   - if @box == 'trash'
-    %h1.text-center Trash
-    -meta :title => "Lorious | Trash" 
-  
+    / %h1.text-center Trash
+    -meta :title => "Lorious | Trash"
+
   .row
-    .col-xs-1
-    .col-xs-3  
+    .col-xs-10
       = render 'messagenav'
-    .col-xs-7
+  %br
+  .row
+    .col-xs-10
       = form_tag trash_conversations_path, method: :delete do
         = hidden_field_tag 'current_box', @box
-        %table.table.table-hover.table-condensed.table-bordered
+        %table.table.table-hover.table-condensed.table-striped
           %tr
             - unless @box == 'trash'
               %th
+                %label.checkbox.disabled.checked
+                  %input{type:"checkbox",value:"", id: "checkbox", "data-toggle"=>"checkbox", disabled: ""}
             %th Sender
             %th Subject
-            %th Messages
-            %th
+            %th Latest Message
           - @messages.each do |m|
             %tr{ class: "#{ 'success' if m.is_unread?(current_user) }" }
               - unless @box == 'trash'
-                %td= check_box_tag '', m.id, false, class: 'delete_multiple_checkbox', name: "conversations[]"
-              %td= link_to m.last_sender.nil? ? "Unknown" : m.last_sender.name , conversation_path(m) 
+                %td
+                  %label.checkbox{for:"#{m.id}"}
+                    = check_box_tag '', m.id, false, class: 'delete_multiple_checkbox', name: "conversations[]", "data-toggle" => "checkbox"
+              %td= link_to m.last_sender.nil? ? "Unknown" : m.last_sender.name , conversation_path(m)
               %td= link_to m.subject, conversation_path(m)
-              %td= link_to m.count_messages, conversation_path(m)
+              / %td= link_to m.count_messages, conversation_path(m)
               %td= link_to truncate(m.last_message.body), conversation_path(m)
         - unless @box == 'trash'
           #delete_btn_div{ style: "display:block;"}
             = submit_tag "Delete checked messages", id: 'delete_multiple_button', class: 'btn btn-danger'
-      = will_paginate @messages 
+      .pagination.pagination-default
+        = will_paginate @messages
   %br
   %br
   :javascript
@@ -50,7 +55,7 @@
         }
       });
       if(checked==0){
-        alert('Please make a selection'); 
+        alert('Please make a selection');
         e.preventDefault();
       }
     });

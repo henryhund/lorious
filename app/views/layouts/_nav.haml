@@ -6,8 +6,8 @@
       %a#home-button.fui-home{href: root_url, "data-toggle"=>"tooltip", "title"=>"Home", "data-placement"=>"right", "data-container"=>"body", "data-trigger"=>"hover"}
     %li
       %a#search-button.fui-search{href: search_path, "data-toggle"=>"tooltip", "title"=>"Search", "data-placement"=>"right", "data-container"=>"body"}
-    %li
-      %a#requests-button.fui-document{href: request_latest_path, "data-toggle"=>"tooltip", "title"=>"Requests", "data-placement"=>"right", "data-container"=>"body"}
+    / %li
+    /   %a#requests-button.fui-document{href: request_latest_path, "data-toggle"=>"tooltip", "title"=>"Requests", "data-placement"=>"right", "data-container"=>"body"}
     -if current_user
       %li
         %a#calendar-button.fui-calendar{href: users_url(anchor: "appointment"), "data-toggle"=>"tooltip", "title"=>"Your Calendar", "data-placement"=>"right", "data-container"=>"body"}
@@ -53,9 +53,9 @@
             %li{rel: "1"}
               =link_to search_url, class: "opt" do
                 %span.pull-left Search
-            %li{rel: "2"}
-              =link_to request_latest_url, class: "opt" do
-                %span.pull-left Requests
+            / %li{rel: "2"}
+            /   =link_to request_latest_url, class: "opt" do
+            /     %span.pull-left Requests
             .divider
             %li{rel: "3"}
               =link_to users_url(anchor: "appointment"), class: "opt" do
@@ -99,15 +99,15 @@
             %span.fui-search
   %br
   %h6.side-header Popular Topics
-  %button.btn.btn-sm.btn-primary{type: "button"} Business Dev
-  %button.btn.btn-sm.btn-primary{type: "button"} Web Development
-  %button.btn.btn-sm.btn-primary{type: "button"} Web Design
-  %button.btn.btn-sm.btn-primary{type: "button"} Project Management
-  %button.btn.btn-sm.btn-primary{type: "button"} MVPs
-  %button.btn.btn-sm.btn-primary{type: "button"} Getting Started
-  %button.btn.btn-sm.btn-primary{type: "button"} HTML
-  %button.btn.btn-sm.btn-primary{type: "button"} CSS
-  %button.btn.btn-sm.btn-primary{type: "button"} Ruby on Rails
+  =link_to "Business Dev", "/search?keyword=Business Dev", class: "button btn btn-sm btn-primary"
+  =link_to "Web Development", "/search?keyword=Web Development", class: "button btn btn-sm btn-primary"
+  =link_to "Web Design", "/search?keyword=Web Design", class: "button btn btn-sm btn-primary"
+  =link_to "Project Management", "/search?keyword=Project Management", class: "button btn btn-sm btn-primary"
+  =link_to "MVPs", "/search?keyword=MVPs", class: "button btn btn-sm btn-primary"
+  =link_to "Getting Started", "/search?keyword=Getting Started", class: "button btn btn-sm btn-primary"
+  =link_to "HTML", "/search?keyword=HTML", class: "button btn btn-sm btn-primary"
+  =link_to "CSS", "/search?keyword=CSS", class: "button btn btn-sm btn-primary"
+  =link_to "Ruby on Rails", "/search?keyword=Ruby on Rails", class: "button btn btn-sm btn-primary"
   / %button.btn.btn-sm.btn-primary{type: "button"} Django
   / %button.btn.btn-sm.btn-primary{type: "button"} Javascript
   / %button.btn.btn-sm.btn-primary{type: "button"} PHP
@@ -116,28 +116,28 @@
   / %button.btn.btn-sm.btn-primary{type: "button"} CSS
   / %button.btn.btn-sm.btn-primary{type: "button"} iOS
   %br
-  %h6.side-header Latest Requests
-  %ul.list-unstyled.request-detail
-    %li
-      =link_to "#" do
-        %strong Henry H.
-        needs help with
-        %span.label.label-primary Ruby on Rails
-    %li
-      =link_to "#" do
-        %strong Henry H.
-        needs help with
-        %span.label.label-primary Ruby on Rails
-    %li
-      =link_to "#" do
-        %strong Henry H.
-        needs help with
-        %span.label.label-primary Ruby on Rails
-    %li
-      =link_to "#" do
-        %strong Henry H.
-        needs help with
-        %span.label.label-primary Ruby on Rails
+  / %h6.side-header Latest Requests
+  / %ul.list-unstyled.request-detail
+  /   %li
+  /     =link_to "#" do
+  /       %strong Henry H.
+  /       needs help with
+  /       %span.label.label-primary Ruby on Rails
+  /   %li
+  /     =link_to "#" do
+  /       %strong Henry H.
+  /       needs help with
+  /       %span.label.label-primary Ruby on Rails
+  /   %li
+  /     =link_to "#" do
+  /       %strong Henry H.
+  /       needs help with
+  /       %span.label.label-primary Ruby on Rails
+  /   %li
+  /     =link_to "#" do
+  /       %strong Henry H.
+  /       needs help with
+  /       %span.label.label-primary Ruby on Rails
 
 
 

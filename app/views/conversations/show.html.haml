@@ -1,16 +1,15 @@
 -meta :title => "Lorious | View Conversation"
 .row
-  .col-md-1
-  .col-md-3
+  .col-xs-10
     = render 'messagenav'
-  .col-md-7
-    #actions
-      - if @conversation.is_trashed?(current_user)
-        = link_to "Untrash this conversation", untrash_conversation_path(@conversation), class: "btn btn-success pull-right", method: :post
-      - else
-        = link_to "Trash this conversation", trash_conversation_path(@conversation), class: "btn btn-danger pull-right", method: :delete
-
-    %h2.subject= "Subject: " + @conversation.subject
+%br
+  - if @conversation.is_trashed?(current_user)
+    = link_to "Untrash this conversation", untrash_conversation_path(@conversation), class: "btn btn-success", method: :post
+  - else
+    = link_to "Trash this conversation", trash_conversation_path(@conversation), class: "btn btn-danger btn-sm", method: :delete
+.row
+  .col-xs-10
+    %h2.subject= @conversation.subject
     .well
 
       %p Message History
