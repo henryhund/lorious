@@ -22,7 +22,7 @@ Setting.create(name: "slot_1_percent", value: "30")
 Setting.create(name: "slot_2_percent", value: "20")
 Setting.create(name: "slot_3_percent", value: "10")
 
-Expert.order("RANDOM()").all(:limit => 4).each do |expert| 
+Expert.order("RANDOM()").all(:limit => 4).each do |expert|
   expert.is_featured = true
   expert.save
 end

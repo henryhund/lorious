@@ -60,8 +60,8 @@ User.create!(
 ```
 
 additional fields to be added to above command to complete creation of user account.
-or Create an invite and using the generated oauth token paste the following url into the browser to get redirected to 
-a user creation wizard. 
+or Create an invite and using the generated oauth token paste the following url into the browser to get redirected to
+a user creation wizard.
 
 ```ruby
 "/users/auth/google_oauth2?invite_token=" + invite.token
@@ -76,7 +76,7 @@ rails s
 
 ## Setting up Google+ Hangout Api
 
-0. Go to [Google API Console](https://code.google.com/apis/console) and create a google developer account. 
+0. Go to [Google API Console](https://code.google.com/apis/console) and create a google developer account.
 1. Register for a Google + Hangout API and in the Application URL enter the url of the website followed by the Google Hangout App XML file. for eg:  http://lorious-dev.herokuapp.com/ExpertHangout.xml.
 2. Make the application type an Extension.
 3. Enter a name for the Application and enter urls for the Terms of Service, Policy etc.
@@ -94,11 +94,11 @@ http://railscasts.com/episodes/360-facebook-authentication?view=asciicast
 ```bash
 heroku run rake sunspot:reindex
 ```
-2. After deploying the application for the first time, go to your Websolr Addon and select your default index. 
+2. After deploying the application for the first time, go to your Websolr Addon and select your default index.
 3. Click on the advanced configuration tab and paste the code from the file solr/conf/schema.xml to update the index on the heroku web solr instance. Note: that after updating the schema you must run the reindex command again.
 
-## Braintree Setup 
-0. Once you obtain the necessary keys from braintree they must be populated in the following initializer file: initializers/braintree.rb as follows - 
+## Braintree Setup
+0. Once you obtain the necessary keys from braintree they must be populated in the following initializer file: initializers/braintree.rb as follows -
 ```ruby
 Braintree::Configuration.environment = :sandbox #or production once deployed
 Braintree::Configuration.merchant_id = "<insert master merchant account id, service fee will be disbursed here>"
@@ -114,5 +114,11 @@ var braintree = Braintree.create("this_is_the_key_value");
 
 2. Note that Braintree's js encryption is only required for merchant creation, in all other instances the information is encrypted using TransparentRedirect.
 
+## Localhost
 
+* Make sure redis is running: redis-server
+* Make sure sidekiq is running: bundle exec sidekiq
+* Make sure solr is running:
+** bundle exec rake sunspot:solr:start
+** bundle exec rake sunspot:solr:stop
 
