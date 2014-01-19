@@ -87,7 +87,9 @@ Lorious::Application.routes.draw do
     end
   end
 
-  mount Sidekiq::Web, at: "/sidekiq"
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 
   post '/messages', :controller => "conversations", :action => "create_message"
 

@@ -1,5 +1,14 @@
 .container-search
   %h1.text-center Control Panel
+  #settings-nav.row
+    .col-xs-12.text-center
+      %ul.nav.nav-pills
+        %li
+          %a{:href => "/admin", target: "_blank"} Rails Admin
+        %li
+          %a{:href => "/sidekiq", target: "_blank"} Sidekiq Queue
+        %li
+          %a{:href => "https://www.braintreegateway.com/login", target: "_blank"} Braintree
   .row{:style => "margin-bottom: 15px;"}
     .col-xs-3.col-md-2
     .col-xs-12.col-md-6
@@ -20,7 +29,7 @@
               %label.string.optional.col-md-7.control-label{:for => "request_company_name"}= setting.name
               .col-md-5
                 = f.text_field :value
-        %div
+        .col-xs-12
           = submit_tag "Update Settings"
     .col-xs-6.col-md-4
   .row{:style => "margin: 1px;"}
