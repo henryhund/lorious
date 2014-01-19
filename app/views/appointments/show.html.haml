@@ -1,7 +1,7 @@
 - meta :title => "Lorious | View Appointment"
 .container{style:"margin:20px;"}
   .row{:style => "margin-top: 20px; margin-bottom: 30px;"}
-    %h1.text-center
+    %h3.text-center
       = @appointment.subject
       , #{number_to_currency(@appointment.total_credit_cost)}/#{@appointment.duration_in_words}
     .col-xs-6

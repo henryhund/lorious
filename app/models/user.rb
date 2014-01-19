@@ -189,6 +189,10 @@ class User < ActiveRecord::Base
     self.transactions_made.inject(0) { |sum, e| sum + e.amount_with_sign }
   end
 
+  def verified?
+    self.social_media.length > 3
+  end
+
   before_save do
     if expert_approved_changed? && is_expert_applied && expert_approved
       self.change_to_expert_and_return_user!

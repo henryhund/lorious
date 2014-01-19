@@ -27,8 +27,17 @@
       .col-md-2.col-xs-12
         .img-circle.avatar{style: "background: url(#{@user.image.url}) no-repeat; height: 200px; background-position: center center; background-size: cover!important;"}
       .col-md-7.col-md-offset-1.col-xs-12
-        %h1.name
+        %br
+        %br
+        %h1.name{style:"display:inline;"}
           =@user.name
+        &nbsp;
+        &nbsp;
+        -if @user.verified?
+          %i.fui-star-2{style:"font-size:25px", "data-toggle"=>"tooltip", "title"=>"This user has verified their account by authenticating with three social networks.", "data-placement"=>"right", "data-container"=>"body", "data-trigger"=>"hover"}
+        -else
+          %i.fui-radio-unchecked.disabled{style:"font-size:25px", "data-toggle"=>"tooltip", "title"=>"This user has yet to verify their account by authenticating with three social networks.", "data-placement"=>"right", "data-container"=>"body", "data-trigger"=>"hover"}
+
 
         %h6.job
           Title:
