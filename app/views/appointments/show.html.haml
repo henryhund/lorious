@@ -1,12 +1,12 @@
 - meta :title => "Lorious | View Appointment"
-.container
+.container{style:"margin:20px;"}
   .row{:style => "margin-top: 20px; margin-bottom: 30px;"}
     %h1.text-center
       = @appointment.subject
       , #{number_to_currency(@appointment.total_credit_cost)}/#{@appointment.duration_in_words}
     .col-xs-6
       .row
-        %h3 Message History
+        %h4 Message History
         .well{:style => "height: 250px; overflow-y: scroll;"}
           - if Conversation.where(id: @appointment.message_id).size > 0
             - Conversation.find(@appointment.message_id).messages.order(:created_at => :desc).each do |message|
@@ -19,7 +19,7 @@
                     - if message.sender == current_user
                       You said...
                     - else
-                      = message.sender.name
+                      =link_to message.sender.name, "/#{message.sender.username}"
                       said...
                   = message.body
           - else
@@ -27,26 +27,28 @@
               .panel-body
                 %h4 No Messages
       .row
-        %h3{:style => "margin-bottom: 3px;"} Reply Now
+        %h6{:style => "margin-bottom: 3px;"} Reply Now
         = render 'message'
     .col-xs-1
     .col-xs-5
-      %h3{:style => "margin-bottom: 15px;"} Request Info
+      %h4{:style => "margin-bottom: 15px;"} Request Info
       .row
-        %h5 Who
+        %h6 Who
         .col-xs-4.strong
           Host:
         .col-xs-8
-          %img.img-rounded{:src => @appointment.expert.image_url, :style => "margin-right: 10px;", :width => "25px"}/
-          = @appointment.expert.name
+          =link_to "/#{@appointment.expert.username}" do
+            %img.img-rounded{:src => @appointment.expert.image_url, :style => "margin-right: 10px;", :width => "25px"}/
+            = @appointment.expert.name
       .row
         .col-xs-4.strong
           Attendee:
         .col-xs-8
-          %img.img-rounded{:src => @appointment.user.image_url, :style => "margin-right: 10px;", :width => "25px"}/
-          = @appointment.user.name
+          =link_to "/#{@appointment.user.username}" do
+            %img.img-rounded{:src => @appointment.user.image_url, :style => "margin-right: 10px;", :width => "25px"}/
+            = @appointment.user.name
       .row.mg-20
-        %h5 When
+        %h6 When
         .col-xs-4
           Time
         .col-xs-8
@@ -57,7 +59,7 @@
       /   .col-xs-8
       /     = @appointment.time_zone
       .row.mg-20
-        %h5 What
+        %h6 What
         .col-xs-4
           Subject
         .col-xs-8
@@ -74,10 +76,10 @@
           %ul.list-unstyled.tags
             - @appointment.skill_list.each do |skill|
               %a{:href => "/search?keyword=#{skill}"}
-              %li.highlighted.smallest
+              %span.label.label-primary
                 = skill
       .row.mg-20
-        %h5 Length
+        %h6 Length
         .col-xs-12
           = @appointment.duration_in_words
       .row.mg-20
@@ -86,25 +88,27 @@
         .col-xs-8
           = number_to_currency(@appointment.hourly_rate)
       .row.mg-20
-        %h5 Subtotal
+        %h6 Subtotal
         .col-xs-12
-          %h3
+          %h6
             %span.label.label-info{:style => "font-size: 13px;"}
               = number_to_currency(@appointment.total_credit_cost)
       .row.mg-20
-        %h5 Appointment Confirmation
-        .row{:style => "margin-left: 20px;"}
-          %div{:style => "min-width: 400px;"}
-            %strong.strong-padding-10 Attendee:
-            %img.img-rounded{:src => @appointment.user.image_url, :style => "margin-right: 10px;", :width => "25px"}/
-            = @appointment.user.name
+        %h6 Appointment Confirmation
+        %div{:style => "min-width: 400px;"}
+          .col-xs-3 Attendee:
+          .col-xs-9
+            =link_to "/#{@appointment.user.username}" do
+              %img.img-rounded{:src => @appointment.user.image_url, :style => "margin-right: 10px;", :width => "25px"}/
+              = @appointment.user.name
             %strong.strong-padding-10 Confirmed:
             = boolean_mapper(@appointment.user_confirmed)
-        .row{:style => "margin-left: 20px;"}
-          %div{:style => "min-width: 400px;"}
-            %strong.strong-padding-50 Host:
-            %img.img-rounded{:src => @appointment.expert.image_url, :style => "margin-right: 10px;", :width => "25px"}/
-            = @appointment.expert.name
+        %div{:style => "min-width: 400px;"}
+          .col-xs-3 Host:
+          .col-xs-9
+            =link_to "/#{@appointment.expert.username}" do
+              %img.img-rounded{:src => @appointment.expert.image_url, :style => "margin-right: 10px;", :width => "25px"}/
+              = @appointment.expert.name
             %strong.strong-padding-10 Confirmed:
             = boolean_mapper(@appointment.expert_confirmed)
       .row.mg-20#hangout_panel
@@ -132,8 +136,8 @@
               %button.btn.btn-warning
                 Appointment Completed
         - if @appointment.appt_state == "cancelled"
-          %h3 This Appointment is Cancelled
-          
+          %span.label.label-danger This Appointment is Cancelled
+
 :javascript
   var HangoutPoller;
 

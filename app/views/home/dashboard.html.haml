@@ -34,17 +34,16 @@
       - Expert.where(is_featured: true).limit(5).order("RANDOM()").each do |expert|
         .row
           .container
-            .col-md-9.col-xs-12.col-sm-12.well
+            .col-md-9.col-xs-12.col-sm-12.well{style:"min-height:185px;"}
               .col-xs-3.col-md-3.text-center{class: "#{cycle('odd','even')== "odd"? "" : 'pull-right'}"}
                 = link_to profile_path(expert.username) do
                   = image_tag(expert.image.url, class: "img-circle search-avatar no-margin", style: "width: 100px; height: 100px;")
                   %h6= expert.name
               .col-xs-9.col-md-9.section-box
                 %p
-                  %strong Tagline:&nbsp;
-                  = truncate(expert.tag_line, length: 80, separator: " ")
+                  %em
+                    = truncate(expert.tag_line, length: 80, separator: " ")
                 %p
-                  %strong About:&nbsp;
                   = truncate(expert.bio, length: 80, separator: " ")
                 %ul.list-unstyled
                   - expert.skill_list.first(5).each do |skill|

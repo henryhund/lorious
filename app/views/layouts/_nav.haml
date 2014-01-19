@@ -81,6 +81,10 @@
               %button.btn.btn-embossed.btn-primary Help
             %li.pull-right
               %button.btn.btn-embossed.btn-default About
+            %li.pull-right
+              =link_to "/#{current_user.username}" do
+                %img.img-circle{:src => current_user.image_url, :style => "margin-right: 10px;", :height => "41px"}/
+                %span{style:"text-transform: initial;"}=current_user.name
           -else
             %li.pull-right
               %button.btn.btn-embossed.btn-primary Start Free

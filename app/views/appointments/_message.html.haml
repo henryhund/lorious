@@ -3,7 +3,7 @@
   = f.hidden_field :recipient_id, value: @message_to.id
   = f.hidden_field :subject, value: @appointment.subject
   %p * Your Message
-  = f.input :body, as: :text, :input_html => { :cols => 150, :rows => 3, class: "pull-left" }, label: false
+  = f.input :body, as: :text, :input_html => { :width => 150, :rows => 3, class: "pull-left" }, label: false
   = f.button :submit, "Send message", class: "btn btn-primary pull-left"
 %br/
 %br/
