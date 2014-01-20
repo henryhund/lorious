@@ -86,10 +86,11 @@
 
             .buttons.text-center
               %br
-              %a.login_check{href: "/experts/#{@user.id}/appointments/new"}
-                .btn.btn-embossed.btn-primary
-                  %i.icon-calendar
-                  Make Appointment
+              -unless @user.id == (current_user.id rescue @user.id)
+                %a.login_check{href: "/experts/#{@user.id}/appointments/new"}
+                  .btn.btn-embossed.btn-primary
+                    %i.icon-calendar
+                    Make Appointment
               %br
               -if @user.expert? && (@user.availability.nil? ? false : (JSON.parse( @user.availability.timespans).length > 0) rescue false)
                 %a.small{"data-toggle" => "modal", :href => "#calendarModal"} see my calendar
