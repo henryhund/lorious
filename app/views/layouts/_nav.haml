@@ -95,12 +95,13 @@
 
 
 #side-searchbar.btn-group-vertical.hidden-xs.hidden-sm
-  .form-group
-    .input-group
-      %input.form-control{:placeholder => "Search", :type => "text"}
-        %span.input-group-btn
-          %button.btn{:type => "submit"}
-            %span.fui-search
+  %form{method:"get", action:"/search"}
+    .form-group
+      .input-group
+        %input.form-control{:placeholder => "Search", :type => "text", :name => "keyword"}
+          %span.input-group-btn
+            %button.btn{:type => "submit"}
+              %span.fui-search
   %br
   -if !(controller_name == "profiles" && action_name == "show")
     %h6.side-header Popular Topics

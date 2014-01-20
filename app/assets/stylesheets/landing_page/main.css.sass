@@ -2,66 +2,8 @@
   %a.navbar-brand
     padding-right: 0
 
-@media (max-width: 979px)
-  #landing_page_nav
-    .navbar-brand
-      top: 1px
-      padding-top: 1px
-      padding-right: 0
-
-@media (max-width: 767px)
-  #landing_page_nav
-    background-color: rgba(0,0,0,0.31)
-
-.container
-  width: 1230px
-  width: 100%
-  padding-right: 0px
-  padding-left: 0px
-
-.navbar .nav > li > a
-  color: #fff
-
-.alert
-  margin-bottom: -150px
-
-@media (min-width: 1200px)
-  .header
-    background-image: url(https://s3.amazonaws.com/lorious/layout/elements/landing_page/laptop-image.jpg)
-    height: 675px
-    width: 100%
-    background-repeat: no-repeat
-    background-size: cover
-
-@media (min-width: 768px) and (max-width: 1199px)
-  .header
-    background-image: url(https://s3.amazonaws.com/lorious/layout/elements/landing_page/laptop-image.jpg)
-    background-size: cover
-    height: 675px
-    width: 100%
-    background-repeat: no-repeat
-
-@media (max-width: 767px)
-  .header
-    background-image: url(https://s3.amazonaws.com/lorious/layout/elements/landing_page/laptop-image.jpg)
-    background-size: cover
-    height: 470px
-    width: 100%
-    background-repeat: no-repeat
-
-@media (max-width: 767px)
-  .navbar .nav > li
-    > a
-      padding: 7px 20px
-    &.dropdown
-      > a, > a:hover
-        padding: 7px 20px
-    > a:hover
-      padding: 7px 20px
-
 .header_wrapper
   display: table
-  width: 100%
   height: 100%
   text-align: center
   margin-bottom: 50px
@@ -101,6 +43,7 @@
   display: block
   margin-top: 20px
   margin-bottom: 20px
+  margin-right: 0
   width: auto
   background-color: white
   text-align: center
@@ -117,6 +60,7 @@
   display: block
   margin-top: 20px
   margin-bottom: 20px
+  margin-right: 0
   width: auto
   background-color: white
   text-align: center
@@ -138,10 +82,9 @@
   vertical-align: middle
 
 .connect
-  display: block
   margin-top: 20px
   margin-bottom: 20px
-  width: auto
+  margin-right: 0
   background-color: white
   text-align: center
 
@@ -164,6 +107,7 @@
 .satisfaction
   display: block
   margin-top: 20px
+  margin-right: 0
   padding-top: 20px
   padding-bottom: 20px
   width: auto
@@ -174,7 +118,70 @@
   display: block
   padding-top: 20px
   padding-bottom: 30px
+  margin-right: 0
   width: auto
   background-color: #33cc99
   text-align: center
   font-style: italic
+
+.search-right
+  margin-top: 20%
+  padding: 0
+
+@media (max-width: 979px)
+  #landing_page_nav
+    .navbar-brand
+      top: 1px
+      padding-top: 1px
+      padding-right: 0
+
+@media (max-width: 767px)
+  #landing_page_nav
+    background-color: rgba(0,0,0,0.31)
+
+.navbar .nav > li > a
+  color: #fff
+
+.alert
+  margin-bottom: -150px
+.header
+  margin-left: 0
+  margin-right: 0
+
+@media (min-width: 1200px)
+  .header
+    background-image: url(https://s3.amazonaws.com/lorious/layout/elements/landing_page/laptop-image.jpg)
+    height: 675px
+    background-repeat: no-repeat
+    background-size: cover
+
+@media (min-width: 768px) and (max-width: 1199px)
+  .header
+    background-image: url(https://s3.amazonaws.com/lorious/layout/elements/landing_page/laptop-image.jpg)
+    background-size: cover
+    height: 675px
+    background-repeat: no-repeat
+
+@media (max-width: 767px)
+  .header
+    background-image: url(https://s3.amazonaws.com/lorious/layout/elements/landing_page/laptop-image.jpg)
+    background-size: cover
+    height: 470px
+    background-repeat: no-repeat
+
+  .search-right
+    margin-top: 0
+    margin-right: 25px
+
+@media (max-width: 767px)
+  .navbar .nav > li
+    > a
+      padding: 7px 20px
+    &.dropdown
+      > a, > a:hover
+        padding: 7px 20px
+    > a:hover
+      padding: 7px 20px
+
+
+

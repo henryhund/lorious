@@ -4,107 +4,114 @@
   = stylesheet_link_tag "landing_page/main"
 
 -content_for :body do
-
-  /
-    1. Menu + Header Panel
-    2. Find an Expert Panel
-    3. Pick a Time Panel
-    4. Connect Panel
-    5. Gaurentee Panel
-    6. Catch Us Panel
-    7. Footer Panel
-  .header
-    %nav#landing_page_nav.navbar.navbar-default{:role => "navigation", style: "border-radius: 0px;"}
-      / Brand and toggle get grouped for better mobile display
-      .navbar-header
-        %button.navbar-toggle{"data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
-          %span.sr-only Toggle navigation
-          %span.icon-bar
-          %span.icon-bar
-          %span.icon-bar
-        %a.navbar-brand{:href => "/"}
-          %img{:src => "https://s3.amazonaws.com/lorious/layout/elements/landing_page/lorious_logo.png", :style => "width: 75%;"}/
-      / Collect the nav links, forms, and other content for toggling
-      #bs-example-navbar-collapse-1.collapse.navbar-collapse
-        %ul.nav.navbar-nav.navbar-right
-          %li.pull-right
-            =link_to user_omniauth_authorize_url(:google_oauth2) do
-              %button.btn.btn-embossed.btn-primary
-                Start for Free
-          %li.pull-right
-            =link_to user_omniauth_authorize_url(:google_oauth2) do
-              %button.btn.btn-embossed.btn-default
-                Sign In
-          %li.pull-right
-            =link_to user_omniauth_authorize_url(:google_oauth2), style: "line-height: 45px;" do
-              Teach
-          %li.pull-right
-            =link_to user_omniauth_authorize_url(:google_oauth2), style: "line-height: 45px;" do
-              Learn
+  .header.row
+    .container
+      %nav#landing_page_nav.col-xs-12.navbar.navbar-default{:role => "navigation", style: "border-radius: 0px;"}
+        / Brand and toggle get grouped for better mobile display
+        .navbar-header
+          %button.navbar-toggle{"data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
+            %span.sr-only Toggle navigation
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          %a.navbar-brand{:href => "/"}
+            %img{:src => "https://s3.amazonaws.com/lorious/layout/elements/landing_page/lorious_logo.png", :style => "width: 75%;"}/
+        / Collect the nav links, forms, and other content for toggling
+        #bs-example-navbar-collapse-1.collapse.navbar-collapse
+          %ul.nav.navbar-nav.navbar-right
+            %li.pull-right
+              =link_to user_omniauth_authorize_url(:google_oauth2) do
+                %button.btn.btn-embossed.btn-primary
+                  Start for Free
+            %li.pull-right
+              =link_to user_omniauth_authorize_url(:google_oauth2) do
+                %button.btn.btn-embossed.btn-default
+                  Sign In
+            %li.pull-right
+              =link_to user_omniauth_authorize_url(:google_oauth2), style: "line-height: 45px;" do
+                Teach
+            %li.pull-right
+              =link_to user_omniauth_authorize_url(:google_oauth2), style: "line-height: 45px;" do
+                Learn
 
 
-      / /.navbar-collapse
-    = render "layouts/notifications"
+        / /.navbar-collapse
+      = render "layouts/notifications"
 
-    .header_wrapper
-      .header_info
-        .halfwidth
-          %h3{:style => "color:white"} build amazing products
-          %p{:style => "color:white"} with instant advice from awesome developers
-          .headertwobuttons
-            .header_button
-              %button.btn.btn-primary.btn-default.btn-wide Get Started
-              %p{:style => "color:white"} or be an expert
-            .header_button
-              %button.btn.btn-inverse.btn-default.btn-wide Learn How
-        .halfwidth
+    .row{style:"margin-left:25px;margin-right:0"}
+      .col-sm-6{style:"margin-top:10%"}
+        %h3{:style => "color:white"} build amazing products
+        %p{:style => "color:white"} with instant advice from awesome developers
+        .headertwobuttons
+          .header_button
+            %button.btn.btn-primary.btn-default.btn-wide Get Started
+            %p{:style => "color:white"} or be an expert
+          .header_button
+            %button.btn.btn-inverse.btn-default.btn-wide Learn How
+      .col-sm-5.search-right
+        %form{method:"get", action:"/search"}
           .form-group
             .input-group
-              %input.form-control{:placeholder => "Search", :type => "text"}
+              %input.form-control{:placeholder => "Search", :type => "text", :name => "keyword"}
                 %span.input-group-btn
                   %button.btn{:type => "submit"}
                     %span.fui-search
-  .expert
-    .halfwidth
-      %img{:src => "https://s3.amazonaws.com/lorious/layout/elements/landing_page/experts.png"}
-    .halfwidth
-      %h3 Find an Expert
-      %p Search our curated list of experts, or let us know what you're working on and we will find one for you. You can see the expert's background, skills and interests.
-      %il
-        %h6
-          Get great advice &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          %span.fui-triangle-right-large
-          %span.fui-triangle-right-large
-          %span.fui-triangle-right-large
-  .picktime
-    .twothirdswidthleft
-      %h3 Pick a time that works
-      %p Browse availability and find times that work for you and the expert. Our experts tell you list on their profiles when they prefer to meet, so you can confidently suggest a time.
-      %il
-        %h6
-          Find time now &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          %span.fui-triangle-right-large
-          %span.fui-triangle-right-large
-          %span.fui-triangle-right-large
-    .onethirdwidthright
-      %img{:src => "https://s3.amazonaws.com/lorious/layout/elements/landing_page/calender.png"}
-  .connect
-    .onethirdwidthleft
-      %img{:src => "https://s3.amazonaws.com/lorious/layout/elements/landing_page/video.png"}
-    .twothirdswidthright
-      %h3 Connect, Learn, Done.
-      %p Connect with your expert over high definition video chat. Learn, go through your questions and work together until you've found a solution. Afterwards, you will rate the expert and securely pay for their time.
-      %il
-        %h6
-          Start learning free &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          %span.fui-triangle-right-large
-          %span.fui-triangle-right-large
-          %span.fui-triangle-right-large
-  .satisfaction
-    %img{:src => "https://s3.amazonaws.com/lorious/layout/elements/landing_page/satisfactiongaurentee.png"}
-  .catchus
-    %h3{:style => "color:white"} catch us in...
-    %h6 [wharton vip] [crains business] [coolhouse labs] [wharton tech club]
+  .row.expert
+    .container
+      .col-xs-12
+        .halfwidth
+          %img{:src => "https://s3.amazonaws.com/lorious/layout/elements/landing_page/experts.png"}
+        .halfwidth
+          %h3 Find an Expert
+          %p Search our curated list of experts, or let us know what you're working on and we will find one for you. You can see the expert's background, skills and interests.
+          %il
+            %h6
+              Get great advice &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              %span.fui-triangle-right-large
+              %span.fui-triangle-right-large
+              %span.fui-triangle-right-large
+  .row.picktime
+    .container
+      .col-xs-12
+        .twothirdswidthleft
+          %h3 Pick a time that works
+          %p Browse availability and find times that work for you and the expert. Our experts tell you list on their profiles when they prefer to meet, so you can confidently suggest a time.
+          %il
+            %h6
+              Find time now &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              %span.fui-triangle-right-large
+              %span.fui-triangle-right-large
+              %span.fui-triangle-right-large
+        .onethirdwidthright
+          %img{:src => "https://s3.amazonaws.com/lorious/layout/elements/landing_page/calender.png"}
+  .row.connect
+    .container
+      .col-xs-12
+        .onethirdwidthleft
+          %img{:src => "https://s3.amazonaws.com/lorious/layout/elements/landing_page/video.png"}
+        .twothirdswidthright
+          %h3 Connect, Learn, Done.
+          %p Connect with your expert over high definition video chat. Learn, go through your questions and work together until you've found a solution. Afterwards, you will rate the expert and securely pay for their time.
+          %il
+            %h6
+              Start learning free &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              %span.fui-triangle-right-large
+              %span.fui-triangle-right-large
+              %span.fui-triangle-right-large
+  .row.satisfaction
+    .container
+      .col-xs-12
+        %img{:src => "https://s3.amazonaws.com/lorious/layout/elements/landing_page/satisfactiongaurentee.png"}
+  .row.catchus
+    .container
+      .col-xs-12
+        %h3{:style => "color:white"} catch us in...
+        =image_tag "https://s3.amazonaws.com/lorious/layout/elements/press/press_wharton.png", height: "80px"
+        &nbsp; &nbsp; &nbsp; &nbsp;
+        =image_tag "https://s3.amazonaws.com/lorious/layout/elements/press/press_crains.jpg", height: "80px"
+        %br
+        %br
+        =image_tag "https://s3.amazonaws.com/lorious/layout/elements/press/press_coolhouse.png", height: "175px"
   / .footer
   /   .bottom-menu.bottom-menu-large
   /     <div class="container" style="width:1200px;text-align:right" "="">
