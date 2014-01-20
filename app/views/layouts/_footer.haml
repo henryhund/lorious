@@ -1,34 +1,35 @@
+-content_for :head do
+  = stylesheet_link_tag "common/footer"
+
+
 .bottom-menu
   .container
+    / .row
+    /   .col-md-2.col-md-offset-1.navbar-brand
+    /     =image_tag 'https://s3.amazonaws.com/lorious/layout/lorious_2color.svg', alt: "Lorious Logo.", width: '120px'
+    / %br
     .row
-      .col-md-2.navbar-brand
-        =image_tag 'https://s3.amazonaws.com/lorious/layout/lorious_2color.svg', alt: "Lorious Logo.", width: '120px'
-      .col-md-8
+      .col-md-8.col-md-offset-1
         %ul.bottom-links
           %li
-            %a{href: "#fakelink"} About Us
+            =link_to "About", about_path
           %li
-            %a{href: "#fakelink"} Store
+            %a{href: "mailto:questions@lorious.com"} Contact Us
           %li.active
-            %a{href: "#fakelink"} Jobs
+            =link_to "Help", help_path
           %li
-            %a{href: "#fakelink"} Privacy
-          %li
-            %a{href: "#fakelink"} Terms
-          %li
-            %a{href: "#fakelink"} Follow Us
-          %li
-            %a{href: "#fakelink"} Support
-          %li
-            %a{href: "#fakelink"} Links
+            =link_to "Terms and Privacy Policy", legal_path
+          %li.pull-right
+            © 2014 Lorious. All rights reserved.
+
       .col-md-2
         %ul.bottom-icons
-          %li
-            %a.fui-pinterest{href: "#fakelink"}
-          %li
-            %a.fui-facebook{href: "#fakelink"}
-          %li
-            %a.fui-twitter{href: "#fakelink"}
+          / %li
+          /   %a.fui-pinterest{href: "#fakelink"}
+          %li.pull-right
+            %a.fui-facebook{href: "https://twitter.com/intent/user?screen_name=LoriousTweets", target: "_blank"}
+          %li.pull-right
+            %a.fui-twitter{href: "http://facebook.lorious.com", target: "_blank"}
 
 
 / .row

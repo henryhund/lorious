@@ -59,7 +59,13 @@ class User < ActiveRecord::Base
     "admin",
     "legal",
     "user",
-    "careers"
+    "careers",
+    "subscriptions",
+    "about",
+    "help",
+    "sidekiq",
+    "control_panel",
+    "contact"
   ]
 
   validates :username, :exclusion=> { :in => @disallowed_usernames }

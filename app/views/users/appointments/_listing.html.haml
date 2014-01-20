@@ -6,7 +6,8 @@
       %th Time
       %th Status
       %th Details
-      %th Cancel
+      -if !(action_name == "history")
+        %th
   %tbody
     - @appointments.each do |appointment|
       %tr

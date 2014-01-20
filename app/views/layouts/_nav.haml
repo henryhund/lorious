@@ -20,7 +20,7 @@
       %li
         %a#gear-button.fui-gear{href: users_url, "data-toggle"=>"tooltip", "title"=>"Your Info and Settings", "data-placement"=>"right", "data-container"=>"body"}
     %li
-      %a#help-button.fui-question{href: "#fakelink", "data-toggle"=>"tooltip", "title"=>"Help", "data-placement"=>"right", "data-container"=>"body"}
+      %a#help-button.fui-question{href: "/help", "data-toggle"=>"tooltip", "title"=>"Help", "data-placement"=>"right", "data-container"=>"body"}
     -if current_user
       %li
         =link_to destroy_user_session_path, method: :delete, "data-toggle"=>"tooltip", "title"=>"Logout", "data-placement"=>"right", "data-container"=>"body", id: "logout-button" do
@@ -78,9 +78,11 @@
         %ul.list-unstyled
           -if current_user
             %li.pull-right
-              %button.btn.btn-embossed.btn-primary Help
+              =link_to help_path do
+                %button.btn.btn-embossed.btn-primary Help
             %li.pull-right
-              %button.btn.btn-embossed.btn-default About
+              =link_to about_path do
+                %button.btn.btn-embossed.btn-default About
             %li.pull-right
               =link_to "/#{current_user.username}" do
                 %img.img-circle{:src => current_user.image_url, :style => "margin-right: 10px;", :height => "41px"}/

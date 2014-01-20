@@ -20,7 +20,7 @@
         #bs-example-navbar-collapse-1.collapse.navbar-collapse
           %ul.nav.navbar-nav.navbar-right
             %li.pull-right
-              =link_to user_omniauth_authorize_url(:google_oauth2) do
+              %a{"data-toggle" => "modal", :href => "#requestInvite"}
                 %button.btn.btn-embossed.btn-primary
                   Start for Free
             %li.pull-right
@@ -28,34 +28,37 @@
                 %button.btn.btn-embossed.btn-default
                   Sign In
             %li.pull-right
-              =link_to user_omniauth_authorize_url(:google_oauth2), style: "line-height: 45px;" do
+              =link_to how_it_works_path, style: "line-height: 45px;" do
                 Teach
             %li.pull-right
-              =link_to user_omniauth_authorize_url(:google_oauth2), style: "line-height: 45px;" do
+              =link_to how_it_works_path, style: "line-height: 45px;" do
                 Learn
 
 
         / /.navbar-collapse
       = render "layouts/notifications"
 
-    .row{style:"margin-left:25px;margin-right:0"}
-      .col-sm-6{style:"margin-top:10%"}
-        %h3{:style => "color:white"} build amazing products
-        %p{:style => "color:white"} with instant advice from awesome developers
-        .headertwobuttons
-          .header_button
-            %button.btn.btn-primary.btn-default.btn-wide Get Started
-            %p{:style => "color:white"} or be an expert
-          .header_button
-            %button.btn.btn-inverse.btn-default.btn-wide Learn How
-      .col-sm-5.search-right
-        %form{method:"get", action:"/search"}
-          .form-group
-            .input-group
-              %input.form-control{:placeholder => "Search", :type => "text", :name => "keyword"}
-                %span.input-group-btn
-                  %button.btn{:type => "submit"}
-                    %span.fui-search
+    .row.main-top
+      .container
+        .col-sm-6{style:"margin-top:10%"}
+          %h3{:style => "color:white"} build amazing products
+          %p{:style => "color:white"} with instant advice from awesome developers
+          .headertwobuttons
+            .header_button
+              %button.btn.btn-primary.btn-default.btn-wide{"data-toggle" => "modal", :href => "#requestInvite"} Get Started
+              =link_to how_it_works_path do
+                %p{:style => "color:white; margin-left: 12px"} or be an expert
+            .header_button
+              =link_to how_it_works_path do
+                %button.btn.btn-inverse.btn-default.btn-wide Learn How
+        .col-sm-6.search-right
+          %form{method:"get", action:"/search"}
+            .form-group
+              .input-group
+                %input.form-control{:placeholder => "Search", :type => "text", :name => "keyword"}
+                  %span.input-group-btn
+                    %button.btn{:type => "submit"}
+                      %span.fui-search
   .row.expert
     .container
       .col-xs-12
@@ -112,6 +115,8 @@
         %br
         %br
         =image_tag "https://s3.amazonaws.com/lorious/layout/elements/press/press_coolhouse.png", height: "175px"
+
+
   / .footer
   /   .bottom-menu.bottom-menu-large
   /     <div class="container" style="width:1200px;text-align:right" "="">

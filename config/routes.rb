@@ -9,6 +9,11 @@ Lorious::Application.routes.draw do
     root to: "home#index", as: :root
   end
 
+  get 'legal', to: "home#legal"
+  get 'help', to: "home#help"
+  get 'about', to: "home#about"
+  get 'how-it-works', to: "home#how_it_works", as: "how_it_works"
+
   resources :requests
 
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
