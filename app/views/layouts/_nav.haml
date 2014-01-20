@@ -102,46 +102,47 @@
           %button.btn{:type => "submit"}
             %span.fui-search
   %br
-  %h6.side-header Popular Topics
-  =link_to "Business Dev", "/search?keyword=Business Dev", class: "button btn btn-sm btn-primary"
-  =link_to "Web Development", "/search?keyword=Web Development", class: "button btn btn-sm btn-primary"
-  =link_to "Web Design", "/search?keyword=Web Design", class: "button btn btn-sm btn-primary"
-  =link_to "Project Management", "/search?keyword=Project Management", class: "button btn btn-sm btn-primary"
-  =link_to "MVPs", "/search?keyword=MVPs", class: "button btn btn-sm btn-primary"
-  =link_to "Getting Started", "/search?keyword=Getting Started", class: "button btn btn-sm btn-primary"
-  =link_to "HTML", "/search?keyword=HTML", class: "button btn btn-sm btn-primary"
-  =link_to "CSS", "/search?keyword=CSS", class: "button btn btn-sm btn-primary"
-  =link_to "Ruby on Rails", "/search?keyword=Ruby on Rails", class: "button btn btn-sm btn-primary"
-  / %button.btn.btn-sm.btn-primary{type: "button"} Django
-  / %button.btn.btn-sm.btn-primary{type: "button"} Javascript
-  / %button.btn.btn-sm.btn-primary{type: "button"} PHP
-  / %button.btn.btn-sm.btn-primary{type: "button"} SQL
-  / %button.btn.btn-sm.btn-primary{type: "button"} HTML
-  / %button.btn.btn-sm.btn-primary{type: "button"} CSS
-  / %button.btn.btn-sm.btn-primary{type: "button"} iOS
-  %br
-  / %h6.side-header Latest Requests
-  / %ul.list-unstyled.request-detail
-  /   %li
-  /     =link_to "#" do
-  /       %strong Henry H.
-  /       needs help with
-  /       %span.label.label-primary Ruby on Rails
-  /   %li
-  /     =link_to "#" do
-  /       %strong Henry H.
-  /       needs help with
-  /       %span.label.label-primary Ruby on Rails
-  /   %li
-  /     =link_to "#" do
-  /       %strong Henry H.
-  /       needs help with
-  /       %span.label.label-primary Ruby on Rails
-  /   %li
-  /     =link_to "#" do
-  /       %strong Henry H.
-  /       needs help with
-  /       %span.label.label-primary Ruby on Rails
+  -if !(controller_name == "profiles" && action_name == "show")
+    %h6.side-header Popular Topics
+    =link_to "Business Dev", "/search?keyword=Business Dev", class: "button btn btn-sm btn-primary"
+    =link_to "Web Development", "/search?keyword=Web Development", class: "button btn btn-sm btn-primary"
+    =link_to "Web Design", "/search?keyword=Web Design", class: "button btn btn-sm btn-primary"
+    =link_to "Project Management", "/search?keyword=Project Management", class: "button btn btn-sm btn-primary"
+    =link_to "MVPs", "/search?keyword=MVPs", class: "button btn btn-sm btn-primary"
+    =link_to "Getting Started", "/search?keyword=Getting Started", class: "button btn btn-sm btn-primary"
+    =link_to "HTML", "/search?keyword=HTML", class: "button btn btn-sm btn-primary"
+    =link_to "CSS", "/search?keyword=CSS", class: "button btn btn-sm btn-primary"
+    =link_to "Ruby on Rails", "/search?keyword=Ruby on Rails", class: "button btn btn-sm btn-primary"
+    / %button.btn.btn-sm.btn-primary{type: "button"} Django
+    / %button.btn.btn-sm.btn-primary{type: "button"} Javascript
+    / %button.btn.btn-sm.btn-primary{type: "button"} PHP
+    / %button.btn.btn-sm.btn-primary{type: "button"} SQL
+    / %button.btn.btn-sm.btn-primary{type: "button"} HTML
+    / %button.btn.btn-sm.btn-primary{type: "button"} CSS
+    / %button.btn.btn-sm.btn-primary{type: "button"} iOS
+    / %br
+    / %h6.side-header Latest Requests
+    / %ul.list-unstyled.request-detail
+    /   %li
+    /     =link_to "#" do
+    /       %strong Henry H.
+    /       needs help with
+    /       %span.label.label-primary Ruby on Rails
+    /   %li
+    /     =link_to "#" do
+    /       %strong Henry H.
+    /       needs help with
+    /       %span.label.label-primary Ruby on Rails
+    /   %li
+    /     =link_to "#" do
+    /       %strong Henry H.
+    /       needs help with
+    /       %span.label.label-primary Ruby on Rails
+    /   %li
+    /     =link_to "#" do
+    /       %strong Henry H.
+    /       needs help with
+    /       %span.label.label-primary Ruby on Rails
 
 
 
