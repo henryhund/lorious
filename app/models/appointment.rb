@@ -14,7 +14,7 @@ class Appointment < ActiveRecord::Base
   validate :time_cannot_be_in_the_past, :check_minimum_transaction_amount, :if => :skip_form_field_validation?
 
   scope :pending, -> { where("appt_state = 'new' AND time > ? AND (expert_confirmed = false OR user_confirmed = false OR expert_confirmed is NULL OR user_confirmed is NULL)", Time.now) }
-  scope :upcoming, -> { where("appt_state != 'cancelled' AND expert_confirmed = true AND user_confirmed = true AND time + interval '1' minute * duration >= ?", Time.now )  }
+  scope :upcoming, -> { where.not(appt_state: "cancelled").where("expert_confirmed = true AND user_confirmed = true AND time + interval '1' minute * duration >= ?", Time.now )  }
   scope :history, -> { where("appt_state = 'cancelled' OR expert_confirmed = true AND user_confirmed = true AND time + interval '1' minute * duration < ?", Time.now) }
 
   belongs_to :request
