@@ -3,7 +3,7 @@ class Users::AppointmentsController < ApplicationController
   layout false, except: [:index]
 
   def index
-    @appointments = Appointment.pending.where("user_id = ? OR expert_id = ?", current_user.id, current_user.id).order(:created_at => :desc)
+    @appointments = Appointment.upcoming.where("user_id = ? OR expert_id = ?", current_user.id, current_user.id).order(:created_at => :desc)
   end
 
   def pending
