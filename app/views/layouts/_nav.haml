@@ -30,7 +30,7 @@
         =link_to user_omniauth_authorize_url(:google_oauth2), "data-toggle"=>"tooltip", "title"=>"Sign In", "data-placement"=>"right", "data-container"=>"body", id: "signin-button" do
           %i.fui-user
       %li
-        =link_to root_url, "data-toggle"=>"tooltip", "title"=>"Get Started", "data-placement"=>"right", "data-container"=>"body", id: "signup-button" do
+        =link_to "", "data-toggle"=>"tooltip", "title"=>"Get Started", "data-placement"=>"right", "data-container"=>"body", id: "signup-button", "data-toggle" => "modal", :href => "#requestInvite" do
           %i.fui-new
 
 .container
@@ -89,7 +89,7 @@
                 %span{style:"text-transform: initial;"}=current_user.name
           -else
             %li.pull-right
-              %button.btn.btn-embossed.btn-primary Start Free
+              %button.btn.btn-embossed.btn-primary{"data-toggle" => "modal", :href => "#requestInvite"} Start Free
             %li.pull-right
               =link_to user_omniauth_authorize_url(:google_oauth2) do
                 %button.btn.btn-embossed.btn-default
