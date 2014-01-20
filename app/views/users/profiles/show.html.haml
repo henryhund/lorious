@@ -136,7 +136,7 @@
           -if @expertise.count == 0
             ="No topics added by #{@user.name} yet."
           -@expertise.each do |expertise|
-            %h2
+            %h6
               =expertise.title
             %p.body-container
               =expertise.description
