@@ -46,6 +46,12 @@ Make sure that everything passes before proceeding. If it doesn't, then chances 
 ```bash
 rake db:seed
 ```
+If necessary, run tasks to populate database with fake data (see lib/tasks/sample_data.rake).
+```
+rake db:populate_experts
+rake db:populate_tags
+...
+```
 
 9. Open the Rails console and create yourself a regular user and an admin user.
 ```bash
