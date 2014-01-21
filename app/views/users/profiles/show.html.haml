@@ -24,39 +24,207 @@
 #profile
   #user-overview.row
     .container
-      .col-md-2.col-xs-12
-        .img-circle.avatar{style: "background: url(#{@user.image.url}) no-repeat; height: 200px; background-position: center center; background-size: cover!important;"}
-      .col-md-7.col-md-offset-1.col-xs-12
-        %h1.name
+      .col-md-4.col-xs-12.text-center
+        .img-circle.avatar{style: "background: url(#{@user.image.url}) no-repeat; background-position: center center; background-size: cover!important;"}
+        -if @user.expert?
+          .star{id: "star-average", "data-score" => @user.get_average_rating}
+      .col-md-4.col-xs-12#name-and-info
+        %h4.name{style:"display:inline;"}
           =@user.name
-
-        %h6.job
-          Title:
-          =@user.job rescue "Unknown"
-        %h6.location
-          =@user.location rescue "Unknown"
-        // Maybe a modal or something?
-        -if @user.expert? && (@user.availability.nil? ? false : (JSON.parse( @user.availability.timespans).length > 0) rescue false)
-          %a{"data-toggle" => "modal", :href => "#calendarModal"} See My Calendar
-        %hr
+        &nbsp;
+        &nbsp;
+        -if @user.verified?
+          %i.fui-star-2{style:"font-size:25px", "data-toggle"=>"tooltip", "title"=>"This user has verified their account by authenticating with three social networks.", "data-placement"=>"right", "data-container"=>"body", "data-trigger"=>"hover"}
+        -else
+          %i.fui-radio-unchecked.disabled{style:"font-size:25px", "data-toggle"=>"tooltip", "title"=>"This user has yet to verify their account by authenticating with three social networks.", "data-placement"=>"right", "data-container"=>"body", "data-trigger"=>"hover"}
         %p.tagline
           =@user.tag_line rescue "Unknown"
-        %br
-        -unless @user.id == (current_user.id rescue @user.id)
-          %button.message{"data-toggle" => "modal", :href => "#messageModal"}
-            %i.icon-envelope
-            Message me
-          &nbsp;
-          %span.visible-sm
-            %br
-          -if @user.expert?
-            %a.login_check{href: "/experts/#{@user.id}/appointments/new"}
-              %button.appointment
-                %i.icon-calendar
-                Make Appointment
+
+        %p.bio
+          =@user.bio
+        %hr
+        %ul.skill-list.list-unstyled
+          -@user.skill_list.each do |skill|
+            %li.label.label-primary{style:"margin-right:2px"}
+              %a{:href => "/search?keyword=#{skill}", :style => "color: inherit; text-decoration: none;"}
+                =skill
+        / -if @user.skill_list.length > 3
+        /   %p.small= "+ #{@user.skill_list.length - 4} more"
+
+
+
+        / %h6.job
+        /   Title:
+        /   =@user.job rescue "Unknown"
+        / %h6.location
+        /   =@user.location rescue "Unknown"
+        // Maybe a modal or something?
+        / -if @user.expert? && (@user.availability.nil? ? false : (JSON.parse( @user.availability.timespans).length > 0) rescue false)
+        /   %a{"data-toggle" => "modal", :href => "#calendarModal"} See My Calendar
+        / %hr
+        / %br
+        / -unless @user.id == (current_user.id rescue @user.id)
+        /   %button.message{"data-toggle" => "modal", :href => "#messageModal"}
+        /     %i.icon-envelope
+        /     Message me
+        /   &nbsp;
+        /   %span.visible-sm
+        /     %br
+        /   -if @user.expert?
+        /     %a.login_check{href: "/experts/#{@user.id}/appointments/new"}
+        /       %button.appointment
+        /         %i.icon-calendar
+        /         Make Appointment
 
         &nbsp;
-      .col-md-2.col-xs-12
+      -if @user.expert?
+        .col-md-3.col-xs-12
+          #booking-box
+            .price.text-center
+              %h5=number_to_currency(@user.hourly_rate_in_credit, precision: 0)
+              per hour
+
+            .buttons.text-center
+              %br
+              -unless @user.id == (current_user.id rescue @user.id)
+                %a.login_check{href: "/experts/#{@user.id}/appointments/new"}
+                  .btn.btn-embossed.btn-primary
+                    %i.icon-calendar
+                    Make Appointment
+              %br
+              -if @user.expert? && (@user.availability.nil? ? false : (JSON.parse( @user.availability.timespans).length > 0) rescue false)
+                %a.small{"data-toggle" => "modal", :href => "#calendarModal"} see my calendar
+              %br
+              %br
+              -unless @user.id == (current_user.id rescue @user.id)
+                .btn.btn-embossed.btn-primary{"data-toggle" => "modal", :href => "#messageModal"}
+                  %i.icon-envelope
+                  Message me
+              %br
+              %br
+
+  / -if @user.expert?
+  /   #user-detail.row
+  /     .container
+  /       .col-md-4.left
+  /         %p.detail-label My rating is
+  /         .detail-content
+  /           .star{id: "star-average", "data-score" => @user.get_average_rating}
+  /       .col-md-4.center
+  /         %p.detail-label I've had
+  /         %p.detail-content
+  /           =@user.appointments.history.size.to_s + " conversations" rescue "0 conversations"
+  /       .col-md-4.right
+  /         %p.detail-label My hourly rate is
+  /         %p.detail-content
+  /           =number_to_currency(@user.hourly_rate_in_credit) + "/ hour"
+  /   #expertise.row
+  /     .container
+  /       .col-md-12
+  /         %h1 I'm an expert with
+  /         %ul.list-unstyled.tags
+  /           -@user.skill_list.each do |skill|
+  /             =link_to "/search?keyword=#{skill}" do
+  /               %li.highlighted
+  /                 =skill
+  -if @user.expert?
+    #expertise-detail.row
+      .container{style: "margin-bottom: 50px;"}
+        .col-md-9
+          %span.title
+            %h5 Discussion Topics
+          %hr
+          -if @expertise.count == 0
+            ="No topics added by #{@user.name} yet."
+          -@expertise.each do |expertise|
+            %h6
+              =expertise.title
+            %p.body-container
+              =expertise.description
+
+
+  /   #expertise-detail.row
+  /   .container{ style: "margin-bottom: 50px;"}
+  /     .col-md-12
+  /       %span.title
+  /         %h1 I am interested in
+  /       %hr
+  /       -if @interests.count == 0
+  /         ="No interests added by #{@user.name} yet."
+  /       -@interests.each do |interest|
+  /         %h2
+  /           =interest.title
+  /         %p.body-container
+  /           =interest.description
+
+  / #bio.row
+  /   .container
+  /     .col-md-12
+  /       %span.title
+  /         %h1 About me
+  /       %hr
+  /       %span.body-container
+  /         %p
+  /           =@user.bio
+
+  #messageModal.modalmessage.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "calendarModalLabel", :role => "dialog", :tabindex => "-1"}
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} x
+          %h4.modal-title
+            = "Message " + @user.name
+        .modal-body
+          =render "message"
+        .modal-footer
+
+  -if @user.expert?
+    #reviews.row
+      .container
+        .col-md-9
+
+          %span.title
+            %h5 Reviews
+            %hr
+          -if false
+            .text-center
+              %button{"data-toggle" => "modal", :href => "#reviewModal"}
+                %i.icon-envelope
+                  Write a Review
+
+          %ul.list-unstyled
+            -@reviews.each do |review|
+              %li
+                -reviewer = review.reviewer
+                .review-picture-div
+                  =link_to "/#{reviewer.username}", class: "review-name-link" do
+                    =image_tag(reviewer.image.url, class: "img-circle review-image")
+                    %p.review-name
+                      =reviewer.name
+                  %p
+                    =review.created_at.strftime("%m/%d/%Y")
+
+                .review-detail-div{style:"text-align:left;"}
+                  .star{"data-score" => review.rating }
+                  %p.more
+                    =review.content
+                  %hr
+                  %span.strong
+                  -review.tags.each do |tag|
+                    =link_to "/search?keyword=#{tag}" do
+                      .label.label-primary{style:"margin-right:2px"}
+                        =tag
+                  %br
+
+              %hr.divider
+
+  .row#social-media-links
+    .container
+      .col-md-9.col-xs-12
+        %span.title
+          %h5=@user.first_name+"'s Social Media"
+          %hr
+
         %ul.list-unstyled.links
           %li
             -if @social_links[:facebook]
@@ -129,118 +297,6 @@
                   %i.icon-link.disabled &nbsp;Add
               -else
                 %i.icon-link.disabled
-  -if @user.expert?
-    #user-detail.row
-      .container
-        .col-md-4.left
-          %p.detail-label My rating is
-          .detail-content
-            .star{id: "star-average", "data-score" => @user.get_average_rating}
-        .col-md-4.center
-          %p.detail-label I've had
-          %p.detail-content
-            =@user.appointments.history.size.to_s + " conversations" rescue "0 conversations"
-        .col-md-4.right
-          %p.detail-label My hourly rate is
-          %p.detail-content
-            =number_to_currency(@user.hourly_rate_in_credit) + "/ hour"
-    #expertise.row
-      .container
-        .col-md-12
-          %h1 I'm an expert with
-          %ul.list-unstyled.tags
-            -@user.skill_list.each do |skill|
-              =link_to "/search?keyword=#{skill}" do
-                %li.highlighted
-                  =skill
-    #expertise-detail.row
-    .container{style: "margin-bottom: 50px;"}
-      .col-md-12
-        %span.title
-          %h1 I can also help with
-        %hr
-        -if @expertise.count == 0
-          ="No expertise added by #{@user.name} yet."
-        -@expertise.each do |expertise|
-          %h2
-            =expertise.title
-          %p.body-container
-            =expertise.description
-
-
-    #expertise-detail.row
-    .container{ style: "margin-bottom: 50px;"}
-      .col-md-12
-        %span.title
-          %h1 I am interested in
-        %hr
-        -if @interests.count == 0
-          ="No interests added by #{@user.name} yet."
-        -@interests.each do |interest|
-          %h2
-            =interest.title
-          %p.body-container
-            =interest.description
-
-  #bio.row
-    .container
-      .col-md-12
-        %span.title
-          %h1 About me
-        %hr
-        %span.body-container
-          %p
-            =@user.bio
-
-  #messageModal.modalmessage.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "calendarModalLabel", :role => "dialog", :tabindex => "-1"}
-    .modal-dialog
-      .modal-content
-        .modal-header
-          %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} x
-          %h4.modal-title
-            = "Message " + @user.name
-        .modal-body
-          =render "message"
-        .modal-footer
-
-  -if @user.expert?
-    #reviews.row
-      .container
-        .col-md-12
-
-          %span.title
-            %h1 Reviews
-            %hr
-          -if false
-            .text-center
-              %button{"data-toggle" => "modal", :href => "#reviewModal"}
-                %i.icon-envelope
-                  Write a Review
-
-          %hr
-          %ul.list-unstyled
-            -@reviews.each do |review|
-              %li
-                -reviewer = review.reviewer
-                .review-picture-div
-                  =link_to "#", class: "review-name-link" do
-                    =image_tag(reviewer.image.url, class: "img-circle review-image")
-                    %p.review-name
-                      =reviewer.name
-                  %p
-                    =review.created_at.strftime("%m/%d/%Y")
-                  .star{"data-score" => review.rating }
-                .review-detail-div
-                  %p.more
-                    =review.content
-                  %hr
-                  %span.strong
-                    Topics:&nbsp;&nbsp;
-                  -review.tags.each do |tag|
-                    =link_to "/search?keyword=#{tag}" do
-                      %span.highlighted
-                        =tag
-              %hr.divider
 
     #calendarModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "calendarModalLabel", :role => "dialog", :tabindex => "-1"}
       .modal-dialog

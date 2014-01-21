@@ -22,18 +22,19 @@
   .col-xs-6.col-md-4
 %br/
 %br/
-%h1.text-center Request Cancellation
-.row{:style => "margin-bottom: 150px;"}
-  .col-xs-6.col-md-2
-  .col-xs-6.col-md-6
-    = form_tag request_cancel_path(appointment: @appointment), method: :put do
-      .row.form-group{:style => "margin-bottom: 55px;"}
-        %label.string.optional.col-md-5.control-label Cancellation Reason
-        .col-md-7
-          = text_area_tag :request_cancel_reason, nil, class: "text form-control"
-      .row
-        = submit_tag "Submit Cancellation Request", class: "btn btn-default pull-right"
-  .col-xs-6.col-md-4
+-if (@appointment.time + 36.hours) > Time.now
+  %h1.text-center Request Cancellation
+  .row{:style => "margin-bottom: 150px;"}
+    .col-xs-6.col-md-2
+    .col-xs-6.col-md-6
+      = form_tag request_cancel_path(appointment: @appointment), method: :put do
+        .row.form-group{:style => "margin-bottom: 55px;"}
+          %label.string.optional.col-md-5.control-label Cancellation Reason
+          .col-md-7
+            = text_area_tag :request_cancel_reason, nil, class: "text form-control"
+        .row
+          = submit_tag "Submit Cancellation Request", class: "btn btn-default pull-right"
+    .col-xs-6.col-md-4
 :javascript
   $(document).ready(function() {
   	$('#s1').raty({

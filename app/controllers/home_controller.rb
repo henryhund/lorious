@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :search]
+  before_filter :authenticate_user!, except: [:index, :search, :about, :legal, :help, :how_it_works]
   skip_before_action :profile_not_completed
   def index
   end
@@ -141,6 +141,15 @@ class HomeController < ApplicationController
   def subscriptions
     @available_skills = AvailableTag.skills.map { |e| [e.name.downcase, e.name.downcase] }
     render :layout => false
+  end
+
+  def legal
+  end
+  def help
+  end
+  def about
+  end
+  def how_it_works
   end
 
 private

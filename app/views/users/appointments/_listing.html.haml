@@ -1,4 +1,4 @@
-%table.table
+%table.table.table-hover.table-condensed.table-striped
   %thead
     %tr
       %th{:style => "min-width: 115px;"} Other Party
@@ -6,7 +6,8 @@
       %th Time
       %th Status
       %th Details
-      %th Cancel
+      -if !(action_name == "history")
+        %th
   %tbody
     - @appointments.each do |appointment|
       %tr

@@ -9,6 +9,7 @@ class Ability
 
     if user.admin
       can :access, :rails_admin
+      can :access, :sidekiq
       can :dashboard
       can :manage, :all
     elsif user.persisted?

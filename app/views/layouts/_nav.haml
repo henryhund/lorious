@@ -20,7 +20,7 @@
       %li
         %a#gear-button.fui-gear{href: users_url, "data-toggle"=>"tooltip", "title"=>"Your Info and Settings", "data-placement"=>"right", "data-container"=>"body"}
     %li
-      %a#help-button.fui-question{href: "#fakelink", "data-toggle"=>"tooltip", "title"=>"Help", "data-placement"=>"right", "data-container"=>"body"}
+      %a#help-button.fui-question{href: "/help", "data-toggle"=>"tooltip", "title"=>"Help", "data-placement"=>"right", "data-container"=>"body"}
     -if current_user
       %li
         =link_to destroy_user_session_path, method: :delete, "data-toggle"=>"tooltip", "title"=>"Logout", "data-placement"=>"right", "data-container"=>"body", id: "logout-button" do
@@ -30,7 +30,7 @@
         =link_to user_omniauth_authorize_url(:google_oauth2), "data-toggle"=>"tooltip", "title"=>"Sign In", "data-placement"=>"right", "data-container"=>"body", id: "signin-button" do
           %i.fui-user
       %li
-        =link_to root_url, "data-toggle"=>"tooltip", "title"=>"Get Started", "data-placement"=>"right", "data-container"=>"body", id: "signup-button" do
+        =link_to "", "data-toggle"=>"tooltip", "title"=>"Get Started", "data-placement"=>"right", "data-container"=>"body", id: "signup-button", "data-toggle" => "modal", :href => "#requestInvite" do
           %i.fui-new
 
 .container
@@ -78,12 +78,18 @@
         %ul.list-unstyled
           -if current_user
             %li.pull-right
-              %button.btn.btn-embossed.btn-primary Help
+              =link_to help_path do
+                %button.btn.btn-embossed.btn-primary Help
             %li.pull-right
-              %button.btn.btn-embossed.btn-default About
+              =link_to about_path do
+                %button.btn.btn-embossed.btn-default About
+            %li.pull-right
+              =link_to "/#{current_user.username}" do
+                %img.img-circle{:src => current_user.image_url, :style => "margin-right: 10px;", :height => "41px"}/
+                %span{style:"text-transform: initial;"}=current_user.name
           -else
             %li.pull-right
-              %button.btn.btn-embossed.btn-primary Start Free
+              %button.btn.btn-embossed.btn-primary{"data-toggle" => "modal", :href => "#requestInvite"} Start Free
             %li.pull-right
               =link_to user_omniauth_authorize_url(:google_oauth2) do
                 %button.btn.btn-embossed.btn-default
@@ -91,53 +97,55 @@
 
 
 #side-searchbar.btn-group-vertical.hidden-xs.hidden-sm
-  .form-group
-    .input-group
-      %input.form-control{:placeholder => "Search", :type => "text"}
-        %span.input-group-btn
-          %button.btn{:type => "submit"}
-            %span.fui-search
+  %form{method:"get", action:"/search"}
+    .form-group
+      .input-group
+        %input.form-control{:placeholder => "Search", :type => "text", :name => "keyword"}
+          %span.input-group-btn
+            %button.btn{:type => "submit"}
+              %span.fui-search
   %br
-  %h6.side-header Popular Topics
-  =link_to "Business Dev", "/search?keyword=Business Dev", class: "button btn btn-sm btn-primary"
-  =link_to "Web Development", "/search?keyword=Web Development", class: "button btn btn-sm btn-primary"
-  =link_to "Web Design", "/search?keyword=Web Design", class: "button btn btn-sm btn-primary"
-  =link_to "Project Management", "/search?keyword=Project Management", class: "button btn btn-sm btn-primary"
-  =link_to "MVPs", "/search?keyword=MVPs", class: "button btn btn-sm btn-primary"
-  =link_to "Getting Started", "/search?keyword=Getting Started", class: "button btn btn-sm btn-primary"
-  =link_to "HTML", "/search?keyword=HTML", class: "button btn btn-sm btn-primary"
-  =link_to "CSS", "/search?keyword=CSS", class: "button btn btn-sm btn-primary"
-  =link_to "Ruby on Rails", "/search?keyword=Ruby on Rails", class: "button btn btn-sm btn-primary"
-  / %button.btn.btn-sm.btn-primary{type: "button"} Django
-  / %button.btn.btn-sm.btn-primary{type: "button"} Javascript
-  / %button.btn.btn-sm.btn-primary{type: "button"} PHP
-  / %button.btn.btn-sm.btn-primary{type: "button"} SQL
-  / %button.btn.btn-sm.btn-primary{type: "button"} HTML
-  / %button.btn.btn-sm.btn-primary{type: "button"} CSS
-  / %button.btn.btn-sm.btn-primary{type: "button"} iOS
-  %br
-  / %h6.side-header Latest Requests
-  / %ul.list-unstyled.request-detail
-  /   %li
-  /     =link_to "#" do
-  /       %strong Henry H.
-  /       needs help with
-  /       %span.label.label-primary Ruby on Rails
-  /   %li
-  /     =link_to "#" do
-  /       %strong Henry H.
-  /       needs help with
-  /       %span.label.label-primary Ruby on Rails
-  /   %li
-  /     =link_to "#" do
-  /       %strong Henry H.
-  /       needs help with
-  /       %span.label.label-primary Ruby on Rails
-  /   %li
-  /     =link_to "#" do
-  /       %strong Henry H.
-  /       needs help with
-  /       %span.label.label-primary Ruby on Rails
+  -if !(controller_name == "profiles" && action_name == "show")
+    %h6.side-header Popular Topics
+    =link_to "Business Dev", "/search?keyword=Business Dev", class: "button btn btn-sm btn-primary"
+    =link_to "Web Development", "/search?keyword=Web Development", class: "button btn btn-sm btn-primary"
+    =link_to "Web Design", "/search?keyword=Web Design", class: "button btn btn-sm btn-primary"
+    =link_to "Project Management", "/search?keyword=Project Management", class: "button btn btn-sm btn-primary"
+    =link_to "MVPs", "/search?keyword=MVPs", class: "button btn btn-sm btn-primary"
+    =link_to "Getting Started", "/search?keyword=Getting Started", class: "button btn btn-sm btn-primary"
+    =link_to "HTML", "/search?keyword=HTML", class: "button btn btn-sm btn-primary"
+    =link_to "CSS", "/search?keyword=CSS", class: "button btn btn-sm btn-primary"
+    =link_to "Ruby on Rails", "/search?keyword=Ruby on Rails", class: "button btn btn-sm btn-primary"
+    / %button.btn.btn-sm.btn-primary{type: "button"} Django
+    / %button.btn.btn-sm.btn-primary{type: "button"} Javascript
+    / %button.btn.btn-sm.btn-primary{type: "button"} PHP
+    / %button.btn.btn-sm.btn-primary{type: "button"} SQL
+    / %button.btn.btn-sm.btn-primary{type: "button"} HTML
+    / %button.btn.btn-sm.btn-primary{type: "button"} CSS
+    / %button.btn.btn-sm.btn-primary{type: "button"} iOS
+    / %br
+    / %h6.side-header Latest Requests
+    / %ul.list-unstyled.request-detail
+    /   %li
+    /     =link_to "#" do
+    /       %strong Henry H.
+    /       needs help with
+    /       %span.label.label-primary Ruby on Rails
+    /   %li
+    /     =link_to "#" do
+    /       %strong Henry H.
+    /       needs help with
+    /       %span.label.label-primary Ruby on Rails
+    /   %li
+    /     =link_to "#" do
+    /       %strong Henry H.
+    /       needs help with
+    /       %span.label.label-primary Ruby on Rails
+    /   %li
+    /     =link_to "#" do
+    /       %strong Henry H.
+    /       needs help with
+    /       %span.label.label-primary Ruby on Rails
 
 
 

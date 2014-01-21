@@ -121,5 +121,11 @@ var braintree = Braintree.create("this_is_the_key_value");
 
 2. Note that Braintree's js encryption is only required for merchant creation, in all other instances the information is encrypted using TransparentRedirect.
 
+## Localhost
 
+* Make sure redis is running: redis-server
+* Make sure sidekiq is running: bundle exec sidekiq
+* Make sure solr is running:
+** bundle exec rake sunspot:solr:start
+** bundle exec rake sunspot:solr:stop
 

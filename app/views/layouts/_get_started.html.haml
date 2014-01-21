@@ -1,0 +1,45 @@
+#requestInvite.modalmessage.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "InviteLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} x
+        %h4.modal-title
+          = "Request Invite"
+      .modal-body
+        = form_for(Invite.new, html: {novalidate:"novalidate"}) do |f|
+          .form-group
+            = f.text_field :name, placeholder: "Name", class: "form-control"
+            %span.input-icon.fui-user
+          .form-group
+            = f.text_field :email, placeholder: "Email", class: "form-control"
+            %span.input-icon.fui-mail
+          = f.submit "Request an Invite", class: "submit", id: "invite_submit"
+        #errorContainer1
+          %ul.list-unstyled
+      .modal-footer
+
+:javascript
+  $(document).ready(function () {
+    $("#requestInvite").on('shown.bs.modal', function() {
+      $("#new_invite").validate({
+          rules: {
+              invite_name: "required",
+              invite_email: {
+                required: true,
+                email: true
+              }
+
+          },
+          messages: {
+              invite_name: "Your name is required",
+              invite_email: {
+                required: "Your email is required",
+                email: "A valid email is required"
+              }
+          },
+          errorContainer: $('#errorContainer1'),
+          errorLabelContainer: $('#errorContainer1 ul'),
+          wrapper: 'li'
+        });
+      });
+    });

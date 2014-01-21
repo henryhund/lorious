@@ -59,7 +59,13 @@ class User < ActiveRecord::Base
     "admin",
     "legal",
     "user",
-    "careers"
+    "careers",
+    "subscriptions",
+    "about",
+    "help",
+    "sidekiq",
+    "control_panel",
+    "contact"
   ]
 
   validates :username, :exclusion=> { :in => @disallowed_usernames }
@@ -187,6 +193,10 @@ class User < ActiveRecord::Base
 
   def credits
     self.transactions_made.inject(0) { |sum, e| sum + e.amount_with_sign }
+  end
+
+  def verified?
+    self.social_media.length > 3
   end
 
   before_save do
