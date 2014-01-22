@@ -96,6 +96,8 @@
                 %a.small{"data-toggle" => "modal", :href => "#calendarModal"} see my calendar
               %br
               %br
+              -if !current_user
+                %button.btn.btn-primary.btn-default.btn-wide{"data-toggle" => "modal", :href => "#requestInvite"} Sign up to book
               -unless @user.id == (current_user.id rescue @user.id)
                 .btn.btn-embossed.btn-primary{"data-toggle" => "modal", :href => "#messageModal"}
                   %i.icon-envelope

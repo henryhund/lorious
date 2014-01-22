@@ -71,10 +71,10 @@
                 %span.pull-left Logout
   #main-header.row.hidden-xs
     .col-lg-12.header-lg-center
-      .col-sm-6.header-lg-logo
+      .col-sm-4.header-lg-logo
         %a{:href => "/"}
           =image_tag "https://s3.amazonaws.com/lorious/layout/lorious_logo_dark_grey.png", width: "110px"
-      .col-sm-6.header-lg-links.pull-right
+      .col-sm-8.header-lg-links.pull-right
         %ul.list-unstyled
           -if current_user
             %li.pull-right
@@ -89,11 +89,15 @@
                 %span{style:"text-transform: initial;"}=current_user.name
           -else
             %li.pull-right
-              %button.btn.btn-embossed.btn-primary{"data-toggle" => "modal", :href => "#requestInvite"} Start Free
-            %li.pull-right
               =link_to user_omniauth_authorize_url(:google_oauth2) do
                 %button.btn.btn-embossed.btn-default
                   Sign In
+            %li.pull-right
+              =link_to about_url do
+                %button.btn.btn-embossed.btn-inverse About Us
+            %li.pull-right
+              =link_to how_it_works_url do
+                %button.btn.btn-embossed.btn-inverse Be an Expert
 
 
 #side-searchbar.btn-group-vertical.hidden-xs.hidden-sm
