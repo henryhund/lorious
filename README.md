@@ -7,6 +7,7 @@ The following is a work in progress readme explaining the setup and maintenance 
 1. Assemble list of key local and remote URLs
 2. Clear up Heroku setup
 3. Explain service providers, especially Google app setup (both oauth and Hangouts)
+4. Add troubleshooting section
 
 ## Key URLs
 
@@ -76,6 +77,12 @@ rake db:populate_tags
   rake sunspot:reindex
   ```
 
+  To start a worker that will process all sidekiq (messaging, funds disbursement, etc.) tasks, open a new console window and run:
+
+  ```
+  bundle exec sidekiq -q default
+  ```
+
 * Start app
 
   ```
@@ -106,6 +113,24 @@ rake db:populate_tags
   ```
 
     Creating users in console works as well, but you must complete required fields AND make sure that the user attributes step_1_complete and step_2_complete are marked true. Otherwise, there may be errors.
+
+### Troubleshooting
+
+#### Google oauth setup
+
+#### Search server, indexing solr
+
+#### User setup (step_1, etc.)
+
+#### Can't access /admin panel
+
+#### Sidekiq not processing queues
+Open a new console window and run the command
+
+```
+bundle exec sidekiq -q default
+```
+This will initiate a worker that will process all in queue and will process new tasks as they come in.
 
 ## Heroku Setup
 Incomplete
