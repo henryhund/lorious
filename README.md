@@ -49,10 +49,10 @@ cp config/{application.yml.sample,application.yml}
 
 * If you want to run the test suite:
 
-```
-rake db:migrate RAILS_ENV=test
-bundle exec rspec
-```
+  ```
+  rake db:migrate RAILS_ENV=test
+  bundle exec rspec
+  ```
 
   Make sure that everything passes before proceeding. If it doesn't, then chances are that you either are missing a dependency, or that you did not fill in a required value in `application.yml`.
 
@@ -69,44 +69,43 @@ rake db:populate_tags
 
 * Turn on redis, sidekiq and solr.
 
-```
-redis-server
-bundle exec sidekiq
-bundle exec rake sunspot:solr:start
-rake sunspot:reindex
-```
+  ```
+  redis-server
+  bundle exec sidekiq
+  bundle exec rake sunspot:solr:start
+  rake sunspot:reindex
+  ```
 
 * Start app
 
-```
-rails s
-```
+  ```
+  rails s
+  ```
 
 * The easiest way to create your user for logging in is to create an invite and follow the application's defined signup process.
 
-```
-invite = Invite.create!(name:"Name",email:"[YOUR EMAIL]",approved:TRUE)
-```
+  ```
+  invite = Invite.create!(name:"Name",email:"[YOUR EMAIL]",approved:TRUE)
+  ```
 
-and using the generated oauth token paste the following url into the browser to get redirected to
-a user creation wizard.
+  and using the generated oauth token paste the following url into the browser to get redirected to a user creation wizard.
 
-```
-"localhost:3000/users/auth/google_oauth2?invite_token=" + invite.token
-```
+  ```
+  "localhost:3000/users/auth/google_oauth2?invite_token=" + invite.token
+  ```
 
-  Note that you will need to log into your Google account to setup your user.
+    Note that you will need to log into your Google account to setup your user.
 
-  If there are Google errors at this point, there may be issues with your config/application.yml file or the setup of the Google app itself.
+    If there are Google errors at this point, there may be issues with your config/application.yml file or the setup of the Google app itself.
 
-  To make your user an admin, after creation:
+    To make your user an admin, after creation:
 
-```
-@user.admin = TRUE
-@user.save
-```
+  ```
+  @user.admin = TRUE
+  @user.save
+  ```
 
-  Creating users in console works as well, but you must complete required fields AND make sure that the user attributes step_1_complete and step_2_complete are marked true. Otherwise, there may be errors.
+    Creating users in console works as well, but you must complete required fields AND make sure that the user attributes step_1_complete and step_2_complete are marked true. Otherwise, there may be errors.
 
 ## Heroku Setup
 Incomplete
