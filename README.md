@@ -37,15 +37,15 @@ bundle
 cp config/{database.yml.sample,database.yml}
 rake db:migrate
 ```
-Note that PG is the preferred database in dev and production. If you are uncertain how to use PG in localhost try [Postgres App](http://postgresapp.com)
+  Note that PG is the preferred database in dev and production. If you are uncertain how to use PG in localhost try [Postgres App](http://postgresapp.com)
 
 * Copy and personalize your `application.yml` file:
 ```bash
 cp config/{application.yml.sample,application.yml}
 ```
-This file defines environment variables that will be used for configuring email, Facebook app keys, and so on. Always use this file for defining environment variables instead of hard-coding secret information inside the repository. When you add a variable here, also add a corresponding dummy variable in the `application.yml.sample` file so that developers know they need to fill it in.
+  This file defines environment variables that will be used for configuring email, Facebook app keys, and so on. Always use this file for defining environment variables instead of hard-coding secret information inside the repository. When you add a variable here, also add a corresponding dummy variable in the `application.yml.sample` file so that developers know they need to fill it in.
 
-You will need to at minimum input Google keys and have a configured Google app to run the application (to be able to log in)
+  You will need to at minimum input Google keys and have a configured Google app to run the application (to be able to log in)
 
 * If you want to run the test suite:
 
@@ -54,13 +54,13 @@ rake db:migrate RAILS_ENV=test
 bundle exec rspec
 ```
 
-Make sure that everything passes before proceeding. If it doesn't, then chances are that you either are missing a dependency, or that you did not fill in a required value in `application.yml`.
+  Make sure that everything passes before proceeding. If it doesn't, then chances are that you either are missing a dependency, or that you did not fill in a required value in `application.yml`.
 
 * Seed the settings into the development environment.
 ```bash
 rake db:seed
 ```
-If necessary, run tasks to populate database with fake data (see lib/tasks/sample_data.rake).
+  If necessary, run tasks to populate database with fake data (see lib/tasks/sample_data.rake).
 ```
 rake db:populate_experts
 rake db:populate_tags
@@ -95,31 +95,31 @@ a user creation wizard.
 "localhost:3000/users/auth/google_oauth2?invite_token=" + invite.token
 ```
 
-Note that you will need to log into your Google account to setup your user.
+  Note that you will need to log into your Google account to setup your user.
 
-If there are Google errors at this point, there may be issues with your config/application.yml file or the setup of the Google app itself.
+  If there are Google errors at this point, there may be issues with your config/application.yml file or the setup of the Google app itself.
 
-To make your user an admin, after creation:
+  To make your user an admin, after creation:
 
 ```
 @user.admin = TRUE
 @user.save
 ```
 
-Creating users in console works as well, but you must complete required fields AND make sure that the user attributes step_1_complete and step_2_complete are marked true. Otherwise, there may be errors.
+  Creating users in console works as well, but you must complete required fields AND make sure that the user attributes step_1_complete and step_2_complete are marked true. Otherwise, there may be errors.
 
 ## Heroku Setup
 Incomplete
 
 ### Config Variables
 
-The [figaro gem](https://github.com/laserlemon/figaro) manages the config variables for the application. All variables are stored in application.yml. In localhost, these variables are available automatically to the app. But, to access these in Heroku, you must run
+  The [figaro gem](https://github.com/laserlemon/figaro) manages the config variables for the application. All variables are stored in application.yml. In localhost, these variables are available automatically to the app. But, to access these in Heroku, you must run
 
 ```
 rake:figaro heroku
 ```
 
-You can also run this with ```--app APPNAME``` flag to distinguish between different Heroku apps.
+  You can also run this with ```--app APPNAME``` flag to distinguish between different Heroku apps.
 
 
 ***
@@ -128,15 +128,15 @@ You can also run this with ```--app APPNAME``` flag to distinguish between diffe
 
 ### Config Variables
 
-The [figaro gem](https://github.com/laserlemon/figaro) manages the config variables for the application. All variables are stored in application.yml. In localhost, these variables are available automatically to the app. But, to access these in Heroku, you must run
+  The [figaro gem](https://github.com/laserlemon/figaro) manages the config variables for the application. All variables are stored in application.yml. In localhost, these variables are available automatically to the app. But, to access these in Heroku, you must run
 
 ```
 rake:figaro heroku
 ```
 
-You can also run this with ```--app APPNAME``` flag to distinguish between different Heroku apps.
+  You can also run this with ```--app APPNAME``` flag to distinguish between different Heroku apps.
 
-Variables are accessible to app using
+  Variables are accessible to app using
 
 ```
 ENV['VARIABLE_NAME']
