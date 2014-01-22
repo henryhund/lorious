@@ -1,29 +1,23 @@
 development:
   adapter: postgresql
-  encoding: unicode
-  database: socialwise_development
+  host: localhost
+  database: lorious_dev_development # e.g. lorious_development
   pool: 5
-  username: socialwise
-  password:
-  port: 5432
-  min_messages: warning
+  timeout: 5000
+  # username: YOUR_USERNAME_HERE # if database permissions require one
+  # password: YOUR_PASSWORD_HERE # if database permissions require one
 
 test:
   adapter: postgresql
-  encoding: unicode
-  database: socialwise_test
+  host: localhost
+  database: lorious_dev_test # e.g. lorious_test
   pool: 5
-  username: socialwise
-  password:
-  port: 5432
-  min_messages: warning
+  timeout: 5000
+  # username: YOUR_USERNAME_HERE # if database permissions require one
+  # password: YOUR_PASSWORD_HERE # if database permissions require one
 
 production:
-  adapter: postgresql
-  encoding: unicode
-  database: socialwise_production
+  adapter: sqlite3
+  database: db/production.sqlite3
   pool: 5
-  username: social_wise
-  password:
-  port: 5432
-  min_messages: warning
+  timeout: 5000

@@ -1,3 +1,147 @@
+# Lorious Development
+
+The following is a work in progress readme explaining the setup and maintenance of the Lorious app.
+
+## TO DO in this Readme
+
+1. Assemble list of key local and remote URLs
+2. Clear up Heroku setup
+3. Explain service providers, especially Google app setup (both oauth and Hangouts)
+
+## Key URLs
+
+### Localhost
+
+### Live / Heroku
+
+### Service Providers
+
+***
+
+## Localhost Setup
+
+* Install all dependencies
+
+* Open your development folder, clone the repo
+```
+git clone git@github.com:henryhund/lorious.git
+```
+
+* Install gems
+```
+bundle
+```
+
+* Copy and personalize your `database.yml` file:
+```bash
+cp config/{database.yml.sample,database.yml}
+rake db:migrate
+```
+Note that PG is the preferred database in dev and production. If you are uncertain how to use PG in localhost try [Postgres App](http://postgresapp.com)
+
+* Copy and personalize your `application.yml` file:
+```bash
+cp config/{application.yml.sample,application.yml}
+```
+This file defines environment variables that will be used for configuring email, Facebook app keys, and so on. Always use this file for defining environment variables instead of hard-coding secret information inside the repository. When you add a variable here, also add a corresponding dummy variable in the `application.yml.sample` file so that developers know they need to fill it in.
+
+You will need to at minimum input Google keys and have a configured Google app to run the application (to be able to log in)
+
+* If you want to run the test suite:
+
+```
+rake db:migrate RAILS_ENV=test
+bundle exec rspec
+```
+
+Make sure that everything passes before proceeding. If it doesn't, then chances are that you either are missing a dependency, or that you did not fill in a required value in `application.yml`.
+
+* Seed the settings into the development environment.
+```bash
+rake db:seed
+```
+If necessary, run tasks to populate database with fake data (see lib/tasks/sample_data.rake).
+```
+rake db:populate_experts
+rake db:populate_tags
+...
+```
+
+* Turn on redis, sidekiq and solr.
+
+```
+redis-server
+bundle exec sidekiq
+bundle exec rake sunspot:solr:start
+rake sunspot:reindex
+```
+
+* Start app
+
+```
+rails s
+```
+
+* The easiest way to create your user for logging in is to create an invite and follow the application's defined signup process.
+
+```
+invite = Invite.create!(name:"Name",email:"[YOUR EMAIL]",approved:TRUE)
+```
+
+and using the generated oauth token paste the following url into the browser to get redirected to
+a user creation wizard.
+
+```
+"localhost:3000/users/auth/google_oauth2?invite_token=" + invite.token
+```
+
+Note that you will need to log into your Google account to setup your user.
+
+If there are Google errors at this point, there may be issues with your config/application.yml file or the setup of the Google app itself.
+
+To make your user an admin, after creation:
+
+```
+@user.admin = TRUE
+@user.save
+```
+
+Creating users in console works as well, but you must complete required fields AND make sure that the user attributes step_1_complete and step_2_complete are marked true. Otherwise, there may be errors.
+
+## Heroku Setup
+Incomplete
+
+### Config Variables
+
+The [figaro gem](https://github.com/laserlemon/figaro) manages the config variables for the application. All variables are stored in application.yml. In localhost, these variables are available automatically to the app. But, to access these in Heroku, you must run
+
+```
+rake:figaro heroku
+```
+
+You can also run this with ```--app APPNAME``` flag to distinguish between different Heroku apps.
+
+
+***
+
+## Misc
+
+### Config Variables
+
+The [figaro gem](https://github.com/laserlemon/figaro) manages the config variables for the application. All variables are stored in application.yml. In localhost, these variables are available automatically to the app. But, to access these in Heroku, you must run
+
+```
+rake:figaro heroku
+```
+
+You can also run this with ```--app APPNAME``` flag to distinguish between different Heroku apps.
+
+Variables are accessible to app using
+
+```
+ENV['VARIABLE_NAME']
+```
+
 ## Dependencies
 
 * Ruby 2.0 (Install using [RVM](https://rvm.io/) or [rbenv](https://github.com/sstephenson/rbenv))
@@ -8,6 +152,14 @@
 brew install redis
 ```
 * V8 (this will probably be compiled automatically during `bundle install` if you are missing it)
+
+***
+***
+***
+***
+***
+
+# Archived Info
 
 ## Quick Start Instructions
 
@@ -65,8 +217,24 @@ User.create!(
   email: 'admin@example.com', first_name: 'Mister', last_name: 'Admin', password: '12345678', admin: true)
 ```
 
-additional fields to be added to above command to complete creation of user account.
-or Create an invite and using the generated oauth token paste the following url into the browser to get redirected to
+additional fields may be required to complete creation of user account.
+
+If you are creating the users from console, make sure to set the following flags as the app will be confused without them.
+
+```
+@user.step_1_complete = true
+@user.step_2_complete = true
+
+```
+
+
+You can also create the users through the app. Create an invite
+
+```
+invite = Invite.create!(name:"Name",email:"user@example.com",approved:TRUE)
+```
+
+and using the generated oauth token paste the following url into the browser to get redirected to
 a user creation wizard.
 
 ```ruby
@@ -79,6 +247,13 @@ rails s
 ```
 
 11. Open `http://localhost:3000/admin` and log in with your Admin account credentials to see the Admin dashboard.
+
+To be clear, you must set your username/Google Login account to be an admin:
+'''
+@user = User.find_by_email("YOUR EMAIL USED TO SIGN UP")
+@user.admin = TRUE
+@user.save
+'''
 
 ## Config Variables
 * All variables stored in the application.yml created above
@@ -133,5 +308,6 @@ var braintree = Braintree.create("this_is_the_key_value");
 * Make sure sidekiq is running: bundle exec sidekiq
 * Make sure solr is running:
 ** bundle exec rake sunspot:solr:start
+** rake sunspot:reindex
 ** bundle exec rake sunspot:solr:stop
 
