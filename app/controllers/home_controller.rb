@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :search, :about, :legal, :help, :how_it_works]
+  before_filter :authenticate_user!, except: [:index, :search, :about, :legal, :help, :how_it_works, :contact]
   skip_before_action :profile_not_completed
   def index
   end
@@ -150,6 +150,8 @@ class HomeController < ApplicationController
   def about
   end
   def how_it_works
+  end
+  def contact
   end
 
 private

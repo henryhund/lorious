@@ -1,7 +1,18 @@
-- flash.each do |key, message|
-  .alert{class: "alert-#{flash_class(key)} fade in"}
-    =message
+
+-if !(controller_name == "home" && action_name == "index")
+  - flash.each do |key, message|
+    .alert{class: "alert-#{flash_class(key)} fade in"}
+      =message
+      %a.close{href: "#", "data-dismiss" => "alert", "aria-hidden" => "true"} &times;
+
+    .alert#js_notice{class: "alert-success fade", style: "display:none;"}
+-else
+  - flash.each do |key, message|
+
     %a.close{href: "#", "data-dismiss" => "alert", "aria-hidden" => "true"} &times;
 
-.alert#js_notice{class: "alert-success fade", style: "display:none;"}
-  %a.close{href: "#", "data-dismiss" => "alert", "aria-hidden" => "true"} &times;
+    .dialog{style:"margin-bottom: 0;"}
+      =message
+      %a.close{href: "#", "data-dismiss" => "alert", "aria-hidden" => "true"}
+        &times;
+

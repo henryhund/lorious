@@ -24,14 +24,20 @@
     -if current_user
       %li
         =link_to destroy_user_session_path, method: :delete, "data-toggle"=>"tooltip", "title"=>"Logout", "data-placement"=>"right", "data-container"=>"body", id: "logout-button" do
-          %i.fui-power
+          %i.fui-exit
     -else
       %li
-        =link_to user_omniauth_authorize_url(:google_oauth2), "data-toggle"=>"tooltip", "title"=>"Sign In", "data-placement"=>"right", "data-container"=>"body", id: "signin-button" do
-          %i.fui-user
+        / =link_to user_omniauth_authorize_url(:google_oauth2), "data-toggle"=>"tooltip", "title"=>"Sign In", "data-placement"=>"right", "data-container"=>"body", id: "signin-button" do
+        /   %i.fui-user
       %li
-        =link_to "", "data-toggle"=>"tooltip", "title"=>"Get Started", "data-placement"=>"right", "data-container"=>"body", id: "signup-button", "data-toggle" => "modal", :href => "#requestInvite" do
-          %i.fui-new
+        =link_to "#", "data-toggle"=>"tooltip", "title"=>"Get Started", "data-placement"=>"right", "data-container"=>"body", id: "signup-button" do
+          %i.fui-plus
+:javascript
+  $(document).ready(function(){
+    $("#signup-button").click(function(){
+      $("#requestInvite").modal('toggle')
+    });
+  });
 
 .container
   #main-header-xs.row.visible-xs

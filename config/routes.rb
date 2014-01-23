@@ -13,6 +13,7 @@ Lorious::Application.routes.draw do
   get 'help', to: "home#help"
   get 'about', to: "home#about"
   get 'how-it-works', to: "home#how_it_works", as: "how_it_works"
+  get 'contact', to: "home#contact"
 
   resources :requests
 

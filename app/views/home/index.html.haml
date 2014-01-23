@@ -37,7 +37,7 @@
 
 
         / /.navbar-collapse
-      = render "layouts/notifications"
+      / = render "layouts/notifications"
 
     .row.main-top
       .container
@@ -55,11 +55,11 @@
           %form{method:"get", action:"/search"}
             .form-group
               .input-group
-                %input.form-control{:placeholder => "Browse our Experts", :type => "text", :name => "keyword"}
+                %input.form-control{:placeholder => "Browse our Experts by Topic", :type => "text", :name => "keyword"}
                   %span.input-group-btn
                     %button.btn{:type => "submit"}
                       %span.fui-search
-  .row
+  .row.how-it-works-title
     .container
       .col-xs-12.text-center
         %h2 How it Works

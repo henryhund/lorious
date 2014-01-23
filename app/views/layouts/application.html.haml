@@ -18,6 +18,7 @@
       %footer#private
         = render "layouts/footer"
     -else
+      = render "layouts/notifications"
       = content_for?(:body) ? yield(:body) : yield
       %footer#public
         = render "layouts/footer"

@@ -85,14 +85,15 @@
               per hour
 
             .buttons.text-center
-              %br
               -unless @user.id == (current_user.id rescue @user.id)
+                %br
                 %a.login_check{href: "/experts/#{@user.id}/appointments/new"}
                   .btn.btn-embossed.btn-primary
                     %i.icon-calendar
                     Make Appointment
-              %br
-              -if @user.expert? && (@user.availability.nil? ? false : (JSON.parse( @user.availability.timespans).length > 0) rescue false)
+
+              -if current_user && @user.expert? && (@user.availability.nil? ? false : (JSON.parse( @user.availability.timespans).length > 0) rescue false)
+                %br
                 %a.small{"data-toggle" => "modal", :href => "#calendarModal"} see my calendar
               %br
               %br
@@ -219,86 +220,86 @@
                   %br
 
               %hr.divider
+  -if current_user
+    .row#social-media-links
+      .container
+        .col-md-9.col-xs-12
+          %span.title
+            %h5=@user.first_name+"'s Social Media"
+            %hr
 
-  .row#social-media-links
-    .container
-      .col-md-9.col-xs-12
-        %span.title
-          %h5=@user.first_name+"'s Social Media"
-          %hr
+          %ul.list-unstyled.links
+            %li
+              -if @social_links[:facebook]
+                =link_to @social_links[:facebook], target: "_blank" do
+                  %i.icon-facebook
+              - else
+                -if current_user == @user
+                  =link_to "/users/auth/facebook" do
+                    %i.icon-facebook.disabled &nbsp;Add
+                -else
+                  %i.icon-facebook.disabled
+            %li
+              -if @social_links[:linkedin]
+                =link_to @social_links[:linkedin], target: "_blank" do
+                  %i.icon-linkedin
+              -else
+                -if current_user == @user
+                  =link_to "/users/auth/linkedin" do
+                    %i.icon-linkedin.disabled &nbsp;Add
+                -else
+                  %i.icon-linkedin.disabled
 
-        %ul.list-unstyled.links
-          %li
-            -if @social_links[:facebook]
-              =link_to @social_links[:facebook], target: "_blank" do
-                %i.icon-facebook
-            - else
-              -if current_user == @user
-                =link_to "/users/auth/facebook" do
-                  %i.icon-facebook.disabled &nbsp;Add
+            %li
+              -if @social_links[:twitter]
+                =link_to @social_links[:twitter], target: "_blank" do
+                  %i.icon-twitter
               -else
-                %i.icon-facebook.disabled
-          %li
-            -if @social_links[:linkedin]
-              =link_to @social_links[:linkedin], target: "_blank" do
-                %i.icon-linkedin
-            -else
-              -if current_user == @user
-                =link_to "/users/auth/linkedin" do
-                  %i.icon-linkedin.disabled &nbsp;Add
+                -if current_user == @user
+                  =link_to "/users/auth/twitter" do
+                    %i.icon-twitter.disabled Add
+                -else
+                  %i.icon-twitter.disabled
+            %li
+              -if @social_links[:google]
+                =link_to @social_links[:google], target: "_blank" do
+                  %i.icon-google-plus
               -else
-                %i.icon-linkedin.disabled
-
-          %li
-            -if @social_links[:twitter]
-              =link_to @social_links[:twitter], target: "_blank" do
-                %i.icon-twitter
-            -else
-              -if current_user == @user
-                =link_to "/users/auth/twitter" do
-                  %i.icon-twitter.disabled Add
+                -if current_user == @user
+                  =link_to "/users/auth/google_oauth2" do
+                    %i.icon-google-plus.disabled &nbsp;Add
+                -else
+                  %i.icon-google-plus.disabled
+            %li
+              -if @social_links[:stackexchange]
+                =link_to @social_links[:stackexchange], target: "_blank" do
+                  %i.icon-stackexchange
               -else
-                %i.icon-twitter.disabled
-          %li
-            -if @social_links[:google]
-              =link_to @social_links[:google], target: "_blank" do
-                %i.icon-google-plus
-            -else
-              -if current_user == @user
-                =link_to "/users/auth/google_oauth2" do
-                  %i.icon-google-plus.disabled &nbsp;Add
+                -if current_user == @user
+                  =link_to "/users/auth/stackexchange" do
+                    %i.icon-stackexchange.disabled &nbsp;Add
+                -else
+                  %i.icon-stackexchange.disabled
+            %li
+              -if @social_links[:github]
+                =link_to @social_links[:github], target: "_blank" do
+                  %i.icon-github
               -else
-                %i.icon-google-plus.disabled
-          %li
-            -if @social_links[:stackexchange]
-              =link_to @social_links[:stackexchange], target: "_blank" do
-                %i.icon-stackexchange
-            -else
-              -if current_user == @user
-                =link_to "/users/auth/stackexchange" do
-                  %i.icon-stackexchange.disabled &nbsp;Add
+                -if current_user == @user
+                  =link_to "/users/auth/github" do
+                    %i.icon-github.disabled &nbsp;Add
+                -else
+                  %i.icon-github.disabled
+            %li
+              -if @social_links[:personal]
+                =link_to @user.website, target: "_blank" do
+                  %i.icon-link
               -else
-                %i.icon-stackexchange.disabled
-          %li
-            -if @social_links[:github]
-              =link_to @social_links[:github], target: "_blank" do
-                %i.icon-github
-            -else
-              -if current_user == @user
-                =link_to "/users/auth/github" do
-                  %i.icon-github.disabled &nbsp;Add
-              -else
-                %i.icon-github.disabled
-          %li
-            -if @social_links[:personal]
-              =link_to @user.website, target: "_blank" do
-                %i.icon-link
-            -else
-              -if current_user == @user
-                =link_to users_url(anchor: "profile") do
-                  %i.icon-link.disabled &nbsp;Add
-              -else
-                %i.icon-link.disabled
+                -if current_user == @user
+                  =link_to users_url(anchor: "profile") do
+                    %i.icon-link.disabled &nbsp;Add
+                -else
+                  %i.icon-link.disabled
 
     #calendarModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "calendarModalLabel", :role => "dialog", :tabindex => "-1"}
       .modal-dialog
