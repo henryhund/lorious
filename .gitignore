@@ -20,6 +20,7 @@ config/application.yml
 public/uploads/
 
 solr/data
+solr/pids
 dump.rdb
 
 config/initializers/google_calendar.temp
