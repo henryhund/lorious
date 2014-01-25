@@ -14,30 +14,33 @@ app = angular.module("search", ["ngResource", "ui.bootstrap","truncate","ui.slid
 ]).
 // Infinite scroll/pagination, this "directive" binds to the view
 // in the application HTML, "when-scrolled" is hooked up to "whenScrolled" here
-directive('whenScrolled', function() {
+directive('whenScrolled', ['$window', '$document', function ($window, $document) {
 	
 	return function(scope, elm, attr) {
-      var raw = elm[0];
- 
-      // bind function to the 'scroll' event
-      // we listen to the 'scroll' event and calculate when to call the method attached to "when-scrolled"
-      // if you recall our HTML page, we have: when-scrolled="load_data()"
-      // in our application script we defined "load_data()"
-      elm.bind('scroll', function() {
-        // calculating the time/space continuum needed to trigger the loading of the next pagination
-        if (raw.scrollTop + raw.offsetHeight >= raw.scrollHeight) {
-          // from the AngularJS documentation:
-          // http://docs.angularjs.org/api/ng.$rootScope.Scope#$apply
-          // $apply() is used to execute an expression in angular from outside 
-          // of the angular framework. (For example from browser DOM events, setTimeout, 
-          // XHR or third party libraries). Because we are calling into the angular 
-          // framework we need to perform proper scope life-cycle of 
-          // exception handling, executing watches.
-          scope.$apply(attr.whenScrolled);
-        }
-      });
-    };
-});
+    var windowElm = angular.element($window);
+    var bodyBottom, elmBottom;
+
+    // bind function to the 'scroll' event
+    // we listen to the 'scroll' event and calculate when to call the method attached to "when-scrolled"
+    // if you recall our HTML page, we have: when-scrolled="load_data()"
+    // in our application script we defined "load_data()"
+    windowElm.bind('scroll', function() {
+      // calculating the time/space continuum needed to trigger the loading of the next pagination
+      bodyBottom = $document.scrollTop() + windowElm.height();
+      elmBottom = elm.prop('offsetTop') + elm.prop('offsetHeight');
+      if (elm.prop('offsetHeight') > 0 && bodyBottom >= elmBottom) {
+        // from the AngularJS documentation:
+        // http://docs.angularjs.org/api/ng.$rootScope.Scope#$apply
+        // $apply() is used to execute an expression in angular from outside
+        // of the angular framework. (For example from browser DOM events, setTimeout,
+        // XHR or third party libraries). Because we are calling into the angular
+        // framework we need to perform proper scope life-cycle of
+        // exception handling, executing watches.
+        scope.$apply(attr.whenScrolled);
+      }
+    });
+  };
+}]);
 
 app.factory("Search", [
   "$resource", function($resource) {
@@ -127,18 +130,19 @@ this.SearchDetailCtrl = [
 	};
 	 
     $scope.load_data = function() {
-      if($scope.experts.length < 15){
-      	return;
+      if (!$scope.loading) {
+        if($scope.experts.length < 15){
+          return;
+        }
+        else{
+          $scope.loading = true;
+          Search.get($scope.generateSearchParams(++$scope.pg_counter), function (new_experts) {
+            //new data is available in the callback to insert to the experts ng-model
+            $scope.experts.push.apply($scope.experts, new_experts.results);
+            $scope.loading = false;
+          });
+        }
       }
-      else{
-      	$scope.loading = true;
-	    Search.get($scope.generateSearchParams(++$scope.pg_counter), function (new_experts) {
-          //new data is available in the callback to insert to the experts ng-model
-          $scope.experts.push.apply($scope.experts, new_experts.results);
-          $scope.loading = false;
-        });	
-      }
-	  
     };
     
     $scope.load_data_with_params = function(params) {
