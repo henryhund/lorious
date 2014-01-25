@@ -3,21 +3,23 @@
 .container-search.wrapper{"ng-app" => "search"}
   .row{"ng-controller" => "SearchCtrl"}
     .col-xs-4.nav.nav-list.nav-list-vivid.search-nav-list
-      %h6 Keywords:
+      %li.nav-header Keywords:
       .control-group
         %input.form-control{"ng-init" => "query.$=default_keyword", "ng-model" => "query.$", :placeholder => "Keyword", :type => "text"}
       %hr.search-hr
-      %h6 Price/Hr.
+      %li.nav-header Price/Hr.
       %div{:max => "2000", :min => "0", "ng-init" => "slider=[0,2000]", "ng-model" => "slider", :step => "50", "ui-slider" => "{range: true}", "use-decimals" => "", :class => "search-hourly-rate-slider"}
       %div.pull-left ${{slider[0]}}
       %div.pull-right ${{slider[1]}}
       .clearfix
       %hr.search-hr
-      %h6 Skills:
-      .control-group
-        %select.form-control{:chosen => "", "data-placeholder" => "TAG", :multiple => "", "ng-model" => "selectedTags", "ng-options" => "f.tag for f in model.facets", "no-results-text" => "'Could not find TAG'", :style => "width: 100%;"}
+      %li.nav-header Skills:
+      %li{ "ng-repeat" => "facet in model.facets",
+           "ng-class" => "{active: facet.selected}" }
+        %a{ href: "#", "ng-click" => "facet.selected = !facet.selected" }
+          {{ facet.tag }}
       %hr.search-hr
-      %h6 Location:
+      %li.nav-header Location:
       %link{:href => "https://fonts.googleapis.com/css?family=Roboto:300,400,500", :rel => "stylesheet", :type => "text/css"}/
       %script{:src => "https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"}
       :javascript

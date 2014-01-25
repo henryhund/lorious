@@ -115,8 +115,8 @@ this.SearchCtrl = [
 this.SearchDetailCtrl = [
   "$scope", "$resource", "$route", "$routeParams", "$location", "Search", function($scope, $resource, $route, $routeParams, $location, Search) {
     
-    $scope.pg_counter = 1;
-    $scope.loading = false;
+  $scope.pg_counter = 1;
+  $scope.loading = false;
 	$scope.update = function(value) {
 	    $scope.model.facets = value;
 	};
@@ -124,51 +124,49 @@ this.SearchDetailCtrl = [
 	$scope.generateSearchParams = function(pageId) {
 	  var keyword = "", tag_list = [], location = "";
 	  tag_list = $scope.getTagsFilterList();		
-      
-      if( typeof $scope.query !== 'undefined' ) {
-      	  if( typeof $scope.query.$ !== 'undefined' ) 
-			keyword = $scope.query.$;
-		  	 	
-		  if( typeof $scope.query.skill_list !== 'undefined' ) 
-			skill_list = $scope.query.skill_list;
-			
-		  if( typeof $scope.query.location !== 'undefined' ) 
-			location = $scope.query.location;
-      }	
-      
-      $scope.params = {};
-      $scope.params.id = pageId;
-      $scope.params.keyword = keyword;
-      $scope.params.tag = tag_list;
-      $scope.params.location = location;
-      return $scope.params;
+
+    if( typeof $scope.query !== 'undefined' ) {
+      if( typeof $scope.query.$ !== 'undefined' )
+        keyword = $scope.query.$;
+      if( typeof $scope.query.skill_list !== 'undefined' )
+        skill_list = $scope.query.skill_list;
+      if( typeof $scope.query.location !== 'undefined' )
+        location = $scope.query.location;
+    }
+
+    $scope.params = {};
+    $scope.params.id = pageId;
+    $scope.params.keyword = keyword;
+    $scope.params.tag = tag_list;
+    $scope.params.location = location;
+    return $scope.params;
       
 	};
 	 
-    $scope.load_data = function() {
-      if (!$scope.loading) {
-        if($scope.experts.length < 15){
-          return;
-        }
-        else{
-          $scope.loading = true;
-          Search.get($scope.generateSearchParams(++$scope.pg_counter), function (new_experts) {
-            //new data is available in the callback to insert to the experts ng-model
-            $scope.experts.push.apply($scope.experts, new_experts.results);
-            $scope.loading = false;
-          });
-        }
+  $scope.load_data = function() {
+    if (!$scope.loading) {
+      if($scope.experts.length < 15){
+        return;
       }
-    };
-    
-    $scope.load_data_with_params = function(params) {
-	  $scope.experts = []; //clear old search results
-	  $scope.loading = true;
-	  Search.get(params, function (new_experts) {
-        $scope.experts = new_experts.results;
-        $scope.loading = false;
-      });
-    };
+      else{
+        $scope.loading = true;
+        Search.get($scope.generateSearchParams(++$scope.pg_counter), function (new_experts) {
+          //new data is available in the callback to insert to the experts ng-model
+          $scope.experts.push.apply($scope.experts, new_experts.results);
+          $scope.loading = false;
+        });
+      }
+    }
+  };
+
+  $scope.load_data_with_params = function(params) {
+  $scope.experts = []; //clear old search results
+  $scope.loading = true;
+  Search.get(params, function (new_experts) {
+      $scope.experts = new_experts.results;
+      $scope.loading = false;
+    });
+  };
     
 	$scope.getFilteredValues = function() {
 	  $scope.pg_counter = 1; //reset page count to 1 as new search is performed		
@@ -177,15 +175,17 @@ this.SearchDetailCtrl = [
 	
 	$scope.getTagsFilterList = function() {
 		var tags = [];
-		angular.forEach($scope.selectedTags, function (selectedTag) {
-			tags.push(selectedTag.tag);
+		angular.forEach($scope.model.facets, function (facet) {
+			if (facet.selected) {
+        tags.push(facet.tag);
+      }
 		}, tags);
 		return tags;
 	};
 	
 	//Create a watch to filter search 
-	$scope.$watch('selectedTags', function() { 
-		if(typeof($scope.selectedTags) != 'undefined') {	
+	$scope.$watch('model', function(newModel, oldModel) {
+		if(!angular.equals(newModel.facets, oldModel.facets)) {
 			//Tags have changed need to get new filtered search result
 			$scope.getFilteredValues();
 		}
@@ -193,6 +193,3 @@ this.SearchDetailCtrl = [
 	
   }
 ];
-
-
-	
