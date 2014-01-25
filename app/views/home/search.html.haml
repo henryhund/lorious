@@ -9,8 +9,8 @@
       %hr.search-hr
       %li.nav-header Price/Hr.
       %div{:max => "2000", :min => "0", "ng-init" => "slider=[0,2000]", "ng-model" => "slider", :step => "50", "ui-slider" => "{range: true}", "use-decimals" => "", :class => "search-hourly-rate-slider"}
-      %div.pull-left ${{slider[0]}}
-      %div.pull-right ${{slider[1]}}
+        %span.ui-slider-value.first ${{slider[0]}}
+        %span.ui-slider-value.last ${{slider[1]}}
       .clearfix
       %hr.search-hr
       %li.nav-header Skills:
