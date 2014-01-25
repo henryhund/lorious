@@ -1,8 +1,8 @@
 / ng-controller="SearchCtrl" not required if you have routing enabled
 - meta :title => "Lorious | Search for Experts"
-.container-search.wrapper{"ng-app" => "search"}
-  .row{"ng-controller" => "SearchCtrl"}
-    .col-xs-4.nav.nav-list.nav-list-vivid.search-nav-list
+.container-search.wrapper{"ng-app" => "search", "ng-controller" => "SearchCtrl", "ng-cloak" => true}
+  .row
+    .col-md-3.nav.nav-list.nav-list-vivid.search-nav-list
       %li.nav-header Keywords:
       .control-group
         %input.form-control{"ng-init" => "query.$=default_keyword", "ng-model" => "query.$", :placeholder => "Keyword", :type => "text"}
@@ -58,5 +58,5 @@
         }
       .control-group
         %input#autocomplete.form-control.locationbox{"ng-model" => "query.location", :onfocus => "geolocate()", :placeholder => "Location", :type => "text"}/
-    .col-xs-8
+    .col-md-9
       %ng:include{:src => "'#{asset_path("search-list.html")}'"}
