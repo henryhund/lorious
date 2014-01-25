@@ -92,8 +92,13 @@ this.SearchCtrl = [
 	  {stateOff: 'icon-off'}
 	];
 
+  $scope.orderProps = [
+    { key: 'hourly_rate', name: 'Price' },
+    { key: 'average_rating', name: 'Rating' }
+  ];
+
   $scope.settings = {
-    orderProp: 'hourly_rate',
+    orderProp: $scope.orderProps[0],
     inverse: false
   };
   $scope.orderedBy = function (prop) {

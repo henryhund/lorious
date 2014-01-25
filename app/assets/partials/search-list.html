@@ -1,8 +1,8 @@
 <ul class="nav nav-pills pull-right">
-  <li ng-repeat="prop in ['hourly_rate', 'average_rating']"
+  <li ng-repeat="prop in orderProps"
       ng-class="{active: orderedBy(prop)}">
     <a href ng-click="setOrder(prop)">
-      {{ prop }}
+      {{ prop.name }}
       <span ng-show="orderedBy(prop)">
         <span ng-show="!settings.inverse">&#9660;</span>
         <span ng-show="settings.inverse">&#9650;</span>
@@ -19,7 +19,7 @@
 	<div ng-show="loading" class="cropcontainer" style="background-image:url('486.GIF'); " >&nbsp;</div>
 	
 	<div class="well">
-    <div ng:repeat="expert in experts | rating_filter:ratings | slider_filter:slider | orderBy:settings.orderProp:settings.inverse">
+    <div ng:repeat="expert in experts | rating_filter:ratings | slider_filter:slider | orderBy:settings.orderProp.key:settings.inverse">
       <div class="row search-experts-list">
         <div class="col-md-3">
           <a ng-href="/{{expert.username}}">
