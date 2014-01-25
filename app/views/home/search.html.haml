@@ -3,14 +3,15 @@
 .container-search.wrapper{"ng-app" => "search"}
   .row{"ng-controller" => "SearchCtrl"}
     .col-xs-4.nav.nav-list.nav-list-vivid
-      %br/
-      %h4 Search:
+      %h6 Search:
       .control-group
         %input.form-control{"ng-init" => "query.$=default_keyword", "ng-model" => "query.$", :placeholder => "Keyword", :type => "text"}
-      %h4 Skills:
+      %hr.search-hr
+      %h6 Skills:
       .control-group
         %select.form-control{:chosen => "", "data-placeholder" => "TAG", :multiple => "", "ng-model" => "selectedTags", "ng-options" => "f.tag for f in model.facets", "no-results-text" => "'Could not find TAG'", :style => "width: 100%;"}
-      %h4 Location:
+      %hr.search-hr
+      %h6 Location:
       %link{:href => "https://fonts.googleapis.com/css?family=Roboto:300,400,500", :rel => "stylesheet", :type => "text/css"}/
       %script{:src => "https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"}
       :javascript
@@ -47,10 +48,14 @@
         }
       .control-group
         %input#autocomplete.form-control.locationbox{"ng-model" => "query.location", :onfocus => "geolocate()", :placeholder => "Location", :type => "text"}/
-      %h4 Price/Hr.
+      %hr.search-hr
+      %h6 Price/Hr.
       %div{:max => "2000", :min => "0", "ng-init" => "slider=[0,2000]", "ng-model" => "slider", :step => "50", "ui-slider" => "{range: true}", "use-decimals" => "", :class => "search-hourly-rate-slider"}
-      %h5.text-left Between $ {{slider[0] }} & {{slider[1] }}
-      %h3 Rating:
+      %div.pull-left ${{slider[0]}}
+      %div.pull-right ${{slider[1]}}
+      .clearfix
+      %hr.search-hr
+      %h6 Rating:
       \&nbsp;&nbsp;&nbsp;
       %input{"ng-model" => "ratings.five", :type => "checkbox"}/
       %rating{:max => "max", "on-hover" => "hoveringOver(value)", "on-leave" => "overStar = null", :readonly => "isReadonly", :value => "5"}
