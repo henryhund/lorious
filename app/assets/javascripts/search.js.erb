@@ -91,6 +91,16 @@ this.SearchCtrl = [
 	  {stateOn: 'icon-heart'},
 	  {stateOff: 'icon-off'}
 	];
+
+  $scope.settings = {
+    orderProp: 'hourly_rate'
+  };
+  $scope.orderedBy = function (prop) {
+    return $scope.settings.orderProp === prop;
+  };
+  $scope.setOrder = function (prop) {
+    $scope.settings.orderProp = prop;
+  };
 		 
 	
   }

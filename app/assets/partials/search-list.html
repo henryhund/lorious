@@ -1,19 +1,18 @@
-<br />
+<ul class="nav nav-pills pull-right">
+  <li ng-repeat="prop in ['hourly_rate', 'average_rating']"
+      ng-class="{active: orderedBy(prop)}">
+    <a href ng-click="setOrder(prop)">{{ prop }}</a>
+  </li>
+</ul>
+<div class="clearfix"/>
 
-
-
-<p class="text-right">Sort by:
-	<select ng-model="orderProp">
-	  <option value="">None</option>
-	  <option value="first_name">Alphabetical</option>
-	</select>	
-</p>
+<br/>
 
 <div when-scrolled="load_data()" id="AngularCtrl" ng-controller="SearchDetailCtrl">
 	
 	<div ng-show="loading" class="cropcontainer" style="background-image:url('486.GIF'); " >&nbsp;</div>
 	
-	<div class="well" ng:repeat="expert in experts | rating_filter:ratings | slider_filter:slider | orderBy:orderProp"> 
+	<div class="well" ng:repeat="expert in experts | rating_filter:ratings | slider_filter:slider | orderBy:settings.orderProp">
 		<div class="row">
 			<div class="col-xs-4">
 				<br />
