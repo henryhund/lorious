@@ -107,10 +107,17 @@ this.SearchCtrl = [
     }
     $scope.settings.orderProp = prop;
   };
-		 
-	
-  }
-];
+
+  $scope.facetLimit = 10;
+  $scope.shouldShowMoreLink = function () {
+    return $scope.facetLimit < $scope.model.facets.length;
+  };
+  $scope.unscreenFacets = function () {
+    // Not sure how not to limit at all,
+    // so just putting a huge number here.
+    $scope.facetLimit = 1000000;
+  };
+}];
 
 this.SearchDetailCtrl = [
   "$scope", "$resource", "$route", "$routeParams", "$location", "Search", function($scope, $resource, $route, $routeParams, $location, Search) {

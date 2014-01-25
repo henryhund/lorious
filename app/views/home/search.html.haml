@@ -14,10 +14,12 @@
       .clearfix
       %hr.search-hr
       %li.nav-header Skills:
-      %li{ "ng-repeat" => "facet in model.facets",
+      %li{ "ng-repeat" => "facet in model.facets | limitTo:facetLimit",
            "ng-class" => "{active: facet.selected}" }
-        %a{ href: "#", "ng-click" => "facet.selected = !facet.selected" }
+        %a{ href: true, "ng-click" => "facet.selected = !facet.selected" }
           {{ facet.tag }}
+      %li{ "ng-show" => "shouldShowMoreLink()" }
+        %a{ href: true, "ng-click" => "unscreenFacets()" } More...
       %hr.search-hr
       %li.nav-header Location:
       %link{:href => "https://fonts.googleapis.com/css?family=Roboto:300,400,500", :rel => "stylesheet", :type => "text/css"}/
