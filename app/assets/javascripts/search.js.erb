@@ -93,12 +93,18 @@ this.SearchCtrl = [
 	];
 
   $scope.settings = {
-    orderProp: 'hourly_rate'
+    orderProp: 'hourly_rate',
+    inverse: false
   };
   $scope.orderedBy = function (prop) {
     return $scope.settings.orderProp === prop;
   };
   $scope.setOrder = function (prop) {
+    if ($scope.orderedBy(prop)) {
+      $scope.settings.inverse = !$scope.settings.inverse;
+    } else {
+      $scope.settings.inverse = false;
+    }
     $scope.settings.orderProp = prop;
   };
 		 
