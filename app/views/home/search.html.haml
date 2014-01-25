@@ -48,7 +48,7 @@
       .control-group
         %input#autocomplete.form-control.locationbox{"ng-model" => "query.location", :onfocus => "geolocate()", :placeholder => "Location", :type => "text"}/
       %h4 Price/Hr.
-      %div{:max => "2000", :min => "0", "ng-init" => "slider=[0,2000]", "ng-model" => "slider", :step => "50", :style => "margin-left:5%; width: 50%;", "ui-slider" => "{range: true}", "use-decimals" => ""}
+      %div{:max => "2000", :min => "0", "ng-init" => "slider=[0,2000]", "ng-model" => "slider", :step => "50", "ui-slider" => "{range: true}", "use-decimals" => "", :class => "search-hourly-rate-slider"}
       %h5.text-left Between $ {{slider[0] }} & {{slider[1] }}
       %h3 Rating:
       \&nbsp;&nbsp;&nbsp;
