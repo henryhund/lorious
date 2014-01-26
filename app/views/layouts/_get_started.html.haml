@@ -4,7 +4,7 @@
       .modal-header
         %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} x
         %h4.modal-title
-          = "Sign Up"
+          = "Get Started Learning"
       .modal-body
         = form_for(Invite.new, html: {novalidate:"novalidate"}) do |f|
           .form-group
@@ -13,7 +13,7 @@
           .form-group
             = f.text_field :email, placeholder: "Email", class: "form-control"
             %span.input-icon.fui-mail
-          = f.submit "Request an Invite", class: "btn btn-primary btn-embossed", id: "invite_submit"
+          = f.submit "Sign Up", class: "btn btn-primary btn-embossed", id: "invite_submit"
         #errorContainer1
           %ul.list-unstyled
       .modal-footer
