@@ -15,9 +15,9 @@
 <br/>
 
 <div when-scrolled="load_data()" id="AngularCtrl" ng-controller="SearchDetailCtrl">
-	
+
 	<div ng-show="loading" class="cropcontainer" style="background-image:url('486.GIF'); " >&nbsp;</div>
-	
+
 	<div class="well">
     <div ng:repeat="expert in experts | rating_filter:ratings | slider_filter:slider | orderBy:settings.orderProp.key:settings.inverse">
       <div class="row search-experts-list">
@@ -80,7 +80,7 @@
       <hr>
     </div>
 	</div>
-	
+
 	<!--div ng-cloak>
 		<div ng-show="filteredExperts.length == 0" class="jumbotron">
 		  <div class="container">
@@ -88,6 +88,6 @@
 		  </div>
 		</div>
 	</div-->
-		
+
 </div>
 
