@@ -45,7 +45,7 @@
 }
 
 .search-experts-list {
-	height: 130px;
+	min-height: 130px;
 }
 
 .search-show-all-skills-link {
