@@ -14,9 +14,52 @@
 	box-shadow: 0px 0px 0px 6px rgba(109, 110, 113, 0.25);
 	width: 100%;
 	height: auto;
+	max-width: 120px;
 	/*width: 132px; height:132px;*/
 }
 
 .search-avatar.no-margin{
 	margin-left: -10px;
+}
+
+.search-hourly-rate-slider {
+	background-color: #dbdddf !important;
+}
+
+.search-nav-list {
+	padding-bottom: 13px !important;
+	margin-top: 71px;
+	margin-bottom: 71px;
+}
+
+.search-hr {
+	border-top: 1px solid #dbdddf;
+	margin-left: -13px;
+	margin-right: -13px;
+}
+
+.search-tag-line {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.search-experts-list {
+	min-height: 130px;
+}
+
+.search-show-all-skills-link {
+	color: #c7c9cc;
+	position: relative;
+}
+
+.search-all-skills-tooltip {
+	position: absolute;
+	border: none;
+	left: -70px;
+	background-color: rgba(0,0,0,0);
+}
+
+.search-star {
+	margin: 0 auto;
 }

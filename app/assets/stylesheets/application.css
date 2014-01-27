@@ -10,9 +10,8 @@
  *
  *= require_self
  *= require font-awesome
- *= require home/search.css
- *= require jquery.ui.all
  *= require_directory ./common
  *= require_directory ./flat-ui
  *= require_directory ./datetimepicker
+ *= require home/search.css
  */

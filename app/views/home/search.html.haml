@@ -1,20 +1,27 @@
 / ng-controller="SearchCtrl" not required if you have routing enabled
 - meta :title => "Lorious | Search for Experts"
-.container-search.wrapper{"ng-app" => "search"}
-  .row{"ng-controller" => "SearchCtrl"}
-    .col-xs-4
-      %br/
-      %h3 Search:
-      .input-group.merged
-        %span.input-group-addon
-          %i.icon-search
-        %input.form-control.searchbox{"ng-init" => "query.$=default_keyword", "ng-model" => "query.$", :placeholder => "Keyword", :type => "text"}/
-      %h3 TAG:
-      .input-group.merged
-        %span.input-group-addon
-          %i.icon-search
-        %select.form-control{:chosen => "", "data-placeholder" => "TAG", :multiple => "", "ng-model" => "selectedTags", "ng-options" => "f.tag for f in model.facets", "no-results-text" => "'Could not find TAG'", :style => "width: 100%;"}
-      %h3 Location:
+.container-search.wrapper{"ng-app" => "search", "ng-controller" => "SearchCtrl", "ng-cloak" => true}
+  .row
+    .col-md-3.nav.nav-list.nav-list-vivid.search-nav-list
+      %li.nav-header Keywords:
+      .control-group
+        %input.form-control{"ng-init" => "query.$=default_keyword", "ng-model" => "query.$", :placeholder => "Keyword", :type => "text", "ng-change" => "changeSearchQuery()"}
+      %hr.search-hr
+      %li.nav-header Price/Hr.
+      %div{:max => "2000", :min => "0", "ng-init" => "slider=[0,2000]", "ng-model" => "slider", :step => "50", "ui-slider" => "{range: true}", "use-decimals" => "", :class => "search-hourly-rate-slider"}
+        %span.ui-slider-value.first ${{slider[0]}}
+        %span.ui-slider-value.last ${{slider[1]}}
+      .clearfix
+      %hr.search-hr
+      %li.nav-header Skills:
+      %li{ "ng-repeat" => "facet in model.facets | limitTo:facetLimit",
+           "ng-class" => "{active: facet.selected}" }
+        %a{ href: true, "ng-click" => "facet.selected = !facet.selected" }
+          {{ facet.tag }}
+      %li{ "ng-show" => "shouldShowMoreLink()" }
+        %a{ href: true, "ng-click" => "unscreenFacets()" } More...
+      %hr.search-hr
+      %li.nav-header Location:
       %link{:href => "https://fonts.googleapis.com/css?family=Roboto:300,400,500", :rel => "stylesheet", :type => "text/css"}/
       %script{:src => "https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"}
       :javascript
@@ -49,36 +56,7 @@
             });
           }
         }
-      .input-group.merged
-        %span.input-group-addon
-          %i.icon-search
+      .control-group
         %input#autocomplete.form-control.locationbox{"ng-model" => "query.location", :onfocus => "geolocate()", :placeholder => "Location", :type => "text"}/
-      %h3 Price/Hr.
-      %div{:max => "2000", :min => "0", "ng-init" => "slider=[0,2000]", "ng-model" => "slider", :step => "50", :style => "margin-left:5%; width: 50%;", "ui-slider" => "{range: true}", "use-decimals" => ""}
-      %h5.text-left Between $ {{slider[0] }} & {{slider[1] }}
-      %h3 Rating:
-      \&nbsp;&nbsp;&nbsp;
-      %input{"ng-model" => "ratings.five", :type => "checkbox"}/
-      %rating{:max => "max", "on-hover" => "hoveringOver(value)", "on-leave" => "overStar = null", :readonly => "isReadonly", :value => "5"}
-      %br/
-      \&nbsp;&nbsp;&nbsp;
-      %input{"ng-model" => "ratings.four", :type => "checkbox"}/
-      %rating{:max => "max", "on-hover" => "hoveringOver(value)", "on-leave" => "overStar = null", :readonly => "isReadonly", :value => "4"}
-      %br/
-      \&nbsp;&nbsp;&nbsp;
-      %input{"ng-model" => "ratings.three", :type => "checkbox"}/
-      %rating{:max => "max", "on-hover" => "hoveringOver(value)", "on-leave" => "overStar = null", :readonly => "isReadonly", :value => "3"}
-      %br/
-      \&nbsp;&nbsp;&nbsp;
-      %input{"ng-model" => "ratings.two", :type => "checkbox"}/
-      %rating{:max => "max", "on-hover" => "hoveringOver(value)", "on-leave" => "overStar = null", :readonly => "isReadonly", :value => "2"}
-      %br/
-      \&nbsp;&nbsp;&nbsp;
-      %input{"ng-model" => "ratings.one", :type => "checkbox"}/
-      %rating{:max => "max", "on-hover" => "hoveringOver(value)", "on-leave" => "overStar = null", :readonly => "isReadonly", :value => "1"}
-      %br/
-      %br/
-      %br/
-      %br/
-    .col-xs-8
+    .col-md-9
       %ng:include{:src => "'#{asset_path("search-list.html")}'"}

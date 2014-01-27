@@ -14,30 +14,49 @@ app = angular.module("search", ["ngResource", "ui.bootstrap","truncate","ui.slid
 ]).
 // Infinite scroll/pagination, this "directive" binds to the view
 // in the application HTML, "when-scrolled" is hooked up to "whenScrolled" here
-directive('whenScrolled', function() {
+directive('whenScrolled', ['$window', '$document', function ($window, $document) {
 	
 	return function(scope, elm, attr) {
-      var raw = elm[0];
- 
-      // bind function to the 'scroll' event
-      // we listen to the 'scroll' event and calculate when to call the method attached to "when-scrolled"
-      // if you recall our HTML page, we have: when-scrolled="load_data()"
-      // in our application script we defined "load_data()"
-      elm.bind('scroll', function() {
-        // calculating the time/space continuum needed to trigger the loading of the next pagination
-        if (raw.scrollTop + raw.offsetHeight >= raw.scrollHeight) {
-          // from the AngularJS documentation:
-          // http://docs.angularjs.org/api/ng.$rootScope.Scope#$apply
-          // $apply() is used to execute an expression in angular from outside 
-          // of the angular framework. (For example from browser DOM events, setTimeout, 
-          // XHR or third party libraries). Because we are calling into the angular 
-          // framework we need to perform proper scope life-cycle of 
-          // exception handling, executing watches.
-          scope.$apply(attr.whenScrolled);
-        }
+    var windowElm = angular.element($window);
+    var bodyBottom, elmBottom;
+
+    // bind function to the 'scroll' event
+    // we listen to the 'scroll' event and calculate when to call the method attached to "when-scrolled"
+    // if you recall our HTML page, we have: when-scrolled="load_data()"
+    // in our application script we defined "load_data()"
+    windowElm.bind('scroll', function() {
+      // calculating the time/space continuum needed to trigger the loading of the next pagination
+      bodyBottom = $document.scrollTop() + windowElm.height();
+      elmBottom = elm.prop('offsetTop') + elm.prop('offsetHeight');
+      if (elm.prop('offsetHeight') > 0 && bodyBottom >= elmBottom) {
+        // from the AngularJS documentation:
+        // http://docs.angularjs.org/api/ng.$rootScope.Scope#$apply
+        // $apply() is used to execute an expression in angular from outside
+        // of the angular framework. (For example from browser DOM events, setTimeout,
+        // XHR or third party libraries). Because we are calling into the angular
+        // framework we need to perform proper scope life-cycle of
+        // exception handling, executing watches.
+        scope.$apply(attr.whenScrolled);
+      }
+    });
+  };
+}]).
+// Directive taken from http://stackoverflow.com/questions/12931369/click-everywhere-but-here-event
+directive('clickAnywhereButHere', ['$document', function ($document) {
+  return {
+    restrict: 'A',
+    link: function(scope, elem, attr, ctrl) {
+      elem.bind('click', function(e) {
+        // this part keeps it from firing the click on the document.
+        e.stopPropagation();
       });
-    };
-});
+      $document.bind('click', function() {
+        // magic here.
+        scope.$apply(attr.clickAnywhereButHere);
+      })
+    }
+  };
+}]);
 
 app.factory("Search", [
   "$resource", function($resource) {
@@ -49,7 +68,7 @@ app.factory("Search", [
 ]);
 
 this.SearchCtrl = [
-  "$scope", "$resource", "$route", "$routeParams", "$location", "Search", function($scope, $resource, $route, $routeParams, $location, Search) {
+  "$scope", "$resource", "$route", "$routeParams", "$location", "$timeout", "Search", function($scope, $resource, $route, $routeParams, $location, $timeout, Search) {
     $scope.loading = true;
     $scope.model = {facets: [] };
     
@@ -60,6 +79,7 @@ this.SearchCtrl = [
 		    $scope.experts = new_experts.results;
 		    $scope.model.facets = new_experts.facets;
 		    $scope.loading = false;
+        $scope.showStars();
 	    });	
 	    $scope.default_keyword = parameter;
     }else{
@@ -67,6 +87,7 @@ this.SearchCtrl = [
 		    $scope.experts = new_experts.results;
 		    $scope.model.facets = new_experts.facets;
 		    $scope.loading = false;
+        $scope.showStars();
 	    });	
 	    $scope.default_keyword = "";
     }
@@ -88,16 +109,60 @@ this.SearchCtrl = [
 	  {stateOn: 'icon-heart'},
 	  {stateOff: 'icon-off'}
 	];
-		 
-	
-  }
-];
+
+  $scope.orderProps = [
+    { key: 'hourly_rate', name: 'Price' },
+    { key: 'average_rating', name: 'Rating' }
+  ];
+
+  $scope.settings = {
+    orderProp: $scope.orderProps[0],
+    inverse: false
+  };
+  $scope.orderedBy = function (prop) {
+    return $scope.settings.orderProp === prop;
+  };
+  $scope.setOrder = function (prop) {
+    if ($scope.orderedBy(prop)) {
+      $scope.settings.inverse = !$scope.settings.inverse;
+    } else {
+      $scope.settings.inverse = false;
+    }
+    $scope.settings.orderProp = prop;
+  };
+
+  $scope.facetLimit = 10;
+  $scope.shouldShowMoreLink = function () {
+    return $scope.facetLimit < $scope.model.facets.length;
+  };
+  $scope.unscreenFacets = function () {
+    // Not sure how not to limit at all,
+    // so just putting a huge number here.
+    $scope.facetLimit = 1000000;
+  };
+
+  $scope.changeSearchQuery = function () {
+    $scope.$broadcast("event:searchQueryChanged");
+  };
+
+  $scope.showStars = function () {
+    $timeout(function () {
+      $('.star').raty({
+        score: function() {
+          return $(this).attr('data-score');
+        },
+        readOnly: true
+      });
+    }, 0);
+  };
+
+}];
 
 this.SearchDetailCtrl = [
-  "$scope", "$resource", "$route", "$routeParams", "$location", "Search", function($scope, $resource, $route, $routeParams, $location, Search) {
+  "$scope", "$resource", "$route", "$routeParams", "$location", "$document", "Search", function($scope, $resource, $route, $routeParams, $location, $document, Search) {
     
-    $scope.pg_counter = 1;
-    $scope.loading = false;
+  $scope.pg_counter = 1;
+  $scope.loading = false;
 	$scope.update = function(value) {
 	    $scope.model.facets = value;
 	};
@@ -105,50 +170,51 @@ this.SearchDetailCtrl = [
 	$scope.generateSearchParams = function(pageId) {
 	  var keyword = "", tag_list = [], location = "";
 	  tag_list = $scope.getTagsFilterList();		
-      
-      if( typeof $scope.query !== 'undefined' ) {
-      	  if( typeof $scope.query.$ !== 'undefined' ) 
-			keyword = $scope.query.$;
-		  	 	
-		  if( typeof $scope.query.skill_list !== 'undefined' ) 
-			skill_list = $scope.query.skill_list;
-			
-		  if( typeof $scope.query.location !== 'undefined' ) 
-			location = $scope.query.location;
-      }	
-      
-      $scope.params = {};
-      $scope.params.id = pageId;
-      $scope.params.keyword = keyword;
-      $scope.params.tag = tag_list;
-      $scope.params.location = location;
-      return $scope.params;
+
+    if( typeof $scope.query !== 'undefined' ) {
+      if( typeof $scope.query.$ !== 'undefined' )
+        keyword = $scope.query.$;
+      if( typeof $scope.query.skill_list !== 'undefined' )
+        skill_list = $scope.query.skill_list;
+      if( typeof $scope.query.location !== 'undefined' )
+        location = $scope.query.location;
+    }
+
+    $scope.params = {};
+    $scope.params.id = pageId;
+    $scope.params.keyword = keyword;
+    $scope.params.tag = tag_list;
+    $scope.params.location = location;
+    return $scope.params;
       
 	};
-	 
-    $scope.load_data = function() {
+
+  $scope.load_data = function() {
+    if (!$scope.loading) {
       if($scope.experts.length < 15){
-      	return;
+        return;
       }
       else{
-      	$scope.loading = true;
-	    Search.get($scope.generateSearchParams(++$scope.pg_counter), function (new_experts) {
+        $scope.loading = true;
+        Search.get($scope.generateSearchParams(++$scope.pg_counter), function (new_experts) {
           //new data is available in the callback to insert to the experts ng-model
           $scope.experts.push.apply($scope.experts, new_experts.results);
           $scope.loading = false;
-        });	
+          $scope.showStars();
+        });
       }
-	  
-    };
-    
-    $scope.load_data_with_params = function(params) {
-	  $scope.experts = []; //clear old search results
-	  $scope.loading = true;
-	  Search.get(params, function (new_experts) {
-        $scope.experts = new_experts.results;
-        $scope.loading = false;
-      });
-    };
+    }
+  };
+
+  $scope.load_data_with_params = function(params) {
+  $scope.experts = []; //clear old search results
+  $scope.loading = true;
+  Search.get(params, function (new_experts) {
+      $scope.experts = new_experts.results;
+      $scope.loading = false;
+      $scope.showStars();
+    });
+  };
     
 	$scope.getFilteredValues = function() {
 	  $scope.pg_counter = 1; //reset page count to 1 as new search is performed		
@@ -157,22 +223,34 @@ this.SearchDetailCtrl = [
 	
 	$scope.getTagsFilterList = function() {
 		var tags = [];
-		angular.forEach($scope.selectedTags, function (selectedTag) {
-			tags.push(selectedTag.tag);
+		angular.forEach($scope.model.facets, function (facet) {
+			if (facet.selected) {
+        tags.push(facet.tag);
+      }
 		}, tags);
 		return tags;
 	};
 	
 	//Create a watch to filter search 
-	$scope.$watch('selectedTags', function() { 
-		if(typeof($scope.selectedTags) != 'undefined') {	
+	$scope.$watch('model', function(newModel, oldModel) {
+		if(!angular.equals(newModel.facets, oldModel.facets)) {
 			//Tags have changed need to get new filtered search result
 			$scope.getFilteredValues();
 		}
 	}, true);
-	
-  }
-];
 
+  $scope.$on('event:searchQueryChanged', function () {
+    $scope.getFilteredValues();
+  });
 
+  $scope.toggleTooltip = function (expert) {
+    expert.tooltipShown = !expert.tooltipShown;
+  };
+
+  $scope.hideAllTooltips = function () {
+    angular.forEach($scope.experts, function (expert) {
+      expert.tooltipShown = false;
+    });
+  };
 	
+}];
