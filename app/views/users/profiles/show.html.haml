@@ -2,7 +2,9 @@
 = javascript_include_tag "users/manifest"
 
 - content_for :head do
-  -meta :title => "Lorious | " + @user.name + " " + @user.location + " " + @user.skill_list.to_s, :description => @user.job + " " + @user.bio, :keywords => @user.skill_list.to_s rescue "Lorious"
+  -meta :title => "Lorious | " + @user.name + " " + @user.location + " " + @user.skill_list.to_s rescue "Lorious"
+  -meta :description => @user.job + " " + @user.bio rescue "Lorious"
+  -meta :keywords => @user.skill_list.to_s rescue "Lorious"
   :javascript
     $(function() {
       console.log('raty');
