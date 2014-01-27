@@ -19,6 +19,7 @@
 	<div ng-show="loading" class="cropcontainer" style="background-image:url('486.GIF'); " >&nbsp;</div>
 
 	<div class="well">
+    <h6 ng-show="experts.length == 0 && !loading">No results match your query</h6>
     <div ng:repeat="expert in experts | rating_filter:ratings | slider_filter:slider | orderBy:settings.orderProp.key:settings.inverse">
       <div class="row search-experts-list">
         <div class="col-md-3">
@@ -30,25 +31,25 @@
           <h6><a ng-href="/{{expert.username}}">{{expert.name}}</a></h6>
           <p class="search-tag-line">{{expert.tag_line}}</p>
           <h6 class="search-skill-list">
-            <!-- <span class="label label-primary" ng-repeat="skill in expert.skill_list | limitTo:2">{{skill}}</span>
+            <!-- <span class="label label-primary" ng-repeat="skill in expert.skill_list | limitTo:2">{{skill}}&nbsp;</span>
             <small class="search-show-all-skills-link" ng-show="expert.skill_list.length > 2">
-              <a href ng-click="tooltipShown = !tooltipShown">
+              <a href ng-click="toggleTooltip(expert)" click-anywhere-but-here="hideAllTooltips()">
                 see all
               </a>
-              <div class="tooltip bottom in tooltip-light search-all-skills-tooltip" ng-show="tooltipShown">
+              <div class="tooltip bottom in tooltip-light search-all-skills-tooltip" ng-show="tooltipShown" click-anywhere-but-here="hideAllTooltips()">
                 <div class="tooltip-arrow"></div>
                 <div class="tooltip-inner">
-                  <span class="label label-primary"ng-repeat="skill in expert.skill_list">{{skill}}</span>
+                  <span class="label label-primary"ng-repeat="skill in expert.skill_list">{{skill}}&nbsp;</span>
                 </div>
               </div>
             </small> -->
             <span class="label label-primary">Ruby</span>
             <span class="label label-primary">Python</span>
             <small class="search-show-all-skills-link">
-              <a href ng-click="tooltipShown = !tooltipShown">
+              <a href ng-click="toggleTooltip(expert)" click-anywhere-but-here="hideAllTooltips()">
                 see all
               </a>
-              <div class="tooltip bottom in tooltip-light search-all-skills-tooltip" ng-show="tooltipShown">
+              <div class="tooltip bottom in tooltip-light search-all-skills-tooltip" ng-show="expert.tooltipShown" click-anywhere-but-here="hideAllTooltips()">
                 <div class="tooltip-arrow"></div>
                 <div class="tooltip-inner">
                   <span class="label label-primary">Ruby</span>
@@ -72,8 +73,7 @@
           <h6 class="text-center">{{expert.hourly_rate | currency:"$"}}</h6>
           <p class="text-center">per hour</p>
           <div class="text-center">
-            <rating value="expert.average_rating" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
-            <span class="badge" ng-class="{'badge-warning': percent<30, 'badge-info': percent>=30 && percent<70, 'badge-success': percent>=70}" ng-show="overStar && !isReadonly">{{percent}}%</span>
+            <div class="star search-star", data-score="{{ expert.average_rating }}"></div>
           </div>
         </div>
       </div>

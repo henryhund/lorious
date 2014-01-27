@@ -28,6 +28,8 @@
 
 .search-nav-list {
 	padding-bottom: 13px !important;
+	margin-top: 71px;
+	margin-bottom: 71px;
 }
 
 .search-hr {
@@ -43,7 +45,7 @@
 }
 
 .search-experts-list {
-	height: 130px;
+	min-height: 130px;
 }
 
 .search-show-all-skills-link {
@@ -56,4 +58,8 @@
 	border: none;
 	left: -70px;
 	background-color: rgba(0,0,0,0);
+}
+
+.search-star {
+	margin: 0 auto;
 }

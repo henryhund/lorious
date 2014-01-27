@@ -40,6 +40,22 @@ directive('whenScrolled', ['$window', '$document', function ($window, $document)
       }
     });
   };
+}]).
+// Directive taken from http://stackoverflow.com/questions/12931369/click-everywhere-but-here-event
+directive('clickAnywhereButHere', ['$document', function ($document) {
+  return {
+    restrict: 'A',
+    link: function(scope, elem, attr, ctrl) {
+      elem.bind('click', function(e) {
+        // this part keeps it from firing the click on the document.
+        e.stopPropagation();
+      });
+      $document.bind('click', function() {
+        // magic here.
+        scope.$apply(attr.clickAnywhereButHere);
+      })
+    }
+  };
 }]);
 
 app.factory("Search", [
@@ -52,7 +68,7 @@ app.factory("Search", [
 ]);
 
 this.SearchCtrl = [
-  "$scope", "$resource", "$route", "$routeParams", "$location", "Search", function($scope, $resource, $route, $routeParams, $location, Search) {
+  "$scope", "$resource", "$route", "$routeParams", "$location", "$timeout", "Search", function($scope, $resource, $route, $routeParams, $location, $timeout, Search) {
     $scope.loading = true;
     $scope.model = {facets: [] };
     
@@ -63,6 +79,7 @@ this.SearchCtrl = [
 		    $scope.experts = new_experts.results;
 		    $scope.model.facets = new_experts.facets;
 		    $scope.loading = false;
+        $scope.showStars();
 	    });	
 	    $scope.default_keyword = parameter;
     }else{
@@ -70,6 +87,7 @@ this.SearchCtrl = [
 		    $scope.experts = new_experts.results;
 		    $scope.model.facets = new_experts.facets;
 		    $scope.loading = false;
+        $scope.showStars();
 	    });	
 	    $scope.default_keyword = "";
     }
@@ -122,10 +140,26 @@ this.SearchCtrl = [
     // so just putting a huge number here.
     $scope.facetLimit = 1000000;
   };
+
+  $scope.changeSearchQuery = function () {
+    $scope.$broadcast("event:searchQueryChanged");
+  };
+
+  $scope.showStars = function () {
+    $timeout(function () {
+      $('.star').raty({
+        score: function() {
+          return $(this).attr('data-score');
+        },
+        readOnly: true
+      });
+    }, 0);
+  };
+
 }];
 
 this.SearchDetailCtrl = [
-  "$scope", "$resource", "$route", "$routeParams", "$location", "Search", function($scope, $resource, $route, $routeParams, $location, Search) {
+  "$scope", "$resource", "$route", "$routeParams", "$location", "$document", "Search", function($scope, $resource, $route, $routeParams, $location, $document, Search) {
     
   $scope.pg_counter = 1;
   $scope.loading = false;
@@ -154,7 +188,7 @@ this.SearchDetailCtrl = [
     return $scope.params;
       
 	};
-	 
+
   $scope.load_data = function() {
     if (!$scope.loading) {
       if($scope.experts.length < 15){
@@ -166,6 +200,7 @@ this.SearchDetailCtrl = [
           //new data is available in the callback to insert to the experts ng-model
           $scope.experts.push.apply($scope.experts, new_experts.results);
           $scope.loading = false;
+          $scope.showStars();
         });
       }
     }
@@ -177,6 +212,7 @@ this.SearchDetailCtrl = [
   Search.get(params, function (new_experts) {
       $scope.experts = new_experts.results;
       $scope.loading = false;
+      $scope.showStars();
     });
   };
     
@@ -202,6 +238,19 @@ this.SearchDetailCtrl = [
 			$scope.getFilteredValues();
 		}
 	}, true);
+
+  $scope.$on('event:searchQueryChanged', function () {
+    $scope.getFilteredValues();
+  });
+
+  $scope.toggleTooltip = function (expert) {
+    expert.tooltipShown = !expert.tooltipShown;
+  };
+
+  $scope.hideAllTooltips = function () {
+    angular.forEach($scope.experts, function (expert) {
+      expert.tooltipShown = false;
+    });
+  };
 	
-  }
-];
+}];

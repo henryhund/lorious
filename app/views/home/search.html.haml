@@ -5,7 +5,7 @@
     .col-md-3.nav.nav-list.nav-list-vivid.search-nav-list
       %li.nav-header Keywords:
       .control-group
-        %input.form-control{"ng-init" => "query.$=default_keyword", "ng-model" => "query.$", :placeholder => "Keyword", :type => "text"}
+        %input.form-control{"ng-init" => "query.$=default_keyword", "ng-model" => "query.$", :placeholder => "Keyword", :type => "text", "ng-change" => "changeSearchQuery()"}
       %hr.search-hr
       %li.nav-header Price/Hr.
       %div{:max => "2000", :min => "0", "ng-init" => "slider=[0,2000]", "ng-model" => "slider", :step => "50", "ui-slider" => "{range: true}", "use-decimals" => "", :class => "search-hourly-rate-slider"}
