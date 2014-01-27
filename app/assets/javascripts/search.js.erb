@@ -122,6 +122,11 @@ this.SearchCtrl = [
     // so just putting a huge number here.
     $scope.facetLimit = 1000000;
   };
+
+  $scope.changeSearchQuery = function () {
+    $scope.$broadcast("event:searchQueryChanged");
+  };
+
 }];
 
 this.SearchDetailCtrl = [
@@ -154,7 +159,7 @@ this.SearchDetailCtrl = [
     return $scope.params;
       
 	};
-	 
+
   $scope.load_data = function() {
     if (!$scope.loading) {
       if($scope.experts.length < 15){
@@ -202,6 +207,9 @@ this.SearchDetailCtrl = [
 			$scope.getFilteredValues();
 		}
 	}, true);
+
+  $scope.$on('event:searchQueryChanged', function () {
+    $scope.getFilteredValues();
+  });
 	
-  }
-];
+}];
