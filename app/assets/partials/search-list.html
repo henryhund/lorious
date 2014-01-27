@@ -19,6 +19,7 @@
 	<div ng-show="loading" class="cropcontainer" style="background-image:url('486.GIF'); " >&nbsp;</div>
 	
 	<div class="well">
+    <h6 ng-show="experts.length == 0 && !loading">No results match your query</h6>
     <div ng:repeat="expert in experts | rating_filter:ratings | slider_filter:slider | orderBy:settings.orderProp.key:settings.inverse">
       <div class="row search-experts-list">
         <div class="col-md-3">
