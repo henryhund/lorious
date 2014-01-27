@@ -46,10 +46,10 @@
             <span class="label label-primary">Ruby</span>
             <span class="label label-primary">Python</span>
             <small class="search-show-all-skills-link">
-              <a href ng-click="tooltipShown = !tooltipShown">
+              <a href ng-click="toggleTooltip(expert)" click-anywhere-but-here="hideAllTooltips()">
                 see all
               </a>
-              <div class="tooltip bottom in tooltip-light search-all-skills-tooltip" ng-show="tooltipShown">
+              <div class="tooltip bottom in tooltip-light search-all-skills-tooltip" ng-show="expert.tooltipShown" click-anywhere-but-here="hideAllTooltips()">
                 <div class="tooltip-arrow"></div>
                 <div class="tooltip-inner">
                   <span class="label label-primary">Ruby</span>

@@ -40,6 +40,22 @@ directive('whenScrolled', ['$window', '$document', function ($window, $document)
       }
     });
   };
+}]).
+// Directive taken from http://stackoverflow.com/questions/12931369/click-everywhere-but-here-event
+directive('clickAnywhereButHere', ['$document', function ($document) {
+  return {
+    restrict: 'A',
+    link: function(scope, elem, attr, ctrl) {
+      elem.bind('click', function(e) {
+        // this part keeps it from firing the click on the document.
+        e.stopPropagation();
+      });
+      $document.bind('click', function() {
+        // magic here.
+        scope.$apply(attr.clickAnywhereButHere);
+      })
+    }
+  };
 }]);
 
 app.factory("Search", [
@@ -143,7 +159,7 @@ this.SearchCtrl = [
 }];
 
 this.SearchDetailCtrl = [
-  "$scope", "$resource", "$route", "$routeParams", "$location", "Search", function($scope, $resource, $route, $routeParams, $location, Search) {
+  "$scope", "$resource", "$route", "$routeParams", "$location", "$document", "Search", function($scope, $resource, $route, $routeParams, $location, $document, Search) {
     
   $scope.pg_counter = 1;
   $scope.loading = false;
@@ -226,5 +242,15 @@ this.SearchDetailCtrl = [
   $scope.$on('event:searchQueryChanged', function () {
     $scope.getFilteredValues();
   });
+
+  $scope.toggleTooltip = function (expert) {
+    expert.tooltipShown = !expert.tooltipShown;
+  };
+
+  $scope.hideAllTooltips = function () {
+    angular.forEach($scope.experts, function (expert) {
+      expert.tooltipShown = false;
+    });
+  };
 	
 }];
