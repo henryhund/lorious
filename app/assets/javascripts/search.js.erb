@@ -52,7 +52,7 @@ app.factory("Search", [
 ]);
 
 this.SearchCtrl = [
-  "$scope", "$resource", "$route", "$routeParams", "$location", "Search", function($scope, $resource, $route, $routeParams, $location, Search) {
+  "$scope", "$resource", "$route", "$routeParams", "$location", "$timeout", "Search", function($scope, $resource, $route, $routeParams, $location, $timeout, Search) {
     $scope.loading = true;
     $scope.model = {facets: [] };
     
@@ -63,6 +63,7 @@ this.SearchCtrl = [
 		    $scope.experts = new_experts.results;
 		    $scope.model.facets = new_experts.facets;
 		    $scope.loading = false;
+        $scope.showStars();
 	    });	
 	    $scope.default_keyword = parameter;
     }else{
@@ -70,6 +71,7 @@ this.SearchCtrl = [
 		    $scope.experts = new_experts.results;
 		    $scope.model.facets = new_experts.facets;
 		    $scope.loading = false;
+        $scope.showStars();
 	    });	
 	    $scope.default_keyword = "";
     }
@@ -127,6 +129,17 @@ this.SearchCtrl = [
     $scope.$broadcast("event:searchQueryChanged");
   };
 
+  $scope.showStars = function () {
+    $timeout(function () {
+      $('.star').raty({
+        score: function() {
+          return $(this).attr('data-score');
+        },
+        readOnly: true
+      });
+    }, 0);
+  };
+
 }];
 
 this.SearchDetailCtrl = [
@@ -171,6 +184,7 @@ this.SearchDetailCtrl = [
           //new data is available in the callback to insert to the experts ng-model
           $scope.experts.push.apply($scope.experts, new_experts.results);
           $scope.loading = false;
+          $scope.showStars();
         });
       }
     }
@@ -182,6 +196,7 @@ this.SearchDetailCtrl = [
   Search.get(params, function (new_experts) {
       $scope.experts = new_experts.results;
       $scope.loading = false;
+      $scope.showStars();
     });
   };
     
