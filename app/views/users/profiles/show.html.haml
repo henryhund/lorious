@@ -27,7 +27,7 @@
       .col-md-4.col-xs-12.text-center
         .img-circle.avatar{style: "background: url(#{@user.image.url}) no-repeat; background-position: center center; background-size: cover!important;"}
         -if @user.expert?
-          .star{id: "star-average", "data-score" => @user.get_average_rating}
+          .star{"data-score" => @user.get_average_rating}
       .col-md-4.col-xs-12#name-and-info
         %h4.name{style:"display:inline;"}
           =@user.name
