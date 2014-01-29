@@ -31,43 +31,23 @@
           <h6><a ng-href="/{{expert.username}}">{{expert.name}}</a></h6>
           <p class="search-tag-line">{{expert.tag_line}}</p>
           <h6 class="search-skill-list">
-            <!-- <span class="label label-primary" ng-repeat="skill in expert.skill_list | limitTo:2">{{skill}}&nbsp;</span>
+            <span ng-repeat="skill in expert.skill_list | limitTo:2">
+              <span class="label label-primary">{{skill}}</span>
+            </span>
             <small class="search-show-all-skills-link" ng-show="expert.skill_list.length > 2">
-              <a href ng-click="toggleTooltip(expert)" click-anywhere-but-here="hideAllTooltips()">
-                see all
-              </a>
-              <div class="tooltip bottom in tooltip-light search-all-skills-tooltip" ng-show="tooltipShown" click-anywhere-but-here="hideAllTooltips()">
-                <div class="tooltip-arrow"></div>
-                <div class="tooltip-inner">
-                  <span class="label label-primary"ng-repeat="skill in expert.skill_list">{{skill}}&nbsp;</span>
-                </div>
-              </div>
-            </small> -->
-            <span class="label label-primary">Ruby</span>
-            <span class="label label-primary">Python</span>
-            <small class="search-show-all-skills-link">
               <a href ng-click="toggleTooltip(expert)" click-anywhere-but-here="hideAllTooltips()">
                 see all
               </a>
               <div class="tooltip bottom in tooltip-light search-all-skills-tooltip" ng-show="expert.tooltipShown" click-anywhere-but-here="hideAllTooltips()">
                 <div class="tooltip-arrow"></div>
                 <div class="tooltip-inner">
-                  <span class="label label-primary">Ruby</span>
-                  <span class="label label-primary">Python</span>
-                  <span class="label label-primary">JavaScript</span>
-                  <span class="label label-primary">Scala</span>
+                <span ng-repeat="skill in expert.skill_list">
+                  <span class="label label-primary">{{skill}}</span>
+                </span>
                 </div>
               </div>
             </small>
           </h6>
-          <!-- This might be helpful when there are some skills in the search results -->
-          <!-- <ul class="list-unstyled tags" >
-            <a ng-href="/search?keyword={{skill}}" ng-repeat="skill in expert.skill_list">
-              <li class="highlighted small">
-                {{skill}}
-              </li>
-            </a>
-          </ul> -->
         </div>
         <div class="col-md-3">
           <h6 class="text-center">{{expert.hourly_rate | currency:"$"}}</h6>
@@ -80,14 +60,6 @@
       <hr>
     </div>
 	</div>
-	
-	<!--div ng-cloak>
-		<div ng-show="filteredExperts.length == 0" class="jumbotron">
-		  <div class="container">
-		    <h3 class="text-center">No Search Results</h3>
-		  </div>
-		</div>
-	</div-->
 		
 </div>
 
