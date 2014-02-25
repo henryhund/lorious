@@ -13,8 +13,9 @@
       .wrapper
         = render "layouts/nav"
         .main
-          = render "layouts/notifications"
-          = content_for?(:body) ? yield(:body) : yield
+          .wrapper
+            = render "layouts/notifications"
+            = content_for?(:body) ? yield(:body) : yield
       %footer#private
         = render "layouts/footer"
     -else
